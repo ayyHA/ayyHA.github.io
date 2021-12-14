@@ -12,6 +12,26 @@
     
     
     
+    <tags>
+      
+      <tag>SpringCloud</tag>
+      
+      <tag>Eureka</tag>
+      
+      <tag>Ribbon</tag>
+      
+      <tag>Hystrix</tag>
+      
+      <tag>Config</tag>
+      
+      <tag>Feign</tag>
+      
+      <tag>Zuul</tag>
+      
+      <tag>Bus</tag>
+      
+    </tags>
+    
   </entry>
   
   
