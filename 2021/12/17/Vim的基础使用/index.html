@@ -24,7 +24,7 @@
 <meta property="og:description" content="Vim一些基础使用及快捷方式">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-12-17T03:37:34.000Z">
-<meta property="article:modified_time" content="2021-12-20T11:07:46.725Z">
+<meta property="article:modified_time" content="2021-12-20T13:01:18.839Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="vim">
 <meta name="twitter:card" content="summary_large_image">
@@ -238,7 +238,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：10 分钟前
+                  本文最后更新于：1 分钟前
                 
               </p>
             
@@ -288,7 +288,7 @@
           </div>
 <h3 id="改"><a href="#改" class="headerlink" title="改"></a>改</h3></li>
 <li>r(replace): <code>r &lt;char&gt;</code>用以替换当前光标所在处的字符；</li>
-<li>c(change):  可以搭配文本对象具体使用，如<code>&quot;just try try&quot;</code>中使用<code>di&quot;</code>则会删除掉引号内的内容(引号不会去掉，若是<code>da&quot;</code>则会)，并且进入到编辑模式</li>
+<li>c(change):  可以搭配文本对象具体使用，如<code>&quot;just try try&quot;</code>中使用<code>ci&quot;</code>则会删除掉引号内的内容(引号不会去掉，若是<code>ca&quot;</code>则会)，并且进入到编辑模式</li>
 <li>s(substitute): 删除并进入编辑模式 <div class="note note-info">
             <p>&nbsp;&nbsp;<code>s</code>可以搭配数字使用；<br>&nbsp;&nbsp;上述的三个命令若是大写（即R/C/S）会有不同的作用：</p><ul><li>R进入replace模式，从当前字符起可以一直替换，直到退出该模式；</li><li>C/S二者差不多，删掉整行进入编辑模式；</li></ul>
           </div>
@@ -302,7 +302,10 @@
 <ul>
 <li><code>%</code>表示全选；</li>
 <li><code>m,n</code>表示第m-第n行；</li>
-<li><code>n,$</code>表示第n行到末尾；<br>&nbsp;&nbsp;s表示替换<br>&nbsp;&nbsp;pattern表示替换前的单词，可以用正则<br>&nbsp;&nbsp;string表示替换后的单词<br>&nbsp;&nbsp;flags表示替换方式(不写则默认替换第一个(当前行/范围内的行)出现的pattern)：</li>
+<li><code>n,$</code>表示第n行到末尾；</li>
+</ul>
+<p>&nbsp;&nbsp;s表示替换<br>&nbsp;&nbsp;pattern表示替换前的单词，可以用正则<br>&nbsp;&nbsp;string表示替换后的单词<br>&nbsp;&nbsp;flags表示替换方式(不写则默认替换第一个(当前行/范围内的行)出现的pattern)：</p>
+<ul>
 <li>g(global): 全局执行（即所有出现的，不局限在第一个）</li>
 <li>n(number): 报告匹配的次数而不替换</li>
 </ul>
