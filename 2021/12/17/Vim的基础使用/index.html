@@ -13,23 +13,23 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="脚注、Tag插件">
+  <meta name="description" content="Vim一些基础使用及快捷方式">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <meta name="description" content="脚注、Tag插件">
+  <meta name="description" content="Vim一些基础使用及快捷方式">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hexo之方便文创的代码">
-<meta property="og:url" content="http://example.com/2021/12/14/hexo%E4%B9%8B%E6%96%B9%E4%BE%BF%E6%96%87%E5%88%9B%E7%9A%84%E4%BB%A3%E7%A0%81/index.html">
+<meta property="og:title" content="Vim的基础使用">
+<meta property="og:url" content="http://example.com/2021/12/17/Vim%E7%9A%84%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/index.html">
 <meta property="og:site_name" content="ayyHA&#39;s blog">
-<meta property="og:description" content="脚注、Tag插件">
+<meta property="og:description" content="Vim一些基础使用及快捷方式">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-12-14T12:01:20.000Z">
-<meta property="article:modified_time" content="2021-12-16T06:29:13.345Z">
+<meta property="article:published_time" content="2021-12-17T03:37:34.000Z">
+<meta property="article:modified_time" content="2021-12-20T11:07:46.725Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="hexo">
+<meta property="article:tag" content="vim">
 <meta name="twitter:card" content="summary_large_image">
   
-  <title>hexo之方便文创的代码 - ayyHA&#39;s blog</title>
+  <title>Vim的基础使用 - ayyHA&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -175,7 +175,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="hexo之方便文创的代码">
+            <span class="h2" id="subtitle" title="Vim的基础使用">
               
             </span>
 
@@ -185,8 +185,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-12-14 20:01" pubdate>
-        2021年12月14日 晚上
+      <time datetime="2021-12-17 11:37" pubdate>
+        2021年12月17日 中午
       </time>
     </span>
   
@@ -196,7 +196,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      954 字
+      2k 字
     </span>
   
 
@@ -205,7 +205,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      3 分钟
+      6 分钟
     </span>
   
 
@@ -234,104 +234,80 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">hexo之方便文创的代码</h1>
+            <h1 style="display: none">Vim的基础使用</h1>
             
               <p class="note note-info">
                 
-                  本文最后更新于：4 天前
+                  本文最后更新于：几秒前
                 
               </p>
             
             <div class="markdown-body">
-              <h2 id="Tag插件"><a href="#Tag插件" class="headerlink" title="Tag插件"></a>Tag插件</h2><h3 id="便签"><a href="#便签" class="headerlink" title="便签"></a>便签</h3><p>&nbsp;&nbsp;便签，就是贴在文章中的彩色标签，用于展示作者的一些提示信息。便签是通过便签类型来进行划分的。<br>  <a target="_blank" rel="noopener" href="https://hexo.fluid-dev.com/docs/guide/">fluid配置指南</a></p>
-<p>  <strong>用法</strong><br>  <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs markdown">&#123;% note success %&#125;<br>这里写便签里的内容<br>&#123;% endnote %&#125;<br>需注意：上面的success是便签类型的指代，此为绿色的便签。<br></code></pre></td></tr></table></figure></p>
-<p>  <strong>便签类型和颜色的对应关系</strong></p>
-<table>
-<thead>
-<tr>
-<th align="center">便签类型</th>
-<th align="center">颜色</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">primary</td>
-<td align="center">紫色</td>
-</tr>
-<tr>
-<td align="center">secondary</td>
-<td align="center">灰色</td>
-</tr>
-<tr>
-<td align="center">success</td>
-<td align="center">绿色</td>
-</tr>
-<tr>
-<td align="center">danger</td>
-<td align="center">红色</td>
-</tr>
-<tr>
-<td align="center">warning</td>
-<td align="center">黄色</td>
-</tr>
-<tr>
-<td align="center">info</td>
-<td align="center">蓝色</td>
-</tr>
-<tr>
-<td align="center">light</td>
-<td align="center">白色</td>
-</tr>
-</tbody></table>
-<p>  <strong>效果演示</strong><br>  <div class="note note-primary">
-            <p>我是primary，我是紫色</p>
-          </div></p>
-  <div class="note note-secondary">
-            <p>我是secondary，我是灰色</p>
+              <h2 id="Vim的几种模式"><a href="#Vim的几种模式" class="headerlink" title="Vim的几种模式"></a>Vim的几种模式</h2><ul>
+<li><strong>normal模式</strong><br>&nbsp;&nbsp;默认模式，此模式下你可以输入命令，如利用<code>/ + 单词</code>来进行搜索，又或者利用yp进行cv操作；</li>
+<li><strong>编辑模式</strong><br>&nbsp;&nbsp;通过输入i(insert)/a(append)/o(open a line)进入编辑模式，可以进行文本的编辑操作；</li>
+<li><strong>命令模式</strong><br>&nbsp;&nbsp;就是在normal模式下输命令，比如分屏：<code>:vs</code>竖分屏； <code>:sp</code>横分屏</li>
+<li><strong>可视化模式</strong><br>&nbsp;&nbsp;所谓的可视化模式用于选择文本，在normal模式下使用<code>v</code>可以进入visual模式，可选择的最小单位是每一个字符；使用<code>V</code>可以进入visual line模式，顾名思义，可选择的最小单位是每一行；使用<code>ctrl + v</code>可以进入visual block模式，可以以矩阵的方式进行文本选择。</li>
+</ul>
+<h2 id="编辑模式下的小技巧"><a href="#编辑模式下的小技巧" class="headerlink" title="编辑模式下的小技巧"></a>编辑模式下的小技巧</h2><ul>
+<li><code>ctrl + h</code> 删除上一个编辑的字符</li>
+<li><code>ctrl + w</code> 删除上一个编辑的单词</li>
+<li><code>ctrl + u</code> 删除当前行<br>上述的快捷键也可以用于终端；</li>
+<li><code>ctrl + [</code> insert模式切换到normal模式</li>
+<li><code>gi</code>快速跳转到最后一次编辑的地方并进入插入模式</li>
+</ul>
+<h2 id="Vim移动"><a href="#Vim移动" class="headerlink" title="Vim移动"></a>Vim移动</h2><ul>
+<li><code>hjkl</code>即是vim normal模式下的左下上右键；</li>
+<li>w/W移到下一个单词开头</li>
+<li>e/E移到下一个单词结尾</li>
+<li>b/B移到上一个单词开头 back word<div class="note note-info">
+            <p>&nbsp;&nbsp;上面移动的小写和大写的区别在于：<br>小写指的是以非空白符分割的单词；<br>大写指的是以空白符分割的单词；</p>
+          </div></li>
+<li><code>f + &lt;char&gt;</code>可以移动到<strong>行内</strong>第一个符合的字符上，若不符合，可以通过<code>;</code>或<code>,</code>进行搜索下一个或上一个；大写的F则表示反向搜索，而非正向搜索；<div class="note note-info">
+            <p>&nbsp;&nbsp;上面的f可以理解为find,使用<code>f + &lt;char&gt;</code>可以到达寻找的字符；<br>&nbsp;&nbsp;而若是用<code>t + &lt;char&gt;</code>则可以寻找到要找的字符前一位，此处的t可以理解为to；</p>
+          </div></li>
+<li><code>0</code>可以移动到当前行的行首；</li>
+<li><code>$</code>可以移动到当前行的行尾；</li>
+<li><code>^</code>可以移动到当前行的首个非空字符；</li>
+<li><code>g_</code>可以移动到当前行的最后一个非空字符；</li>
+<li><code>gg/G</code>移动到文件开头或结尾；</li>
+<li><code>H/M/L</code>可以跳转到屏幕的开头(Head)/中间(Middle)/结尾(Lower)；</li>
+<li><code>ctrl + f/ctrl + u</code>向下分页(forward)/向上分页(upward)</li>
+<li><code>zz</code>把屏幕设置为中间</li>
+</ul>
+<h2 id="Vim增删改查"><a href="#Vim增删改查" class="headerlink" title="Vim增删改查"></a>Vim增删改查</h2><h3 id="增"><a href="#增" class="headerlink" title="增"></a>增</h3><ul>
+<li>i(insert): 在字符前插入</li>
+<li>a(append): 在字符后插入</li>
+<li>o(open a new line): 下启一行插入</li>
+<li>I: 在行首插入</li>
+<li>A: 在行末插入</li>
+<li>O: 上启一行插入<h3 id="删"><a href="#删" class="headerlink" title="删"></a>删</h3></li>
+<li>x: 删除单个字符</li>
+<li>d(delete): 此为删除命令，可结合文本对象具体使用，如diw(delete inner word) <div class="note note-info">
+            <p>&nbsp;&nbsp;d和x可以搭配数字使用，以达到同一命令重复执行多次的效果。</p>
           </div>
+<h3 id="改"><a href="#改" class="headerlink" title="改"></a>改</h3></li>
+<li>r(replace): <code>r &lt;char&gt;</code>用以替换当前光标所在处的字符；</li>
+<li>c(change):  可以搭配文本对象具体使用，如<code>&quot;just try try&quot;</code>中使用<code>di&quot;</code>则会删除掉引号内的内容(引号不会去掉，若是<code>da&quot;</code>则会)，并且进入到编辑模式</li>
+<li>s(substitute): 删除并进入编辑模式 <div class="note note-info">
+            <p>&nbsp;&nbsp;<code>s</code>可以搭配数字使用；<br>&nbsp;&nbsp;上述的三个命令若是大写（即R/C/S）会有不同的作用：</p><ul><li>R进入replace模式，从当前字符起可以一直替换，直到退出该模式；</li><li>C/S二者差不多，删掉整行进入编辑模式；</li></ul>
+          </div>
+<h3 id="查"><a href="#查" class="headerlink" title="查"></a>查</h3></li>
+<li><code>/ + &lt;word&gt;</code>: 前向搜索</li>
+<li><code>? + &lt;word&gt;</code>: 反向搜索</li>
+<li><code>n/N</code>: 跳到下一匹配项/跳到上一匹配项</li>
+<li><code>*/#</code>: 当前光标处单词的下一项/上一项匹配</li>
+</ul>
+<h2 id="Vim搜索替换"><a href="#Vim搜索替换" class="headerlink" title="Vim搜索替换"></a>Vim搜索替换</h2><p>&nbsp;&nbsp;格式: <code>:[range]s[ubstitute]/&#123;pattern&#125;/&#123;string&#125;/[flags]</code><br>&nbsp;&nbsp;range表示范围(不写则默认当前行)：</p>
+<ul>
+<li><code>%</code>表示全选；</li>
+<li><code>m,n</code>表示第m-第n行；</li>
+<li><code>n,$</code>表示第n行到末尾；<br>&nbsp;&nbsp;s表示替换<br>&nbsp;&nbsp;pattern表示替换前的单词，可以用正则<br>&nbsp;&nbsp;string表示替换后的单词<br>&nbsp;&nbsp;flags表示替换方式(不写则默认替换第一个(当前行/范围内的行)出现的pattern)：</li>
+<li>g(global): 全局执行（即所有出现的，不局限在第一个）</li>
+<li>n(number): 报告匹配的次数而不替换</li>
+</ul>
+<h2 id="个人小结"><a href="#个人小结" class="headerlink" title="个人小结"></a>个人小结</h2><p>&nbsp;&nbsp;对于可以结合文本对象进行操作的命令：如y(yank)/d(delete)/c(change)等，可以结合以下的范围词来使用：a(around,含该字符)/f(find,含该字符)/i(inner,不含该字符)/t(to,不含该字符)来结合特定的字符使用。<br>&nbsp;&nbsp;如：<code>yf;</code>表示由当前字符开始复制至<code>;</code>处，且含<code>;</code></p>
 
-  <div class="note note-success">
-            <p>我是success，我是绿色</p>
-          </div>
-
-  <div class="note note-danger">
-            <p>我是danger，我是红色</p>
-          </div>
-
-  <div class="note note-warning">
-            <p>我是warning，我是黄色</p>
-          </div>
-
-  <div class="note note-info">
-            <p>我是info，我是蓝色</p>
-          </div>
-
-  <div class="note note-light">
-            <p>我是light，我是白色</p>
-          </div>
-<h3 id="行内标签"><a href="#行内标签" class="headerlink" title="行内标签"></a>行内标签</h3><p>&nbsp;&nbsp;行内标签类似于一个按钮（就是不可以按），用于标识信息。</p>
-<p>  <strong>用法：</strong><br>    <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs markdown">&#123;% label primary @text%&#125;<br></code></pre></td></tr></table></figure><br>    <div class="note note-info">
-            <p>text即为标签的文本，primary这些与便签类似，但多了个default，没有secondary和 light，且text开头不能是@。</p>
-          </div></p>
-<p>  <strong>效果演示：</strong><br>    <span class="label label-primary">我是primary</span><br>    <span class="label label-default">我是default</span><br>    <span class="label label-success">我是success</span><br>    <span class="label label-warning">我是warning</span><br>    <span class="label label-danger">我是danger</span></p>
-<h3 id="按钮"><a href="#按钮" class="headerlink" title="按钮"></a>按钮</h3><p>&nbsp;&nbsp;按钮就是加了底色的外链跳转</p>
-<p>  <strong>用法：</strong><br>    <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs markdown">&#123;% btn url,text,title %&#125;<br></code></pre></td></tr></table></figure><br>  <div class="note note-info">
-            <p>btn标识其为一个按钮，url是点击后跳转的外链，text是按钮显示的文本，title是鼠标悬停的文字，是个可选项。</p>
-          </div></p>
-<p>  <strong>效果演示：</strong><br>  <a class="btn" href="http://baidu.com"  title="百度" target="_blank">我是一个可以跳到百度的按钮</a></p>
-<h2 id="脚注"><a href="#脚注" class="headerlink" title="脚注"></a>脚注</h2><p>&nbsp;&nbsp;脚注可以使得我们很方便地标出文章中一些引用部分的出处或是相关的解释。脚注在生成的文章中被放置于文末，类似于参考文献，且带有锚点，我们点击即可到达标注处。</p>
-<p>  <strong>用法</strong>：<br>  <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs markdown">这里写的是我们第一处引用内容<sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="第一处的脚注
-">[1]</span></a></sup><br>这里写的是我们第二处引用内容<sup id="fnref:2" class="footnote-ref"><a href="#fn:2" rel="footnote"><span class="hint--top hint--rounded" aria-label="第二处的脚注
-">[2]</span></a></sup><br>这里写的是我们第三处引用内容<sup id="fnref:3" class="footnote-ref"><a href="#fn:3" rel="footnote"><span class="hint--top hint--rounded" aria-label="第三处的脚注
-">[3]</span></a></sup><br><br>[<span class="hljs-symbol">^1</span>]: <span class="hljs-link">第一处的脚注</span><br>[<span class="hljs-symbol">^2</span>]: <span class="hljs-link">第二处的脚注</span><br>[<span class="hljs-symbol">^3</span>]: <span class="hljs-link">第三处的脚注</span><br></code></pre></td></tr></table></figure></p>
-<p>  把上面代码段的内容贴到MD文档里是以下的<strong>效果</strong>：</p>
-<p>  这里写的是我们第一处引用内容<sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="第一处的脚注
-">[1]</span></a></sup><br>  这里写的是我们第二处引用内容<sup id="fnref:2" class="footnote-ref"><a href="#fn:2" rel="footnote"><span class="hint--top hint--rounded" aria-label="第二处的脚注
-">[2]</span></a></sup><br>  这里写的是我们第三处引用内容<sup id="fnref:3" class="footnote-ref"><a href="#fn:3" rel="footnote"><span class="hint--top hint--rounded" aria-label="第三处的脚注
-">[3]</span></a></sup></p>
-<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span>第一处的脚注
-<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span>第二处的脚注
-<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:3" class="footnote-text"><span>第三处的脚注
-<a href="#fnref:3" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
             </div>
             <hr>
             <div>
@@ -341,7 +317,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/hexo/">hexo</a>
+                      <a class="hover-with-bg" href="/tags/vim/">vim</a>
                     
                   </div>
                 
@@ -358,18 +334,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/12/15/Git%E5%9F%BA%E7%A1%80%E5%BA%94%E7%94%A8/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Git基础应用</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/12/13/SpringCloud%E8%87%AA%E5%AD%A6/">
-                        <span class="hidden-mobile">SpringCloud自学</span>
+                      <a href="/2021/12/15/Git%E5%9F%BA%E7%A1%80%E5%BA%94%E7%94%A8/">
+                        <span class="hidden-mobile">Git基础应用</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
