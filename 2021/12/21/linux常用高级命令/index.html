@@ -24,7 +24,7 @@
 <meta property="og:description" content="Linux操作的高级命令">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-12-21T05:54:56.000Z">
-<meta property="article:modified_time" content="2021-12-21T11:09:37.099Z">
+<meta property="article:modified_time" content="2021-12-21T11:39:26.748Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary_large_image">
@@ -196,7 +196,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.6k 字
+      2.1k 字
     </span>
   
 
@@ -205,7 +205,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      5 分钟
+      7 分钟
     </span>
   
 
@@ -296,7 +296,9 @@
 <li><p>-group<br>&nbsp;&nbsp;e.g.:</p>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">find ./ -group &quot;test&quot;<br>查找当前目录下（含子目录）group为test的文件<br></code></pre></td></tr></table></figure></li>
 <li><p>-not<br>&nbsp;&nbsp;e.g.:</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">find ./ -not -type f<br>查找当前目录下（含子目录）文件类型为非普通文件的文件<br></code></pre></td></tr></table></figure></li>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">find ./ -not -type f<br>查找当前目录下（含子目录）文件类型为非普通文件的文件<br></code></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;-not也可以用!来替换，二者等价</p>
+</li>
 <li><p>-a -o<br>&nbsp;&nbsp;e.g.:</p>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">find ./ -type f -a -name &quot;<span class="hljs-emphasis">*.md&quot;</span><br><span class="hljs-emphasis">查找当前目录下（含子目录）文件类型为普通文件且以md结尾的文件</span><br></code></pre></td></tr></table></figure>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">find ./ -type f -o -name &quot;<span class="hljs-emphasis">*.md&quot;</span><br><span class="hljs-emphasis">查找当前目录下（含子目录）文件类型为普通文件或以md结尾的文件</span><br></code></pre></td></tr></table></figure>
@@ -324,7 +326,24 @@
 <p>&nbsp;&nbsp;注：有个<code>-ok 命令 &#123;&#125; \;</code>与该命令相似，但它会询问查找到的文件是否执行该命令(y/n)。</p>
 </li>
 </ul>
-<h2 id="wc"><a href="#wc" class="headerlink" title="wc"></a>wc</h2><h2 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h2><h2 id="du"><a href="#du" class="headerlink" title="du"></a>du</h2><h2 id="df"><a href="#df" class="headerlink" title="df"></a>df</h2>
+<h2 id="wc"><a href="#wc" class="headerlink" title="wc"></a>wc</h2><p>&nbsp;&nbsp;功能：用于统计行数(line)、单词数(word)、字节数(char,内存占1byte)<br>&nbsp;&nbsp;基本格式：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs markdown">wc 统计条件 文件名<br></code></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;统计条件：</p>
+<ul>
+<li><p>-l<br>&nbsp;&nbsp;e.g.:</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">wc -l ./text.txt<br>用于统计text.txt文件的行数<br></code></pre></td></tr></table></figure></li>
+<li><p>-w<br>&nbsp;&nbsp;e.g.:</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">wc -w ./text.txt<br>用于统计text.txt文件的单词数<br></code></pre></td></tr></table></figure></li>
+<li><p>-c<br>&nbsp;&nbsp;e.g.:</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">wc -c ./text.txt<br>用于统计text.txt文件的字节数<br></code></pre></td></tr></table></figure></li>
+<li><p>-m<br>&nbsp;&nbsp;e.g.:</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">wc -m ./text.txt<br>用于统计text.txt文件的字符数（一个汉字在utf8编码里是3个字节，利用-c不方便统计字符数）<br></code></pre></td></tr></table></figure></li>
+<li><p>-L<br>&nbsp;&nbsp;e.g.:</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">wc -L ./text.txt<br>用于统计text.txt文件最长行的长度<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h2><p>&nbsp;&nbsp;功能：依据条件进行过滤，找到满足条件的行<br>&nbsp;&nbsp;基本格式；</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs markdown">grep 选项 模式 文件名<br></code></pre></td></tr></table></figure>
+<h2 id="nbsp-nbsp-选项："><a href="#nbsp-nbsp-选项：" class="headerlink" title="&nbsp;&nbsp;选项："></a>&nbsp;&nbsp;选项：</h2><h2 id="du"><a href="#du" class="headerlink" title="du"></a>du</h2><h2 id="df"><a href="#df" class="headerlink" title="df"></a>df</h2>
             </div>
             <hr>
             <div>
