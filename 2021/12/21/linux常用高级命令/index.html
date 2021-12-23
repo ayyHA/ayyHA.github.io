@@ -36,8 +36,15 @@
 <meta property="og:image" content="https://s2.loli.net/2021/12/22/VQLbpYTBtfgrXw7.png">
 <meta property="og:image" content="https://s2.loli.net/2021/12/22/2QNHo4A6UgLjZdP.png">
 <meta property="og:image" content="https://s2.loli.net/2021/12/22/bF7aTqXPDpZiU45.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/23/xZlKf47MLJDVo2j.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/23/NMRckIXrfUnspwl.jpg">
+<meta property="og:image" content="https://s2.loli.net/2021/12/23/dMiYpb48Q9DtzCX.jpg">
+<meta property="og:image" content="https://s2.loli.net/2021/12/23/fKPtF1Y7C4VH6AJ.jpg">
+<meta property="og:image" content="https://s2.loli.net/2021/12/23/q24p6arlHcwPbVZ.jpg">
+<meta property="og:image" content="https://s2.loli.net/2021/12/23/8R3hXU5GMNJqVel.jpg">
+<meta property="og:image" content="https://s2.loli.net/2021/12/23/oi6j8pNmBXruqVz.png">
 <meta property="article:published_time" content="2021-12-21T05:54:56.000Z">
-<meta property="article:modified_time" content="2021-12-23T03:43:08.269Z">
+<meta property="article:modified_time" content="2021-12-23T04:06:32.588Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary_large_image">
@@ -252,7 +259,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2 分钟前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -389,23 +396,20 @@
             <p>&nbsp;&nbsp;注：如果在使用grep匹配关键字时，匹配到的关键字没高亮，可以通过在命令<code>grep --color=auto &quot;word&quot; file</code>中添加<code>--color=auto</code>来开启；也可以通过alias命令重申一下grep命令<code>alias &quot;grep=grep --color=auto&quot;</code>来达到效果。</p>
           </div>
 
-<h3 id="pattern（均为扩展正则表达式）"><a href="#pattern（均为扩展正则表达式）" class="headerlink" title="pattern（均为扩展正则表达式）:"></a>pattern（均为扩展正则表达式）:</h3><h4 id="单个字符匹配相关"><a href="#单个字符匹配相关" class="headerlink" title="单个字符匹配相关"></a>单个字符匹配相关</h4><ul>
-<li>.<br>&nbsp;&nbsp;作用：匹配<strong>任意</strong>的单个字符<br>&nbsp;&nbsp;演示如下：</li>
-</ul>
-<ul>
-<li>[  ]<br>&nbsp;&nbsp;作用：匹配<strong>指定范围内</strong>的任意单个字符<br>&nbsp;&nbsp;演示如下：</li>
-</ul>
-<ul>
-<li>[^  ]<br>&nbsp;&nbsp;作用：匹配<strong>指定范围外</strong>的任意单个字符<br>&nbsp;&nbsp;演示如下：</li>
-</ul>
-<ul>
-<li>[0-9] / [[:digit:]]<br>&nbsp;&nbsp;作用：[0-9]和[[:digit:]]功能一样，匹配[0,9]间任意的单个数字<br>&nbsp;&nbsp;演示如下：</li>
-</ul>
-<ul>
-<li>[a-zA-z] / [[:alpha:]]<br>&nbsp;&nbsp;作用：[a-zA-z]和[[:alpha:]]功能一样，匹配单个任意的大小写字母<br>&nbsp;&nbsp;演示如下：</li>
-</ul>
-<ul>
-<li>[^0-9] / [^[:digit:]]<br>&nbsp;&nbsp;作用：[^0-9]和[^[:digit:]]功能一样，匹配单个非数字字符<br>&nbsp;&nbsp;演示如下：</li>
+<h3 id="pattern（均为扩展正则表达式）"><a href="#pattern（均为扩展正则表达式）" class="headerlink" title="pattern（均为扩展正则表达式）:"></a>pattern（均为扩展正则表达式）:</h3><p>以下示例所用文本均为下图所示：<br><img src="https://s2.loli.net/2021/12/23/xZlKf47MLJDVo2j.png" srcset="/img/loading.gif" lazyload alt="re test file.png"></p>
+<h4 id="单个字符匹配相关"><a href="#单个字符匹配相关" class="headerlink" title="单个字符匹配相关"></a>单个字符匹配相关</h4><ul>
+<li><p>.<br>&nbsp;&nbsp;作用：匹配<strong>任意</strong>的单个字符<br>&nbsp;&nbsp;演示如下：<br><img src="https://s2.loli.net/2021/12/23/NMRckIXrfUnspwl.jpg" srcset="/img/loading.gif" lazyload alt="re ..jpg"></p>
+</li>
+<li><p>[  ]<br>&nbsp;&nbsp;作用：匹配<strong>指定范围内</strong>的任意单个字符<br>&nbsp;&nbsp;演示如下：<br><img src="https://s2.loli.net/2021/12/23/dMiYpb48Q9DtzCX.jpg" srcset="/img/loading.gif" lazyload alt="re [  ].jpg"></p>
+</li>
+<li><p>[^  ]<br>&nbsp;&nbsp;作用：匹配<strong>指定范围外</strong>的任意单个字符<br>&nbsp;&nbsp;演示如下：<br><img src="https://s2.loli.net/2021/12/23/fKPtF1Y7C4VH6AJ.jpg" srcset="/img/loading.gif" lazyload alt="re [\^ ].jpg"></p>
+</li>
+<li><p>[0-9] / [[:digit:]]<br>&nbsp;&nbsp;作用：[0-9]和[[:digit:]]功能一样，匹配[0,9]间任意的单个数字<br>&nbsp;&nbsp;演示如下：<br><img src="https://s2.loli.net/2021/12/23/q24p6arlHcwPbVZ.jpg" srcset="/img/loading.gif" lazyload alt="re [0-9].jpg"></p>
+</li>
+<li><p>[a-zA-z] / [[:alpha:]]<br>&nbsp;&nbsp;作用：[a-zA-z]和[[:alpha:]]功能一样，匹配单个任意的大小写字母<br>&nbsp;&nbsp;演示如下：<br><img src="https://s2.loli.net/2021/12/23/8R3hXU5GMNJqVel.jpg" srcset="/img/loading.gif" lazyload alt="re [a-z].jpg"></p>
+</li>
+<li><p>[^0-9] / [^[:digit:]]<br>&nbsp;&nbsp;作用：[^0-9]和[^[:digit:]]功能一样，匹配单个非数字字符<br>&nbsp;&nbsp;演示如下：<br><img src="https://s2.loli.net/2021/12/23/oi6j8pNmBXruqVz.png" srcset="/img/loading.gif" lazyload alt="re  [\^0-9].png"></p>
+</li>
 </ul>
 <h4 id="次数匹配相关"><a href="#次数匹配相关" class="headerlink" title="次数匹配相关"></a>次数匹配相关</h4><ul>
 <li>?<br>&nbsp;&nbsp;作用：<strong>匹配其前面的字符0次或1次</strong><br>&nbsp;&nbsp;演示如下：</li>
