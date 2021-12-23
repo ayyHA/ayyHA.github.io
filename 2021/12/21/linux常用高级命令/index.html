@@ -37,7 +37,7 @@
 <meta property="og:image" content="https://s2.loli.net/2021/12/22/2QNHo4A6UgLjZdP.png">
 <meta property="og:image" content="https://s2.loli.net/2021/12/22/bF7aTqXPDpZiU45.png">
 <meta property="article:published_time" content="2021-12-21T05:54:56.000Z">
-<meta property="article:modified_time" content="2021-12-22T16:22:19.470Z">
+<meta property="article:modified_time" content="2021-12-23T02:43:23.035Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary_large_image">
@@ -210,7 +210,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      4.3k 字
+      4.6k 字
     </span>
   
 
@@ -252,7 +252,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：9 分钟前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -461,7 +461,14 @@
 <ul>
 <li>^$<br>&nbsp;&nbsp;作用：<strong>表示空行</strong><br>&nbsp;&nbsp;演示如下：</li>
 </ul>
-<h2 id="du"><a href="#du" class="headerlink" title="du"></a>du</h2><h2 id="df"><a href="#df" class="headerlink" title="df"></a>df</h2>
+<h2 id="du"><a href="#du" class="headerlink" title="du"></a>du</h2><p>&nbsp;&nbsp;功能：查询磁盘目录下文件的大小 disk usage<br>&nbsp;&nbsp;常用方式：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">du -h<br>查询当前目录下（递归查询）文件的大小，最后输出目录总大小，会以K，M，G的格式写明文件大小。human readable<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">du -s<br>查询当前目录下文件的总计大小，只输出总文件大小。 summarize<br></code></pre></td></tr></table></figure>
+
+<h2 id="df"><a href="#df" class="headerlink" title="df"></a>df</h2><p>&nbsp;&nbsp;功能：查询文件系统的使用情况 disk file system<br>&nbsp;&nbsp;常用方式：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">df -h<br>查询当前盘符的使用情况，以人类可读的方式输出。human readable<br></code></pre></td></tr></table></figure>
+
             </div>
             <hr>
             <div>
