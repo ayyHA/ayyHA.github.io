@@ -70,7 +70,7 @@
 <meta property="og:image" content="https://s2.loli.net/2021/12/24/WPR2SwnajvdDu6y.png">
 <meta property="og:image" content="https://s2.loli.net/2021/12/24/lCtq8doRTQE9k1r.png">
 <meta property="article:published_time" content="2021-12-21T05:54:56.000Z">
-<meta property="article:modified_time" content="2021-12-24T07:50:12.203Z">
+<meta property="article:modified_time" content="2021-12-24T07:55:11.171Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary_large_image">
@@ -496,9 +496,8 @@
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">sort [option] file<br>默认升序<br></code></pre></td></tr></table></figure>
 <p>&nbsp;&nbsp;option：<br>以下示例所用文本均为下图所示：<br><img src="https://s2.loli.net/2021/12/24/O1rGviUWcuIhCzT.png" srcset="/img/loading.gif" lazyload alt="sort test file.png"></p>
 <ul>
-<li>-r<br>&nbsp;&nbsp;作用：逆序输出 reverse<br>&nbsp;&nbsp;演示如下：<br><img src="https://s2.loli.net/2021/12/24/bWrDHNRcu4SG8zv.png" srcset="/img/loading.gif" lazyload alt="sort -r.png"></li>
-</ul>
-<ul>
+<li><p>-r<br>&nbsp;&nbsp;作用：逆序输出 reverse<br>&nbsp;&nbsp;演示如下：<br><img src="https://s2.loli.net/2021/12/24/bWrDHNRcu4SG8zv.png" srcset="/img/loading.gif" lazyload alt="sort -r.png"></p>
+</li>
 <li><p>-t组合-k<br>&nbsp;&nbsp;作用：-t后跟着分隔符，用以将内容划分成列；-k后跟着数字，用以指明第几列<br>&nbsp;&nbsp;演示如下：<br><img src="https://s2.loli.net/2021/12/24/nWiAF65eNqTg7yb.png" srcset="/img/loading.gif" lazyload alt="sort -t -k.png"><br>&nbsp;&nbsp;我们用空格作为分隔符，将其划分成三列，且取第二列作为排序的依据，当结果看起来好像排错了，其实没错，因为sort默认按照<strong>字典序</strong>排序，10&lt;4是因为利用ASCII码比较完首个字符后，就认为4&gt;10。可以通过后面的-n选项来用<strong>数值</strong>比较。</p>
 </li>
 <li><p>-n<br>&nbsp;&nbsp;作用：按数值大小排序，默认是字典序，会出现10&lt;2的情况 number<br>&nbsp;&nbsp;演示如下：<br><img src="https://s2.loli.net/2021/12/24/WPR2SwnajvdDu6y.png" srcset="/img/loading.gif" lazyload alt="sort -n.png"><br>&nbsp;&nbsp;我们可以看到，此可第二列是按照正常的升序进行的排序。</p>
