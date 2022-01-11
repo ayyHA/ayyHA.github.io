@@ -24,7 +24,7 @@
 <meta property="og:description" content="前端小白对JS一些内容的理解">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-01-04T02:36:59.000Z">
-<meta property="article:modified_time" content="2022-01-10T07:42:17.199Z">
+<meta property="article:modified_time" content="2022-01-11T04:48:08.552Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="JavaScript">
 <meta name="twitter:card" content="summary_large_image">
@@ -196,7 +196,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.7k 字
+      2k 字
     </span>
   
 
@@ -205,7 +205,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      5 分钟
+      6 分钟
     </span>
   
 
@@ -238,7 +238,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：几秒前
+                  本文最后更新于：1 分钟前
                 
               </p>
             
@@ -264,8 +264,17 @@
 <ul>
 <li>在HTML元素里指明attribute<br>如<code>&lt;button id=&quot;myBtn&quot; onclick=&quot;btn()&quot;&gt;&lt;/button&gt;</code>，这里的事件的attribute即使onclick绑定了JS里写的方法btn();</li>
 <li>在JS里绑定<br>如<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs javascipt">function btn()&#123;<br>	alert(&quot;event of click&quot;);<br>&#125;<br>document.getElementById(&quot;myBtn&quot;).onclick=btn;<br></code></pre></td></tr></table></figure>
-<h3 id="JS一些别的知识"><a href="#JS一些别的知识" class="headerlink" title="JS一些别的知识"></a>JS一些别的知识</h3>&nbsp;&nbsp;DOM(Document Object Model)文档对象模型，就是浏览器加载的时候会构建一个DOM，这个东西是树结构，<strong>Document是根节点</strong>（document对象），其余的节点是<strong>网页的标签</strong>，这些个网页的标签被称为<strong>Element</strong>对象，可以通过document对象的getElementById()等方法获得。<br>&nbsp;&nbsp;而Element对象可以帮助我们set/get标签的<strong>属性（attributes）</strong>或是<strong>内容(innerHTML/innerText)</strong>;<br>&nbsp;&nbsp;BOM(Browser Object Model)浏览器对象模型，使得JS和浏览器具有交互能力。BOM核心对象是window，表示当前浏览器的窗口，我们所有的全局对象都是window的属性，document对象也是。</li>
+<h3 id="JS一些别的知识"><a href="#JS一些别的知识" class="headerlink" title="JS一些别的知识"></a>JS一些别的知识</h3>&nbsp;&nbsp;DOM(Document Object Model)文档对象模型，浏览器加载的时候会构建一个DOM，这个东西是树结构。<br>&nbsp;&nbsp;DOM树的节点分为：</li>
+<li>元素/标签节点（即后面所说的Element，type为1）；</li>
+<li>属性节点（是<strong>元素节点的内容</strong>，可通过<code>getAttributeNode()</code>获得，也可以在JS自己<code>setAttributeNode()</code>进去，type为2）；</li>
+<li>文本节点（就是不含于标签的文本，type为3）；</li>
+<li>文档节点（是后面所述的document，根节点，type为9）；</li>
 </ul>
+<p>&nbsp;&nbsp;<strong>Document是根节点</strong>（document对象），其余的节点是<strong>网页的标签</strong>和<strong>文本信息（不含于标签内）</strong>，这些个节点被称为<strong>Element</strong>对象，可以通过document对象的getElementById()等方法获得（这里包括下面指的其实都是元素节点）。<br>&nbsp;&nbsp;而Element对象可以帮助我们set/get标签的<strong>属性（attributes）</strong>或是<strong>内容(innerHTML/innerText)</strong>;</p>
+<div class="note note-info">
+            <p>&nbsp;&nbsp;element对象带有nodeName、nodeValue、nodeType等属性，可以让我们区分是哪一种类型的节点。<br>&nbsp;&nbsp;如上述所说的文本节点，一般都是通过element对象的<code>childsNode()</code>获得。</p>
+          </div>
+<p>&nbsp;&nbsp;BOM(Browser Object Model)浏览器对象模型，使得JS和浏览器具有交互能力。BOM核心对象是window，表示当前浏览器的窗口，我们所有的全局对象都是window的属性，document对象也是。</p>
 
             </div>
             <hr>
