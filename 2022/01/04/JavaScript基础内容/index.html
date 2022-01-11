@@ -24,7 +24,7 @@
 <meta property="og:description" content="前端小白对JS一些内容的理解">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-01-04T02:36:59.000Z">
-<meta property="article:modified_time" content="2022-01-11T04:50:12.283Z">
+<meta property="article:modified_time" content="2022-01-11T04:53:06.928Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="JavaScript">
 <meta name="twitter:card" content="summary_large_image">
@@ -268,13 +268,11 @@
 <li>元素/标签节点（即后面所说的Element，type为1）；</li>
 <li>属性节点（是<strong>元素节点的内容</strong>，可通过<code>getAttributeNode()</code>获得，也可以在JS自己<code>setAttributeNode()</code>进去，type为2）；</li>
 <li>文本节点（就是不含于标签的文本，type为3）；</li>
-<li>文档节点（是后面所述的document，根节点，type为9）；</li>
-</ul>
-<p>&nbsp;&nbsp;<strong>Document是根节点</strong>（document对象），其余的节点是<strong>网页的标签</strong>和<strong>文本信息（不含于标签内）</strong>，这些个节点被称为<strong>Element</strong>对象，可以通过document对象的getElementById()等方法获得（这里包括下面指的其实都是元素节点）。<br>&nbsp;&nbsp;而Element对象可以帮助我们set/get标签的<strong>属性（attributes）</strong>或是<strong>内容(innerHTML/innerText)</strong>;</p>
-<div class="note note-info">
+<li>文档节点（是后面所述的document，根节点，type为9）；<br>&nbsp;&nbsp;<strong>Document是根节点</strong>（document对象），其余的节点是<strong>网页的标签</strong>和<strong>文本信息（不含于标签内）</strong>，这些个节点被称为<strong>Element</strong>对象，可以通过document对象的getElementById()等方法获得（这里包括下面指的其实都是元素节点）。<br>&nbsp;&nbsp;而Element对象可以帮助我们set/get标签的<strong>属性（attributes）</strong>或是<strong>内容(innerHTML/innerText)</strong>;<div class="note note-info">
             <p>&nbsp;&nbsp;element对象带有nodeName、nodeValue、nodeType等属性，可以让我们区分是哪一种类型的节点。<br>&nbsp;&nbsp;如上述所说的文本节点，一般都是通过element对象的<code>childNodes()</code>获得。</p>
           </div>
-<p>&nbsp;&nbsp;BOM(Browser Object Model)浏览器对象模型，使得JS和浏览器具有交互能力。BOM核心对象是window，表示当前浏览器的窗口，我们所有的全局对象都是window的属性，document对象也是。</p>
+&nbsp;&nbsp;BOM(Browser Object Model)浏览器对象模型，使得JS和浏览器具有交互能力。BOM核心对象是window，表示当前浏览器的窗口，我们所有的全局对象都是window的属性，document对象也是。</li>
+</ul>
 
             </div>
             <hr>
