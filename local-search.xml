@@ -4,6 +4,57 @@
   
   
   <entry>
+    <title>PO、VO、DTO等对象的理解</title>
+    <link href="/2022/02/26/PO%E3%80%81VO%E3%80%81DTO%E7%AD%89%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%90%86%E8%A7%A3/"/>
+    <url>/2022/02/26/PO%E3%80%81VO%E3%80%81DTO%E7%AD%89%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%90%86%E8%A7%A3/</url>
+    
+    <content type="html"><![CDATA[<h2 id="PO"><a href="#PO" class="headerlink" title="PO"></a>PO</h2><p>&nbsp;&nbsp;PO -&gt; Persistence Object 持久化对象，即一个持久化对象可以理解为数据库一张表中的记录，即它所包含的<strong>属性对应表中字段</strong></p><h2 id="VO"><a href="#VO" class="headerlink" title="VO"></a>VO</h2><p>&nbsp;&nbsp;VO -&gt; Value Object 值对象，一般指一些不会变化的值作为属性来存储；<br>&nbsp;&nbsp;VO -&gt; View Object 表现层/UI层的对象，即它里面所对应的属性的数据是用于界面展示的数据</p><h2 id="DTO"><a href="#DTO" class="headerlink" title="DTO"></a>DTO</h2><p>&nbsp;&nbsp;DTO -&gt; Data Transfer Object 数据传输对象，将客户端请求的数据通过网络传输给它，它相较于PO的区别在于：我们存到数据库的数据的字段可能有20个，但我们客户端需要的只是5个，我们只需要将这5个对象传输给客户端即可，即<strong>不会暴露我们的表结构</strong>，也可以<strong>提高传输效率</strong>。将与客户端进行数据交互的功能交由DTO处理。<br>&nbsp;&nbsp;当然DTO对象到客户端后，若是用于界面展示，则它转化为VO。</p><h2 id="POJO"><a href="#POJO" class="headerlink" title="POJO"></a>POJO</h2><p>&nbsp;&nbsp;POJO -&gt; Plain Ordinary Java Object 简单的Java对象，可以根据具体的使用场景转化为PO、VO、DTO</p><h2 id="DAO"><a href="#DAO" class="headerlink" title="DAO"></a>DAO</h2><p>&nbsp;&nbsp;DAO -&gt; Data Access Object 数据访问对象。封装了对于数据库的CRUD操作。</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>java</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Spring基础知识</title>
+    <link href="/2022/02/24/Spring%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"/>
+    <url>/2022/02/24/Spring%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</url>
+    
+    <content type="html"><![CDATA[<h2 id="Resource和-Autowired"><a href="#Resource和-Autowired" class="headerlink" title="@Resource和@Autowired"></a>@Resource和@Autowired</h2><p>&nbsp;&nbsp;二者都是提供从IOC容器中获取对应的实例进行注入。@Resource是由jdk提供，@Autowired是由Spring提供。其实二者都是通过byName或byType来进行匹配查询的。（@Autowired采用byType策略，@Resource采用byName策略）<br>&nbsp;&nbsp;@Autowired在匹配到单一实现类时，则会将单一实现类进行注入；当匹配到多个实现类时，无法甄别，则需要用bean的名字进行甄别，就是变量名是否匹配某个实现类的小驼峰，若是符合则将该实现类进行注入，否则抛出错误。<br>&nbsp;&nbsp;因此，若是在单一实现类时，直接使用@Autowired注入即可；若是有多个实现类时，可结合@Qualifier(“beanName”)注解来搭配使用，即@Qualifier注明某个实现类的小驼峰写法，则可以将对应的实例进行注入。<br>&nbsp;&nbsp;@Resource则默认靠beanName来进行匹配，当然，若是变量名没匹配到实现类的小驼峰写法，若是只有单一实现类，则可以成功注入，否则会报错；@Resource也可以通过@Resource(name=”beanName”)来指定beanName实现注入，这个注解也可以通过指定type属性来实现注入。<br>&nbsp;&nbsp;(参考博客)[<a href="https://blog.csdn.net/kevinxxw/article/details/105145397]">https://blog.csdn.net/kevinxxw/article/details/105145397]</a></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Spring</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>idea使用遇到的小bug处理及指南</title>
+    <link href="/2022/01/29/idea%E4%BD%BF%E7%94%A8%E9%81%87%E5%88%B0%E7%9A%84%E5%B0%8Fbug%E5%A4%84%E7%90%86/"/>
+    <url>/2022/01/29/idea%E4%BD%BF%E7%94%A8%E9%81%87%E5%88%B0%E7%9A%84%E5%B0%8Fbug%E5%A4%84%E7%90%86/</url>
+    
+    <content type="html"><![CDATA[<h2 id="模块创建缺少iml文件"><a href="#模块创建缺少iml文件" class="headerlink" title="模块创建缺少iml文件"></a>模块创建缺少iml文件</h2><p>&nbsp;&nbsp;iml全称为information of module，即模块信息文件。模块必有iml文件，若是没有，可以在terminal下移动到<strong>模块所在的路径</strong>下执行<code>mvn idea:module</code>指令以生成模块对应的iml文件。</p><h2 id="maven使用父模块pom进行依赖管理"><a href="#maven使用父模块pom进行依赖管理" class="headerlink" title="maven使用父模块pom进行依赖管理"></a>maven使用父模块pom进行依赖管理</h2><p>&nbsp;&nbsp;我们先利用Spring Initializer构建一个Spring Boot项目用作父模块来进行<strong>依赖管理</strong>，其中内部不写功能代码。<br>&nbsp;&nbsp;子模块的pom通过使用以下代码</p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span><br></code></pre></td></tr></table></figure><p>&nbsp;&nbsp;来将父模块pom中所含的依赖加入其中（但不包含dependencyManagement其内的内容），而父模块pom需要标明自己的打包方式为pom，且通过modules来管理子模块（如进行clear、package时可以通过父模块完成，而不是一个模块一个模块的去处理）。</p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">packaging</span>&gt;</span>pom<span class="hljs-tag">&lt;/<span class="hljs-name">packaging</span>&gt;</span> <span class="hljs-comment">&lt;!-- 标明打包方式，默认jar包 --&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">modules</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">module</span>&gt;</span>test1<span class="hljs-tag">&lt;/<span class="hljs-name">module</span>&gt;</span>   <span class="hljs-comment">&lt;!-- 标明所含子模块 --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">module</span>&gt;</span>test2<span class="hljs-tag">&lt;/<span class="hljs-name">module</span>&gt;</span><br>...<br><span class="hljs-tag">&lt;/<span class="hljs-name">modules</span>&gt;</span><br></code></pre></td></tr></table></figure><p>&nbsp;&nbsp;上面说的dependencyManagement就是<strong>按需继承</strong>的意思，父模块pom内通过</p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependencyManagement</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>...<br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>...<br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>...<br><span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependcyManagement</span>&gt;</span><br></code></pre></td></tr></table></figure><p>&nbsp;&nbsp;如上方式来添加依赖，并进行<strong>版本管理</strong>，之后子模块只需要自行通过如下方式<strong>按需添加</strong>就行，<strong>不必写版本号</strong>，版本号统一由父模块的pom进行管理。</p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br>...<br><span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span><br></code></pre></td></tr></table></figure><p>&nbsp;&nbsp;其实上面所说的是parent和modules分别属于maven继承和聚合的特性，更具体的解释可以网上搜索查看。</p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>JavaScript基础内容</title>
     <link href="/2022/01/04/JavaScript%E5%9F%BA%E7%A1%80%E5%86%85%E5%AE%B9/"/>
     <url>/2022/01/04/JavaScript%E5%9F%BA%E7%A1%80%E5%86%85%E5%AE%B9/</url>
@@ -122,27 +173,23 @@
     <link href="/2021/12/13/SpringCloud%E8%87%AA%E5%AD%A6/"/>
     <url>/2021/12/13/SpringCloud%E8%87%AA%E5%AD%A6/</url>
     
-    <content type="html"><![CDATA[]]></content>
+    <content type="html"><![CDATA[<p>&nbsp;&nbsp;由于Netfilx提供的服务组件停止维护了，因此选择了Alibaba提供的服务组件，本文会围绕着Nacos,Sentinel等组件来讲解。</p>]]></content>
     
     
     
     <tags>
       
-      <tag>SpringCloud</tag>
+      <tag>SpringCloudAlibaba</tag>
       
-      <tag>Eureka</tag>
+      <tag>Nacos</tag>
       
       <tag>Ribbon</tag>
       
       <tag>Hystrix</tag>
       
-      <tag>Config</tag>
-      
       <tag>Feign</tag>
       
       <tag>Zuul</tag>
-      
-      <tag>Bus</tag>
       
     </tags>
     
