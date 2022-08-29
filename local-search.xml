@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>CVer</title>
+    <link href="/2022/08/24/CVer/"/>
+    <url>/2022/08/24/CVer/</url>
+    
+    <content type="html"><![CDATA[<h2 id="Pose-guided-Feature-Disentangling-for-Occluded-Person-Re-identification-Based-on-Transformer"><a href="#Pose-guided-Feature-Disentangling-for-Occluded-Person-Re-identification-Based-on-Transformer" class="headerlink" title="Pose-guided Feature Disentangling for Occluded Person Re-identification Based on Transformer"></a>Pose-guided Feature Disentangling for Occluded Person Re-identification Based on Transformer</h2><p>&nbsp;&nbsp;本文名词解释:</p><ul><li>ViT(Vision Transformer 用于抽取小片特征的视觉Transformer)</li><li>PFD(Pose-guided Feature Disentangling 姿态引导的特征分离)</li><li>Re-ID(Re-identification 再识别)</li><li>PFA(Pose-guided Feature Aggregation 姿态引导的特征聚合[含匹配和分配机制])</li><li>PVM(Pose-View Matching 姿态视图匹配 匹配身体的可见部分,把遮挡的部分分离)</li><li>Post-guided Push Loss 特征值,用于强调身体的可见部分</li></ul>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Computer Vision</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>python-numpy</title>
     <link href="/2022/07/23/python-numpy/"/>
     <url>/2022/07/23/python-numpy/</url>
