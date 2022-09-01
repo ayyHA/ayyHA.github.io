@@ -196,7 +196,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      652 字
+      697 字
     </span>
   
 
@@ -243,7 +243,7 @@
               </p>
             
             <div class="markdown-body">
-              <h2 id="Resource和-Autowired"><a href="#Resource和-Autowired" class="headerlink" title="@Resource和@Autowired"></a>@Resource和@Autowired</h2><p>&nbsp;&nbsp;二者都是提供从IOC容器中获取对应的实例进行注入。@Resource是由jdk提供，@Autowired是由Spring提供。其实二者都是通过byName或byType来进行匹配查询的。（@Autowired采用byType策略，@Resource采用byName策略）<br>&nbsp;&nbsp;@Autowired在匹配到单一实现类时，则会将单一实现类进行注入；当匹配到多个实现类时，无法甄别，则需要用bean的名字进行甄别，就是变量名是否匹配某个实现类的小驼峰，若是符合则将该实现类进行注入，否则抛出错误。<br>&nbsp;&nbsp;因此，若是在单一实现类时，直接使用@Autowired注入即可；若是有多个实现类时，可结合@Qualifier(“beanName”)注解来搭配使用，即@Qualifier注明某个实现类的小驼峰写法，则可以将对应的实例进行注入。<br>&nbsp;&nbsp;@Resource则默认靠beanName来进行匹配，当然，若是变量名没匹配到实现类的小驼峰写法，若是只有单一实现类，则可以成功注入，否则会报错；@Resource也可以通过@Resource(name=”beanName”)来指定beanName实现注入，这个注解也可以通过指定type属性来实现注入。<br>&nbsp;&nbsp;(参考博客)[<a target="_blank" rel="noopener" href="https://blog.csdn.net/kevinxxw/article/details/105145397]">https://blog.csdn.net/kevinxxw/article/details/105145397]</a></p>
+              <h2 id="Resource和-Autowired"><a href="#Resource和-Autowired" class="headerlink" title="@Resource和@Autowired"></a>@Resource和@Autowired</h2><p>&amp;nbsp;&amp;nbsp;二者都是提供从IOC容器中获取对应的实例进行注入。@Resource是由jdk提供，@Autowired是由Spring提供。其实二者都是通过byName或byType来进行匹配查询的。（@Autowired采用byType策略，@Resource采用byName策略）<br>&amp;nbsp;&amp;nbsp;@Autowired在匹配到单一实现类时，则会将单一实现类进行注入；当匹配到多个实现类时，无法甄别，则需要用bean的名字进行甄别，就是变量名是否匹配某个实现类的小驼峰，若是符合则将该实现类进行注入，否则抛出错误。<br>&amp;nbsp;&amp;nbsp;因此，若是在单一实现类时，直接使用@Autowired注入即可；若是有多个实现类时，可结合@Qualifier(“beanName”)注解来搭配使用，即@Qualifier注明某个实现类的小驼峰写法，则可以将对应的实例进行注入。<br>&amp;nbsp;&amp;nbsp;@Resource则默认靠beanName来进行匹配，当然，若是变量名没匹配到实现类的小驼峰写法，若是只有单一实现类，则可以成功注入，否则会报错；@Resource也可以通过@Resource(name&#x3D;”beanName”)来指定beanName实现注入，这个注解也可以通过指定type属性来实现注入。<br>&amp;nbsp;&amp;nbsp;(参考博客)[<a target="_blank" rel="noopener" href="https://blog.csdn.net/kevinxxw/article/details/105145397]">https://blog.csdn.net/kevinxxw/article/details/105145397]</a></p>
 
             </div>
             <hr>
