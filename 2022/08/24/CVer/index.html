@@ -24,7 +24,7 @@
 <meta property="og:description" content="CV模型及论文学习">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-08-24T04:06:44.000Z">
-<meta property="article:modified_time" content="2022-09-01T12:03:52.809Z">
+<meta property="article:modified_time" content="2022-09-01T12:10:01.551Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Computer Vision">
 <meta name="twitter:card" content="summary_large_image">
@@ -196,7 +196,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      996 字
+      972 字
     </span>
   
 
@@ -238,7 +238,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：1 分钟前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -277,11 +277,12 @@
 <li>Post-guided Push Loss 特征值,用于强调身体的可见部分</li>
 </ul>
 <h2 id="imagenet-classification-with-deep-convolutional-neural-networks"><a class="markdownIt-Anchor" href="#imagenet-classification-with-deep-convolutional-neural-networks"></a> ImageNet Classification with Deep Convolutional Neural Networks</h2>
-<p>\begin{bmatrix}<br />
-1&amp;2&amp;\cdots  \<br />
-2&amp;3&amp;\cdots  \<br />
-\vdots&amp;\vdots&amp;\ddots<br />
-\end{bmatrix}</p>
+<p class='katex-block katex-error' title='ParseError: KaTeX parse error: No such environment: split at position 7: \begin{̲s̲p̲l̲i̲t̲}̲
+\cos 2x &amp; =\co…'>\begin{split}
+\cos 2x &amp; =\cos^2x-\sin^2x \\
+     1  &amp; =2\cos^2x-1
+\end{split}
+</p>
 
             </div>
             <hr>
@@ -557,5 +558,20 @@
 <script  src="/js/boot.js" ></script>
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"display":{"position":"left","width":150,"height":300,"hOffset":30,"vOffset":-50,"superSample":2},"mobile":{"show":false},"react":{"opacityDefault":0.7,"opacityOnHover":0.2}});</script></body>
 </html>
