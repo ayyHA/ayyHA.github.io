@@ -1,0 +1,1069 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="Linux操作的高级命令">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <meta name="description" content="Linux操作的高级命令">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux常用高级命令">
+<meta property="og:url" content="http://example.com/2021/12/21/linux%E5%B8%B8%E7%94%A8%E9%AB%98%E7%BA%A7%E5%91%BD%E4%BB%A4/index.html">
+<meta property="og:site_name" content="ayyHA&#39;s blog">
+<meta property="og:description" content="Linux操作的高级命令">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2021/12/22/1HB2myCgfSLURvZ.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/22/MNxbnQC4cFoI3yt.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/22/xgBqR1JAsXLakEF.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/22/4fEnBglMyROKLIa.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/22/z8CVugykKlm3jDW.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/22/MVeg9XinhKbmp8H.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/22/BivsRuxHTD4Fc75.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/22/2G1ietD6KTlsEfw.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/22/aP2fjGeyrdRHVt7.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/22/3SR7Fq9IuaXrt81.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/22/VQLbpYTBtfgrXw7.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/22/2QNHo4A6UgLjZdP.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/22/bF7aTqXPDpZiU45.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/23/xZlKf47MLJDVo2j.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/23/NMRckIXrfUnspwl.jpg">
+<meta property="og:image" content="https://s2.loli.net/2021/12/23/dMiYpb48Q9DtzCX.jpg">
+<meta property="og:image" content="https://s2.loli.net/2021/12/23/fKPtF1Y7C4VH6AJ.jpg">
+<meta property="og:image" content="https://s2.loli.net/2021/12/23/q24p6arlHcwPbVZ.jpg">
+<meta property="og:image" content="https://s2.loli.net/2021/12/23/8R3hXU5GMNJqVel.jpg">
+<meta property="og:image" content="https://s2.loli.net/2021/12/23/oi6j8pNmBXruqVz.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/23/XoTC6RLYDwqcHh1.jpg">
+<meta property="og:image" content="https://s2.loli.net/2021/12/23/XWNkxrpv6AGcqE8.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/23/wVLJ8mpWM1v7RFP.jpg">
+<meta property="og:image" content="https://s2.loli.net/2021/12/23/oxlNqW4nOITgGcw.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/23/Tz6QYKoABqPRLkh.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/23/gMywnzfhaqULSPD.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/24/mcgXYvMiGquxR2o.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/24/4bJSjCD9xcA3BsN.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/24/YnKjS8vP1mMouyU.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/24/pcQOKedIY2b8JgR.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/24/GJUe9Cb4Qz5EOvj.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/24/QgniJvzjoVLt6Ou.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/24/QTtz8hOxbeNp6Pj.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/24/uPWpweh5NlyCQ7D.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/24/o35kyPu19tXMnxf.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/24/gZmKzu1A87Jw2NG.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/24/g7usQXN2tjC1c4W.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/24/4viCzfdm3DpGEwQ.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/24/JEubgS23M96yzod.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/24/w4pKLBOCUhEs2zk.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/24/O1rGviUWcuIhCzT.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/24/bWrDHNRcu4SG8zv.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/24/nWiAF65eNqTg7yb.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/24/WPR2SwnajvdDu6y.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/24/lCtq8doRTQE9k1r.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/24/7EVMi3va9GbDkpc.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/24/El2Jq9pPCvB8V76.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/24/Mk6S9rJUYcqFl53.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/24/DjTCRkboBSQJty1.png">
+<meta property="article:published_time" content="2021-12-21T05:54:56.000Z">
+<meta property="article:modified_time" content="2021-12-24T08:12:11.145Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://s2.loli.net/2021/12/22/1HB2myCgfSLURvZ.png">
+  
+  <title>linux常用高级命令 - ayyHA&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":"9c7ed39aa5906acb06d9f9cb7df236ae","google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>ayyHA</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="linux常用高级命令">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-12-21 13:54" pubdate>
+        2021年12月21日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.2k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      13 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">linux常用高级命令</h1>
+            
+              <p class="note note-info">
+                
+                  本文最后更新于：8 个月前
+                
+              </p>
+            
+            <div class="markdown-body">
+              <h2 id="find"><a class="markdownIt-Anchor" href="#find"></a> find</h2>
+<p>  功能：用于<strong>查找文件</strong><br />
+  基本格式：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs markdown">find 查找路径 查找条件<br></code></pre></td></tr></table></figure>
+<p>  查找条件：</p>
+<ul>
+<li>-name<br />
+  e.g.:</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">find ./ -name &quot;a.txt&quot;<br>查找当前目录下（含子目录）名称为“a.txt”的文件<br></code></pre></td></tr></table></figure>
+<ul>
+<li>-type<br />
+  e.g.:</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">find ./ -type f <br>查找当前目录下（含子目录）的普通文件<br></code></pre></td></tr></table></figure>
+<p>  linux下文件类型主要有以下几种：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">字母</th>
+<th style="text-align:center">文件类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">f(file)</td>
+<td style="text-align:center">普通文件</td>
+</tr>
+<tr>
+<td style="text-align:center">d(directory)</td>
+<td style="text-align:center">目录</td>
+</tr>
+<tr>
+<td style="text-align:center">b(block)</td>
+<td style="text-align:center">块设备</td>
+</tr>
+<tr>
+<td style="text-align:center">s(socket)</td>
+<td style="text-align:center">套接字</td>
+</tr>
+<tr>
+<td style="text-align:center">c(char)</td>
+<td style="text-align:center">字符设备</td>
+</tr>
+<tr>
+<td style="text-align:center">l(link含硬链接和软链接)</td>
+<td style="text-align:center">链接</td>
+</tr>
+<tr>
+<td style="text-align:center">p(pipe)</td>
+<td style="text-align:center">管道</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>-user<br />
+  e.g.:</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">find ./ -user &quot;ayyHA&quot;<br>查找当前目录下（含子目录）user为ayyHA的文件<br></code></pre></td></tr></table></figure>
+<ul>
+<li>-group<br />
+  e.g.:</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">find ./ -group &quot;test&quot;<br>查找当前目录下（含子目录）group为test的文件<br></code></pre></td></tr></table></figure>
+<ul>
+<li>-not<br />
+  e.g.:</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">find ./ -not -type f<br>查找当前目录下（含子目录）文件类型为非普通文件的文件<br></code></pre></td></tr></table></figure>
+<p>  -not也可以用!来替换，二者等价</p>
+<ul>
+<li>-a -o<br />
+  e.g.:</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">find ./ -type f -a -name &quot;<span class="hljs-emphasis">*md&quot;</span><br><span class="hljs-emphasis">查找当前目录下（含子目录）文件类型为普通文件且以md结尾的文件</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">find ./ -type f -o -name &quot;<span class="hljs-emphasis">*md&quot;</span><br><span class="hljs-emphasis">查找当前目录下（含子目录）文件类型为普通文件或以md结尾的文件</span><br></code></pre></td></tr></table></figure>
+<p>  注：默认情况是-a，即查找条件是合取的关系。</p>
+<ul>
+<li>-maxdepth -mindepth<br />
+  e.g.:</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">find ./ -maxdepth 2 -name &quot;<span class="hljs-emphasis">*md&quot;</span><br><span class="hljs-emphasis">查找当前目录下（含子目录）最大深度为2且以md结尾的文件</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">find ./ -mindepth 1 -name &quot;<span class="hljs-emphasis">*md&quot;</span><br><span class="hljs-emphasis">查找当前目录下（含子目录）最小深度为1且以md结尾的文件</span><br></code></pre></td></tr></table></figure>
+<p>  注：当前目录下即为深度为1，往下的每一个子目录深度便加1。</p>
+<ul>
+<li>-size<br />
+  e.g.:</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">find ./ -size 10k<br>查找当前目录下（含子目录）大小为10K的文件<br></code></pre></td></tr></table></figure>
+<p>  注：+10K表示比10K大的文件；-10K表示比10K小的文件。</p>
+<ul>
+<li>-perm<br />
+  e.g.:</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">find ./ -perm 644<br>查找当前目录下（含子目录）文件权限为644的文件（此为精确匹配）<br></code></pre></td></tr></table></figure>
+<p>  注：权限值若是写成-404则表明只要user权限为r且other权限为r即可，只要满足了这两个条件的文件就都会被筛选出来；权限值若是写成了/404则表明只要user权限为r或other权限为r即可，只要满足了两个条件的其中一个就会被筛选出来。</p>
+<ul>
+<li>-atime -ctime -mtime<br />
+  e.g.:</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">find ./ -mtime -7 <br>查找当前目录下（含子目录）的文件在7天内有进行过修改的<br></code></pre></td></tr></table></figure>
+<p>  注：其余两个类似，不赘述。（对数字前添加‘+’/‘-’表示‘大于’/‘小于’）</p>
+<ul>
+<li>-exec 命令 {} ;<br />
+  此查找条件意思为：对<strong>查找到的文件执行(execute)命令</strong>，其中**{}代表的是查找到的文件**。<br />
+  e.g.:</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">find ./ -name &quot;<span class="hljs-emphasis">*md&quot; -exec cat &#123;&#125; \;</span><br><span class="hljs-emphasis">对查找到的以md结尾的文件执行cat命令。</span><br></code></pre></td></tr></table></figure>
+<p>  注：有个<code>-ok 命令 &#123;&#125; \;</code>与该命令相似，但它会询问查找到的文件是否执行该命令(y/n)。</p>
+<h2 id="wc"><a class="markdownIt-Anchor" href="#wc"></a> wc</h2>
+<p>  功能：用于统计行数(line)、单词数(word)、字节数(char,内存占1byte)<br />
+  基本格式：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs markdown">wc 统计条件 文件名<br></code></pre></td></tr></table></figure>
+<p>  统计条件：</p>
+<ul>
+<li>-l<br />
+  e.g.:</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">wc -l ./text.txt<br>用于统计text.txt文件的行数<br></code></pre></td></tr></table></figure>
+<ul>
+<li>-w<br />
+  e.g.:</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">wc -w ./text.txt<br>用于统计text.txt文件的单词数<br></code></pre></td></tr></table></figure>
+<ul>
+<li>-c<br />
+  e.g.:</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">wc -c ./text.txt<br>用于统计text.txt文件的字节数<br></code></pre></td></tr></table></figure>
+<ul>
+<li>-m<br />
+  e.g.:</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">wc -m ./text.txt<br>用于统计text.txt文件的字符数（一个汉字在utf8编码里是3个字节，利用-c不方便统计字符数）<br></code></pre></td></tr></table></figure>
+<ul>
+<li>-L<br />
+  e.g.:</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">wc -L ./text.txt<br>用于统计text.txt文件最长行的长度<br></code></pre></td></tr></table></figure>
+<h2 id="grep"><a class="markdownIt-Anchor" href="#grep"></a> grep</h2>
+<p>  功能：依据条件进行过滤，找到满足条件的行<br />
+  基本格式；</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs markdown">grep [option] pattern file<br></code></pre></td></tr></table></figure>
+<p>  option：<br />
+以下示例所用文本均为下图所示：</p>
+<p><img src="https://s2.loli.net/2021/12/22/1HB2myCgfSLURvZ.png" srcset="/img/loading.gif" lazyload alt="grep option test file.png" /></p>
+<ul>
+<li>
+<p>-E<br />
+  作用：pattern匹配转为扩展正则表达式，等价于egrep命令。</p>
+</li>
+<li>
+<p>-i<br />
+  作用：忽略大小写，ignore。<br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/22/MNxbnQC4cFoI3yt.png" srcset="/img/loading.gif" lazyload alt="grep -i.png" /></p>
+</li>
+<li>
+<p>-v<br />
+  作用：反向查询，类似取反，invert。<br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/22/xgBqR1JAsXLakEF.png" srcset="/img/loading.gif" lazyload alt="grep -v.png" /></p>
+</li>
+<li>
+<p>-n<br />
+  作用：输出行号，number。<br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/22/4fEnBglMyROKLIa.png" srcset="/img/loading.gif" lazyload alt="grep -n.png" /></p>
+</li>
+<li>
+<p>-w<br />
+  作用：匹配整个单词，字符串内出现的不匹配，word。<br />
+  在原来的文本上补加了一些内容用以演示，演示文本如下图所示：<br />
+<img src="https://s2.loli.net/2021/12/22/z8CVugykKlm3jDW.png" srcset="/img/loading.gif" lazyload alt="grep option test file2.png" /><br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/22/MVeg9XinhKbmp8H.png" srcset="/img/loading.gif" lazyload alt="grep -w.png" /></p>
+</li>
+<li>
+<p>-c<br />
+  作用：统计匹配到的行数，count。<br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/22/BivsRuxHTD4Fc75.png" srcset="/img/loading.gif" lazyload alt="grep -c.png" /></p>
+</li>
+<li>
+<p>-o<br />
+  作用：只显示匹配到的字符串，不显示其所在行的内容。<br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/22/2G1ietD6KTlsEfw.png" srcset="/img/loading.gif" lazyload alt="grep -o.png" /></p>
+</li>
+<li>
+<p>-Ax<br />
+  作用：输出匹配到内容所在行的后x行的内容，after x。<br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/22/aP2fjGeyrdRHVt7.png" srcset="/img/loading.gif" lazyload alt="grep -Ax.png" /></p>
+</li>
+<li>
+<p>-Bx<br />
+  作用：输出匹配到内容所在行的前x行的内容，before x。<br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/22/3SR7Fq9IuaXrt81.png" srcset="/img/loading.gif" lazyload alt="grep -Bx.png" /></p>
+</li>
+<li>
+<p>-Cx<br />
+  作用：输出匹配到内容所在行的前后x行的内容，context x。<br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/22/VQLbpYTBtfgrXw7.png" srcset="/img/loading.gif" lazyload alt="grep -Cx.png" /></p>
+</li>
+<li>
+<p>-e<br />
+  作用：实现多个匹配，相当于or。<br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/22/2QNHo4A6UgLjZdP.png" srcset="/img/loading.gif" lazyload alt="grep -e.png" /></p>
+</li>
+<li>
+<p>-q<br />
+  作用：安静模式，只关心结果，即有没有匹配到。匹配到为0，匹配不到为1，文件有误为2，quiet。<br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/22/bF7aTqXPDpZiU45.png" srcset="/img/loading.gif" lazyload alt="grep -q.png" /></p>
+</li>
+</ul>
+<div class="note note-info">
+            <p>  注：如果在使用grep匹配关键字时，匹配到的关键字没高亮，可以通过在命令<code>grep --color=auto &quot;word&quot; file</code>中添加<code>--color=auto</code>来开启；也可以通过alias命令重申一下grep命令<code>alias &quot;grep=grep --color=auto&quot;</code>来达到效果。</p>
+          </div>
+<h3 id="pattern均为扩展正则表达式"><a class="markdownIt-Anchor" href="#pattern均为扩展正则表达式"></a> pattern（均为扩展正则表达式）:</h3>
+<p>以下示例所用文本均为下图所示：<br />
+<img src="https://s2.loli.net/2021/12/23/xZlKf47MLJDVo2j.png" srcset="/img/loading.gif" lazyload alt="re test file.png" /></p>
+<h4 id="单个字符匹配相关"><a class="markdownIt-Anchor" href="#单个字符匹配相关"></a> 单个字符匹配相关</h4>
+<ul>
+<li>
+<p>.<br />
+  作用：匹配<strong>任意</strong>的单个字符<br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/23/NMRckIXrfUnspwl.jpg" srcset="/img/loading.gif" lazyload alt="re ..jpg" /></p>
+</li>
+<li>
+<p>[  ]<br />
+  作用：匹配<strong>指定范围内</strong>的任意单个字符<br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/23/dMiYpb48Q9DtzCX.jpg" srcset="/img/loading.gif" lazyload alt="re   .jpg" /></p>
+</li>
+<li>
+<p>[^  ]<br />
+  作用：匹配<strong>指定范围外</strong>的任意单个字符<br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/23/fKPtF1Y7C4VH6AJ.jpg" srcset="/img/loading.gif" lazyload alt="re ^ .jpg" /></p>
+</li>
+<li>
+<p>[0-9] / [[:digit:]]<br />
+  作用：[0-9]和[[:digit:]]功能一样，匹配[0,9]间任意的单个数字<br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/23/q24p6arlHcwPbVZ.jpg" srcset="/img/loading.gif" lazyload alt="re 0-9.jpg" /></p>
+</li>
+<li>
+<p>[a-zA-z] / [[:alpha:]]<br />
+  作用：[a-zA-z]和[[:alpha:]]功能一样，匹配单个任意的大小写字母<br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/23/8R3hXU5GMNJqVel.jpg" srcset="/img/loading.gif" lazyload alt="re a-z.jpg" /></p>
+</li>
+<li>
+<p>[^0-9] / [^[:digit:]]<br />
+  作用：[^0-9]和[^[:digit:]]功能一样，匹配单个非数字字符<br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/23/oi6j8pNmBXruqVz.png" srcset="/img/loading.gif" lazyload alt="re  ^0-9.png" /></p>
+</li>
+</ul>
+<h4 id="次数匹配相关"><a class="markdownIt-Anchor" href="#次数匹配相关"></a> 次数匹配相关</h4>
+<ul>
+<li>
+<p>?<br />
+  作用：<strong>匹配其前面的字符0次或1次</strong><br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/23/XoTC6RLYDwqcHh1.jpg" srcset="/img/loading.gif" lazyload alt="re ?.jpg" /></p>
+</li>
+<li>
+<ul>
+<li></li>
+</ul>
+</li>
+</ul>
+<p>  作用：<strong>匹配其前面的字符至少1次</strong><br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/23/XWNkxrpv6AGcqE8.png" srcset="/img/loading.gif" lazyload alt="re +.png" /></p>
+<ul>
+<li>
+<p>*<br />
+  作用：<strong>匹配其前面的字符至少0次</strong><br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/23/wVLJ8mpWM1v7RFP.jpg" srcset="/img/loading.gif" lazyload alt="re .jpg" /></p>
+</li>
+<li>
+<p>{n}<br />
+  作用：<strong>匹配其前面的字符n次</strong><br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/23/oxlNqW4nOITgGcw.png" srcset="/img/loading.gif" lazyload alt="re {n}.png" /></p>
+</li>
+<li>
+<p>{n,}<br />
+  作用：<strong>匹配其前面的字符至少n次</strong><br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/23/Tz6QYKoABqPRLkh.png" srcset="/img/loading.gif" lazyload alt="re {n,}.png" /></p>
+</li>
+<li>
+<p>{,m}<br />
+在原来的文本上新增一行内容以体现演示效果，文本内容如下：<br />
+<img src="https://s2.loli.net/2021/12/23/gMywnzfhaqULSPD.png" srcset="/img/loading.gif" lazyload alt="re test file2.png" /><br />
+  作用：<strong>匹配其前面的字符至多m次，最少可以是0次</strong><br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/24/mcgXYvMiGquxR2o.png" srcset="/img/loading.gif" lazyload alt="re {,m}.png" /></p>
+</li>
+<li>
+<p>{n,m}<br />
+  作用：<strong>匹配其前面的字符至少n次，至多m次</strong><br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/24/4bJSjCD9xcA3BsN.png" srcset="/img/loading.gif" lazyload alt="re {n,m}.png" /></p>
+</li>
+</ul>
+<h4 id="位置匹配相关"><a class="markdownIt-Anchor" href="#位置匹配相关"></a> 位置匹配相关</h4>
+<ul>
+<li>
+<p>^<br />
+  作用：其后跟着的内容需位于<strong>行首</strong><br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/24/YnKjS8vP1mMouyU.png" srcset="/img/loading.gif" lazyload alt="re ^.png" /></p>
+</li>
+<li>
+<p>$<br />
+  作用：其前跟着的内容需位于<strong>行尾</strong><br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/24/pcQOKedIY2b8JgR.png" srcset="/img/loading.gif" lazyload alt="re $.png" /></p>
+</li>
+<li>
+<p>\&lt; / \b<br />
+  作用：其后跟着的内容需位于<strong>词首</strong><br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/24/GJUe9Cb4Qz5EOvj.png" srcset="/img/loading.gif" lazyload alt="re .png" /></p>
+</li>
+<li>
+<p>\&gt; / \b<br />
+  作用：其前跟着的内容需位于<strong>词尾</strong><br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/24/QgniJvzjoVLt6Ou.png" srcset="/img/loading.gif" lazyload alt="re .png" /><br />
+  若是将<code>\&lt;</code>和<code>\&gt;</code>同时作用于一单词上，表明它既是词首又是词尾，那其实它就是个独立的单词，示例如下；<br />
+<img src="https://s2.loli.net/2021/12/24/QTtz8hOxbeNp6Pj.png" srcset="/img/loading.gif" lazyload alt="re   .png" /></p>
+</li>
+<li>
+<p>\B<br />
+  作用：匹配非词首或非词尾的内容（具体看它放在单词前还是后）<br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/24/uPWpweh5NlyCQ7D.png" srcset="/img/loading.gif" lazyload alt="re .png" /></p>
+</li>
+</ul>
+<h4 id="分组和后向引用"><a class="markdownIt-Anchor" href="#分组和后向引用"></a> 分组和后向引用</h4>
+<p>  修改了演示文件以便于展示效果，新的演示文件如下：<br />
+<img src="https://s2.loli.net/2021/12/24/o35kyPu19tXMnxf.png" srcset="/img/loading.gif" lazyload alt="re test file3.png" /></p>
+<ul>
+<li>
+<p>()<br />
+  作用：分组内部的内容为一个<strong>整体</strong>，<strong>可嵌套</strong>使用<br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/24/gZmKzu1A87Jw2NG.png" srcset="/img/loading.gif" lazyload alt="re ().png" /></p>
+</li>
+<li>
+<p>\x<br />
+  作用：后向引用分组，<strong>匹配分组x相同的内容</strong><br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/24/g7usQXN2tjC1c4W.png" srcset="/img/loading.gif" lazyload alt="re .png" /></p>
+</li>
+</ul>
+<h4 id="其它"><a class="markdownIt-Anchor" href="#其它"></a> 其它</h4>
+<ul>
+<li>\<br />
+  作用：转义符<br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/24/4viCzfdm3DpGEwQ.png" srcset="/img/loading.gif" lazyload alt="re png" /></li>
+</ul>
+<div class="note note-info">
+            <p>  注:对需要转义的字符进行转义时，加上<code>\</code>即可，但若是对<code>\</code>本身进行转义，则需要使用<code>''</code>单引号而非双引号。</p>
+          </div>
+<ul>
+<li>
+<p>|<br />
+  作用：表示<strong>或</strong><br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/24/JEubgS23M96yzod.png" srcset="/img/loading.gif" lazyload alt="re |.png" /></p>
+</li>
+<li>
+<p>.*<br />
+  作用：类似<strong>通配符</strong>，可<strong>匹配任意字符的任意内容</strong><br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/24/w4pKLBOCUhEs2zk.png" srcset="/img/loading.gif" lazyload alt="re ..png" /></p>
+</li>
+<li>
+<p>^<span class='katex-error' title='ParseError: KaTeX parse error: Expected &#039;EOF&#039;, got &#039;&amp;&#039; at position 2: 
+&amp;̲nbsp;&amp;nbsp;作用：*…'>
+&amp;nbsp;&amp;nbsp;作用：**表示空行**
+&amp;nbsp;&amp;nbsp;演示如下：
+![re ^</span>.png](<a target="_blank" rel="noopener" href="https://s2.loli.net/2021/12/24/dgZPsM1vzIaRp28.png">https://s2.loli.net/2021/12/24/dgZPsM1vzIaRp28.png</a>)</p>
+</li>
+</ul>
+<h2 id="du"><a class="markdownIt-Anchor" href="#du"></a> du</h2>
+<p>  功能：查询磁盘目录下文件的大小 disk usage<br />
+  常用方式：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs markdown">du -h<br>查询当前目录下（递归查询）文件的大小，最后输出目录总大小，会以K，M，G的格式写明文件大小。<br>human readable<br></code></pre></td></tr></table></figure>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">du -s<br>查询当前目录下文件的总计大小，只输出总文件大小。 summarize<br></code></pre></td></tr></table></figure>
+<h2 id="df"><a class="markdownIt-Anchor" href="#df"></a> df</h2>
+<p>  功能：查询文件系统的使用情况 disk file system<br />
+  常用方式：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">df -h<br>查询当前盘符的使用情况，以人类可读的方式输出。human readable<br></code></pre></td></tr></table></figure>
+<h2 id="sort"><a class="markdownIt-Anchor" href="#sort"></a> sort</h2>
+<p>  功能：排序（一行一行排，默认按字典序排）<br />
+  基本格式：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs markdown">sort [option] file<br>默认升序<br></code></pre></td></tr></table></figure>
+<p>  option：<br />
+以下示例所用文本均为下图所示：<br />
+<img src="https://s2.loli.net/2021/12/24/O1rGviUWcuIhCzT.png" srcset="/img/loading.gif" lazyload alt="sort test file.png" /></p>
+<ul>
+<li>
+<p>-r<br />
+  作用：逆序输出 reverse<br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/24/bWrDHNRcu4SG8zv.png" srcset="/img/loading.gif" lazyload alt="sort -r.png" /></p>
+</li>
+<li>
+<p>-t组合-k<br />
+  作用：-t后跟着分隔符，用以将内容划分成列；-k后跟着数字，用以指明第几列<br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/24/nWiAF65eNqTg7yb.png" srcset="/img/loading.gif" lazyload alt="sort -t -k.png" /><br />
+  我们用空格作为分隔符，将其划分成三列，且取第二列作为排序的依据，当结果看起来好像排错了，其实没错，因为sort默认按照<strong>字典序</strong>排序，10&lt;4是因为利用ASCII码比较完首个字符后，就认为4&gt;10。可以通过后面的-n选项来用<strong>数值</strong>比较。<br />
+-t(field separator) -k(key)</p>
+</li>
+<li>
+<p>-n<br />
+  作用：按数值大小排序，默认是字典序，会出现10&lt;2的情况 numeric sort<br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/24/WPR2SwnajvdDu6y.png" srcset="/img/loading.gif" lazyload alt="sort -n.png" /><br />
+  我们可以看到，此可第二列是按照正常的升序进行的排序。</p>
+</li>
+<li>
+<p>-u<br />
+  作用：去除重复的行（不要求重复行相邻） unique<br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/24/lCtq8doRTQE9k1r.png" srcset="/img/loading.gif" lazyload alt="sort -u.png" /></p>
+</li>
+</ul>
+<h2 id="uniq"><a class="markdownIt-Anchor" href="#uniq"></a> uniq</h2>
+<p>  功能：去重（去掉<strong>连续</strong>的<strong>重复行</strong>），重复行需要相邻。<br />
+  基本格式：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs markdown">uniq [option]<br></code></pre></td></tr></table></figure>
+<p>  此处的演示文本依旧使用sort的文本。</p>
+<p>  option:</p>
+<ul>
+<li>
+<p>不带option时<br />
+  作用：去除重复的行（需要借助sort来将重复文本弄成相邻的行）<br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/24/7EVMi3va9GbDkpc.png" srcset="/img/loading.gif" lazyload alt="uniq default.png" /></p>
+</li>
+<li>
+<p>-c<br />
+  作用：统计行数，置于行首 count<br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/24/El2Jq9pPCvB8V76.png" srcset="/img/loading.gif" lazyload alt="uniq -c.png" /></p>
+</li>
+<li>
+<p>-u<br />
+  作用：不打印重复的行 unique(only print unique lines)<br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/24/Mk6S9rJUYcqFl53.png" srcset="/img/loading.gif" lazyload alt="uniq -u.png" /></p>
+</li>
+</ul>
+<h2 id="cut"><a class="markdownIt-Anchor" href="#cut"></a> cut</h2>
+<p>  功能：打印列<br />
+  基本格式：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs markdown">cut option file<br></code></pre></td></tr></table></figure>
+<p>  此处的演示文本依旧使用sort的文本。</p>
+<p>  option:</p>
+<ul>
+<li>-d -f<br />
+  作用：-d(delimiter)后跟着分隔符，-f后跟着数字用以选择是哪个域(field)<br />
+  演示如下：<br />
+<img src="https://s2.loli.net/2021/12/24/DjTCRkboBSQJty1.png" srcset="/img/loading.gif" lazyload alt="cut -d -f.png" /></li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/linux/">linux</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/12/21/Redis%E5%AD%A6%E4%B9%A0/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Redis学习</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/12/17/Vim%E7%9A%84%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8/">
+                        <span class="hidden-mobile">Vim的基础使用</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', function() {
+        var options = Object.assign(
+          {"clientID":"1db059241d978c80eecd","clientSecret":"fa4f54290b2645c1dd4af84d9241dcb8c3e8e637","repo":"ayyBlog","owner":"ayyha","admin":["ayyha"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
+          {
+            id: 'c207bee10eb199d7b1471fd11774dbf5'
+          }
+        )
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <!-- Baidu Analytics -->
+    <script defer>
+      var _hmt = _hmt || [];
+      (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?9c7ed39aa5906acb06d9f9cb7df236ae";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"display":{"position":"left","width":150,"height":300,"hOffset":30,"vOffset":-50,"superSample":2},"mobile":{"show":false},"react":{"opacityDefault":0.7,"opacityOnHover":0.2}});</script></body>
+</html>
