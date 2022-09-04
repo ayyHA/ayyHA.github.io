@@ -24,7 +24,7 @@
 <meta property="og:description" content="CV模型及论文学习">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-08-24T04:06:44.000Z">
-<meta property="article:modified_time" content="2022-09-04T10:10:07.575Z">
+<meta property="article:modified_time" content="2022-09-04T11:12:13.525Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Computer Vision">
 <meta name="twitter:card" content="summary_large_image">
@@ -292,8 +292,8 @@ Dropout有两种版本:</p>
 <li>Vanilla Dropout</li>
 <li>Inverted Dropout<br />
 两者的区别在于<strong>放缩</strong>的顺序,一个是在inference的时候进行放缩,一个是在train的时候放缩.后者相较于前者的优势在于不必在predict的时候频繁调整结果(要放缩).<br />
-Inverted版本需要在输入序列与概率序列相乘后进行放缩,设p为丢弃概率,则需对相乘后的序列乘上$ \frac{1}{1-p} <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo separator="true">,</mo><mtext>而这个放缩后的序列也会体现在反向传播的梯度中</mtext><mi mathvariant="normal">.</mi><mtext>之所以要进行放缩</mtext><mo separator="true">,</mo><mtext>是因为此刻我丢弃了</mtext><mi>p</mi></mrow><annotation encoding="application/x-tex">,而这个放缩后的序列也会体现在反向传播的梯度中.
-之所以要进行放缩,是因为此刻我丢弃了p%的数据,那么整体的规模缩小了(1-p)%,则需要放大</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord cjk_fallback">而</span><span class="mord cjk_fallback">这</span><span class="mord cjk_fallback">个</span><span class="mord cjk_fallback">放</span><span class="mord cjk_fallback">缩</span><span class="mord cjk_fallback">后</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">序</span><span class="mord cjk_fallback">列</span><span class="mord cjk_fallback">也</span><span class="mord cjk_fallback">会</span><span class="mord cjk_fallback">体</span><span class="mord cjk_fallback">现</span><span class="mord cjk_fallback">在</span><span class="mord cjk_fallback">反</span><span class="mord cjk_fallback">向</span><span class="mord cjk_fallback">传</span><span class="mord cjk_fallback">播</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">梯</span><span class="mord cjk_fallback">度</span><span class="mord cjk_fallback">中</span><span class="mord">.</span><span class="mord cjk_fallback">之</span><span class="mord cjk_fallback">所</span><span class="mord cjk_fallback">以</span><span class="mord cjk_fallback">要</span><span class="mord cjk_fallback">进</span><span class="mord cjk_fallback">行</span><span class="mord cjk_fallback">放</span><span class="mord cjk_fallback">缩</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord cjk_fallback">是</span><span class="mord cjk_fallback">因</span><span class="mord cjk_fallback">为</span><span class="mord cjk_fallback">此</span><span class="mord cjk_fallback">刻</span><span class="mord cjk_fallback">我</span><span class="mord cjk_fallback">丢</span><span class="mord cjk_fallback">弃</span><span class="mord cjk_fallback">了</span><span class="mord mathnormal">p</span></span></span></span> \frac{1}{1-p} $倍.</li>
+Inverted版本需要在输入序列与概率序列相乘后进行放缩,设p为丢弃概率,则需对相乘后的序列乘上 $ \frac{1}{1-p} $ ,而这个放缩后的序列也会体现在反向传播的梯度中.<br />
+之所以要进行放缩,是因为此刻我丢弃了p%的数据,那么整体的规模缩小了(1-p)%,则需要放大 $ \frac{1}{1-p} $ 倍.</li>
 </ul>
 <h2 id="pose-guided-feature-disentangling-for-occluded-person-re-identification-based-on-transformer"><a class="markdownIt-Anchor" href="#pose-guided-feature-disentangling-for-occluded-person-re-identification-based-on-transformer"></a> Pose-guided Feature Disentangling for Occluded Person Re-identification Based on Transformer</h2>
 <p>  本文名词解释:</p>
