@@ -26,8 +26,9 @@
 <meta property="og:image" content="http://qny.ayyha.store/attention-multi-semantic-model.png">
 <meta property="og:image" content="http://qny.ayyha.store/transformer_arch.png">
 <meta property="og:image" content="http://qny.ayyha.store/transformer-input-embedding.png">
+<meta property="og:image" content="http://qny.ayyha.store/self-attention-process.png">
 <meta property="article:published_time" content="2022-10-02T12:56:02.000Z">
-<meta property="article:modified_time" content="2022-10-02T18:49:52.913Z">
+<meta property="article:modified_time" content="2022-10-02T19:04:05.921Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="transformer">
 <meta property="article:tag" content="attention">
@@ -203,7 +204,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.4k 字
+      2.7k 字
     </span>
   
 
@@ -212,7 +213,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      7 分钟
+      9 分钟
     </span>
   
 
@@ -245,7 +246,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2 分钟前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -302,6 +303,14 @@ RNN亦可以实现<strong>1对N</strong> 或是 <strong>N对1</strong></p>
 <h3 id="self-attention"><a class="markdownIt-Anchor" href="#self-attention"></a> self-attention</h3>
 <p>self-attention是attention中的一个特例<br />
 我们知道attention是找两个句子间的词间关系,而<strong>self-attention找的是一个句子间的词间关系</strong>(也可以理解为两个相同的句子)</p>
+<p>从transformer_arch的图可以看出<strong>Multi-Head Attention</strong>在整个过程中起了极大作用,是核心模型,图中的Multi-Head Attention,其实里面就是由多个self-attention组成(论文里是8个)</p>
+<p>因此我们需要关注self-attention的工作机制</p>
+<p>self-attention的工作过程如下图所示:<br />
+<img src="http://qny.ayyha.store/self-attention-process.png" srcset="/img/loading.gif" lazyload alt="self-attention-process" /><br />
+可以看出,它有三个输入Q,K,V,分别代表的是Query,Key,Value,然后需要经过MatMul(矩阵相乘),Scale(数值放缩),Mask(掩码,Output时需要),Softmax(归一化)这些个过程.</p>
+<h4 id="获取qkv"><a class="markdownIt-Anchor" href="#获取qkv"></a> 获取Q,K,V</h4>
+<p>首先,输入到encoder里的是我们上面获得的<strong>表示矩阵X</strong><br />
+X通过与对应权重(一开始是随机生成的,后面梯度下降更新的)的矩阵:W<sub>Q</sub>,W<sub>K</sub>,W<sub>V</sub>相乘</p>
 <h3 id="encoder"><a class="markdownIt-Anchor" href="#encoder"></a> encoder</h3>
 <h3 id="decoder"><a class="markdownIt-Anchor" href="#decoder"></a> decoder</h3>
 
