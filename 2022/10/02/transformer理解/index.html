@@ -32,7 +32,7 @@
 <meta property="og:image" content="http://qny.ayyha.store/output%20of%20multi-head%20attention.png">
 <meta property="og:image" content="http://qny.ayyha.store/encoders-process.png">
 <meta property="article:published_time" content="2022-10-02T12:56:02.000Z">
-<meta property="article:modified_time" content="2022-10-02T19:59:16.228Z">
+<meta property="article:modified_time" content="2022-10-02T20:29:54.758Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="transformer">
 <meta property="article:tag" content="attention">
@@ -208,7 +208,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      3.7k 字
+      4.3k 字
     </span>
   
 
@@ -217,7 +217,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      12 分钟
+      13 分钟
     </span>
   
 
@@ -353,10 +353,28 @@ M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">�
 </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">m</span><span class="mord mathnormal">a</span><span class="mord mathnormal">x</span><span class="mopen">(</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span></p>
 <p>最后输出的维度与X表示矩阵的一致</p>
 <h3 id="encoders"><a class="markdownIt-Anchor" href="#encoders"></a> Encoders</h3>
-<p>Encoders就是将多个encoder线性连接了起来,前者的输出作为后者的输入,重复六次,则得出最终的输出,其维度与X的一致<br />
+<p>Encoders就是将多个encoder线性连接了起来,前者的输出作为后者的输入,重复六次,则得出最终的输出<strong>编码信息矩阵</strong>,其维度与X的一致<br />
 过程见图所示:<br />
 <img src="http://qny.ayyha.store/encoders-process.png" srcset="/img/loading.gif" lazyload alt="Encoders-process" /></p>
 <h3 id="decoder"><a class="markdownIt-Anchor" href="#decoder"></a> decoder</h3>
+<p>decoder相较于encoder,它有如下差别:</p>
+<ul>
+<li>首个Multi-Head Attention有Masked掩码操作;</li>
+<li>第二个多头注意力机制,K,V源于Encoders的输出的编码信息矩阵,Q则是源于上一个含掩码的输出;</li>
+</ul>
+<h4 id="关于masked-multi-head-attention"><a class="markdownIt-Anchor" href="#关于masked-multi-head-attention"></a> 关于Masked Multi-Head Attention</h4>
+<p>所谓的Masked指的是:翻译的时候是顺推的,即翻译出了第i个单词后,才会进行第i+1个单词的翻译,那么在翻译第i个单词的时候,就需要将第i+1个单词及之后的信息进行遮掩</p>
+<p>需注意:</p>
+<ul>
+<li>在training阶段时,我们采用的是teacher force的策略,就是在每一轮(i)的预测的时候,不采用上一轮(i-1)的输出,而是直接采用正确答案,因为是训练,所以有答案,所以可以做并行;</li>
+<li>在predict阶段,没有答案,需要类似Seq2Seq的方法,即i轮预测需要i-1轮的输出,无法并行.循环往复,直至预测完毕</li>
+</ul>
+<p><strong>Mask操作,是在self-attention里的softmax前执行的</strong></p>
+<h4 id="关于第二个multi-head-attention"><a class="markdownIt-Anchor" href="#关于第二个multi-head-attention"></a> 关于第二个Multi-Head Attention</h4>
+<p>这个其实和普通的差不多,就是K,V来自于Encoders的编码信息矩阵</p>
+<h4 id="softmax预测"><a class="markdownIt-Anchor" href="#softmax预测"></a> softmax预测</h4>
+<p>根据最后输出的结果,我们的矩阵是含有掩码的,那么就是说:第0行的输出,只包含词0的信息,第二行,则包括词0,词1的信息.<br />
+因此softmax是根据输出矩阵的每一行预测下一个单词.</p>
 
             </div>
             <hr>
