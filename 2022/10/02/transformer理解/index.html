@@ -28,8 +28,10 @@
 <meta property="og:image" content="http://qny.ayyha.store/transformer-input-embedding.png">
 <meta property="og:image" content="http://qny.ayyha.store/self-attention-process.png">
 <meta property="og:image" content="http://qny.ayyha.store/QKV-compute.png">
+<meta property="og:image" content="http://qny.ayyha.store/multi-head%20attention.png">
+<meta property="og:image" content="http://qny.ayyha.store/output%20of%20multi-head%20attention.png">
 <meta property="article:published_time" content="2022-10-02T12:56:02.000Z">
-<meta property="article:modified_time" content="2022-10-02T19:14:48.139Z">
+<meta property="article:modified_time" content="2022-10-02T19:42:21.547Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="transformer">
 <meta property="article:tag" content="attention">
@@ -205,7 +207,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      3k 字
+      3.3k 字
     </span>
   
 
@@ -214,7 +216,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      9 分钟
+      10 分钟
     </span>
   
 
@@ -247,7 +249,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：3 分钟前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -329,7 +331,18 @@ H400000v40H845.2724
 s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
 c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
 M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.18278000000000005em;"><span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">Q</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413309999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">T</span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.93em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose">)</span><span class="mord mathnormal" style="margin-right:0.22222em;">V</span></span></span></span></span></p>
+<p>Q与K<sup>T</sup>相乘,得到的是n*n的矩阵(d<sub>K</sub>==d<sub>Q</sub>),那么这个矩阵的<strong>每一行代表的是该词语与别的词语的关注强度(相关性)</strong>,然后为了防止内积过大,则进行放缩,而后通过softmax以使得<strong>词语与词语间的关注强度更为明显</strong>,而后再乘于V,则得到最终的输出Z(n*d<sub>V</sub>)</p>
+<div class="note note-info">
+            <p>我认为Q,K,V三者的关系可以这么理解</p>
+          </div>
+<h4 id="multi-head-attention"><a class="markdownIt-Anchor" href="#multi-head-attention"></a> Multi-Head Attention</h4>
+<p>多头注意力机制,其实就是将上面的过程重复多几次(论文里8次),然后把各个小的Z矩阵拼接,与线性层计算得出最终的输出矩阵Z<br />
+具体过程见下图:<br />
+<img src="http://qny.ayyha.store/multi-head%20attention.png" srcset="/img/loading.gif" lazyload alt="multi-head attention" /><br />
+<img src="http://qny.ayyha.store/output%20of%20multi-head%20attention.png" srcset="/img/loading.gif" lazyload alt="output of multi-head attention" /></p>
+<p>至此,多头注意力机制介绍完毕</p>
 <h3 id="encoder"><a class="markdownIt-Anchor" href="#encoder"></a> encoder</h3>
+<p>我们知道</p>
 <h3 id="decoder"><a class="markdownIt-Anchor" href="#decoder"></a> decoder</h3>
 
             </div>
