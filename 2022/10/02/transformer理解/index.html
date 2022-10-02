@@ -31,7 +31,7 @@
 <meta property="og:image" content="http://qny.ayyha.store/multi-head%20attention.png">
 <meta property="og:image" content="http://qny.ayyha.store/output%20of%20multi-head%20attention.png">
 <meta property="article:published_time" content="2022-10-02T12:56:02.000Z">
-<meta property="article:modified_time" content="2022-10-02T19:42:21.547Z">
+<meta property="article:modified_time" content="2022-10-02T19:56:20.014Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="transformer">
 <meta property="article:tag" content="attention">
@@ -207,7 +207,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      3.3k 字
+      3.6k 字
     </span>
   
 
@@ -216,7 +216,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      10 分钟
+      11 分钟
     </span>
   
 
@@ -342,7 +342,15 @@ M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">�
 <img src="http://qny.ayyha.store/output%20of%20multi-head%20attention.png" srcset="/img/loading.gif" lazyload alt="output of multi-head attention" /></p>
 <p>至此,多头注意力机制介绍完毕</p>
 <h3 id="encoder"><a class="markdownIt-Anchor" href="#encoder"></a> encoder</h3>
-<p>我们知道</p>
+<p>我们知道,一个encoder里面,经过了Multi-Head Attention的洗礼后,要经过一个<strong>Add &amp; Norm</strong>的东东,而后再将输出经过Feed Forward NN,便完成了一个encoder的工作</p>
+<h4 id="add-norm"><a class="markdownIt-Anchor" href="#add-norm"></a> Add &amp; Norm</h4>
+<p>其实Add就是ResNet的<strong>shortcut connection</strong>,以防止gradient vanish或者说network degradation;</p>
+<p>然后Norm其实指的就是Layer Normalization,一个归一化的东东(<mark>这是用于RNN里的,与BN不同,是针对每个样本进行的</mark>),用于加快收敛(总之就是加快训练速度)</p>
+<h4 id="feed-forward"><a class="markdownIt-Anchor" href="#feed-forward"></a> Feed Forward</h4>
+<p>是一个两层的全连接层,公式如下(<mark>这个没细看</mark>):</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>m</mi><mi>a</mi><mi>x</mi><mo stretchy="false">(</mo><mn>0</mn><mo separator="true">,</mo><mi>X</mi><msub><mi>W</mi><mn>1</mn></msub><mo>+</mo><msub><mi>b</mi><mn>1</mn></msub><mo stretchy="false">)</mo><msub><mi>W</mi><mn>2</mn></msub><mo>+</mo><msub><mi>b</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">max(0,XW_1 + b_1)W_2 + b_2
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">m</span><span class="mord mathnormal">a</span><span class="mord mathnormal">x</span><span class="mopen">(</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span></p>
+<p>最后输出的维度与X表示矩阵的一致</p>
 <h3 id="decoder"><a class="markdownIt-Anchor" href="#decoder"></a> decoder</h3>
 
             </div>
