@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>transformer理解</title>
+    <link href="/2022/10/02/transformer%E7%90%86%E8%A7%A3/"/>
+    <url>/2022/10/02/transformer%E7%90%86%E8%A7%A3/</url>
+    
+    <content type="html"><![CDATA[<h2 id="什么是attention注意力机制"><a class="markdownIt-Anchor" href="#什么是attention注意力机制"></a> 什么是Attention(注意力机制)</h2><p>在提起Attention之前,因其涉及到encoder-decoder的设计思想,因此先从RNN-&gt;Seq2Seq做一个简单介绍,以理解Attention为何如此设计.</p><h3 id="rnn的一个例子"><a class="markdownIt-Anchor" href="#rnn的一个例子"></a> RNN的一个例子</h3><p>我们知道,RNN(循环神经网络),是可以帮助我们处理序列数据,如文本,语音.</p><p>例如,我们需要订票,那么&quot;我去A地&quot;和&quot;我离开A地&quot;,这两个A地分别指代的是不同的信息,一个是目的地,一个是始发地.若是用传统的神经网络难以处理此类问题,而RNN则可以很好的进行分类.</p><p>因为RNN对于处理文本信息时,每一个输入的词是<strong>自带了时序信息</strong>在里面的,而当前时刻的词,通过hidden layer,可以与前一时刻的词相关联(类似hidden markov model).</p><p>对输入的词进行编码,构建RNN,因为&quot;去&quot;和&quot;离开&quot;二词的编码信息不同,则最后计算出来的&quot;A地&quot;的得分也不同,因此便可以进行区分.</p><p><strong>这是一个&quot;N对N&quot;的例子</strong>,即输入序列的长度==输出序列的长度<br />RNN亦可以实现**“1对N&quot;<strong>或是</strong>&quot;N对1”**</p><p>那如果我们是做文本翻译或是QA系统,那么就会有&quot;N对M&quot;的情况,则需要用到Seq2Seq</p><h3 id="seq2seq的一个例子"><a class="markdownIt-Anchor" href="#seq2seq的一个例子"></a> Seq2Seq的一个例子</h3><p>上面说了,Seq2Seq可以处理&quot;N对M&quot;的情形,其结构又称为&quot;encoder-decoder&quot;模型</p><p>其本质就是利用了<strong>两个RNN</strong>(encoder和decoder都是)来做处理,decoder利用encoder生成的语义编码来做解码,有两种(我所知)使用形式:</p><ul><li>可以将语义编码作为decoder的初始状态</li><li><strong>可以将语义编码作为decoder每一个token的输入</strong></li></ul><p>很明显,若是将语义编码作为decoder每一个token输入的话(较前一个方法好),那么存在一个问题:所有待预测的token它们使用的都是一个语义编码,即没有针对性,没有做到focus each one.</p><p>因此就有attention注意力机制的出现.</p><h3 id="attention"><a class="markdownIt-Anchor" href="#attention"></a> Attention</h3><p>由上述可知,我们在对不同的词做翻译的时候,如&quot;机器学习&quot;-&gt;“machine learning”,并不是说&quot;机器&quot;,&quot;学习&quot;这两个词语对machine的翻译具有相同的贡献,因此不同贡献可以通过如权重的概念来进行体现.</p><p>那么这个&quot;贡献&quot;要怎么获得,即不同词语的权重影响要怎么实现?</p><p>先将这个问题放一边(假设我们有能力做到这一点),那么我们<strong>不同的贡献就可以对应不同语义模型</strong>,那么&quot;注意力&quot;的思想即得到了体现</p><p>回到&quot;贡献&quot;获得的问题,attention中的&quot;贡献&quot;:是输入的时候通过计算encoder和decoder对应token的余弦相似度来获得,然后每一个词有不同的值,通过softmax进行归一化,那么这就是一个语义模型.流程见下图:<br /><img src="http://qny.ayyha.store/attention-multi-semantic-model.png" alt="attention-model-semantic-model" /></p><h2 id="什么是transformer"><a class="markdownIt-Anchor" href="#什么是transformer"></a> 什么是transformer</h2><p>transformer是一个NLP任务的一个里程碑模型(刷新了多项任务的SOTA),而后被人运用到CV,如DETR(Detection Transformer),ViT(Vision Transformer,做分类的).</p><p>其中ViT在数据量足够大的情况下,可以达到甚至超过当时的SOTA(ViT基本是直接将transformer直接搬到CV上用的,没咋改,除了切图片以使其序列化)</p><p>因此可以看出transformer在CV领域也是大有作为.下面将先以NLP的transformer的释义进行模型解释.</p><h3 id="整体结构"><a class="markdownIt-Anchor" href="#整体结构"></a> 整体结构</h3><h3 id="输入"><a class="markdownIt-Anchor" href="#输入"></a> 输入</h3><h3 id="self-attention"><a class="markdownIt-Anchor" href="#self-attention"></a> self-attention</h3><h3 id="encoder"><a class="markdownIt-Anchor" href="#encoder"></a> encoder</h3><h3 id="decoder"><a class="markdownIt-Anchor" href="#decoder"></a> decoder</h3>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>transformer</tag>
+      
+      <tag>attention</tag>
+      
+      <tag>nlp</tag>
+      
+      <tag>cv</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>NUMA</title>
     <link href="/2022/09/29/NUMA/"/>
     <url>/2022/09/29/NUMA/</url>
