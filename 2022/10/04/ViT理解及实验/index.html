@@ -28,7 +28,7 @@
 <meta property="og:image" content="http://qny.ayyha.store/ViT-overview.png">
 <meta property="og:image" content="http://qny.ayyha.store/ViT%20Execution%20Process.png">
 <meta property="article:published_time" content="2022-10-04T03:03:17.000Z">
-<meta property="article:modified_time" content="2022-10-07T09:43:42.741Z">
+<meta property="article:modified_time" content="2022-10-07T09:53:27.461Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="transformer">
 <meta property="article:tag" content="cv">
@@ -202,7 +202,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      914 字
+      2k 字
     </span>
   
 
@@ -211,7 +211,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      3 分钟
+      6 分钟
     </span>
   
 
@@ -254,7 +254,7 @@
 <img src="http://qny.ayyha.store/ViT-Paper-Result.png" srcset="/img/loading.gif" lazyload alt="ViT-Paper-Result" /></p>
 <p>因此,本文将通过结构结合代码进行介绍,并于文末将采用与预训练好的模型应用于花分类数据集上进行实验.</p>
 <div class="note note-info">
-            <p>注:本文采用的是ViT-B/16模型进行解析,输入图片的shape是(224,224,3)</p>
+            <p>注:本文采用的是ViT-B/16模型进行解析,B-&gt;Base 16-&gt;patch size:16*16,输入图片的shape是(224,224,3)</p>
           </div>
 <p><img src="http://qny.ayyha.store/Details%20of%20ViT%20variants.png" srcset="/img/loading.gif" lazyload alt="Details of ViT variants" /></p>
 <p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2010.11929.pdf">原论文下载</a><br />
@@ -272,7 +272,8 @@
 <h4 id="patch-embedding"><a class="markdownIt-Anchor" href="#patch-embedding"></a> patch embedding</h4>
 <p>根据先前介绍的transformer的知识,我们输入的应该是token sequence,如由词向量组成的矩阵,row的个数表示词的个数,column宽度表示词的dimension.<br />
 因此输入图片是不符合要求的,我们需要将图片处理成<strong>对应的序列</strong>才行.将图片切割成一小块一小块的patch,再将patches延展成一维的(获得patch_num),再将每个patch通过线性变换映射到对应的维度(patch_dim),即完成了patch embedding的过程.最终得到的参数为:[patch_num,patch_dim]<br />
-其实上述过程,用卷积的思想解释就是**kernel=16x16,stride=16 **</p>
+其实上述过程,用卷积的思想解释就是<strong>kernel=16x16,stride=16,采用768个卷积核进行卷积计算,即可以将[224,224,3]-&gt;[14,14,768]</strong>,然后再通过torch的flatten处理就可以得到[196,768]</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PatchEmbed</span>(<span class="hljs-params">nn.Module</span>):</span><br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    2D Image to Patch Embedding</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self, img_size=<span class="hljs-number">224</span>, patch_size=<span class="hljs-number">16</span>, in_c=<span class="hljs-number">3</span>, embed_dim=<span class="hljs-number">768</span>, norm_layer=<span class="hljs-literal">None</span></span>):</span><br>        <span class="hljs-built_in">super</span>().__init__()<br>        img_size = (img_size, img_size)<br>        patch_size = (patch_size, patch_size)<br>        self.img_size = img_size<br>        self.patch_size = patch_size<br>        self.grid_size = (img_size[<span class="hljs-number">0</span>] // patch_size[<span class="hljs-number">0</span>], img_size[<span class="hljs-number">1</span>] // patch_size[<span class="hljs-number">1</span>])<br>        self.num_patches = self.grid_size[<span class="hljs-number">0</span>] * self.grid_size[<span class="hljs-number">1</span>]<br><br>        self.proj = nn.Conv2d(in_c, embed_dim, kernel_size=patch_size, stride=patch_size)<br>        self.norm = norm_layer(embed_dim) <span class="hljs-keyword">if</span> norm_layer <span class="hljs-keyword">else</span> nn.Identity()<br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">forward</span>(<span class="hljs-params">self, x</span>):</span><br>        B, C, H, W = x.shape<br>        <span class="hljs-keyword">assert</span> H == self.img_size[<span class="hljs-number">0</span>] <span class="hljs-keyword">and</span> W == self.img_size[<span class="hljs-number">1</span>], \<br>            <span class="hljs-string">f&quot;Input image size (<span class="hljs-subst">&#123;H&#125;</span>*<span class="hljs-subst">&#123;W&#125;</span>) doesn&#x27;t match model (<span class="hljs-subst">&#123;self.img_size[<span class="hljs-number">0</span>]&#125;</span>*<span class="hljs-subst">&#123;self.img_size[<span class="hljs-number">1</span>]&#125;</span>).&quot;</span><br><br>        <span class="hljs-comment"># flatten: [B, C, H, W] -&gt; [B, C, HW]</span><br>        <span class="hljs-comment"># transpose: [B, C, HW] -&gt; [B, HW, C]</span><br>        x = self.proj(x).flatten(<span class="hljs-number">2</span>).transpose(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>)<br>        x = self.norm(x)<br>        <span class="hljs-keyword">return</span> x<br></code></pre></td></tr></table></figure>
 <h4 id="cls-token"><a class="markdownIt-Anchor" href="#cls-token"></a> CLS token</h4>
 <h4 id="positional-embedding"><a class="markdownIt-Anchor" href="#positional-embedding"></a> positional embedding</h4>
 <h3 id="encoder-block"><a class="markdownIt-Anchor" href="#encoder-block"></a> encoder block</h3>
