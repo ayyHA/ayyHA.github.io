@@ -4,6 +4,40 @@
   
   
   <entry>
+    <title>图像增强方法合集</title>
+    <link href="/2022/10/06/%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%BC%BA%E6%96%B9%E6%B3%95%E5%90%88%E9%9B%86/"/>
+    <url>/2022/10/06/%E5%9B%BE%E5%83%8F%E5%A2%9E%E5%BC%BA%E6%96%B9%E6%B3%95%E5%90%88%E9%9B%86/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>ViT理解及实验</title>
+    <link href="/2022/10/04/ViT%E7%90%86%E8%A7%A3%E5%8F%8A%E5%AE%9E%E9%AA%8C/"/>
+    <url>/2022/10/04/ViT%E7%90%86%E8%A7%A3%E5%8F%8A%E5%AE%9E%E9%AA%8C/</url>
+    
+    <content type="html"><![CDATA[<h2 id="引言"><a class="markdownIt-Anchor" href="#引言"></a> 引言</h2><p>ViT(Vision Transformer),是ICLR 2021上的一篇<strong>AN IMAGE IS WORTH 16x16 WORDS:TRANSFORMER FOR IMAGE RECOGNITION AT SCALE</strong>论文里提及的模型,将<strong>transformer应用于image classification</strong>上,并在Google的JFT-300M数据集进行预训练后,在ImageNet-1k上做分类达到当时的SOTA!<br /><img src="http://qny.ayyha.store/ViT-Paper-Result.png" alt="ViT-Paper-Result" /></p><p>因此,本文将通过结构结合代码进行介绍,并于文末将采用与预训练好的模型应用于花分类数据集上进行实验.<br /><a href="https://arxiv.org/pdf/2010.11929.pdf">原论文下载</a><br /><a href="https://storage.googleapis.com/download.tensorflow.org/example_images/flower_photos.tgz">花分类数据集下载</a></p><h2 id="vit整体结构"><a class="markdownIt-Anchor" href="#vit整体结构"></a> ViT整体结构</h2><p>首先看下ViT的整体结构图:<br /><img src="http://qny.ayyha.store/ViT-overview.png" alt="ViT-overview" /><br />根据先前介绍的transformer的知识,可以知道</p><h3 id="patch-embedding"><a class="markdownIt-Anchor" href="#patch-embedding"></a> patch embedding</h3><h3 id="encoder-block"><a class="markdownIt-Anchor" href="#encoder-block"></a> encoder block</h3><h3 id="mlp-block"><a class="markdownIt-Anchor" href="#mlp-block"></a> MLP block</h3><h3 id="mlp-head"><a class="markdownIt-Anchor" href="#mlp-head"></a> MLP HEAD</h3><h2 id="vit实验"><a class="markdownIt-Anchor" href="#vit实验"></a> ViT实验</h2><h2 id="vit与传统cnn的差异"><a class="markdownIt-Anchor" href="#vit与传统cnn的差异"></a> ViT与传统CNN的差异</h2>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>transformer</tag>
+      
+      <tag>cv</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>transformer理解</title>
     <link href="/2022/10/02/transformer%E7%90%86%E8%A7%A3/"/>
     <url>/2022/10/02/transformer%E7%90%86%E8%A7%A3/</url>
@@ -16,11 +50,11 @@
       
       <tag>transformer</tag>
       
+      <tag>cv</tag>
+      
       <tag>attention</tag>
       
       <tag>nlp</tag>
-      
-      <tag>cv</tag>
       
     </tags>
     
