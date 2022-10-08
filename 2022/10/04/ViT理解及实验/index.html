@@ -26,9 +26,10 @@
 <meta property="og:image" content="http://qny.ayyha.store/ViT-Paper-Result.png">
 <meta property="og:image" content="http://qny.ayyha.store/Details%20of%20ViT%20variants.png">
 <meta property="og:image" content="http://qny.ayyha.store/ViT-overview.png">
+<meta property="og:image" content="http://qny.ayyha.store/ViT%20encoder%20block.png">
 <meta property="og:image" content="http://qny.ayyha.store/ViT%20Execution%20Process.png">
 <meta property="article:published_time" content="2022-10-04T03:03:17.000Z">
-<meta property="article:modified_time" content="2022-10-07T17:58:18.555Z">
+<meta property="article:modified_time" content="2022-10-08T08:28:49.503Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="transformer">
 <meta property="article:tag" content="cv">
@@ -202,7 +203,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.5k 字
+      2.6k 字
     </span>
   
 
@@ -244,7 +245,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：3 分钟前
+                  本文最后更新于：1 小时前
                 
               </p>
             
@@ -281,10 +282,13 @@
             <p>注: 代码中的类继承了nn.Module,这里面重写了魔法方法__call__,该方法里面调用了forward方法,因此子类重载forward可使得该方法通过<strong>类实例化对象如普通方法般调用</strong>.</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">patchEmbed = PatchEmbed(para1,para2,...)<br>x = torch.rand(B,C,H,W)<br>patchEmbed(x) <span class="hljs-comment"># 于此会调用__call__方法,因而调用自己重载后的forward方法</span><br></code></pre></td></tr></table></figure>
           </div>
 <h4 id="cls-token"><a class="markdownIt-Anchor" href="#cls-token"></a> CLS token</h4>
-<p>ViT中的分类采用的是Bert中的CLS的思想来进行的,因此我们的patchEmbedding需要变换成[196+1,768],即多出一行用于分类,这个参数由网络学习得到.其与patchEmbedding是concat的关系</p>
+<p>ViT中的分类采用的是Bert中的CLS的思想来进行的,因此我们的patchEmbedding需要变换成**[196+1,768]**,即多出一行用于分类,这个参数由网络学习得到.其与patchEmbedding是concat的关系</p>
 <h4 id="positional-embedding"><a class="markdownIt-Anchor" href="#positional-embedding"></a> positional embedding</h4>
-<p>在transformer里讲过,我们输入的序列</p>
+<p>在transformer里讲过,我们输入的序列缺乏位置信息,因此需要增加positional embedding来使得其位置信息得以保持.在代码中,我们的位置信息是通过模型训练获得的(nn.Parameter()),其与patch embedding是直接add的</p>
 <h3 id="encoder-block"><a class="markdownIt-Anchor" href="#encoder-block"></a> encoder block</h3>
+<p>流程如下图所示:<br />
+<img src="http://qny.ayyha.store/ViT%20encoder%20block.png" srcset="/img/loading.gif" lazyload alt="ViT Encoder Block" /><br />
+关于Multi-Head Attention层相关的部分</p>
 <h4 id="mlp-block"><a class="markdownIt-Anchor" href="#mlp-block"></a> MLP block</h4>
 <h3 id="mlp-head"><a class="markdownIt-Anchor" href="#mlp-head"></a> MLP HEAD</h3>
 <h2 id="vit执行流程"><a class="markdownIt-Anchor" href="#vit执行流程"></a> ViT执行流程</h2>
