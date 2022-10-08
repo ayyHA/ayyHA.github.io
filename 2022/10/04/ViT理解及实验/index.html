@@ -27,9 +27,10 @@
 <meta property="og:image" content="http://qny.ayyha.store/Details%20of%20ViT%20variants.png">
 <meta property="og:image" content="http://qny.ayyha.store/ViT-overview.png">
 <meta property="og:image" content="http://qny.ayyha.store/ViT%20encoder%20block.png">
+<meta property="og:image" content="http://qny.ayyha.store/MLP-HEAD.png">
 <meta property="og:image" content="http://qny.ayyha.store/ViT%20Execution%20Process.png">
 <meta property="article:published_time" content="2022-10-04T03:03:17.000Z">
-<meta property="article:modified_time" content="2022-10-08T10:16:59.351Z">
+<meta property="article:modified_time" content="2022-10-08T13:39:29.602Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="transformer">
 <meta property="article:tag" content="cv">
@@ -203,7 +204,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.7k 字
+      5.3k 字
     </span>
   
 
@@ -212,7 +213,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      8 分钟
+      17 分钟
     </span>
   
 
@@ -245,7 +246,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：1 小时前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -288,9 +289,18 @@
 <h3 id="encoder-block"><a class="markdownIt-Anchor" href="#encoder-block"></a> encoder block</h3>
 <p>流程如下图所示:<br />
 <img src="http://qny.ayyha.store/ViT%20encoder%20block.png" srcset="/img/loading.gif" lazyload alt="ViT Encoder Block" /><br />
-关于Multi-Head Attention层相关的部分</p>
+关于Multi-Head Attention层相关的部分跟transformer的一样,这里不赘述.以下是Multi-Head Attention的代码解析部分:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Attention</span>(<span class="hljs-params">nn.Module</span>):</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self,</span></span><br><span class="hljs-params"><span class="hljs-function">                 dim,   <span class="hljs-comment"># 输入token的dim(768)</span></span></span><br><span class="hljs-params"><span class="hljs-function">                 num_heads=<span class="hljs-number">8</span>, <span class="hljs-comment"># 有几个头(multi的head)</span></span></span><br><span class="hljs-params"><span class="hljs-function">                 qkv_bias=<span class="hljs-literal">False</span>, <span class="hljs-comment"># 偏移量</span></span></span><br><span class="hljs-params"><span class="hljs-function">                 qk_scale=<span class="hljs-literal">None</span>, <span class="hljs-comment"># 放缩量</span></span></span><br><span class="hljs-params"><span class="hljs-function">                 attn_drop_ratio=<span class="hljs-number">0.</span>, <span class="hljs-comment"># attention公式执行完后的dropout比例</span></span></span><br><span class="hljs-params"><span class="hljs-function">                 proj_drop_ratio=<span class="hljs-number">0.</span></span>):</span> <span class="hljs-comment"># 一个encoder block执行完后的drop比例 </span><br>        <span class="hljs-built_in">super</span>(Attention, self).__init__()<br>        self.num_heads = num_heads<br>        head_dim = dim // num_heads <span class="hljs-comment"># 每个头对应的维度</span><br>        self.scale = qk_scale <span class="hljs-keyword">or</span> head_dim ** -<span class="hljs-number">0.5</span><br>        self.qkv = nn.Linear(dim, dim * <span class="hljs-number">3</span>, bias=qkv_bias) <span class="hljs-comment"># 将QKV三个一次性一起生成</span><br>        self.attn_drop = nn.Dropout(attn_drop_ratio)<br>        self.proj = nn.Linear(dim, dim)<br>        self.proj_drop = nn.Dropout(proj_drop_ratio)<br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">forward</span>(<span class="hljs-params">self, x</span>):</span><br>        <span class="hljs-comment"># [batch_size, num_patches + 1, total_embed_dim]</span><br>        B, N, C = x.shape<br><br>        <span class="hljs-comment"># qkv(): -&gt; [batch_size, num_patches + 1, 3 * total_embed_dim] QKV三个矩阵一起的(相当于沿列方向concat,[B,196,768*3])</span><br>        <span class="hljs-comment"># reshape: -&gt; [batch_size, num_patches + 1, 3, num_heads, embed_dim_per_head] </span><br>        <span class="hljs-comment"># permute: -&gt; [3, batch_size, num_heads, num_patches + 1, embed_dim_per_head] Q,K,V三个矩阵分出来,并且将其各分成num_heads个小矩阵</span><br>        qkv = self.qkv(x).reshape(B, N, <span class="hljs-number">3</span>, self.num_heads, C // self.num_heads).permute(<span class="hljs-number">2</span>, <span class="hljs-number">0</span>, <span class="hljs-number">3</span>, <span class="hljs-number">1</span>, <span class="hljs-number">4</span>)<br>        <span class="hljs-comment"># [batch_size, num_heads, num_patches + 1, embed_dim_per_head]</span><br>        q, k, v = qkv[<span class="hljs-number">0</span>], qkv[<span class="hljs-number">1</span>], qkv[<span class="hljs-number">2</span>]  <span class="hljs-comment"># make torchscript happy (cannot use tensor as tuple)</span><br><br>        <span class="hljs-comment"># transpose: -&gt; [batch_size, num_heads, embed_dim_per_head, num_patches + 1]</span><br>        <span class="hljs-comment"># @: multiply -&gt; [batch_size, num_heads, num_patches + 1, num_patches + 1] 集体做矩阵乘</span><br>        attn = (q @ k.transpose(-<span class="hljs-number">2</span>, -<span class="hljs-number">1</span>)) * self.scale<br>        attn = attn.softmax(dim=-<span class="hljs-number">1</span>) <span class="hljs-comment"># 对行向量做softmax</span><br>        attn = self.attn_drop(attn)<br><br>        <span class="hljs-comment"># @: multiply -&gt; [batch_size, num_heads, num_patches + 1, embed_dim_per_head] </span><br>        <span class="hljs-comment"># transpose: -&gt; [batch_size, num_patches + 1, num_heads, embed_dim_per_head]</span><br>        <span class="hljs-comment"># reshape: -&gt; [batch_size, num_patches + 1, total_embed_dim]</span><br>        x = (attn @ v).transpose(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>).reshape(B, N, C)<br>        x = self.proj(x) <span class="hljs-comment"># 相当于拼接好后的Z矩阵与W^O矩阵相乘</span><br>        x = self.proj_drop(x)<br>        <span class="hljs-keyword">return</span> x<br></code></pre></td></tr></table></figure>
+<div class="note note-info">
+            <p>nn.Linear()就是全连接,对x.shape的最后一个维度最连接操作,也可以将其理解为矩阵乘,其参数由训练迭代更新(源码中将其加入了nn.Parameter()中)<br />nn.Droupout()防止过拟合,参数表示不被激活的神经元的占比<br />@-&gt;矩阵乘 *-&gt;矩阵点乘(又或者说逐向量内积)</p>
+          </div>
 <h4 id="mlp-block"><a class="markdownIt-Anchor" href="#mlp-block"></a> MLP block</h4>
+<p>从上方ViT Encoder Block的图中可以看出,MLP是由两层全连接层和GELU激活函数构成,第一层将其维度变为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>768</mn><mi>x</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">768x4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">7</span><span class="mord">6</span><span class="mord">8</span><span class="mord mathnormal">x</span><span class="mord">4</span></span></span></span>,第二层将其维度变回768(<mark>没搞明白为啥这样变</mark>).代码如下:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Mlp</span>(<span class="hljs-params">nn.Module</span>):</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self, in_features, hidden_features=<span class="hljs-literal">None</span>, out_features=<span class="hljs-literal">None</span>, act_layer=nn.GELU, drop=<span class="hljs-number">0.</span></span>):</span><br>        <span class="hljs-built_in">super</span>().__init__()<br>        out_features = out_features <span class="hljs-keyword">or</span> in_features<br>        hidden_features = hidden_features <span class="hljs-keyword">or</span> in_features<br>        self.fc1 = nn.Linear(in_features, hidden_features) <span class="hljs-comment"># hidden_features == 4*in_features</span><br>        self.act = act_layer()<br>        self.fc2 = nn.Linear(hidden_features, out_features) <span class="hljs-comment"># out_features == in_features</span><br>        self.drop = nn.Dropout(drop)<br><br>		<span class="hljs-comment"># 按照上述流程图的顺序执行的</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">forward</span>(<span class="hljs-params">self, x</span>):</span><br>        x = self.fc1(x)<br>        x = self.act(x)<br>        x = self.drop(x)<br>        x = self.fc2(x)<br>        x = self.drop(x)<br>        <span class="hljs-keyword">return</span> x<br></code></pre></td></tr></table></figure>
 <h3 id="mlp-head"><a class="markdownIt-Anchor" href="#mlp-head"></a> MLP HEAD</h3>
+<p>切片,取第0行的向量(CLS),然后做全连接,流程如下图所示<br />
+<img src="http://qny.ayyha.store/MLP-HEAD.png" srcset="/img/loading.gif" lazyload alt="MLP-HEAD" /><br />
+关于上面的Pre-Logits,在ImageNet-1K无需用到,直接设置为None;在ImageNet-21K里用到了,就是一个全连接层+tanh激活函数</p>
 <h2 id="vit执行流程"><a class="markdownIt-Anchor" href="#vit执行流程"></a> ViT执行流程</h2>
 <p>详见下图,图片源于B站UP主:霹雳吧啦Wz<br />
 <img src="http://qny.ayyha.store/ViT%20Execution%20Process.png" srcset="/img/loading.gif" lazyload alt="ViT Execution Process" /></p>
