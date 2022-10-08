@@ -32,7 +32,7 @@
 <meta property="og:image" content="http://qny.ayyha.store/output%20of%20multi-head%20attention.png">
 <meta property="og:image" content="http://qny.ayyha.store/encoders-process.png">
 <meta property="article:published_time" content="2022-10-02T12:56:02.000Z">
-<meta property="article:modified_time" content="2022-10-08T09:54:06.846Z">
+<meta property="article:modified_time" content="2022-10-08T10:12:44.727Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="transformer">
 <meta property="article:tag" content="cv">
@@ -250,7 +250,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：4 分钟前
+                  本文最后更新于：1 分钟前
                 
               </p>
             
@@ -285,6 +285,7 @@ RNN亦可以实现<strong>1对N</strong> 或是 <strong>N对1</strong></p>
 <p>其中ViT在数据量足够大的情况下,可以达到甚至超过当时的SOTA(ViT基本是直接将transformer直接搬到CV上用的,没咋改,除了切图片以使其序列化)</p>
 <p>因此可以看出transformer在CV领域也是大有作为.下面将先以NLP的transformer的释义进行模型解释.</p>
 <p>此外,transformer在NLP机器翻译中的一大特点是它可以并行处理(<mark>存疑:我认为只局限于training阶段</mark>),即对单词的翻译不必由一个去预测下一个</p>
+<p>原论文链接:<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1706.03762.pdf">Attention Is All You Need</a></p>
 <h3 id="整体结构"><a class="markdownIt-Anchor" href="#整体结构"></a> 整体结构</h3>
 <p><img src="http://qny.ayyha.store/transformer_arch.png" srcset="/img/loading.gif" lazyload alt="transformerarch" /></p>
 <p>由上图可见,我们的transformer整体也是分为encoder-decoder结构的</p>
@@ -345,13 +346,13 @@ M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">�
 <p>由上述公式可以看出,我们的d<sub>K</sub>是经过划分的,若不划分,那么即是在h=1的情况下,d<sub>K</sub>= d<sub>V</sub> = d<sub>model</sub>,则经过Scaled Dot-Production Attention后的Z,其主对角线的值总是最大的(就是过于关注自身的问题),因此,通过多头机制,对Q,K,V的列的维度进行划分,以减弱这种影响!公式如下:</p>
 <p class='katex-block katex-error' title='ParseError: KaTeX parse error: No such environment: split at position 7: \begin{̲s̲p̲l̲i̲t̲}̲\begin{align}Mu…'>\begin{split}\begin{align}MultiHead(Q,K,V) &amp;= Concat(head_1,...,head_h)W^O \\where \quad head_i &amp;= Attention(QW_i^Q,KW_i^K,VW_i^V)\end{align}\end{split}
 </p>
-<p>我们划分将Q,K,V划分成八个(8个h),对它们可以并行做计算,然后最后会得到八个Z<sub>i</sub>(i∈[0,7]),对它们进行concat(合并后的维度与X一致),然后与W<sub>O</sub>矩阵进行相乘即得出对应输出,输出矩阵维度与表示矩阵维度X一致</p>
+<p>我们划分将Q,K,V划分成八个(8个h),对它们可以并行做计算,然后最后会得到八个Z<sub>i</sub>(i∈[0,7]),对它们进行concat(合并后的维度与X一致),然后与W<sup>O</sup>矩阵进行相乘即得出对应输出,输出矩阵维度与表示矩阵维度X一致</p>
 <p>具体过程见下图:<br />
 <img src="http://qny.ayyha.store/multi-head%20attention.png" srcset="/img/loading.gif" lazyload alt="multi-head attention" /><br />
 <img src="http://qny.ayyha.store/output%20of%20multi-head%20attention.png" srcset="/img/loading.gif" lazyload alt="output of multi-head attention" /></p>
 <p>至此,多头注意力机制介绍完毕</p>
-<h3 id="encoder"><a class="markdownIt-Anchor" href="#encoder"></a> encoder</h3>
-<p>我们知道,一个encoder里面,经过了Multi-Head Attention的洗礼后,要经过一个<strong>Add &amp; Norm</strong>的东东,而后再将输出经过Feed Forward NN,便完成了一个encoder的工作</p>
+<h3 id="encoder-block"><a class="markdownIt-Anchor" href="#encoder-block"></a> encoder block</h3>
+<p>我们知道,一个encoder block里面,经过了Multi-Head Attention的洗礼后,要经过一个<strong>Add &amp; Norm</strong>的东东,而后再将输出经过Feed Forward NN,便完成了一个encoder的工作</p>
 <h4 id="add-norm"><a class="markdownIt-Anchor" href="#add-norm"></a> Add &amp; Norm</h4>
 <p>其实Add就是ResNet的<strong>shortcut connection</strong>,以防止gradient vanish或者说network degradation;</p>
 <p>然后Norm其实指的就是Layer Normalization,一个归一化的东东(<mark>这是用于RNN里的,与BN不同,是针对每个样本进行的</mark>),用于加快收敛(总之就是加快训练速度)</p>
@@ -360,15 +361,15 @@ M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">�
 <p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>m</mi><mi>a</mi><mi>x</mi><mo stretchy="false">(</mo><mn>0</mn><mo separator="true">,</mo><mi>X</mi><msub><mi>W</mi><mn>1</mn></msub><mo>+</mo><msub><mi>b</mi><mn>1</mn></msub><mo stretchy="false">)</mo><msub><mi>W</mi><mn>2</mn></msub><mo>+</mo><msub><mi>b</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">max(0,XW_1 + b_1)W_2 + b_2
 </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">m</span><span class="mord mathnormal">a</span><span class="mord mathnormal">x</span><span class="mopen">(</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span></p>
 <p>最后输出的维度与X表示矩阵的一致</p>
-<h3 id="encoders"><a class="markdownIt-Anchor" href="#encoders"></a> Encoders</h3>
-<p>Encoders就是将多个encoder线性连接了起来,前者的输出作为后者的输入,重复六次,则得出最终的输出<strong>编码信息矩阵</strong>,其维度与X的一致<br />
+<h3 id="encoder"><a class="markdownIt-Anchor" href="#encoder"></a> Encoder</h3>
+<p>Encoder就是将多个encoder block线性连接了起来,前者的输出作为后者的输入,重复六次,则得出最终的输出<strong>编码信息矩阵</strong>,其维度与X的一致<br />
 过程见图所示:<br />
-<img src="http://qny.ayyha.store/encoders-process.png" srcset="/img/loading.gif" lazyload alt="Encoders-process" /></p>
-<h3 id="decoder"><a class="markdownIt-Anchor" href="#decoder"></a> decoder</h3>
-<p>decoder相较于encoder,它有如下差别:</p>
+<img src="http://qny.ayyha.store/encoders-process.png" srcset="/img/loading.gif" lazyload alt="encoder-process" /></p>
+<h3 id="decoder-block"><a class="markdownIt-Anchor" href="#decoder-block"></a> decoder block</h3>
+<p>decoder block相较于encoder block,它有如下差别:</p>
 <ul>
 <li>首个Multi-Head Attention有Masked掩码操作;</li>
-<li>第二个多头注意力机制,K,V源于Encoders的输出的编码信息矩阵,Q则是源于上一个含掩码的输出;</li>
+<li>第二个多头注意力机制,K,V源于encoder的输出的编码信息矩阵,Q则是源于上一个含掩码的输出;</li>
 </ul>
 <h4 id="关于masked-multi-head-attention"><a class="markdownIt-Anchor" href="#关于masked-multi-head-attention"></a> 关于Masked Multi-Head Attention</h4>
 <p>所谓的Masked指的是:翻译的时候是顺推的,即翻译出了第i个单词后,才会进行第i+1个单词的翻译,那么在翻译第i个单词的时候,就需要将第i+1个单词及之后的信息进行遮掩</p>
@@ -379,7 +380,7 @@ M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">�
 </ul>
 <p><strong>Mask操作,是在self-attention里的softmax前执行的</strong></p>
 <h4 id="关于第二个multi-head-attention"><a class="markdownIt-Anchor" href="#关于第二个multi-head-attention"></a> 关于第二个Multi-Head Attention</h4>
-<p>这个其实和普通的差不多,就是K,V来自于Encoders的编码信息矩阵</p>
+<p>这个其实和普通的差不多,就是K,V来自于encoder的编码信息矩阵</p>
 <h4 id="softmax预测"><a class="markdownIt-Anchor" href="#softmax预测"></a> softmax预测</h4>
 <p>根据最后输出的结果,我们的矩阵是含有掩码的,那么就是说:第0行的输出,只包含词0的信息,第二行,则包括词0,词1的信息.<br />
 因此softmax是根据输出矩阵的每一行预测下一个单词.</p>
