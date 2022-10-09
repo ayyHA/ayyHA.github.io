@@ -29,8 +29,13 @@
 <meta property="og:image" content="http://qny.ayyha.store/ViT%20encoder%20block.png">
 <meta property="og:image" content="http://qny.ayyha.store/MLP-HEAD.png">
 <meta property="og:image" content="http://qny.ayyha.store/ViT%20Execution%20Process.png">
+<meta property="og:image" content="http://qny.ayyha.store/representation%20structure%20of%20ViTs%20and%20CNN.png">
+<meta property="og:image" content="http://qny.ayyha.store/representation%20structure%20between%20ViTs%20and%20CNN.png">
+<meta property="og:image" content="http://qny.ayyha.store/Local%20and%20Global%20information%20that%20ViT%20learned.png">
+<meta property="og:image" content="http://qny.ayyha.store/Local%20and%20Global%20information%20which%20no%20pretrained%20ViT%20learned.png">
+<meta property="og:image" content="http://qny.ayyha.store/Local%20and%20Global%20ViTs%20Representations%20compared%20to%20ResNets.png">
 <meta property="article:published_time" content="2022-10-04T03:03:17.000Z">
-<meta property="article:modified_time" content="2022-10-08T13:39:29.602Z">
+<meta property="article:modified_time" content="2022-10-09T13:16:46.406Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="transformer">
 <meta property="article:tag" content="cv">
@@ -204,7 +209,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      5.3k 字
+      7.1k 字
     </span>
   
 
@@ -213,7 +218,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      17 分钟
+      22 分钟
     </span>
   
 
@@ -246,7 +251,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：23 分钟前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -292,7 +297,7 @@
 关于Multi-Head Attention层相关的部分跟transformer的一样,这里不赘述.以下是Multi-Head Attention的代码解析部分:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Attention</span>(<span class="hljs-params">nn.Module</span>):</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self,</span></span><br><span class="hljs-params"><span class="hljs-function">                 dim,   <span class="hljs-comment"># 输入token的dim(768)</span></span></span><br><span class="hljs-params"><span class="hljs-function">                 num_heads=<span class="hljs-number">8</span>, <span class="hljs-comment"># 有几个头(multi的head)</span></span></span><br><span class="hljs-params"><span class="hljs-function">                 qkv_bias=<span class="hljs-literal">False</span>, <span class="hljs-comment"># 偏移量</span></span></span><br><span class="hljs-params"><span class="hljs-function">                 qk_scale=<span class="hljs-literal">None</span>, <span class="hljs-comment"># 放缩量</span></span></span><br><span class="hljs-params"><span class="hljs-function">                 attn_drop_ratio=<span class="hljs-number">0.</span>, <span class="hljs-comment"># attention公式执行完后的dropout比例</span></span></span><br><span class="hljs-params"><span class="hljs-function">                 proj_drop_ratio=<span class="hljs-number">0.</span></span>):</span> <span class="hljs-comment"># 一个encoder block执行完后的drop比例 </span><br>        <span class="hljs-built_in">super</span>(Attention, self).__init__()<br>        self.num_heads = num_heads<br>        head_dim = dim // num_heads <span class="hljs-comment"># 每个头对应的维度</span><br>        self.scale = qk_scale <span class="hljs-keyword">or</span> head_dim ** -<span class="hljs-number">0.5</span><br>        self.qkv = nn.Linear(dim, dim * <span class="hljs-number">3</span>, bias=qkv_bias) <span class="hljs-comment"># 将QKV三个一次性一起生成</span><br>        self.attn_drop = nn.Dropout(attn_drop_ratio)<br>        self.proj = nn.Linear(dim, dim)<br>        self.proj_drop = nn.Dropout(proj_drop_ratio)<br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">forward</span>(<span class="hljs-params">self, x</span>):</span><br>        <span class="hljs-comment"># [batch_size, num_patches + 1, total_embed_dim]</span><br>        B, N, C = x.shape<br><br>        <span class="hljs-comment"># qkv(): -&gt; [batch_size, num_patches + 1, 3 * total_embed_dim] QKV三个矩阵一起的(相当于沿列方向concat,[B,196,768*3])</span><br>        <span class="hljs-comment"># reshape: -&gt; [batch_size, num_patches + 1, 3, num_heads, embed_dim_per_head] </span><br>        <span class="hljs-comment"># permute: -&gt; [3, batch_size, num_heads, num_patches + 1, embed_dim_per_head] Q,K,V三个矩阵分出来,并且将其各分成num_heads个小矩阵</span><br>        qkv = self.qkv(x).reshape(B, N, <span class="hljs-number">3</span>, self.num_heads, C // self.num_heads).permute(<span class="hljs-number">2</span>, <span class="hljs-number">0</span>, <span class="hljs-number">3</span>, <span class="hljs-number">1</span>, <span class="hljs-number">4</span>)<br>        <span class="hljs-comment"># [batch_size, num_heads, num_patches + 1, embed_dim_per_head]</span><br>        q, k, v = qkv[<span class="hljs-number">0</span>], qkv[<span class="hljs-number">1</span>], qkv[<span class="hljs-number">2</span>]  <span class="hljs-comment"># make torchscript happy (cannot use tensor as tuple)</span><br><br>        <span class="hljs-comment"># transpose: -&gt; [batch_size, num_heads, embed_dim_per_head, num_patches + 1]</span><br>        <span class="hljs-comment"># @: multiply -&gt; [batch_size, num_heads, num_patches + 1, num_patches + 1] 集体做矩阵乘</span><br>        attn = (q @ k.transpose(-<span class="hljs-number">2</span>, -<span class="hljs-number">1</span>)) * self.scale<br>        attn = attn.softmax(dim=-<span class="hljs-number">1</span>) <span class="hljs-comment"># 对行向量做softmax</span><br>        attn = self.attn_drop(attn)<br><br>        <span class="hljs-comment"># @: multiply -&gt; [batch_size, num_heads, num_patches + 1, embed_dim_per_head] </span><br>        <span class="hljs-comment"># transpose: -&gt; [batch_size, num_patches + 1, num_heads, embed_dim_per_head]</span><br>        <span class="hljs-comment"># reshape: -&gt; [batch_size, num_patches + 1, total_embed_dim]</span><br>        x = (attn @ v).transpose(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>).reshape(B, N, C)<br>        x = self.proj(x) <span class="hljs-comment"># 相当于拼接好后的Z矩阵与W^O矩阵相乘</span><br>        x = self.proj_drop(x)<br>        <span class="hljs-keyword">return</span> x<br></code></pre></td></tr></table></figure>
 <div class="note note-info">
-            <p>nn.Linear()就是全连接,对x.shape的最后一个维度最连接操作,也可以将其理解为矩阵乘,其参数由训练迭代更新(源码中将其加入了nn.Parameter()中)<br />nn.Droupout()防止过拟合,参数表示不被激活的神经元的占比<br />@-&gt;矩阵乘 *-&gt;矩阵点乘(又或者说逐向量内积)</p>
+            <p>nn.Linear()就是全连接(如<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>=</mo><mi>x</mi><msup><mi>A</mi><mi>T</mi></msup><mo>+</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">y = xA^T + b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.924661em;vertical-align:-0.08333em;"></span><span class="mord mathnormal">x</span><span class="mord"><span class="mord mathnormal">A</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413309999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">T</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">b</span></span></span></span>,x是输入参数,可以是多维的,A是权重矩阵,b是偏置向量),对x.shape的最后一个维度最连接操作,也可以将其理解为矩阵乘,其参数由训练迭代更新(源码中将其加入了nn.Parameter()中)<br />nn.Droupout()防止过拟合,参数表示不被激活的神经元的占比<br />@-&gt;矩阵乘 *-&gt;矩阵点乘(又或者说逐向量内积)</p>
           </div>
 <h4 id="mlp-block"><a class="markdownIt-Anchor" href="#mlp-block"></a> MLP block</h4>
 <p>从上方ViT Encoder Block的图中可以看出,MLP是由两层全连接层和GELU激活函数构成,第一层将其维度变为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>768</mn><mi>x</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">768x4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">7</span><span class="mord">6</span><span class="mord">8</span><span class="mord mathnormal">x</span><span class="mord">4</span></span></span></span>,第二层将其维度变回768(<mark>没搞明白为啥这样变</mark>).代码如下:</p>
@@ -305,7 +310,40 @@
 <p>详见下图,图片源于B站UP主:霹雳吧啦Wz<br />
 <img src="http://qny.ayyha.store/ViT%20Execution%20Process.png" srcset="/img/loading.gif" lazyload alt="ViT Execution Process" /></p>
 <h2 id="vit实验"><a class="markdownIt-Anchor" href="#vit实验"></a> ViT实验</h2>
+<p>拿的别人的模型跑的,但是好像用CUDA的地方出了点问题,在调BUG,跑好了会摆上来</p>
 <h2 id="vit与传统cnn的差异"><a class="markdownIt-Anchor" href="#vit与传统cnn的差异"></a> ViT与传统CNN的差异</h2>
+<p>关于二者的差异在<strong>Do Vision Transformers See Like Convolutional Neural Networks</strong>这篇论文中进行了详细的比对.下面将对其结果和主要使用分析工具进行介绍</p>
+<p>原论文连接:<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2108.08810.pdf">Do Vision Transformers See Like Convolutional Neural Networks?</a><br />
+<mark>非常粗粒度的看了这篇论文</mark></p>
+<h3 id="主要分析工具"><a class="markdownIt-Anchor" href="#主要分析工具"></a> 主要分析工具</h3>
+<p>CKA(Centered Kernel Alignment),可用于<strong>计算神经网络表征(neural network representation)的相似度</strong>.可以用于计算<strong>同一模型不同层间的表征相似度</strong>,或者是<strong>不同模型间的层的表征相似度</strong>,具体计算公式不细说(<mark>主要是我没弄明白</mark>),知其定义即可理解该论文对ViT和ResNet间的差异性分析.</p>
+<h3 id="vit和resnet的比较"><a class="markdownIt-Anchor" href="#vit和resnet的比较"></a> ViT和ResNet的比较</h3>
+<h4 id="同一模型间的不同层级的表征相似性比较"><a class="markdownIt-Anchor" href="#同一模型间的不同层级的表征相似性比较"></a> 同一模型间的不同层级的表征相似性比较</h4>
+<p><img src="http://qny.ayyha.store/representation%20structure%20of%20ViTs%20and%20CNN.png" srcset="/img/loading.gif" lazyload alt="representation strcuture of ViTs and CNN" /><br />
+从上面这个图可以很清晰的看出来:<strong>ViT模型整体具有高度的表征相似性,而ResNet只是局部具有较高的表征相似性,如低层和高层,且lower layers和higher layers相似性很小</strong></p>
+<h4 id="不同模型间的对应层级的表征相似性比较"><a class="markdownIt-Anchor" href="#不同模型间的对应层级的表征相似性比较"></a> 不同模型间的对应层级的表征相似性比较</h4>
+<p><img src="http://qny.ayyha.store/representation%20structure%20between%20ViTs%20and%20CNN.png" srcset="/img/loading.gif" lazyload alt="representation structure between ViTs and CNN" /><br />
+从上面这个heatmap图可以看出来:ResNet中较多的较低层与ViT中较少的较低层具有相似性,但是在高层间(最高的那一片区域)二者相似性很低</p>
+<p>以上对模型自身及模型间的层与层的表征相似性的说明了:</p>
+<ul>
+<li><strong>ViT最高层对于ResNet来说,具有相当不同的表示</strong></li>
+<li><strong>ViT在较低层和较高层间的传播表示更为强烈</strong></li>
+<li><strong>ViT计算较低层表征的方式与ResNet较低层的不同</strong></li>
+</ul>
+<h4 id="层表征中的局部和全局信息"><a class="markdownIt-Anchor" href="#层表征中的局部和全局信息"></a> 层表征中的局部和全局信息</h4>
+<p>这个标题主要的意思就是,不同模型中<strong>低层和高层中学习到了的是什么样的信息,局部的或是全局的或是二者皆有</strong><br />
+因此这里的层表征主要指代的就是<strong>低层</strong>和<strong>高层</strong>的,于ViT而言就是最开始的encoder block和最后一次的encoder block<br />
+之于CNN而言,我们知道,它卷积其实受限于相邻的区域,即使stride有所调整,也是局部的(于低层而言,<mark>我觉得高层也是,某一块kernel对应的是一只猫的耳朵或是尾巴,其实也是局部信息</mark>)<br />
+以下是ViT的低层和高层部分的学习到的信息的图(注意,这里的Mean Distance是一种用单个头的注意力权重,就是之前说的Z<sub>i</sub>(i∈[0,15])来加权pixel distance(<mark>我觉得是对应patch的dimension</mark>),然后做平均得到的结果.大距离说明是全局信息,小距离说明是局部信息)<br />
+<img src="http://qny.ayyha.store/Local%20and%20Global%20information%20that%20ViT%20learned.png" srcset="/img/loading.gif" lazyload alt="Local and Global information that ViT learned" /><br />
+显而易见,<strong>encoder block在低层时,学到的既有局部信息也有全局信息,而高层的encoder block学习到的都是全局信息</strong>(<mark>个人认为就是自注意力机制脱离了邻域关注的问题,使得低层次也可以学习到全局的信息</mark>)</p>
+<p>当然,这只是说明ViT跟CNN学习方式不同,并非说局部信息不好的意思.论文里作者也用了没有pretrain的ViT,其效果很烂之余,也发现其压根没学到啥局部信息,反而印证了前期学习中局部信息的重要性,效果图如下:<br />
+<img src="http://qny.ayyha.store/Local%20and%20Global%20information%20which%20no%20pretrained%20ViT%20learned.png" srcset="/img/loading.gif" lazyload alt="Local and Global information which no pretrained ViT learned" /></p>
+<p>那么全局信息有啥用呢,作者通过对encoder block 1和2里面各自的16个head划分成多个子集,子集范围对应着[多数含局部信息的heads,多数含全局信息的heads],用这些子集和低层的ResNet计算CKA,得出下图:<br />
+<img src="http://qny.ayyha.store/Local%20and%20Global%20ViTs%20Representations%20compared%20to%20ResNets.png" srcset="/img/loading.gif" lazyload alt="Local and Global ViTs Representations compared to ResNets" /><br />
+结果显而易见,随着全局信息增多(即平均距离增大),基本上二者CKA单调递减<br />
+<mark>作者其实没明确给出ViT中encoder block低层且head较小时学到的全局信息有啥用,但我觉得这个局部信息(基于Mean Distance这种度量方式)可能正是源于我们多头机制想要规避开的<strong>对于自身所在词的过度关注</strong>,而随着后面cocat成一个完整的Z与W<sup>O</sup>做乘积时,其局部性被削弱(这也跟Multi-Head Attention这个机制有关)</mark><br />
+<mark>而此刻输出值作为下一个encoder block的输入,其包含了较多的全局信息,这使得<strong>我们较低层与较高层构建出一定的相似性</strong>,当然这也与skip connection有关</mark></p>
 
             </div>
             <hr>
