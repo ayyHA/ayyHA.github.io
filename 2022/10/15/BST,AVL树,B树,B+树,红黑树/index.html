@@ -36,8 +36,10 @@
 <meta property="og:image" content="http://qny.ayyha.store/internal-borrow-downflow.png">
 <meta property="og:image" content="http://qny.ayyha.store/internal-combine-downflow.png">
 <meta property="og:image" content="http://qny.ayyha.store/B%2BTree.png">
+<meta property="og:image" content="http://qny.ayyha.store/RBT.png">
+<meta property="og:image" content="http://qny.ayyha.store/RBT2BTree.png">
 <meta property="article:published_time" content="2022-10-15T03:44:30.000Z">
-<meta property="article:modified_time" content="2022-10-16T19:49:06.796Z">
+<meta property="article:modified_time" content="2022-10-17T08:38:07.141Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="tree">
 <meta name="twitter:card" content="summary_large_image">
@@ -210,7 +212,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      4k 字
+      4.6k 字
     </span>
   
 
@@ -219,7 +221,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      13 分钟
+      14 分钟
     </span>
   
 
@@ -252,7 +254,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：3 分钟前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -381,8 +383,26 @@
             <p>勘误:经过看MongoDB官方文档,底层用的也是B+树,网上各类博客害人不浅<br />援引如下:</p><blockquote><p>WiredTiger maintains a table’s data in memory using a data structure called a B-Tree ( B+ Tree to be specific), referring to the nodes of a B-Tree as pages. Internal pages carry only keys. The leaf pages store both keys and values.</p></blockquote>
           </div>
 <h2 id="红黑树"><a class="markdownIt-Anchor" href="#红黑树"></a> 红黑树</h2>
-<p>前面说过,AVL树是一种强平衡的树,而红黑树则是弱平衡的树.它较之于AVL树而言,正由于它的弱平衡性,导致我们在插入删除时不必要进行那么多的旋转操作!<br />
-之所以说它是弱平衡的,是因为它没有将bf强制约束于某个值,而是通过如下5条性质来维持弱平衡性:</p>
+<p>前面说过,AVL树是一种强平衡的树,而红黑树则是弱平衡的BST.它较之于AVL树而言,正由于它的弱平衡性,导致我们在插入删除时不必要进行那么多的旋转操作!</p>
+<p>红黑树的平衡性体现在:<strong>从根到叶子的最长路径不会比最短路径长超过两倍</strong></p>
+<p>之所以说它是弱平衡的,是因为它没有将bf强制约束于某个值,而是通过如下5条性质来维持弱平衡性:</p>
+<ul>
+<li><strong>节点是红色或黑色的</strong></li>
+<li><strong>根节点是黑色的</strong></li>
+<li><strong>叶子节点都是黑色的,它们都是空节点,data为null</strong></li>
+<li><strong>不能出现连续的两个红色节点(即一个红色节点的父节点及其子节点一定都是黑色的)</strong></li>
+<li><strong>从任一节点到叶子节点的所有路径都包含相同数目的黑色节点</strong></li>
+</ul>
+<p>针对最后一点性质,红黑树有一个<strong>黑高度(黑高)<strong>的概念:从某个节点出发至一叶子节点,所经历的黑色节点的个数(不包括起始节点,即使它是黑的)称为该节点的黑高bh.因此</strong>某一个节点的bh值应是唯一的</strong>,若不唯一则违背了最后一条性质</p>
+<p>以下是红黑树的一张示意图:<br />
+<img src="http://qny.ayyha.store/RBT.png" srcset="/img/loading.gif" lazyload alt="RBT" /></p>
+<div class="note note-info">
+            <p>红黑树的查找,插入,删除的时间复杂度都是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msub><mo><mi>log</mi><mo>⁡</mo></mo><mn>2</mn></msub><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(\log_{2}{n})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mop"><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.20696799999999996em;"><span style="top:-2.4558600000000004em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.24414em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">n</span></span><span class="mclose">)</span></span></span></span>,跟AVL树的一样,但其实AVL树在处理插入和删除问题时,为了保持bf=1,会涉及到复杂的旋转问题.而具有强平衡性的AVL树的查询能力显然更强.因此在设计底层数据结构的时候可以根据侧重进行选择</p>
+          </div>
+<p>而在之后介绍如插入等的相关操作时,一般会<strong>忽略掉最后的叶子节点</strong>,就是data为null的节点</p>
+<p>一颗红黑树,通过<strong>将红色节点上移至父节点同一高度组成B树节点后</strong>,即<strong>等价于一颗4阶B树</strong>,其变形如下所示:<br />
+<img src="http://qny.ayyha.store/RBT2BTree.png" srcset="/img/loading.gif" lazyload alt="RBT2BTree" /></p>
+<h2 id="由上图可以看出来红黑树变形为4阶b树后有如下性质"><a class="markdownIt-Anchor" href="#由上图可以看出来红黑树变形为4阶b树后有如下性质"></a> 由上图可以看出来,红黑树变形为4阶B树后有如下性质:</h2>
 <table>
 <thead>
 <tr>
