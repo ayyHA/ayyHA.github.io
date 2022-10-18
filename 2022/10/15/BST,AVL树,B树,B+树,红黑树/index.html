@@ -38,8 +38,14 @@
 <meta property="og:image" content="http://qny.ayyha.store/B%2BTree.png">
 <meta property="og:image" content="http://qny.ayyha.store/RBT.png">
 <meta property="og:image" content="http://qny.ayyha.store/RBT2BTree.png">
+<meta property="og:image" content="http://qny.ayyha.store/RBT2BTree-node-classfication.png">
+<meta property="og:image" content="http://qny.ayyha.store/RBT2BTree-Insertion.png">
+<meta property="og:image" content="http://qny.ayyha.store/RBT2BTree-Insertion-without-repair.png">
+<meta property="og:image" content="http://qny.ayyha.store/RBT2BTree-Insertion-need-repair.jpg">
+<meta property="og:image" content="http://qny.ayyha.store/RBT2BTree-Insertion-LL-RR.png">
+<meta property="og:image" content="http://qny.ayyha.store/RBT2BTree-Insertion-upflow.png">
 <meta property="article:published_time" content="2022-10-15T03:44:30.000Z">
-<meta property="article:modified_time" content="2022-10-18T02:02:35.776Z">
+<meta property="article:modified_time" content="2022-10-18T05:57:11.645Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="tree">
 <meta name="twitter:card" content="summary_large_image">
@@ -212,7 +218,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      4.6k 字
+      5.6k 字
     </span>
   
 
@@ -221,7 +227,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      14 分钟
+      18 分钟
     </span>
   
 
@@ -254,7 +260,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：41 分钟前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -404,9 +410,41 @@
 <img src="http://qny.ayyha.store/RBT2BTree.png" srcset="/img/loading.gif" lazyload alt="RBT2BTree" /></p>
 <p>由上图可以看出来,红黑树变形为4阶B树后有如下性质:</p>
 <ul>
+<li>红黑树与4阶B树具有等价性</li>
 <li>黑色节点和其红色子节点融合形成一个B树节点</li>
-<li></li>
+<li>在一个融合形成的B树节点里,根节点是黑色的,子节点是红的</li>
+<li>红黑树的非叶子节点的黑色节点个数与4阶B树的节点总数相等</li>
 </ul>
+<p>我们先来探讨一下转换为4阶B树的红黑树,对应的节点内部情况.4阶B树节点内部最多允许有3个元素,依据上述的性质3,即存在以下情况:<strong>红黑红,黑红,红黑,黑</strong>,且其中黑色的一定是原红黑树的子树/树本身的根节点,图示如下:<br />
+<img src="http://qny.ayyha.store/RBT2BTree-node-classfication.png" srcset="/img/loading.gif" lazyload alt="RBT2BTree-node-classification" /></p>
+<p><strong>对红黑树的插入删除情况的讨论也转换为对4阶B树的插入删除情况的讨论,但需要满足红黑树的性质</strong></p>
+<p>插入情况讨论:</p>
+<p>首先给出插入情况的红黑树的图:<br />
+<img src="http://qny.ayyha.store/RBT2BTree-Insertion.png" srcset="/img/loading.gif" lazyload alt="RBT2BTree-Insertion" /></p>
+<p>对于B树的插入,是自底向上的.因此对插入情况可分为如下两大类及对应的细分:</p>
+<ul>
+<li>插入导致上溢</li>
+<li>插入不导致上溢
+<ul>
+<li>父节点是黑色的</li>
+<li>父节点是红色的</li>
+</ul>
+</li>
+</ul>
+<p>而根据红黑树的性质:<strong>某一结点至叶子节点的任意路径的黑色节点个数相等</strong>可知,若插入节点的颜色是黑的,一定会破坏这条规则,且需要花较大功夫来维持这条规则;若插入节点是红的,则可能破坏了<strong>不允许有两个连续的红色节点</strong>这一规则,但对这一规则的维护可以通过旋转及变色来操作,较容易处理.因此<strong>插入节点一定都是红色节点</strong></p>
+<p>根据给出的示意图,可以分析得出如下的插入情况,分别是:</p>
+<ul>
+<li>满足红黑树性质,无需修复</li>
+<li>不满足红黑树性质,需要修复</li>
+</ul>
+<p>对应的图示如下:</p>
+<p><img src="http://qny.ayyha.store/RBT2BTree-Insertion-without-repair.png" srcset="/img/loading.gif" lazyload alt="RBT2BTree-Insertion-without-repair" /><br />
+<img src="http://qny.ayyha.store/RBT2BTree-Insertion-need-repair.jpg" srcset="/img/loading.gif" lazyload alt="RBT2BTree-Insertion-need-repair" /></p>
+<p>针对上图的<strong>不需上溢</strong>的情况,其实就是做<strong>旋转以及变色</strong>,旋转后变色需遵循上述的<strong>新B树节点内的根节点是黑色的两侧节点是红色的</strong>.之所以<strong>不需上溢</strong>可以通过旋转加变色处理,是因4阶B树允许节点内部最多三个元素,且当是三个元素的时候,是红黑红(根节点黑,俩子节点红)的情况</p>
+<p>以下仅介绍不需上溢的其中一种情况,即LL.LL意味着插入元素位于父节点的左侧(L),而父节点也是位于grand节点的左侧,之于这种情况可通过右旋更新父节点,而后染色成<strong>红黑红</strong>的B树节点即可,过程见下图示:</p>
+<p><img src="http://qny.ayyha.store/RBT2BTree-Insertion-LL-RR.png" srcset="/img/loading.gif" lazyload alt="RBT2BTree-Insertion-LL-RR" /></p>
+<p>而后面的[LR,RL]这俩情况则是需要双旋,旋转成[LL,RR]后再转一次和进行染色就ok了</p>
+<p>这四种情况[LL,LR,RL,RR]的流程如下表所示:</p>
 <table>
 <thead>
 <tr>
@@ -438,6 +476,11 @@
 </tr>
 </tbody>
 </table>
+<p>而针对于<strong>需要上溢</strong>的情况其实更简单,因为我们首要解决的是上溢的问题,即节点分裂,上移,那么此刻就会分裂出两个新的子节点,而这俩子节点是原先父节点的子节点,现在做了独立的B树节点的根节点,即对二者变色即可,则此刻新插入的节点的情况等价于往黑色的根节点插入新节点,即满足红黑树性质,无需修复.这个整体过程可以概括为:<strong>上溢,变色</strong>,无需旋转</p>
+<p>示例图如下:</p>
+<p><img src="http://qny.ayyha.store/RBT2BTree-Insertion-upflow.png" srcset="/img/loading.gif" lazyload alt="RBT2Tree-Insertion-upflow" /></p>
+<p>然后对[25&lt;-38&lt;-55]这一个B树节点(LL情况)右旋然后变色即可</p>
+<p>关于删除的部分情况较多,之后有时间再补上:)</p>
 
             </div>
             <hr>
