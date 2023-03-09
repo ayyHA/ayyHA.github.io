@@ -23,23 +23,23 @@
 <meta property="og:site_name" content="ayyHA&#39;s blog">
 <meta property="og:description" content="transformer学习">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://qny.ayyha.store/attention-multi-semantic-model.png">
-<meta property="og:image" content="http://qny.ayyha.store/transformer_arch.png">
-<meta property="og:image" content="http://qny.ayyha.store/transformer-input-embedding.png">
-<meta property="og:image" content="http://qny.ayyha.store/self-attention-process.png">
-<meta property="og:image" content="http://qny.ayyha.store/QKV-compute.png">
-<meta property="og:image" content="http://qny.ayyha.store/multi-head%20attention.png">
-<meta property="og:image" content="http://qny.ayyha.store/output%20of%20multi-head%20attention.png">
-<meta property="og:image" content="http://qny.ayyha.store/encoders-process.png">
+<meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/attention-multi-semantic-model.png">
+<meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/transformer_arch.png">
+<meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/transformer-input-embedding.png">
+<meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/self-attention-process.png">
+<meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/QKV-compute.png">
+<meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/multi-head%20attention.png">
+<meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/output%20of%20multi-head%20attention.png">
+<meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/encoders-process.png">
 <meta property="article:published_time" content="2022-10-02T12:56:02.000Z">
-<meta property="article:modified_time" content="2022-10-08T11:16:17.698Z">
+<meta property="article:modified_time" content="2023-03-09T09:58:37.514Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="cv">
 <meta property="article:tag" content="transformer">
 <meta property="article:tag" content="attention">
 <meta property="article:tag" content="nlp">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://qny.ayyha.store/attention-multi-semantic-model.png">
+<meta name="twitter:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/attention-multi-semantic-model.png">
   
   <title>transformer理解 - ayyHA&#39;s blog</title>
 
@@ -250,7 +250,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：5 个月前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -278,8 +278,8 @@ RNN亦可以实现<strong>1对N</strong> 或是 <strong>N对1</strong></p>
 <p>由上述可知,我们在对不同的词做翻译的时候,如&quot;机器学习&quot;-&gt;“machine learning”,并不是说&quot;机器&quot;,&quot;学习&quot;这两个词语对machine的翻译具有相同的贡献,因此不同贡献可以通过如权重的概念来进行体现</p>
 <p>那么这个&quot;贡献&quot;要怎么获得,即不同词语的权重影响要怎么实现?</p>
 <p>先将这个问题放一边(假设我们有能力做到这一点),那么我们<strong>不同的贡献就可以对应不同语义模型</strong>,那么&quot;注意力&quot;的思想即得到了体现</p>
-<p>回到&quot;贡献&quot;获得的问题,attention中的&quot;贡献&quot;:是输入的时候通过计算encoder和decoder对应token的余弦相似度来获得,然后每一个词有不同的值,通过softmax进行归一化,那么这就是一个语义模型.流程见下图:<br />
-<img src="http://qny.ayyha.store/attention-multi-semantic-model.png" srcset="/img/loading.gif" lazyload alt="attention-model-semantic-model" /></p>
+<p>回到&quot;贡献&quot;获得的问题,attention中的&quot;贡献&quot;:是输入的时候通过计算encoder和decoder对应token的余弦相似度来获得,然后每一个词有不同的值,通过softmax进行归一化,那么这就是一个语义模型.流程见下图:</p>
+<p><img src="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/attention-multi-semantic-model.png" srcset="/img/loading.gif" lazyload alt="attention-multi-semantic-model" /></p>
 <h2 id="什么是transformer"><a class="markdownIt-Anchor" href="#什么是transformer"></a> 什么是transformer</h2>
 <p>transformer是一个NLP任务的一个里程碑模型(刷新了多项任务的SOTA),而后被人运用到CV,如DETR(Detection Transformer),ViT(Vision Transformer,做分类的)</p>
 <p>其中ViT在数据量足够大的情况下,可以达到甚至超过当时的SOTA(ViT基本是直接将transformer直接搬到CV上用的,没咋改,除了切图片以使其序列化)</p>
@@ -287,7 +287,7 @@ RNN亦可以实现<strong>1对N</strong> 或是 <strong>N对1</strong></p>
 <p>此外,transformer在NLP机器翻译中的一大特点是它可以并行处理(<mark>存疑:我认为只局限于training阶段</mark>),即对单词的翻译不必由一个去预测下一个</p>
 <p>原论文链接:<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1706.03762.pdf">Attention Is All You Need</a></p>
 <h3 id="整体结构"><a class="markdownIt-Anchor" href="#整体结构"></a> 整体结构</h3>
-<p><img src="http://qny.ayyha.store/transformer_arch.png" srcset="/img/loading.gif" lazyload alt="transformerarch" /></p>
+<p><img src="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/transformer_arch.png" srcset="/img/loading.gif" lazyload alt="transformerarch" /></p>
 <p>由上图可见,我们的transformer整体也是分为encoder-decoder结构的</p>
 <p>图中所示为encoder,即表明其内部由多个encoder block组成(原论文是6个),decoder也同理<br />
 (也是6个)</p>
@@ -303,21 +303,21 @@ RNN亦可以实现<strong>1对N</strong> 或是 <strong>N对1</strong></p>
 <div class="note note-info">
             <p>pos:表示的是词在句子中的位置;<br />d:表示的是词编码后的维度,即词编码后的表示向量的列数;<br />2i:表示的是偶数维度;<br />2i+1:表示的是奇数维度</p>
           </div>
-<p>词编码和位置编码均完毕后,我们将其对应相加,即可以得到X的表示矩阵,过程图如下图示:<br />
-<img src="http://qny.ayyha.store/transformer-input-embedding.png" srcset="/img/loading.gif" lazyload alt="transformer-input-embedding" /></p>
+<p>词编码和位置编码均完毕后,我们将其对应相加,即可以得到X的表示矩阵,过程图如下图示:</p>
+<p><img src="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/transformer-input-embedding.png" srcset="/img/loading.gif" lazyload alt="transformer-input-embedding" /></p>
 <h3 id="self-attention"><a class="markdownIt-Anchor" href="#self-attention"></a> self-attention</h3>
 <p>self-attention是attention中的一个特例<br />
 我们知道attention是找两个句子间的词间关系,而<strong>self-attention找的是一个句子间的词间关系</strong>(也可以理解为两个相同的句子)</p>
 <p>从transformer_arch的图可以看出<strong>Multi-Head Attention</strong>在整个过程中起了极大作用,是核心模型,图中的Multi-Head Attention,其实里面就是由多个self-attention组成(论文里是8个)</p>
 <p>因此我们需要关注self-attention的工作机制</p>
-<p>self-attention的工作过程如下图所示:<br />
-<img src="http://qny.ayyha.store/self-attention-process.png" srcset="/img/loading.gif" lazyload alt="self-attention-process" /><br />
-可以看出,它有三个输入Q,K,V,分别代表的是Query,Key,Value,然后需要经过MatMul(矩阵相乘),Scale(数值放缩),Mask(掩码,Output时需要),Softmax(归一化)这些个过程.</p>
+<p>self-attention的工作过程如下图所示:</p>
+<p><img src="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/self-attention-process.png" srcset="/img/loading.gif" lazyload alt="self-attention-process" /></p>
+<p>可以看出,它有三个输入Q,K,V,分别代表的是Query,Key,Value,然后需要经过MatMul(矩阵相乘),Scale(数值放缩),Mask(掩码,Output时需要),Softmax(归一化)这些个过程.</p>
 <h4 id="获取qkv"><a class="markdownIt-Anchor" href="#获取qkv"></a> 获取Q,K,V</h4>
 <p>首先,输入到encoder里的是我们上面获得的<strong>表示矩阵X</strong></p>
 <p>X通过与对应权重(一开始是随机生成的,后面梯度下降更新的)的矩阵:W<sub>Q</sub>,W<sub>K</sub>,W<sub>V</sub>相乘,获取到对应的Q,K,V三个矩阵,其中它们的维度为:n*d<sub>Q</sub>,n*d<sub>K</sub>,n*d<sub>V</sub>,<strong>n代表着一个句子中词的数目</strong>,<strong>每一个行向量,代表的是某一个词的Q或K或V的维度</strong></p>
-<p>计算的示例图如下图所示:<br />
-<img src="http://qny.ayyha.store/QKV-compute.png" srcset="/img/loading.gif" lazyload alt="QKV-compute" /></p>
+<p>计算的示例图如下图所示:</p>
+<p><img src="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/QKV-compute.png" srcset="/img/loading.gif" lazyload alt="QKV-compute" /></p>
 <h4 id="self-attention计算公式"><a class="markdownIt-Anchor" href="#self-attention计算公式"></a> self-attention计算公式</h4>
 <p>根据上面的方法获取了Q,K,V三者的矩阵后,可以对其进行self-attention-process图示的计算,公式如下:</p>
 <p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>A</mi><mi>t</mi><mi>t</mi><mi>e</mi><mi>n</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi><mo stretchy="false">(</mo><mi>Q</mi><mo separator="true">,</mo><mi>K</mi><mo separator="true">,</mo><mi>V</mi><mo stretchy="false">)</mo><mo>=</mo><mi>s</mi><mi>o</mi><mi>f</mi><mi>t</mi><mi>m</mi><mi>a</mi><mi>x</mi><mo stretchy="false">(</mo><mfrac><mrow><mi>Q</mi><msup><mi>K</mi><mi>T</mi></msup></mrow><msqrt><msub><mi>d</mi><mi>k</mi></msub></msqrt></mfrac><mo stretchy="false">)</mo><mi>V</mi></mrow><annotation encoding="application/x-tex">Attention(Q,K,V) = softmax(\frac{QK^T}{\sqrt{d_k}})V
@@ -349,9 +349,9 @@ MultiHead(Q,K,V) &amp;= Concat(head_1,\cdots,head_h)W^O \\where \quad head_i &am
 \end{aligned}
 </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:3.17057em;vertical-align:-1.335285em;"></span><span class="mord"><span class="mtable"><span class="col-align-r"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.835285em;"><span style="top:-3.943954em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mord mathnormal">u</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">t</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mord mathnormal">e</span><span class="mord mathnormal">a</span><span class="mord mathnormal">d</span><span class="mopen">(</span><span class="mord mathnormal">Q</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="mclose">)</span></span></span><span style="top:-2.3247150000000003em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mord mathnormal">h</span><span class="mord mathnormal">e</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">e</span><span class="mspace" style="margin-right:1em;"></span><span class="mord mathnormal">h</span><span class="mord mathnormal">e</span><span class="mord mathnormal">a</span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.335285em;"><span></span></span></span></span></span><span class="col-align-l"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.835285em;"><span style="top:-3.943954em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="mord mathnormal">o</span><span class="mord mathnormal">n</span><span class="mord mathnormal">c</span><span class="mord mathnormal">a</span><span class="mord mathnormal">t</span><span class="mopen">(</span><span class="mord mathnormal">h</span><span class="mord mathnormal">e</span><span class="mord mathnormal">a</span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">⋯</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">h</span><span class="mord mathnormal">e</span><span class="mord mathnormal">a</span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">h</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8913309999999999em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">O</span></span></span></span></span></span></span></span></span></span><span style="top:-2.3247150000000003em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord mathnormal">A</span><span class="mord mathnormal">t</span><span class="mord mathnormal">t</span><span class="mord mathnormal">e</span><span class="mord mathnormal">n</span><span class="mord mathnormal">t</span><span class="mord mathnormal">i</span><span class="mord mathnormal">o</span><span class="mord mathnormal">n</span><span class="mopen">(</span><span class="mord mathnormal">Q</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9592389999999998em;"><span style="top:-2.4231360000000004em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span><span style="top:-3.180908em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">Q</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.276864em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8913309999999999em;"><span style="top:-2.4530000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.07153em;">K</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8913309999999999em;"><span style="top:-2.4530000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.22222em;">V</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.335285em;"><span></span></span></span></span></span></span></span></span></span></span></span></p>
 <p>我们划分将Q,K,V划分成八个(8个h),对它们可以并行做计算,然后最后会得到八个Z<sub>i</sub>(i∈[0,7]),对它们进行concat(合并后的维度与X一致),然后与W<sup>O</sup>矩阵进行相乘即得出对应输出,输出矩阵维度与表示矩阵维度X一致</p>
-<p>具体过程见下图:<br />
-<img src="http://qny.ayyha.store/multi-head%20attention.png" srcset="/img/loading.gif" lazyload alt="multi-head attention" /><br />
-<img src="http://qny.ayyha.store/output%20of%20multi-head%20attention.png" srcset="/img/loading.gif" lazyload alt="output of multi-head attention" /></p>
+<p>具体过程见下图:</p>
+<p><img src="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/multi-head%20attention.png" srcset="/img/loading.gif" lazyload alt="multi-head attention" /></p>
+<p><img src="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/output%20of%20multi-head%20attention.png" srcset="/img/loading.gif" lazyload alt="output of multi-head attention" /></p>
 <p>至此,多头注意力机制介绍完毕</p>
 <h3 id="encoder-block"><a class="markdownIt-Anchor" href="#encoder-block"></a> encoder block</h3>
 <p>我们知道,一个encoder block里面,经过了Multi-Head Attention的洗礼后,要经过一个<strong>Add &amp; Norm</strong>的东东,而后再将输出经过Feed Forward NN,便完成了一个encoder的工作</p>
@@ -365,8 +365,8 @@ MultiHead(Q,K,V) &amp;= Concat(head_1,\cdots,head_h)W^O \\where \quad head_i &am
 <p>最后输出的维度与X表示矩阵的一致</p>
 <h3 id="encoder"><a class="markdownIt-Anchor" href="#encoder"></a> Encoder</h3>
 <p>Encoder就是将多个encoder block线性连接了起来,前者的输出作为后者的输入,重复六次,则得出最终的输出<strong>编码信息矩阵</strong>,其维度与X的一致<br />
-过程见图所示:<br />
-<img src="http://qny.ayyha.store/encoders-process.png" srcset="/img/loading.gif" lazyload alt="encoder-process" /></p>
+过程见图所示:</p>
+<p><img src="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/encoders-process.png" srcset="/img/loading.gif" lazyload alt="encoders-process" /></p>
 <h3 id="decoder-block"><a class="markdownIt-Anchor" href="#decoder-block"></a> decoder block</h3>
 <p>decoder block相较于encoder block,它有如下差别:</p>
 <ul>
