@@ -50,7 +50,7 @@
 <meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/mobilenetv2-inverted%20residual%20block%20table.png">
 <meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/mobilenetv2-arch.png">
 <meta property="article:published_time" content="2023-03-09T03:42:23.000Z">
-<meta property="article:modified_time" content="2023-03-10T09:41:59.087Z">
+<meta property="article:modified_time" content="2023-03-10T09:44:30.213Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="CNN">
 <meta property="article:tag" content="ResNet">
@@ -419,16 +419,16 @@
 DW卷积则是逐通道卷积，即卷积核大小为$D_K*D_K*1$.若输入特征图的深度为$M$则其卷积核的个数亦为$M$，其输出特征图的深度亦为$M$。
 PW卷积，则对DW卷积输出的$D_F*D_F*M$的特征图进行卷积，卷积核大小为$1*1*M$，卷积核个数为$N$,最终输出的特征图大小为$D_F*D_F*N$
 DSC相较于传统卷积的好处在于输入输出特征图的大小相同，而计算量和参数量的则大大减少
-传统卷积计算量:$D_K*D_K*M*D_F*D_F*N$
-DSC计算量:$D_K*D_K*D_F*D_F*M+M*D_F*D_F*N$
-计算量之比:$\frac{DSC计算量}{传统卷积计算量}=\frac{1}{N}+\frac{1}{ {D_K}^2}$
-传统卷积参数量:$D_K*D_K*M*N$
-DSC参数量:$D_K*D_K*M+M*N$
-参数量之比:$\frac{DSC参数量}{传统卷积参数量}=\frac{1}{N}+\frac{1}{ {D_K}^2}$
+传统卷积计算量: $D_K*D_K*M*D_F*D_F*N$
+DSC计算量: $D_K*D_K*D_F*D_F*M+M*D_F*D_F*N$
+计算量之比: $\frac{DSC计算量}{传统卷积计算量}=\frac{1}{N}+\frac{1}{ {D_K}^2}$
+传统卷积参数量: $D_K*D_K*M*N$
+DSC参数量: $D_K*D_K*M+M*N$
+参数量之比$\frac{DSC参数量}{传统卷积参数量}=\frac{1}{N}+\frac{1}{ {D_K}^2}$
 而卷积核一般是3\*3的，因此能给参数量和计算量降至原来的$[\frac{1}{9},\frac{1}{8}]$
 在传统的卷积层中，我们常用的是Conv+BN+ReLU这一套作为卷积层。而在DSC中，我们的设置如下图示：
 <center><img src="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/mobilenetv1-conv-arch.png" srcset="/img/loading.gif" lazyload alt="mobilenetv1-conv-arch" style="zoom:67%;" /></center>
-另外，在MobileNetV1中，采用的是ReLU6激活函数，相较于ReLU函数，它有一个上界，其表达式为:$ReLU6 = min(max(0,x),6)$。在低精度浮点数计算时，如8/16位浮点数计算，表达不了那么的大的数，因此用ReLU6在低精度浮点数表示下可以取得比较好的性能。增强鲁棒性。
+另外，在MobileNetV1中，采用的是ReLU6激活函数，相较于ReLU函数，它有一个上界，其表达式为: $ReLU6 = min(max(0,x),6)$。在低精度浮点数计算时，如8/16位浮点数计算，表达不了那么的大的数，因此用ReLU6在低精度浮点数表示下可以取得比较好的性能。增强鲁棒性。
 <h4 id="超参数alpha和beta"><a class="markdownIt-Anchor" href="#超参数alpha和beta"></a> 超参数<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi></mrow><annotation encoding="application/x-tex">\alpha</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span></span></span></span>和<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>β</mi></mrow><annotation encoding="application/x-tex">\beta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.05278em;">β</span></span></span></span></h4>
 <p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi></mrow><annotation encoding="application/x-tex">\alpha</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span></span></span></span>在原论文中称为width multiplier，即宽度乘数，是用它来控制我们每一层的卷积核的个数，它的取值范围是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mn>0</mn><mo separator="true">,</mo><mn>1</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">(0,1]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">1</span><span class="mclose">]</span></span></span></span>，常用的取值是0.25,0.5,0.75,1。根据个人任务需求来自行在精度和速度（计算量以及内存所占的参数量）取得一个平衡。<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi></mrow><annotation encoding="application/x-tex">\alpha</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span></span></span></span>的各取值效果如下：</p>
 <center><img src="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/mobilenetv1-width%20multiplier.jpg" srcset="/img/loading.gif" lazyload alt="mobilenetv1-width multiplier" style="zoom:67%;" /></center>
