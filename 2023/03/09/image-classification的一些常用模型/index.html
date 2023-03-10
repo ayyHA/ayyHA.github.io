@@ -50,7 +50,7 @@
 <meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/mobilenetv2-inverted%20residual%20block%20table.png">
 <meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/mobilenetv2-arch.png">
 <meta property="article:published_time" content="2023-03-09T03:42:23.000Z">
-<meta property="article:modified_time" content="2023-03-10T09:28:07.279Z">
+<meta property="article:modified_time" content="2023-03-10T09:31:54.679Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="CNN">
 <meta property="article:tag" content="ResNet">
@@ -225,7 +225,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      9.1k 字
+      9.2k 字
     </span>
   
 
@@ -415,7 +415,7 @@
 <h4 id="深度可分离卷积"><a class="markdownIt-Anchor" href="#深度可分离卷积"></a> 深度可分离卷积</h4>
 <center><img src="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/depthwise-separable-convolution.png" srcset="/img/loading.gif" lazyload alt="depthwise-separable-convolution" style="zoom:67%;" /></center>
 上图便是深度可分离卷积(DSC)和传统卷积的对比图。
-深度可分离卷积分为两个过程： **逐深度卷积(DW(depthwise)卷积)和逐点卷积(PW(pointwise)卷积)** ，其中逐点卷积和普通卷积没啥区别，就是1\*1的卷积核卷积。
+深度可分离卷积分为两个过程：**逐深度卷积\(DW\(depthwise\)卷积\)和逐点卷积\(PW\(pointwise\)卷积\)** ，其中逐点卷积和普通卷积没啥区别，就是1\*1的卷积核卷积。
 DW卷积则是逐通道卷积，即卷积核大小为$D_K * D_K * 1$.若输入特征图的深度为$M$则其卷积核的个数亦为$M$，其输出特征图的深度亦为$M$。
 PW卷积，则对DW卷积输出的$D_F * D_F * M$的特征图进行卷积，卷积核大小为$1 * 1 * M$，卷积核个数为$N$,最终输出的特征图大小为$D_F * D_F * N$
 DSC相较于传统卷积的好处在于输入输出特征图的大小相同，而计算量和参数量的则大大减少
