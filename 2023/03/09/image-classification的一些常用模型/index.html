@@ -50,7 +50,7 @@
 <meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/mobilenetv2-inverted%20residual%20block%20table.png">
 <meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/mobilenetv2-arch.png">
 <meta property="article:published_time" content="2023-03-09T03:42:23.000Z">
-<meta property="article:modified_time" content="2023-03-10T09:22:15.381Z">
+<meta property="article:modified_time" content="2023-03-10T09:28:07.279Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="CNN">
 <meta property="article:tag" content="ResNet">
@@ -225,7 +225,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      9.2k 字
+      9.1k 字
     </span>
   
 
@@ -301,10 +301,10 @@
 <h2 id="vgg"><a class="markdownIt-Anchor" href="#vgg"></a> VGG</h2>
 <h3 id="亮点-2"><a class="markdownIt-Anchor" href="#亮点-2"></a> 亮点</h3>
 <p><strong>通过堆叠多个3*3的卷积核来代替大尺度的卷积核</strong> ，比如AlexNet里的11*11，7*7这样子的卷积核</p>
-<p>如：可以 ** 通过堆叠两个3*3的卷积核来替代5*5的卷积核，或者三个3*3的卷积核来替代7*7的卷积核 ** 。感受野相同的同时，还减少了计算量。常用的是VGG-16和VGG-19</p>
+<p>如：可以<strong>通过堆叠两个3*3的卷积核来替代5*5的卷积核，或者三个3*3的卷积核来替代7*7的卷积核</strong>。感受野相同的同时，还减少了计算量。常用的是VGG-16和VGG-19</p>
 <p><strong>理论依据：它们拥有相同的感受野</strong></p>
 <h3 id="感受野receptive-filed"><a class="markdownIt-Anchor" href="#感受野receptive-filed"></a> 感受野(receptive filed)</h3>
-<p>**在CNN中，某一层输出结果中的一个单元所对应于输入层的区域大小，即为感受野。**也就是说在输出的特征矩阵的某一个元素，它对应于输入层上的区域大小<br />
+<p><strong>在CNN中，某一层输出结果中的一个单元所对应于输入层的区域大小，即为感受野</strong>.也就是说在输出的特征矩阵的某一个元素，它对应于输入层上的区域大小<br />
 感受野计算公式：</p>
 <p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>F</mi><mo stretchy="false">(</mo><mi>i</mi><mo stretchy="false">)</mo><mo>=</mo><mo stretchy="false">(</mo><mi>F</mi><mo stretchy="false">(</mo><mi>i</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo><mo>∗</mo><mi>S</mi><mi>t</mi><mi>r</mi><mi>i</mi><mi>d</mi><mi>e</mi><mo>+</mo><mi>f</mi><mi>i</mi><mi>l</mi><mi>t</mi><mi>e</mi><msub><mi>r</mi><mrow><mi>s</mi><mi>i</mi><mi>z</mi><mi>e</mi></mrow></msub></mrow><annotation encoding="application/x-tex">F(i) = (F(i+1) -1) * Stride + filter_{size}
 </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mopen">(</span><span class="mord mathnormal">i</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mopen">(</span><span class="mord mathnormal">i</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mord mathnormal">t</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">i</span><span class="mord mathnormal">d</span><span class="mord mathnormal">e</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">t</span><span class="mord mathnormal">e</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">s</span><span class="mord mathnormal mtight">i</span><span class="mord mathnormal mtight" style="margin-right:0.04398em;">z</span><span class="mord mathnormal mtight">e</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span></p>
@@ -320,7 +320,7 @@
 <li>丢弃全连接层，使用平均池化层，减少模型参数</li>
 <li>VGG等只有一个输出层，GoogLeNet有三个输出层（有两个是辅助分类层）</li>
 </ul>
-<p>** 其中最重要的便是前两个创新点，通过借鉴NiN(Network in Network)的思想，利用1*1的卷积核进行降维，此外还增加了网络的非线性（最后用平均池化层替换FC也是出自NiN的思想）；而inception结构，所导致的融合多尺度特征信息是指利用横向排列的多个不同尺度的卷积核来获取图像中的信息，即从横向，而非纵向（深度）来进行创新 **</p>
+<p><strong>其中最重要的便是前两个创新点，通过借鉴NiN(Network in Network)的思想，利用1*1的卷积核进行降维，此外还增加了网络的非线性（最后用平均池化层替换FC也是出自NiN的思想）；而inception结构，所导致的融合多尺度特征信息是指利用横向排列的多个不同尺度的卷积核来获取图像中的信息，即从横向，而非纵向（深度）来进行创新</strong></p>
 <h3 id="inception结构块"><a class="markdownIt-Anchor" href="#inception结构块"></a> inception结构块</h3>
 <center><img src="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/inception-arch.png?" srcset="/img/loading.gif" lazyload alt="inception-arch" style="zoom:60%;" /></center>
 <p>先看图a，我们的输入层会经过1*1，3*3，5*5这几个不同尺度的卷积核来提取特征以及3*3的最大池化层提取特征。再提取特征通过对padding进行调整使得最终得到的输出的特征矩阵的大小一致，然后在深度上进行堆叠。因此inception结构快可以看作是在水平方向上加深网络；</p>
@@ -415,7 +415,7 @@
 <h4 id="深度可分离卷积"><a class="markdownIt-Anchor" href="#深度可分离卷积"></a> 深度可分离卷积</h4>
 <center><img src="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/depthwise-separable-convolution.png" srcset="/img/loading.gif" lazyload alt="depthwise-separable-convolution" style="zoom:67%;" /></center>
 上图便是深度可分离卷积(DSC)和传统卷积的对比图。
-深度可分离卷积分为两个过程： ** 逐深度卷积(DW(depthwise)卷积)和逐点卷积(PW(pointwise)卷积) ** ，其中逐点卷积和普通卷积没啥区别，就是1\*1的卷积核卷积。
+深度可分离卷积分为两个过程： **逐深度卷积(DW(depthwise)卷积)和逐点卷积(PW(pointwise)卷积)** ，其中逐点卷积和普通卷积没啥区别，就是1\*1的卷积核卷积。
 DW卷积则是逐通道卷积，即卷积核大小为$D_K * D_K * 1$.若输入特征图的深度为$M$则其卷积核的个数亦为$M$，其输出特征图的深度亦为$M$。
 PW卷积，则对DW卷积输出的$D_F * D_F * M$的特征图进行卷积，卷积核大小为$1 * 1 * M$，卷积核个数为$N$,最终输出的特征图大小为$D_F * D_F * N$
 DSC相较于传统卷积的好处在于输入输出特征图的大小相同，而计算量和参数量的则大大减少
