@@ -13,28 +13,28 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="NUMA架构的介绍">
+  <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <meta name="description" content="NUMA架构的介绍">
+  <meta name="description" content="torch.nn.Module中的modules()和children()的区别 首先构建一个全连接网络,看看它的结构 12345678910111213141516171819202122232425262728class TestNet(nn.Module):    def __init__(self, in_dim, hidden_dim1, hidden_dim2, hidden_dim">
 <meta property="og:type" content="article">
-<meta property="og:title" content="NUMA">
-<meta property="og:url" content="http://example.com/2022/09/29/NUMA/index.html">
+<meta property="og:title" content="Some knowledge of Pytorch">
+<meta property="og:url" content="http://example.com/2023/03/14/Some-knowledge-of-Pytorch/index.html">
 <meta property="og:site_name" content="ayyHA&#39;s blog">
-<meta property="og:description" content="NUMA架构的介绍">
+<meta property="og:description" content="torch.nn.Module中的modules()和children()的区别 首先构建一个全连接网络,看看它的结构 12345678910111213141516171819202122232425262728class TestNet(nn.Module):    def __init__(self, in_dim, hidden_dim1, hidden_dim2, hidden_dim">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/CPU-North%20Bridge-Memory.png">
-<meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/NUMA.png">
-<meta property="article:published_time" content="2022-09-29T08:03:42.000Z">
-<meta property="article:modified_time" content="2023-03-09T10:01:52.727Z">
+<meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/fcn%20arch.jpg">
+<meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/fcn-children-arch.jpg">
+<meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/fcn-children-arch-0.jpg">
+<meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/fcn-modules-arch.png">
+<meta property="article:published_time" content="2023-03-13T16:25:38.000Z">
+<meta property="article:modified_time" content="2023-03-14T03:10:49.805Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="Memory Access">
-<meta property="article:tag" content="CPU">
-<meta property="article:tag" content="Architecture">
+<meta property="article:tag" content="pytorch">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/CPU-North%20Bridge-Memory.png">
+<meta name="twitter:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/fcn%20arch.jpg">
   
-  <title>NUMA - ayyHA&#39;s blog</title>
+  <title>Some knowledge of Pytorch - ayyHA&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -180,7 +180,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="NUMA">
+            <span class="h2" id="subtitle" title="Some knowledge of Pytorch">
               
             </span>
 
@@ -190,8 +190,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-09-29 16:03" pubdate>
-        2022年9月29日 下午
+      <time datetime="2023-03-14 00:25" pubdate>
+        2023年3月14日 凌晨
       </time>
     </span>
   
@@ -201,7 +201,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.1k 字
+      1.5k 字
     </span>
   
 
@@ -210,7 +210,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      3 分钟
+      5 分钟
     </span>
   
 
@@ -239,43 +239,43 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">NUMA</h1>
+            <h1 style="display: none">Some knowledge of Pytorch</h1>
             
               <p class="note note-info">
                 
-                  本文最后更新于：5 天前
+                  本文最后更新于：1 分钟前
                 
               </p>
             
             <div class="markdown-body">
-              <h2 id="smp和amp对比"><a class="markdownIt-Anchor" href="#smp和amp对比"></a> SMP和AMP对比</h2>
-<p>SMP(Symmetric MultiProcessing):对称多处理器架构<br />
-AMP(Asymmetric MultiProcessing):非对称处理其架构</p>
-<p>二者区别:</p>
+              <h2 id="torchnnmodule中的modules和children的区别"><a class="markdownIt-Anchor" href="#torchnnmodule中的modules和children的区别"></a> torch.nn.Module中的modules()和children()的区别</h2>
+<p>首先构建一个全连接网络,看看它的结构</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestNet</span>(<span class="hljs-params">nn.Module</span>):</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self, in_dim, hidden_dim1, hidden_dim2, hidden_dim3, out_dim</span>):</span><br>        <span class="hljs-built_in">super</span>(TestNet, self).__init__()<br>        self.layer1 = nn.Sequential(<br>            nn.Linear(in_dim, hidden_dim1),<br>            nn.ReLU(inplace=<span class="hljs-literal">True</span>)<br>        )<br>        self.layer2 = nn.Sequential(<br>            nn.Linear(hidden_dim1, hidden_dim2),<br>            nn.Sigmoid()<br>        )<br>        self.layer3 = nn.Sequential(<br>            nn.Linear(hidden_dim2, hidden_dim3),<br>            nn.Tanh()<br>        )<br>        self.layer4 = nn.ReLU(inplace=<span class="hljs-literal">True</span>)<br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">forward</span>(<span class="hljs-params">self, x</span>):</span><br>        x = self.layer1(x)<br>        x = self.layer2(x)<br>        x = self.layer3(x)<br>        x = self.layer4(x)<br>        <span class="hljs-keyword">return</span> x<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    net = TestNet(<span class="hljs-number">5</span>, <span class="hljs-number">9</span>, <span class="hljs-number">9</span>, <span class="hljs-number">8</span>, <span class="hljs-number">2</span>)<br>    <span class="hljs-comment"># net arch</span><br>    <span class="hljs-built_in">print</span>(net)<br></code></pre></td></tr></table></figure>
+<p>其结构为:</p>
+<p><img src="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/fcn%20arch.jpg" srcset="/img/loading.gif" lazyload alt="fcn arch" /></p>
+<p>其结构图大致如下(Sequential以layer的标识号区别之,别的亦同)</p>
+<pre class="mermaid">graph
+TestNet-->Sequential1 & Sequential2 & Sequential3 & ReLU
+Sequential1 --> Linear1 & ReLU1
+Sequential2 --> Linear2 & Sigmoid
+Sequential3 --> Linear3 & Tanh
+%% layer4 --> ReLU4</pre>
+<p>而当我们利用<code>net.children()</code>打印时,发现其是generator类型,也即是iterator类型,因此可以通过循环将其输出</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    net = TestNet(<span class="hljs-number">5</span>, <span class="hljs-number">9</span>, <span class="hljs-number">9</span>, <span class="hljs-number">8</span>, <span class="hljs-number">2</span>)<br>    <span class="hljs-comment"># children arch</span><br>    <span class="hljs-keyword">for</span> i, ele <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(net.children()):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;&#123;&#125;:&#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(i, ele))<br></code></pre></td></tr></table></figure>
+<p>其输出结果如下:</p>
+<p><img src="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/fcn-children-arch.jpg" srcset="/img/loading.gif" lazyload alt="fcn-children-arch" /></p>
+<p>可见<strong>通过children()获得的结构仅包含最外一层</strong>,也即可以通过如下方式获得其最外层:<code>print(list(net.children())[0])</code>,即可以获得第0个Sequential:</p>
+<p><img src="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/fcn-children-arch-0.jpg" srcset="/img/loading.gif" lazyload alt="fcn-children-arch-0" /></p>
+<p>而通过modules()获得的也是generator类型,因此也用循环将其输出:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    net = TestNet(<span class="hljs-number">5</span>, <span class="hljs-number">9</span>, <span class="hljs-number">9</span>, <span class="hljs-number">8</span>, <span class="hljs-number">2</span>)<br>    <span class="hljs-comment"># modules arch</span><br>    <span class="hljs-keyword">for</span> i,ele <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(net.modules()):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;&#123;&#125;:&#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(i,ele))<br></code></pre></td></tr></table></figure>
+<p>其输出结果为:</p>
+<p><img src="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/fcn-modules-arch.png" srcset="/img/loading.gif" lazyload alt="fcn-modules-arch" /></p>
+<p>可见,其结果类似于深搜,直接把整个结构DFS了一遍</p>
+<p>因此可得<code>children()</code>和<code>modules()</code>的区别如下:</p>
 <ul>
-<li>SMP里的多处理器是<strong>同构</strong>的,使用的是相同架构的CPU;AMP的多个处理器可能是<strong>异构</strong>的;</li>
-<li>SMP多个处理器<strong>共享同一内存地址空间</strong>;AMP则每个处理器有各自<strong>独立的地址空间</strong>;</li>
-<li>SMP多处理器可以通过<strong>共享内存</strong>来<strong>协同通信</strong>;AMP则需要提供一种处理器间通信机制</li>
+<li>通过<code>children()</code>获取网络层级结构,只会取最外层,即根节点下的一层</li>
+<li>通过<code>modules()</code>获取网络层级结构,则类似对网络结构进行DFS,依次输出</li>
 </ul>
-<p><strong>现今主流X86架构的多处理器的电脑都是SMP架构,然后AMP架构多是应用于嵌入式系统</strong></p>
-<h2 id="numa和uma对比"><a class="markdownIt-Anchor" href="#numa和uma对比"></a> NUMA和UMA对比</h2>
-<p>NUMA(Non-Uniform Memory Access):非统一内存访问<br />
-UMA(Uniform Memory Access):统一内存访问</p>
-<p>NUMA和UMA所指代的<strong>统一</strong>是<strong>处理器访问内存的访问时间是否依赖于二者相对位置</strong></p>
-<p><strong>NUMA和UMA是SMP架构的一种设计和实现的不同选择</strong></p>
-<div class="note note-info">
-            <p>摘自Wiki:<br />NUMA architectures logically follow in scaling from symmetric multiprocessing (SMP) architectures.</p>
-          </div>
-<p>先说一下UMA架构,就是CPU对内存的访问不依赖于其二者的相对位置关系,因为CPU访存是通过内存控制器(Memory Controller)来的,内存控制器被北桥芯片集成,因此是以<strong>多个CPU-北桥芯片-内存</strong>这样的方式链接的.</p>
-<p>各个CPU是通过FSB(Front Side Bus)前端总线与北桥相连.</p>
-<p><img src="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/CPU-North%20Bridge-Memory.png" srcset="/img/loading.gif" lazyload alt="CPU-North Bridge-Memory" /></p>
-<p>由上图可以看出来,总线模型保证了CPU对所有内存的访问都是一致的,不必考虑相对位置带来时间差异</p>
-<p>这种架构适合用于如服务器(网站,数据库)一类的机子上,因为这类工作都是外部请求访问时,服务器创建线程, 随机访存,然后线程处理的时间很短.</p>
-<p>但随着业务的扩展,会遇到需要很大运算量的应用,那么此刻若是有一个更接近于CPU的本地内存,可以提升速度,而且这样大运算量的应用,或者说线程,不止一个(则需要多个CPU,或者多个核心),那么UMA就不适应于这样的工作,而且FSB会成为其bottleneck(加核心没用),因此有了NUMA的出现</p>
-<p>在NUMA架构中,其将<strong>多个核心作为一个节点(Node)(如一颗多核的CPU)</strong>,<strong>内存控制器芯片(MCH)集成在Node内</strong>,<strong>每一个Node独立连接一部分内存</strong>,此直连的内存称为**“本地内存”**,Node间通过QPI(Quick Path Interconnect)总线连接.因此可以访问&quot;远程内存&quot;.</p>
-<p>由此可以见到内存访问存在本地和远程的区别!</p>
-<p><img src="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/NUMA.png" srcset="/img/loading.gif" lazyload alt="NUMA" /></p>
-<p>在Linux机器下,可以通过numactl指令进行查看</p>
 
             </div>
             <hr>
@@ -286,11 +286,7 @@ UMA(Uniform Memory Access):统一内存访问</p>
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/Memory-Access/">Memory Access</a>
-                    
-                      <a class="hover-with-bg" href="/tags/CPU/">CPU</a>
-                    
-                      <a class="hover-with-bg" href="/tags/Architecture/">Architecture</a>
+                      <a class="hover-with-bg" href="/tags/pytorch/">pytorch</a>
                     
                   </div>
                 
@@ -307,21 +303,9 @@ UMA(Uniform Memory Access):统一内存访问</p>
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/10/02/transformer%E7%90%86%E8%A7%A3/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">transformer理解</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
-                    
-                      <a href="/2022/09/22/namespace/">
-                        <span class="hidden-mobile">linux namespace</span>
-                        <span class="visible-mobile">下一篇</span>
-                        <i class="iconfont icon-arrowright"></i>
-                      </a>
                     
                   </article>
                 </div>
@@ -343,7 +327,7 @@ UMA(Uniform Memory Access):统一内存访问</p>
         var options = Object.assign(
           {"clientID":"1db059241d978c80eecd","clientSecret":"fa4f54290b2645c1dd4af84d9241dcb8c3e8e637","repo":"ayyBlog","owner":"ayyha","admin":["ayyha"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
           {
-            id: '8c9d21aea452be58820381b4624eb1a2'
+            id: 'c328aedca97cfd6c60b22049636d6e0a'
           }
         )
         var gitalk = new Gitalk(options);
@@ -517,9 +501,23 @@ UMA(Uniform Memory Access):统一内存访问</p>
 
 
 
+  
+
+  
+    <!-- KaTeX -->
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0/dist/katex.min.css" />
+  
 
 
 
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js" ></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({"theme":"default"});
+    }
+  </script>
 
 
 
