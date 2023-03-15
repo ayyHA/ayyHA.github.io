@@ -27,8 +27,11 @@
 <meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/fcn-children-arch.jpg">
 <meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/fcn-children-arch-0.jpg">
 <meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/fcn-modules-arch.png">
+<meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/sequential-arch.png">
+<meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/sequential-arch-orderedDict.png">
+<meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/modulelist-arch.png">
 <meta property="article:published_time" content="2023-03-13T16:25:38.000Z">
-<meta property="article:modified_time" content="2023-03-14T03:13:44.951Z">
+<meta property="article:modified_time" content="2023-03-15T06:57:45.571Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="pytorch">
 <meta name="twitter:card" content="summary_large_image">
@@ -201,7 +204,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.5k 字
+      2.9k 字
     </span>
   
 
@@ -210,7 +213,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      5 分钟
+      9 分钟
     </span>
   
 
@@ -243,7 +246,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：5 小时前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -276,6 +279,22 @@ Sequential3 --> Linear3 & Tanh
 <li>通过<code>children()</code>获取网络层级结构,只会取最外层,即根节点下的一层</li>
 <li>通过<code>modules()</code>获取网络层级结构,则类似对网络结构进行DFS,依次输出</li>
 </ul>
+<h2 id="pytorch中的模型容器"><a class="markdownIt-Anchor" href="#pytorch中的模型容器"></a> pytorch中的模型容器</h2>
+<p>利用模型容器,可以<strong>自动的将module注册到网络上</strong>,以及<strong>将module的parameters添加到网络上</strong></p>
+<h3 id="nnsequential"><a class="markdownIt-Anchor" href="#nnsequential"></a> nn.Sequential</h3>
+<p>将如<code>Conv2d</code>,<code>BatchNorm2d</code>,<code>ReLU</code>等的module放入<code>nn.Sequential</code>容器中,将会<strong>按照放置的顺序执行</strong>,e.g.:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> torch.nn <span class="hljs-keyword">as</span> nn<br><br>layer1 = nn.Sequential(<br>    nn.Conv2d(<span class="hljs-number">3</span>, <span class="hljs-number">256</span>, <span class="hljs-number">3</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>),<br>    nn.BatchNorm2d(<span class="hljs-number">256</span>),<br>    nn.ReLU(),<br>    nn.Conv2d(<span class="hljs-number">256</span>, <span class="hljs-number">512</span>, <span class="hljs-number">3</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>),<br>    nn.BatchNorm2d(<span class="hljs-number">512</span>),<br>    nn.ReLU()<br>)<br><span class="hljs-built_in">print</span>(layer1)<br></code></pre></td></tr></table></figure>
+<p>其网络层级结构如下所示</p>
+<p><img src="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/sequential-arch.png" srcset="/img/loading.gif" lazyload alt="sequential-arch" /></p>
+<p>其还可以用<code>OrderedDict</code>去为每个module命名,e.g.:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> torch.nn <span class="hljs-keyword">as</span> nn<br><span class="hljs-keyword">import</span> collections<br><br>layer1 = nn.Sequential(collections.OrderedDict([<br>    (<span class="hljs-string">&quot;conv1&quot;</span>, nn.Conv2d(<span class="hljs-number">3</span>, <span class="hljs-number">256</span>, <span class="hljs-number">3</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>)),<br>    (<span class="hljs-string">&quot;bn1&quot;</span>, nn.BatchNorm2d(<span class="hljs-number">256</span>)),<br>    (<span class="hljs-string">&quot;relu1&quot;</span>, nn.ReLU()),<br>    (<span class="hljs-string">&quot;conv2&quot;</span>, nn.Conv2d(<span class="hljs-number">256</span>, <span class="hljs-number">512</span>, <span class="hljs-number">3</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>)),<br>    (<span class="hljs-string">&quot;bn2&quot;</span>, nn.BatchNorm2d(<span class="hljs-number">512</span>)),<br>    (<span class="hljs-string">&quot;relu2&quot;</span>, nn.ReLU())<br>]))<br><span class="hljs-built_in">print</span>(layer1)<br></code></pre></td></tr></table></figure>
+<p>网络层级结构如下示</p>
+<p><img src="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/sequential-arch-orderedDict.png" srcset="/img/loading.gif" lazyload alt="sequential-arch-orderedDict" /></p>
+<h3 id="nnmodulelist"><a class="markdownIt-Anchor" href="#nnmodulelist"></a> nn.ModuleList</h3>
+<p>该模型容器类似于list,较之<code>nn.Sequential</code>可以更灵活的使用,充当了存放module的容器,执行的顺序在<code>forward</code>中自行定义,较之原生的list,则是可以注册module于网络以及对其参数添加进<code>nn.Parameters()</code>中.e.g.:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> torch.nn <span class="hljs-keyword">as</span> nn<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestNet</span>(<span class="hljs-params">nn.Module</span>):</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self</span>):</span><br>        <span class="hljs-built_in">super</span>(TestNet, self).__init__()<br>        self.conv1 = nn.Conv2d(<span class="hljs-number">3</span>, <span class="hljs-number">256</span>, <span class="hljs-number">3</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>)<br>        self.bn1 = nn.BatchNorm2d(<span class="hljs-number">256</span>)<br>        self.relu1 = nn.ReLU(inplace=<span class="hljs-literal">True</span>)<br>        self.layer1 = [nn.Linear(<span class="hljs-number">256</span>, <span class="hljs-number">100</span>), nn.Linear(<span class="hljs-number">100</span>, <span class="hljs-number">10</span>)]<br>        self.layer2_ = [nn.Linear(<span class="hljs-number">256</span>, <span class="hljs-number">200</span>), nn.Linear(<span class="hljs-number">200</span>, <span class="hljs-number">10</span>)]<br>        self.layer2 = nn.ModuleList(self.layer2_)<br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">forward</span>(<span class="hljs-params">self, x</span>):</span><br>        x = self.conv1(x)<br>        x = self.bn1(x)<br>        x = self.relu1(x)<br>        <span class="hljs-keyword">for</span> l <span class="hljs-keyword">in</span> self.layer1:<br>            x = l(x)<br>        <span class="hljs-keyword">for</span> l <span class="hljs-keyword">in</span> self.layer2:<br>            x = l(x)<br>        <span class="hljs-keyword">return</span> x<br></code></pre></td></tr></table></figure>
+<p>其执行结果表示,用list充当容器,并不能将所需的module注册,而ModuleList则可以,结果如下图示</p>
+<p><img src="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/modulelist-arch.png" srcset="/img/loading.gif" lazyload alt="modulelist-arch" /></p>
 
             </div>
             <hr>
