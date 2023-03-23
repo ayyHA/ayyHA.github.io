@@ -1,0 +1,629 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="对SSD的理解和代码分析">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <meta name="description" content="对SSD的理解和代码分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SSD理解及代码解析">
+<meta property="og:url" content="http://example.com/2023/03/23/SSD%E7%90%86%E8%A7%A3%E5%8F%8A%E4%BB%A3%E7%A0%81%E8%A7%A3%E6%9E%90/index.html">
+<meta property="og:site_name" content="ayyHA&#39;s blog">
+<meta property="og:description" content="对SSD的理解和代码分析">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/ssd-yolo-arch-contrast.png">
+<meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/resnet-arch-for-code.png">
+<meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/res50-backbone-ssd-arch.png">
+<meta property="article:published_time" content="2023-03-23T02:22:30.000Z">
+<meta property="article:modified_time" content="2023-03-23T11:45:09.361Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Object Detection">
+<meta property="article:tag" content="SSD">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/ssd-yolo-arch-contrast.png">
+  
+  <title>SSD理解及代码解析 - ayyHA&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":"9c7ed39aa5906acb06d9f9cb7df236ae","google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>ayyHA</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="SSD理解及代码解析">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2023-03-23 10:22" pubdate>
+        2023年3月23日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      16 分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">SSD理解及代码解析</h1>
+            
+              <p class="note note-info">
+                
+                  本文最后更新于：几秒前
+                
+              </p>
+            
+            <div class="markdown-body">
+              <h2 id="ssd理解"><a class="markdownIt-Anchor" href="#ssd理解"></a> SSD理解</h2>
+<p>SSD(Single Shot MultiBox Detector)是一个one-stage的目标检测模型,它的网络结构如下:</p>
+<p><img src="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/ssd-yolo-arch-contrast.png" srcset="/img/loading.gif" lazyload alt="ssd-yolo-arch-contrast" /></p>
+<p>根据上面的网络结构图,有:</p>
+<ul>
+<li>SSD的<strong>backbone采用的是VGG的前五层</strong>,后面的maxpool以及fc层都被换成卷积层</li>
+<li>SSD有6个feature map用于预测分类和回归,即<strong>多尺度检测</strong></li>
+<li>SSD是<strong>通过卷积操作来预测分类和定位回归</strong>,而YOLO则是通过全连接层变换到指定维度</li>
+<li>SSD是<strong>基于anchor来预测</strong>的,而<strong>不同feature map的cell/grid是对应不同的anchor数目</strong></li>
+</ul>
+<p>SSD具体的操作,如<strong>default box(就是anchor)生成,正负样本匹配策略</strong>等会在下面结合代码一起理解</p>
+<h2 id="写于代码分析前"><a class="markdownIt-Anchor" href="#写于代码分析前"></a> 写于代码分析前</h2>
+<p>我们知道,目标检测由以下组件组成:<strong>backbone,neck,head</strong></p>
+<ul>
+<li>backbone: <strong>骨干网络</strong>,用来进行<strong>特征提取</strong>.我们之前学习的分类任务中提及的网络都有良好的特征提取能力,因此用来充当backbone</li>
+<li>neck: 用于<strong>特征融合</strong>,以<strong>获取不同尺度的感受野信息</strong></li>
+<li>head: <strong>检测头</strong>,用来<strong>预测目标类别和定位回归</strong></li>
+</ul>
+<h2 id="ssd代码分析"><a class="markdownIt-Anchor" href="#ssd代码分析"></a> SSD代码分析</h2>
+<p>整体流程如下:</p>
+<ol>
+<li>
+<p>ResNet50基础网络</p>
+</li>
+<li>
+<p>backbone用于提取特征</p>
+</li>
+<li>
+<p>ssd_model完成整个训练及预测的流程</p>
+<ol>
+<li>构建多尺度特征图用于预测分类和回归</li>
+<li>default_box生成</li>
+<li>正负样本匹配</li>
+</ol>
+<ul>
+<li>训练
+<ul>
+<li>loss计算
+<ul>
+<li>定位loss</li>
+<li>分类loss(hard negative mining)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>预测
+<ul>
+<li>后处理,如nms</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>因此本文将以上述顺序进行分析</p>
+<p>注:本文分析的是输入为300*300的SSD</p>
+<h3 id="resnet-50"><a class="markdownIt-Anchor" href="#resnet-50"></a> ResNet-50</h3>
+<p>由于这是16年的模型,所以当时作者用的是VGG,但在本文,我们用ResNet-50来作为backbone(ResNet具体信息查看<a target="_blank" rel="noopener" href="https://ayyha.github.io/2023/03/09/image-classification%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8%E6%A8%A1%E5%9E%8B/#resnet">image-classification的一些常用模型</a>)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Bottleneck</span>(<span class="hljs-params">nn.Module</span>):</span><br>    expansion = <span class="hljs-number">4</span><br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self, in_channel, out_channel, stride=<span class="hljs-number">1</span>, downsample=<span class="hljs-literal">None</span></span>):</span><br>        <span class="hljs-built_in">super</span>(Bottleneck, self).__init__()<br>        self.conv1 = nn.Conv2d(in_channels=in_channel, out_channels=out_channel, kernel_size=<span class="hljs-number">1</span>, stride=<span class="hljs-number">1</span>, bias=<span class="hljs-literal">False</span>)<br>        self.bn1 = nn.BatchNorm2d(out_channel)<br>        self.relu = nn.ReLU(inplace=<span class="hljs-literal">True</span>)<br>        self.conv2 = nn.Conv2d(in_channels=out_channel, out_channels=out_channel, kernel_size=<span class="hljs-number">3</span>, stride=stride,<br>                               bias=<span class="hljs-literal">False</span>, padding=<span class="hljs-number">1</span>)<br>        self.bn2 = nn.BatchNorm2d(out_channel)<br>        self.conv3 = nn.Conv2d(in_channels=out_channel, out_channels=out_channel * self.expansion, kernel_size=<span class="hljs-number">1</span>,<br>                               stride=<span class="hljs-number">1</span>, bias=<span class="hljs-literal">False</span>)<br>        self.bn3 = nn.BatchNorm2d(out_channel * self.expansion)<br>        self.downsample = downsample<br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">forward</span>(<span class="hljs-params">self, x</span>):</span><br>        identity = x<br>        <span class="hljs-keyword">if</span> self.downsample <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:<br>            identity = self.downsample(x)<br>        residual = self.conv1(x)<br>        residual = self.bn1(residual)<br>        residual = self.relu(residual)<br><br>        residual = self.conv2(residual)<br>        residual = self.bn2(residual)<br>        residual = self.relu(residual)<br><br>        residual = self.conv3(residual)<br>        residual = self.bn3(residual)<br><br>        residual += identity<br>        residual = self.relu(residual)<br><br>        <span class="hljs-keyword">return</span> residual<br></code></pre></td></tr></table></figure>
+<p>我们知道,ResNet-50相较于ResNet-18/34,其残差结构块是由三个卷积构成,分别:<strong>降维-&gt;卷积-&gt;升维</strong>这三个步骤,呈现两头大中间细,因此称为<strong>Bottleneck结构</strong>,而对于每一次的卷积操作,都是要经历<strong>卷积-&gt;Batch Normalization-&gt;Non Linearity(ReLU)<strong>这几步操作.以上便是Bottleneck的代码部分,其中</strong>expansion</strong>是用于标识第三层卷积的卷积核数目相较于第一层卷积的卷积核数目的<strong>膨胀系数</strong>;<strong>downsample</strong>则是用于<strong>identity mapping的维度变换</strong>(因为同样shape才可以和residual mapping进行相加)</p>
+<p>下图中<strong>绿色框标识</strong>的则为每一个Bottleneck的<code>out_channel</code>,<strong>黄色框标识</strong>则为<code>in_channel</code>,而右边灰色框框住的则为每一个Bottleneck需要迭代的次数,因此我们需要定义一个方法用来逐层执行(一层有多个Bottleneck)</p>
+<p><img src="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/resnet-arch-for-code.png" srcset="/img/loading.gif" lazyload alt="resnet-arch-for-code" /></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_make_layer</span>(<span class="hljs-params">self, block, channel, block_num, stride=<span class="hljs-number">1</span></span>):</span><br>    downsample = <span class="hljs-literal">None</span><br>    <span class="hljs-keyword">if</span> stride != <span class="hljs-number">1</span> <span class="hljs-keyword">or</span> self.in_channel != channel * block.expansion:<br>        downsample = nn.Sequential(<br>            nn.Conv2d(self.in_channel, channel * block.expansion, kernel_size=<span class="hljs-number">1</span>, stride=stride, bias=<span class="hljs-literal">False</span>),<br>            nn.BatchNorm2d(channel * block.expansion)<br>        )<br>    layers = []<br>    layers.append(block(self.in_channel, channel, downsample=downsample, stride=stride))<br>    self.in_channel = channel * block.expansion<br><br>    <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, block_num):<br>        layers.append(block(self.in_channel, channel))<br><br>    <span class="hljs-keyword">return</span> nn.Sequential(*layers)<br></code></pre></td></tr></table></figure>
+<p><code>_make_layer</code>便是逐层执行的方法,其中<code>block</code>是<code>Bottleneck</code>类,而<code>block_num</code>代表的是一个Bottleneck迭代的次数</p>
+<p>由此,可以根据<code>_make_layer</code>方法构建出整个网络的结构,ResNet类的<code>__init__</code>和<code>forward</code>方法如下所示:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self, block, blocks_num, num_classes=<span class="hljs-number">1000</span>, include_top=<span class="hljs-literal">True</span></span>):</span><br>    <span class="hljs-built_in">super</span>(ResNet, self).__init__()<br>    self.include_top = include_top<br>    self.in_channel = <span class="hljs-number">64</span><br><br>    self.conv1 = nn.Conv2d(<span class="hljs-number">3</span>, self.in_channel, kernel_size=<span class="hljs-number">7</span>, stride=<span class="hljs-number">2</span>, padding=<span class="hljs-number">3</span>, bias=<span class="hljs-literal">False</span>)<br>    self.bn1 = nn.BatchNorm2d(self.in_channel)<br>    self.relu = nn.ReLU(inplace=<span class="hljs-literal">True</span>)<br><br>    self.maxpool = nn.MaxPool2d(<span class="hljs-number">3</span>, stride=<span class="hljs-number">2</span>, padding=<span class="hljs-number">1</span>)<br><br>    self.layer1 = self._make_layer(block, <span class="hljs-number">64</span>, blocks_num[<span class="hljs-number">0</span>])<br>    self.layer2 = self._make_layer(block, <span class="hljs-number">128</span>, blocks_num[<span class="hljs-number">1</span>], stride=<span class="hljs-number">2</span>)<br>    self.layer3 = self._make_layer(block, <span class="hljs-number">256</span>, blocks_num[<span class="hljs-number">2</span>], stride=<span class="hljs-number">2</span>)<br>    self.layer4 = self._make_layer(block, <span class="hljs-number">512</span>, blocks_num[<span class="hljs-number">3</span>], stride=<span class="hljs-number">2</span>)<br><br>    <span class="hljs-keyword">if</span> self.include_top:<br>        self.avgpool = nn.AdaptiveAvgPool2d((<span class="hljs-number">1</span>, <span class="hljs-number">1</span>))<br>        self.fc = nn.Linear(<span class="hljs-number">512</span> * block.expansion, num_classes)<br><br>    <span class="hljs-keyword">for</span> m <span class="hljs-keyword">in</span> self.modules():<br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(m, nn.Conv2d):<br>            nn.init.kaiming_normal_(m.weight, mode=<span class="hljs-string">&#x27;fan_out&#x27;</span>, nonlinearity=<span class="hljs-string">&#x27;relu&#x27;</span>)<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">forward</span>(<span class="hljs-params">self, x</span>):</span><br>    x = self.conv1(x)<br>    x = self.bn1(x)<br>    x = self.relu(x)<br>    x = self.maxpool(x)<br><br>    x = self.layer1(x)<br>    x = self.layer2(x)<br>    x = self.layer3(x)<br>    x = self.layer4(x)<br><br>    <span class="hljs-keyword">if</span> self.include_top:<br>        x = self.avgpool(x)<br>        x = torch.flatten(x, <span class="hljs-number">1</span>)<br>        x = self.fc(x)<br>    <span class="hljs-keyword">return</span> x<br><br></code></pre></td></tr></table></figure>
+<p>至此,便完成了ResNet50的代码部分</p>
+<h4 id="backbone"><a class="markdownIt-Anchor" href="#backbone"></a> backbone</h4>
+<p>在开始介绍之前,我们先看下用Resnet-50作为backbone的SSD的网络结构图:</p>
+<p><img src="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/res50-backbone-ssd-arch.png" srcset="/img/loading.gif" lazyload alt="res50-backbone-ssd-arch" /></p>
+<p>由图中可知:并非整个ResNet-50都用做backbone,我们选取<code>conv4</code>这一层作为第一个做预测的特征图(<code>conv5</code>及后面的层全部抛弃).因此backbone便是截取到<code>conv4</code>,也即是对于<code>nn.Module.children()</code>而言,即是取到索引的第7位,然后根据SSD论文,需要对第四层的步距修改为1,因此也需要对identity mapping的<code>stride</code>也进行修改,代码如下:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Backbone</span>(<span class="hljs-params">nn.Module</span>):</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self, pretrain_path=<span class="hljs-literal">None</span></span>):</span><br>        <span class="hljs-built_in">super</span>(Backbone, self).__init__()<br>        net = resnet50()<br>        <span class="hljs-comment"># 用于后面的特征图的channel</span><br>        self.out_channels = [<span class="hljs-number">1024</span>, <span class="hljs-number">512</span>, <span class="hljs-number">512</span>, <span class="hljs-number">256</span>, <span class="hljs-number">256</span>, <span class="hljs-number">256</span>]<br><br>        <span class="hljs-keyword">if</span> pretrain_path <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:<br>            net.load_state_dict(torch.load(pretrain_path))<br><br>        self.feature_extractor = nn.Sequential(*<span class="hljs-built_in">list</span>(net.children())[:<span class="hljs-number">7</span>])<br><br>        conv4_block1 = self.feature_extractor[-<span class="hljs-number">1</span>][<span class="hljs-number">0</span>]<br>		<br>        <span class="hljs-comment"># 这一行代码不是必须的,是用于ResNet-18/34的</span><br>        conv4_block1.conv1.stride = (<span class="hljs-number">1</span>, <span class="hljs-number">1</span>)<br>        conv4_block1.conv2.stride = (<span class="hljs-number">1</span>, <span class="hljs-number">1</span>)<br>        conv4_block1.downsample[<span class="hljs-number">0</span>].stride = (<span class="hljs-number">1</span>, <span class="hljs-number">1</span>)<br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">forward</span>(<span class="hljs-params">self, x</span>):</span><br>        x = self.feature_extractor(x)<br>        <span class="hljs-keyword">return</span> x<br></code></pre></td></tr></table></figure>
+<p>由此,我们便完成了backbone的构造,当我们通过如下方式调用</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">image_test = torch.randn(<span class="hljs-number">1</span>,<span class="hljs-number">3</span>,<span class="hljs-number">300</span>,<span class="hljs-number">300</span>)<br>backbone = Backbone()<br>feature_extractor = backbone(image_test) <br></code></pre></td></tr></table></figure>
+<p>便可以得到<code>1*1024*38*38</code>这样大小的tensor</p>
+<h3 id="ssd_model"><a class="markdownIt-Anchor" href="#ssd_model"></a> ssd_model</h3>
+<h4 id="多尺度特征图的构建"><a class="markdownIt-Anchor" href="#多尺度特征图的构建"></a> 多尺度特征图的构建</h4>
+<h2 id="ssd实验"><a class="markdownIt-Anchor" href="#ssd实验"></a> SSD实验</h2>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Object-Detection/">Object Detection</a>
+                    
+                      <a class="hover-with-bg" href="/tags/SSD/">SSD</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/03/14/Some-lib-of-Python/">
+                        <span class="hidden-mobile">Some lib of Python</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', function() {
+        var options = Object.assign(
+          {"clientID":"1db059241d978c80eecd","clientSecret":"fa4f54290b2645c1dd4af84d9241dcb8c3e8e637","repo":"ayyBlog","owner":"ayyha","admin":["ayyha"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
+          {
+            id: '70d093575db503aa82dc8a1a83d07ccf'
+          }
+        )
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- KaTeX -->
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0/dist/katex.min.css" />
+  
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js" ></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({"theme":"default"});
+    }
+  </script>
+
+
+
+
+  
+    <!-- Baidu Analytics -->
+    <script defer>
+      var _hmt = _hmt || [];
+      (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?9c7ed39aa5906acb06d9f9cb7df236ae";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"display":{"position":"left","width":150,"height":300,"hOffset":30,"vOffset":-50,"superSample":2},"mobile":{"show":false},"react":{"opacityDefault":0.7,"opacityOnHover":0.2}});</script></body>
+</html>
