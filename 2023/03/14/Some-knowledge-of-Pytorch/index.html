@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/sequential-arch-orderedDict.png">
 <meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/modulelist-arch.png">
 <meta property="article:published_time" content="2023-03-13T16:25:38.000Z">
-<meta property="article:modified_time" content="2023-03-28T06:43:15.003Z">
+<meta property="article:modified_time" content="2023-03-28T09:18:13.791Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="pytorch">
 <meta name="twitter:card" content="summary_large_image">
@@ -204,7 +204,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      5.6k 字
+      5.7k 字
     </span>
   
 
@@ -246,7 +246,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2 分钟前
+                  本文最后更新于：1 分钟前
                 
               </p>
             
@@ -297,6 +297,7 @@ Sequential3 --> Linear3 & Tanh
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> torch.nn <span class="hljs-keyword">as</span> nn<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestNet</span>(<span class="hljs-params">nn.Module</span>):</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self</span>):</span><br>        <span class="hljs-built_in">super</span>(TestNet, self).__init__()<br>        self.conv1 = nn.Conv2d(<span class="hljs-number">3</span>, <span class="hljs-number">256</span>, <span class="hljs-number">3</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>)<br>        self.bn1 = nn.BatchNorm2d(<span class="hljs-number">256</span>)<br>        self.relu1 = nn.ReLU(inplace=<span class="hljs-literal">True</span>)<br>        self.layer1 = [nn.Linear(<span class="hljs-number">256</span>, <span class="hljs-number">100</span>), nn.Linear(<span class="hljs-number">100</span>, <span class="hljs-number">10</span>)]<br>        self.layer2_ = [nn.Linear(<span class="hljs-number">256</span>, <span class="hljs-number">200</span>), nn.Linear(<span class="hljs-number">200</span>, <span class="hljs-number">10</span>)]<br>        self.layer2 = nn.ModuleList(self.layer2_)<br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">forward</span>(<span class="hljs-params">self, x</span>):</span><br>        x = self.conv1(x)<br>        x = self.bn1(x)<br>        x = self.relu1(x)<br>        <span class="hljs-keyword">for</span> l <span class="hljs-keyword">in</span> self.layer1:<br>            x = l(x)<br>        <span class="hljs-keyword">for</span> l <span class="hljs-keyword">in</span> self.layer2:<br>            x = l(x)<br>        <span class="hljs-keyword">return</span> x<br></code></pre></td></tr></table></figure>
 <p>其执行结果表示,用list充当容器,并不能将所需的module注册,而ModuleList则可以,结果如下图示</p>
 <p><img src="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/modulelist-arch.png" srcset="/img/loading.gif" lazyload alt="modulelist-arch" /></p>
+<h2 id="datasetsamplerdataloader三者关系"><a class="markdownIt-Anchor" href="#datasetsamplerdataloader三者关系"></a> Dataset,Sampler,DataLoader三者关系</h2>
 <h2 id="torchutilsdatadataloader中的collate_fn"><a class="markdownIt-Anchor" href="#torchutilsdatadataloader中的collate_fn"></a> torch.utils.data.DataLoader中的collate_fn</h2>
 <p>在涉及到数据集处理的时候,我们需要考虑到<code>torch.utils.data.Dataset</code>类,以及<code>torch.utils.data.DataLoader</code>类</p>
 <p>其中前者是我们对数据集的处理,比如解析数据集数据,然后<strong>重写<code>__len__()</code>以及<code>__getitem__()</code>方法</strong>,而后在其中对数据进行<strong>预处理</strong>操作,然后才会得到**<code>data,target</code><strong>这样的数据,其中<code>data</code>可以是图像之类的,而<code>target</code>则可能是标签,GTbox的位置等信息,这时我们通过<code>__getitem__</code>方法</strong>只是获取到一条<code>data,target</code>数据**,处理批量数据的任务则由<code>DataLoader</code>承担</p>
