@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/sequential-arch-orderedDict.png">
 <meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/modulelist-arch.png">
 <meta property="article:published_time" content="2023-03-13T16:25:38.000Z">
-<meta property="article:modified_time" content="2023-03-28T09:18:13.791Z">
+<meta property="article:modified_time" content="2023-03-28T10:14:36.364Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="pytorch">
 <meta name="twitter:card" content="summary_large_image">
@@ -204,7 +204,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      5.7k 字
+      7.2k 字
     </span>
   
 
@@ -213,7 +213,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      18 分钟
+      22 分钟
     </span>
   
 
@@ -246,7 +246,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：1 分钟前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -298,6 +298,24 @@ Sequential3 --> Linear3 & Tanh
 <p>其执行结果表示,用list充当容器,并不能将所需的module注册,而ModuleList则可以,结果如下图示</p>
 <p><img src="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/modulelist-arch.png" srcset="/img/loading.gif" lazyload alt="modulelist-arch" /></p>
 <h2 id="datasetsamplerdataloader三者关系"><a class="markdownIt-Anchor" href="#datasetsamplerdataloader三者关系"></a> Dataset,Sampler,DataLoader三者关系</h2>
+<p>当我们需要对数据文件进行解析获得数据或者自己创建的数据集<code>ImageFolder</code>不能够满足我们的要求,我们则需要自定义一个<code>Dataset</code>类</p>
+<p>而定义好一个<code>Dataset</code>类后,我们可以通过循环或索引得到对应的一条数据,形如<code>data,target</code>,而<code>Sampler</code>则是对这些一条条的数据进行采样的工具,Pytorch提供的主要有<code>SequentialSampler</code>和<code>RandomSampler</code>,这些采样器采样得到的都是这些数据的索引</p>
+<p>显然我们一条条读取数据并不能满足我们的需求,我们更期望的是以batch为单位的读取数据,因而有<code>BatchSampler</code>这么一个批采样器,它会对我们Sampler,如<code>SequentialSampler</code>采样得到的一个个索引整理成一个<code>batch_size</code>大小的索引序列</p>
+<p>在DataLoader里面,我们便是对<code>BatchSampler</code>这个批采样器采样得到的索引序列进行处理,通过传入的<code>dataset</code>参数读取一条条数据,整理成一个<code>List[Tuple[Tensor,Tensor]]</code>这么一个<code>batch_list</code>的形式,交由<code>collate_fn</code>对这一个<code>batch_size</code>大小的数据进行整理,而后得到我们在循环里对<code>DataLoader</code>遍历的数据</p>
+<p>以下展现的是工作进程(num_worker)为0的<code>DataLoader</code>处理方式(跟我上面说的流程一样):</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># dataloader.py:</span><br> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DataLoader</span>(<span class="hljs-params"><span class="hljs-type">Generic</span>[T_co]</span>):</span><br> <span class="hljs-comment"># ...</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_get_iterator</span>(<span class="hljs-params">self</span>) -&gt; &#x27;_BaseDataLoaderIter&#x27;:</span><br>        <span class="hljs-keyword">if</span> self.num_workers == <span class="hljs-number">0</span>:<br>            <span class="hljs-keyword">return</span> _SingleProcessDataLoaderIter(self)<br> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">_SingleProcessDataLoaderIter</span>(<span class="hljs-params">_BaseDataLoaderIter</span>):</span><br> <span class="hljs-comment"># ...</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_next_data</span>(<span class="hljs-params">self</span>):</span><br>        index = self._next_index()  <span class="hljs-comment"># may raise StopIteration</span><br>        data = self._dataset_fetcher.fetch(index)  <span class="hljs-comment"># may raise StopIteration</span><br>        <span class="hljs-keyword">if</span> self._pin_memory:<br>            data = _utils.pin_memory.pin_memory(data)<br>        <span class="hljs-keyword">return</span> data<br><br><span class="hljs-comment"># fetch.py</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">_MapDatasetFetcher</span>(<span class="hljs-params">_BaseDatasetFetcher</span>):</span><br> <span class="hljs-comment"># ...</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">fetch</span>(<span class="hljs-params">self, possibly_batched_index</span>):</span><br>        <span class="hljs-keyword">if</span> self.auto_collation:<br>            data = [self.dataset[idx] <span class="hljs-keyword">for</span> idx <span class="hljs-keyword">in</span> possibly_batched_index]<br>        <span class="hljs-keyword">else</span>:<br>            data = self.dataset[possibly_batched_index]<br>        <span class="hljs-keyword">return</span> self.collate_fn(data)<br></code></pre></td></tr></table></figure>
+<p>自定义一个<code>Dataset</code>类需要的工作:</p>
+<ul>
+<li>继承<code>torch.utils.data.Dataset</code></li>
+<li>在<code>__init__</code>中传入需要处理的数据(可能是数据的目录啥的),对数据的预处理方法</li>
+<li>在**<code>__getitem__</code>**中完成对数据的解析,预处理,然后返回对应的数据,如<code>return data,target</code></li>
+<li>在<code>__len__</code>中反应需要处理的数据集的大小</li>
+</ul>
+<p>自定义一个Sampler类需要的工作:</p>
+<ul>
+<li>继承<code>torch.utils.data.Sampler</code></li>
+<li>在<code>__iter__</code>方法中返回一个iterator</li>
+</ul>
 <h2 id="torchutilsdatadataloader中的collate_fn"><a class="markdownIt-Anchor" href="#torchutilsdatadataloader中的collate_fn"></a> torch.utils.data.DataLoader中的collate_fn</h2>
 <p>在涉及到数据集处理的时候,我们需要考虑到<code>torch.utils.data.Dataset</code>类,以及<code>torch.utils.data.DataLoader</code>类</p>
 <p>其中前者是我们对数据集的处理,比如解析数据集数据,然后<strong>重写<code>__len__()</code>以及<code>__getitem__()</code>方法</strong>,而后在其中对数据进行<strong>预处理</strong>操作,然后才会得到**<code>data,target</code><strong>这样的数据,其中<code>data</code>可以是图像之类的,而<code>target</code>则可能是标签,GTbox的位置等信息,这时我们通过<code>__getitem__</code>方法</strong>只是获取到一条<code>data,target</code>数据**,处理批量数据的任务则由<code>DataLoader</code>承担</p>
@@ -598,20 +616,5 @@ Sequential3 --> Linear3 & Tanh
 <script  src="/js/boot.js" ></script>
 
 
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"display":{"position":"left","width":150,"height":300,"hOffset":30,"vOffset":-50,"superSample":2},"mobile":{"show":false},"react":{"opacityDefault":0.7,"opacityOnHover":0.2}});</script></body>
 </html>
