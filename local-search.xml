@@ -4,31 +4,6 @@
   
   
   <entry>
-    <title>Pipeline Parallelism GPipe And PipeDream</title>
-    <link href="/2023/05/17/Pipeline-Parallelism-GPipe-And-PipeDream/"/>
-    <url>/2023/05/17/Pipeline-Parallelism-GPipe-And-PipeDream/</url>
-    
-    <content type="html"><![CDATA[<h2 id="从模型并行讲起"><a class="markdownIt-Anchor" href="#从模型并行讲起"></a> 从模型并行讲起</h2><h2 id="gpipe"><a class="markdownIt-Anchor" href="#gpipe"></a> GPipe</h2><h3 id="micro-batch"><a class="markdownIt-Anchor" href="#micro-batch"></a> micro-batch</h3><h3 id="re-materialization"><a class="markdownIt-Anchor" href="#re-materialization"></a> re-materialization</h3><h2 id="pipedream"><a class="markdownIt-Anchor" href="#pipedream"></a> PipeDream</h2><h3 id="weight-stashing"><a class="markdownIt-Anchor" href="#weight-stashing"></a> weight stashing</h3><h3 id="vertical-sync"><a class="markdownIt-Anchor" href="#vertical-sync"></a> vertical sync</h3>]]></content>
-    
-    
-    
-    <tags>
-      
-      <tag>distributed system</tag>
-      
-      <tag>pipeline parallelism</tag>
-      
-      <tag>data parallelism</tag>
-      
-      <tag>model parallelism</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>SSD理解及代码解析</title>
     <link href="/2023/03/23/SSD%E7%90%86%E8%A7%A3%E5%8F%8A%E4%BB%A3%E7%A0%81%E8%A7%A3%E6%9E%90/"/>
     <url>/2023/03/23/SSD%E7%90%86%E8%A7%A3%E5%8F%8A%E4%BB%A3%E7%A0%81%E8%A7%A3%E6%9E%90/</url>
