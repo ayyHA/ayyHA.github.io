@@ -13,23 +13,24 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="PO、VO、DTO、POJO、DAO这些对象的介绍及理解">
+  <meta name="description" content="对迁移和卸载的介绍">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <meta name="description" content="PO、VO、DTO、POJO、DAO这些对象的介绍及理解">
+  <meta name="description" content="对迁移和卸载的介绍">
 <meta property="og:type" content="article">
-<meta property="og:title" content="PO、VO、DTO等对象的理解">
-<meta property="og:url" content="http://example.com/2022/02/26/PO%E3%80%81VO%E3%80%81DTO%E7%AD%89%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%90%86%E8%A7%A3/index.html">
+<meta property="og:title" content="计算卸载和计算迁移的简要介绍">
+<meta property="og:url" content="http://example.com/2023/08/21/%E8%AE%A1%E7%AE%97%E5%8D%B8%E8%BD%BD%E5%92%8C%E8%AE%A1%E7%AE%97%E8%BF%81%E7%A7%BB%E7%9A%84%E7%AE%80%E8%A6%81%E4%BB%8B%E7%BB%8D/index.html">
 <meta property="og:site_name" content="ayyHA&#39;s blog">
-<meta property="og:description" content="PO、VO、DTO、POJO、DAO这些对象的介绍及理解">
+<meta property="og:description" content="对迁移和卸载的介绍">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-02-26T07:54:08.000Z">
-<meta property="article:modified_time" content="2022-02-26T08:17:42.349Z">
+<meta property="article:published_time" content="2023-08-21T07:27:13.000Z">
+<meta property="article:modified_time" content="2023-08-28T01:23:45.292Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="java">
+<meta property="article:tag" content="offload">
+<meta property="article:tag" content="migration">
 <meta name="twitter:card" content="summary_large_image">
   
-  <title>PO、VO、DTO等对象的理解 - ayyHA&#39;s blog</title>
+  <title>计算卸载和计算迁移的简要介绍 - ayyHA&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -175,7 +176,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="PO、VO、DTO等对象的理解">
+            <span class="h2" id="subtitle" title="计算卸载和计算迁移的简要介绍">
               
             </span>
 
@@ -185,8 +186,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-02-26 15:54" pubdate>
-        2022年2月26日 下午
+      <time datetime="2023-08-21 15:27" pubdate>
+        2023年8月21日 下午
       </time>
     </span>
   
@@ -196,7 +197,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      477 字
+      926 字
     </span>
   
 
@@ -205,7 +206,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1 分钟
+      3 分钟
     </span>
   
 
@@ -234,27 +235,70 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">PO、VO、DTO等对象的理解</h1>
+            <h1 style="display: none">计算卸载和计算迁移的简要介绍</h1>
             
               <p class="note note-info">
                 
-                  本文最后更新于：2 年前
+                  本文最后更新于：几秒前
                 
               </p>
             
             <div class="markdown-body">
-              <h2 id="po"><a class="markdownIt-Anchor" href="#po"></a> PO</h2>
-<p>  PO -&gt; Persistence Object 持久化对象，即一个持久化对象可以理解为数据库一张表中的记录，即它所包含的<strong>属性对应表中字段</strong></p>
-<h2 id="vo"><a class="markdownIt-Anchor" href="#vo"></a> VO</h2>
-<p>  VO -&gt; Value Object 值对象，一般指一些不会变化的值作为属性来存储；<br />
-  VO -&gt; View Object 表现层/UI层的对象，即它里面所对应的属性的数据是用于界面展示的数据</p>
-<h2 id="dto"><a class="markdownIt-Anchor" href="#dto"></a> DTO</h2>
-<p>  DTO -&gt; Data Transfer Object 数据传输对象，将客户端请求的数据通过网络传输给它，它相较于PO的区别在于：我们存到数据库的数据的字段可能有20个，但我们客户端需要的只是5个，我们只需要将这5个对象传输给客户端即可，即<strong>不会暴露我们的表结构</strong>，也可以<strong>提高传输效率</strong>。将与客户端进行数据交互的功能交由DTO处理。<br />
-  当然DTO对象到客户端后，若是用于界面展示，则它转化为VO。</p>
-<h2 id="pojo"><a class="markdownIt-Anchor" href="#pojo"></a> POJO</h2>
-<p>  POJO -&gt; Plain Ordinary Java Object 简单的Java对象，可以根据具体的使用场景转化为PO、VO、DTO</p>
-<h2 id="dao"><a class="markdownIt-Anchor" href="#dao"></a> DAO</h2>
-<p>  DAO -&gt; Data Access Object 数据访问对象。封装了对于数据库的CRUD操作。</p>
+              <p>边缘计算中有**计算卸载(offload)<strong>和</strong>计算迁移(migration)**这两个概念,通过翻阅网上资料以及部分论文内容,发现二者的概念非常相似,结合chatgpt3.5的说法,以下给出二者的主要区别,而关于其工作流程,性能指标,大致相似,因此则混为一谈</p>
+<h2 id="计算迁移和计算卸载的主要区别"><a class="markdownIt-Anchor" href="#计算迁移和计算卸载的主要区别"></a> 计算迁移和计算卸载的主要区别</h2>
+<p>计算迁移和计算卸载的主要区别在于<strong>任务去向</strong>和<strong>侧重点</strong>不同</p>
+<ul>
+<li>
+<p><strong>任务去向</strong></p>
+<ul>
+<li>对于<strong>计算卸载</strong>,将任务的一部分或全部发送到外部设备(一般<strong>是云服务器或者别的高性能设备</strong>)来进行处理.一般进行卸载的是密集型计算的任务</li>
+<li>对于<strong>计算迁移</strong>,将任务/应用程序从一个设备迁移到另一个设备.一般是因为<strong>资源限制,设备性能差异</strong>等因素导致的迁移</li>
+</ul>
+</li>
+<li>
+<p><strong>侧重点</strong></p>
+<ul>
+<li>对于<strong>计算卸载</strong>,重点在于将密集型的计算任务从本地设备移出,减轻设备负担,提高性能和能效.通过将任务卸载到强大的计算资源上,来实现任务加速和节省能耗</li>
+<li>对于<strong>计算迁移</strong>,重点在于优化任务在不同设备间的分配,以实现更好的资源利用和性能.它着重于将任务从一个设备迁移到另一个设备上,以满足特定的需求,如资源均衡,能量管理或网络切换</li>
+</ul>
+</li>
+</ul>
+<h2 id="工作流程"><a class="markdownIt-Anchor" href="#工作流程"></a> 工作流程</h2>
+<p>计算卸载/迁移为以下六个步骤:</p>
+<ol>
+<li>节点发现(MCC的高性能服务器或MEC服务器);</li>
+<li>程序切割;</li>
+<li>卸载决策(是否卸载?卸载到哪?卸载策略有静态卸载和动态卸载);</li>
+<li>程序传输(流量/WIFI);</li>
+<li>执行计算(服务器启动虚拟机开始计算);</li>
+<li>计算结果回传</li>
+</ol>
+<h2 id="性能指标"><a class="markdownIt-Anchor" href="#性能指标"></a> 性能指标</h2>
+<p>目前,计算卸载/迁移的性能通常以**时间延迟(等待时间)<strong>和</strong>能量消耗(耗电)**作为衡量指标</p>
+<p>在不执行计算卸载/迁移时:</p>
+<ul>
+<li>时间延迟指在移动设备执行本地计算所花费的时间;</li>
+<li>能量消耗指在移动设备执行本地计算所消耗的能量;</li>
+</ul>
+<p>在执行计算卸载/迁移时:</p>
+<ul>
+<li>
+<p>时间延迟指</p>
+<p>①. 卸载数据到MEC节点的传输时间;</p>
+<p>②. MEC节点执行处理时间;</p>
+<p>③. 接收MEC节点的数据结果传输时间;</p>
+</li>
+</ul>
+<p>① + ② + ③即是时间延迟</p>
+<ul>
+<li>
+<p>能量消耗指</p>
+<p>①. 卸载数据到MEC节点的传输能耗;</p>
+<p>②. 接收来自MEC节点结果的传输能耗;</p>
+</li>
+</ul>
+<p>① + ②即是能量消耗</p>
+<p>一般来说,在做卸载/迁移决策时需要考虑到以上两种指标,使得最小化能耗(满足时延的约束条件下,最小化能耗)或者最小化时延(满足能耗的约束条件下,最小化时延),也可以根据需要,对时延和能耗分别赋权,使二者的加权和最小,即最大化收益的卸载/迁移决策</p>
 
             </div>
             <hr>
@@ -265,7 +309,9 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/java/">java</a>
+                      <a class="hover-with-bg" href="/tags/offload/">offload</a>
+                    
+                      <a class="hover-with-bg" href="/tags/migration/">migration</a>
                     
                   </div>
                 
@@ -282,18 +328,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/02/28/ORM%E7%9A%84%E7%90%86%E8%A7%A3/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">ORM的理解</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/02/24/Spring%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">
-                        <span class="hidden-mobile">Spring基础知识</span>
+                      <a href="/2023/07/28/Some-hardware-knowledge/">
+                        <span class="hidden-mobile">Some-hardware-knowledge</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -318,7 +358,7 @@
         var options = Object.assign(
           {"clientID":"1db059241d978c80eecd","clientSecret":"fa4f54290b2645c1dd4af84d9241dcb8c3e8e637","repo":"ayyBlog","owner":"ayyha","admin":["ayyha"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
           {
-            id: '59df7bc7ec529ba5f7977dc1120be428'
+            id: 'ed46ed7d52f11fdac02eb2a57895e791'
           }
         )
         var gitalk = new Gitalk(options);
@@ -491,6 +531,13 @@
 
 
 
+
+  
+
+  
+    <!-- KaTeX -->
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0/dist/katex.min.css" />
+  
 
 
 
