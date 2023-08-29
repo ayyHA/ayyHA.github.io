@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>Read paper: ZeRO-Infinity</title>
+    <link href="/2023/08/29/Read-paper-ZeRO-Infinity/"/>
+    <url>/2023/08/29/Read-paper-ZeRO-Infinity/</url>
+    
+    <content type="html"><![CDATA[<h2 id="zero-infinity"><a class="markdownIt-Anchor" href="#zero-infinity"></a> ZeRO-Infinity</h2><h3 id="abstract"><a class="markdownIt-Anchor" href="#abstract"></a> Abstract</h3><p>处理的是<strong>GPU内存墙</strong>的问题,是一个<strong>新的异构系统技术</strong>,利用了<strong>GPU,CPU,NVMe的内存</strong>,在有限的资源去达到史无前例的模型规模,而无需进行代码重构.同时,它能达到优异的训练吞吐量和可扩展性,<strong>不受CPU或者NVMe带宽的限制</strong></p><p>在现在的GPU集群中,能达到万亿乃至十万亿的参数量</p><p>在单个DGX-2节点上能微调万亿参数量级别的模型</p><p>超线性的可扩展性</p><h3 id="introduction"><a class="markdownIt-Anchor" href="#introduction"></a> Introduction</h3><h4 id="how-to-increase-model-scale"><a class="markdownIt-Anchor" href="#how-to-increase-model-scale"></a> How to increase model scale</h4><ul><li>训练模型的系统技术进步</li><li>并行技术如流水线并行,张量并行,ZeRO等的使用</li></ul><h4 id="why-gpu-memory-is-the-bottleneck"><a class="markdownIt-Anchor" href="#why-gpu-memory-is-the-bottleneck"></a> Why GPU memory is the bottleneck</h4><p>DeepSpeed实现的3D并行能在800张V100的卡上扩展到万亿级别的参数量,通过充分利用集群中聚合的GPU内存;对于A100的卡而言,则需要320张才可以做到万亿参数量;而若是想要训练百万亿参数量,即使GPU的内存可以翻5倍(指80GB -&gt; 400GB),也需要6K张卡才可以训练到.<strong>So GPU memory is the bottleneck</strong></p><h4 id="what-does-gpu-memory-wall-effect-data-scientist"><a class="markdownIt-Anchor" href="#what-does-gpu-memory-wall-effect-data-scientist"></a> What does GPU Memory Wall effect data scientist</h4><p>GPU内存墙也限制了Data Scientist对模型进行微调.由于模型量大,微调它们虽然比预训练的工作需要更少的GPU资源,但是也让人举步维艰.即使可以访问特定的计算资源,但是在计算节点上被分配的内存也有限,这又反过来使得想微调的模型大小受限.这样就使得没资源(大规模的GPU集群)的人,无法做大模型微调的工作</p><div class="note note-warning">            <p>原文有一句: For example fine-tuning GPT-3 would require over 8 DGX-2 nodes(128 GPUs) with 3D parallelism to just fit the model for training, even though a single DGX-2 node (16-GPUs) has enough compute to fine-tune it in a reasonable time.</p><p>不知道作者是想表达fine-tune比pre-train更cheap;</p><p>还是说即使更cheap,对大多数研究人员也内存墙;</p><p>还是指有些平台需要fine-tune的资源等价于pre-train的资源,即使可以有更合理更节省的方案</p>          </div><h4 id="3d-parallelism-lack-of-usability-and-flexibility"><a class="markdownIt-Anchor" href="#3d-parallelism-lack-of-usability-and-flexibility"></a> 3D parallelism lack of usability and flexibility</h4><p>3D并行性需要对代码重构,施加DP,PP,TP.但是PP即流水线并行它对于一些具有复杂依赖的模型无能为力,因为不能拆分为负载均衡的stage</p><h4 id="unprecedented-model-scale"><a class="markdownIt-Anchor" href="#unprecedented-model-scale"></a> Unprecedented Model Scale</h4><ul><li><strong>infinity offload engine</strong></li></ul><p>GPU资源是有限,我们可以offload数据到CPU和NVMe上,以此支持训练大模型</p><ul><li><strong>memory-centric tiling</strong></li></ul><p>优化GPU内存,以支持超大参数的单个层放入GPU内存中</p><h4 id="excellent-training-efficiency"><a class="markdownIt-Anchor" href="#excellent-training-efficiency"></a> Excellent Training Efficiency</h4><ul><li>bandwidth-centric partitioning</li></ul><p>引入一种新的数据分区策略以利用所有设备的聚合内存带宽</p><ul><li>communication overlap-centric design</li></ul><p>应该是遮掩通信的开销</p><ul><li>optimization for NVMe access</li></ul><p>优化NVMe访问,应该是对offload数据,以及回传数据进行优化</p><h4 id="ease-of-use"><a class="markdownIt-Anchor" href="#ease-of-use"></a> Ease of Use</h4>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>ZeRO系列</tag>
+      
+      <tag>NVMe</tag>
+      
+      <tag>offload</tag>
+      
+      <tag>Data Parallelism</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>计算卸载和计算迁移的简要介绍</title>
     <link href="/2023/08/21/%E8%AE%A1%E7%AE%97%E5%8D%B8%E8%BD%BD%E5%92%8C%E8%AE%A1%E7%AE%97%E8%BF%81%E7%A7%BB%E7%9A%84%E7%AE%80%E8%A6%81%E4%BB%8B%E7%BB%8D/"/>
     <url>/2023/08/21/%E8%AE%A1%E7%AE%97%E5%8D%B8%E8%BD%BD%E5%92%8C%E8%AE%A1%E7%AE%97%E8%BF%81%E7%A7%BB%E7%9A%84%E7%AE%80%E8%A6%81%E4%BB%8B%E7%BB%8D/</url>
@@ -29,17 +54,17 @@
     <link href="/2023/07/28/Some-hardware-knowledge/"/>
     <url>/2023/07/28/Some-hardware-knowledge/</url>
     
-    <content type="html"><![CDATA[<h2 id="导引"><a class="markdownIt-Anchor" href="#导引"></a> 导引</h2><p>为什么会想着写一篇关于硬件(SSD)的博文呢,在之前的一篇<strong>ZeRO-Infinity</strong>的论文中,讲到了利用<strong>NVMe</strong>来用作GPU,CPU内存的扩充,而对NVMe这个东西从未耳闻,因此看了一些资料来查缺补漏,便有了本文关于SSD这一硬件的简单讲解.其中主要涉及到的内容是<strong>PCIe</strong>的协议栈以及<strong>NVMe</strong>协议的讲解</p><h2 id="ssd"><a class="markdownIt-Anchor" href="#ssd"></a> SSD</h2><h3 id="物理接口"><a class="markdownIt-Anchor" href="#物理接口"></a> 物理接口</h3><h3 id="通道"><a class="markdownIt-Anchor" href="#通道"></a> 通道</h3><h4 id="pcie"><a class="markdownIt-Anchor" href="#pcie"></a> PCIe</h4><h3 id="协议"><a class="markdownIt-Anchor" href="#协议"></a> 协议</h3><h4 id="nvme"><a class="markdownIt-Anchor" href="#nvme"></a> NVMe</h4>]]></content>
+    <content type="html"><![CDATA[<h2 id="导引"><a class="markdownIt-Anchor" href="#导引"></a> 导引</h2><p>为什么会想着写一篇关于硬件(SSD)的博文呢,在之前的一篇<strong>ZeRO-Infinity</strong>的论文中,讲到了利用<strong>NVMe</strong>来用作GPU,CPU内存的扩充,而对NVMe这个东西从未耳闻,因此看了一些资料来查缺补漏,便有了本文关于SSD这一硬件的简单讲解.其中主要涉及到的内容是<strong>PCIe</strong>的协议栈以及<strong>NVMe</strong>协议的讲解</p><h2 id="ssd"><a class="markdownIt-Anchor" href="#ssd"></a> SSD</h2><h3 id="物理接口"><a class="markdownIt-Anchor" href="#物理接口"></a> 物理接口</h3><h3 id="通道"><a class="markdownIt-Anchor" href="#通道"></a> 通道</h3><h4 id="pcie"><a class="markdownIt-Anchor" href="#pcie"></a> PCIe</h4><h3 id="协议"><a class="markdownIt-Anchor" href="#协议"></a> 协议</h3><h4 id="nvme"><a class="markdownIt-Anchor" href="#nvme"></a> NVMe</h4><h2 id="dgx-1"><a class="markdownIt-Anchor" href="#dgx-1"></a> DGX-1</h2><h2 id="dgx-2"><a class="markdownIt-Anchor" href="#dgx-2"></a> DGX-2</h2>]]></content>
     
     
     
     <tags>
       
+      <tag>NVMe</tag>
+      
       <tag>PCIe</tag>
       
       <tag>GPU</tag>
-      
-      <tag>NVMe</tag>
       
       <tag>SSD</tag>
       

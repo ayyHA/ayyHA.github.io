@@ -13,25 +13,26 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="对图神经网络的简单理解">
+  <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <meta name="description" content="对图神经网络的简单理解">
+  <meta name="description" content="ZeRO-Infinity  Abstract 处理的是GPU内存墙的问题,是一个新的异构系统技术,利用了GPU,CPU,NVMe的内存,在有限的资源去达到史无前例的模型规模,而无需进行代码重构.同时,它能达到优异的训练吞吐量和可扩展性,不受CPU或者NVMe带宽的限制 在现在的GPU集群中,能达到万亿乃至十万亿的参数量 在单个DGX-2节点上能微调万亿参数量级别的模型 超线性的可扩展性  In">
 <meta property="og:type" content="article">
-<meta property="og:title" content="GNN简单理解">
-<meta property="og:url" content="http://example.com/2022/10/30/GNN%E7%AE%80%E5%8D%95%E7%90%86%E8%A7%A3/index.html">
+<meta property="og:title" content="Read paper: ZeRO-Infinity">
+<meta property="og:url" content="http://example.com/2023/08/29/Read-paper-ZeRO-Infinity/index.html">
 <meta property="og:site_name" content="ayyHA&#39;s blog">
-<meta property="og:description" content="对图神经网络的简单理解">
+<meta property="og:description" content="ZeRO-Infinity  Abstract 处理的是GPU内存墙的问题,是一个新的异构系统技术,利用了GPU,CPU,NVMe的内存,在有限的资源去达到史无前例的模型规模,而无需进行代码重构.同时,它能达到优异的训练吞吐量和可扩展性,不受CPU或者NVMe带宽的限制 在现在的GPU集群中,能达到万亿乃至十万亿的参数量 在单个DGX-2节点上能微调万亿参数量级别的模型 超线性的可扩展性  In">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-10-30T03:04:34.000Z">
-<meta property="article:modified_time" content="2023-03-14T03:14:53.042Z">
+<meta property="article:published_time" content="2023-08-29T07:06:19.000Z">
+<meta property="article:modified_time" content="2023-08-29T11:58:49.449Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="cv">
-<meta property="article:tag" content="GNN">
-<meta property="article:tag" content="GCN">
+<meta property="article:tag" content="ZeRO系列">
+<meta property="article:tag" content="NVMe">
+<meta property="article:tag" content="offload">
+<meta property="article:tag" content="Data Parallelism">
 <meta name="twitter:card" content="summary_large_image">
   
-  <title>GNN简单理解 - ayyHA&#39;s blog</title>
+  <title>Read paper: ZeRO-Infinity - ayyHA&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -177,7 +178,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="GNN简单理解">
+            <span class="h2" id="subtitle" title="Read paper: ZeRO-Infinity">
               
             </span>
 
@@ -187,8 +188,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-10-30 11:04" pubdate>
-        2022年10月30日 上午
+      <time datetime="2023-08-29 15:06" pubdate>
+        2023年8月29日 下午
       </time>
     </span>
   
@@ -198,7 +199,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      0 字
+      1.4k 字
     </span>
   
 
@@ -207,7 +208,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1 分钟
+      4 分钟
     </span>
   
 
@@ -236,16 +237,59 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">GNN简单理解</h1>
+            <h1 style="display: none">Read paper: ZeRO-Infinity</h1>
             
               <p class="note note-info">
                 
-                  本文最后更新于：6 个月前
+                  本文最后更新于：几秒前
                 
               </p>
             
             <div class="markdown-body">
-              <h2 id=""><a class="markdownIt-Anchor" href="#"></a> </h2>
+              <h2 id="zero-infinity"><a class="markdownIt-Anchor" href="#zero-infinity"></a> ZeRO-Infinity</h2>
+<h3 id="abstract"><a class="markdownIt-Anchor" href="#abstract"></a> Abstract</h3>
+<p>处理的是<strong>GPU内存墙</strong>的问题,是一个<strong>新的异构系统技术</strong>,利用了<strong>GPU,CPU,NVMe的内存</strong>,在有限的资源去达到史无前例的模型规模,而无需进行代码重构.同时,它能达到优异的训练吞吐量和可扩展性,<strong>不受CPU或者NVMe带宽的限制</strong></p>
+<p>在现在的GPU集群中,能达到万亿乃至十万亿的参数量</p>
+<p>在单个DGX-2节点上能微调万亿参数量级别的模型</p>
+<p>超线性的可扩展性</p>
+<h3 id="introduction"><a class="markdownIt-Anchor" href="#introduction"></a> Introduction</h3>
+<h4 id="how-to-increase-model-scale"><a class="markdownIt-Anchor" href="#how-to-increase-model-scale"></a> How to increase model scale</h4>
+<ul>
+<li>训练模型的系统技术进步</li>
+<li>并行技术如流水线并行,张量并行,ZeRO等的使用</li>
+</ul>
+<h4 id="why-gpu-memory-is-the-bottleneck"><a class="markdownIt-Anchor" href="#why-gpu-memory-is-the-bottleneck"></a> Why GPU memory is the bottleneck</h4>
+<p>DeepSpeed实现的3D并行能在800张V100的卡上扩展到万亿级别的参数量,通过充分利用集群中聚合的GPU内存;对于A100的卡而言,则需要320张才可以做到万亿参数量;而若是想要训练百万亿参数量,即使GPU的内存可以翻5倍(指80GB -&gt; 400GB),也需要6K张卡才可以训练到.<strong>So GPU memory is the bottleneck</strong></p>
+<h4 id="what-does-gpu-memory-wall-effect-data-scientist"><a class="markdownIt-Anchor" href="#what-does-gpu-memory-wall-effect-data-scientist"></a> What does GPU Memory Wall effect data scientist</h4>
+<p>GPU内存墙也限制了Data Scientist对模型进行微调.由于模型量大,微调它们虽然比预训练的工作需要更少的GPU资源,但是也让人举步维艰.即使可以访问特定的计算资源,但是在计算节点上被分配的内存也有限,这又反过来使得想微调的模型大小受限.这样就使得没资源(大规模的GPU集群)的人,无法做大模型微调的工作</p>
+<div class="note note-warning">
+            <p>原文有一句: For example fine-tuning GPT-3 would require over 8 DGX-2 nodes(128 GPUs) with 3D parallelism to just fit the model for training, even though a single DGX-2 node (16-GPUs) has enough compute to fine-tune it in a reasonable time.</p><p>不知道作者是想表达fine-tune比pre-train更cheap;</p><p>还是说即使更cheap,对大多数研究人员也内存墙;</p><p>还是指有些平台需要fine-tune的资源等价于pre-train的资源,即使可以有更合理更节省的方案</p>
+          </div>
+<h4 id="3d-parallelism-lack-of-usability-and-flexibility"><a class="markdownIt-Anchor" href="#3d-parallelism-lack-of-usability-and-flexibility"></a> 3D parallelism lack of usability and flexibility</h4>
+<p>3D并行性需要对代码重构,施加DP,PP,TP.但是PP即流水线并行它对于一些具有复杂依赖的模型无能为力,因为不能拆分为负载均衡的stage</p>
+<h4 id="unprecedented-model-scale"><a class="markdownIt-Anchor" href="#unprecedented-model-scale"></a> Unprecedented Model Scale</h4>
+<ul>
+<li><strong>infinity offload engine</strong></li>
+</ul>
+<p>GPU资源是有限,我们可以offload数据到CPU和NVMe上,以此支持训练大模型</p>
+<ul>
+<li><strong>memory-centric tiling</strong></li>
+</ul>
+<p>优化GPU内存,以支持超大参数的单个层放入GPU内存中</p>
+<h4 id="excellent-training-efficiency"><a class="markdownIt-Anchor" href="#excellent-training-efficiency"></a> Excellent Training Efficiency</h4>
+<ul>
+<li>bandwidth-centric partitioning</li>
+</ul>
+<p>引入一种新的数据分区策略以利用所有设备的聚合内存带宽</p>
+<ul>
+<li>communication overlap-centric design</li>
+</ul>
+<p>应该是遮掩通信的开销</p>
+<ul>
+<li>optimization for NVMe access</li>
+</ul>
+<p>优化NVMe访问,应该是对offload数据,以及回传数据进行优化</p>
+<h4 id="ease-of-use"><a class="markdownIt-Anchor" href="#ease-of-use"></a> Ease of Use</h4>
 
             </div>
             <hr>
@@ -256,11 +300,13 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/cv/">cv</a>
+                      <a class="hover-with-bg" href="/tags/ZeRO%E7%B3%BB%E5%88%97/">ZeRO系列</a>
                     
-                      <a class="hover-with-bg" href="/tags/GNN/">GNN</a>
+                      <a class="hover-with-bg" href="/tags/NVMe/">NVMe</a>
                     
-                      <a class="hover-with-bg" href="/tags/GCN/">GCN</a>
+                      <a class="hover-with-bg" href="/tags/offload/">offload</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Data-Parallelism/">Data Parallelism</a>
                     
                   </div>
                 
@@ -272,6 +318,23 @@
                   
                 </p>
               
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/08/21/%E8%AE%A1%E7%AE%97%E5%8D%B8%E8%BD%BD%E5%92%8C%E8%AE%A1%E7%AE%97%E8%BF%81%E7%A7%BB%E7%9A%84%E7%AE%80%E8%A6%81%E4%BB%8B%E7%BB%8D/">
+                        <span class="hidden-mobile">计算卸载和计算迁移的简要介绍</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
               
             </div>
 
@@ -290,7 +353,7 @@
         var options = Object.assign(
           {"clientID":"1db059241d978c80eecd","clientSecret":"fa4f54290b2645c1dd4af84d9241dcb8c3e8e637","repo":"ayyBlog","owner":"ayyha","admin":["ayyha"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
           {
-            id: 'ee9a1fe209b98910ded4dc05c657abb7'
+            id: '209428131327282d9c58a51c643875ba'
           }
         )
         var gitalk = new Gitalk(options);
@@ -463,6 +526,13 @@
 
 
 
+
+  
+
+  
+    <!-- KaTeX -->
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0/dist/katex.min.css" />
+  
 
 
 
