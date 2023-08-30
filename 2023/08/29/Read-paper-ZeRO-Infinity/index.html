@@ -13,18 +13,18 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="">
+  <meta name="description" content="读一读ZeRO-Infinity">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <meta name="description" content="ZeRO-Infinity  Abstract 处理的是GPU内存墙的问题,是一个新的异构系统技术,利用了GPU,CPU,NVMe的内存,在有限的资源去达到史无前例的模型规模,而无需进行代码重构.同时,它能达到优异的训练吞吐量和可扩展性,不受CPU或者NVMe带宽的限制 在现在的GPU集群中,能达到万亿乃至十万亿的参数量 在单个DGX-2节点上能微调万亿参数量级别的模型 超线性的可扩展性  In">
+  <meta name="description" content="读一读ZeRO-Infinity">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Read paper: ZeRO-Infinity">
 <meta property="og:url" content="http://example.com/2023/08/29/Read-paper-ZeRO-Infinity/index.html">
 <meta property="og:site_name" content="ayyHA&#39;s blog">
-<meta property="og:description" content="ZeRO-Infinity  Abstract 处理的是GPU内存墙的问题,是一个新的异构系统技术,利用了GPU,CPU,NVMe的内存,在有限的资源去达到史无前例的模型规模,而无需进行代码重构.同时,它能达到优异的训练吞吐量和可扩展性,不受CPU或者NVMe带宽的限制 在现在的GPU集群中,能达到万亿乃至十万亿的参数量 在单个DGX-2节点上能微调万亿参数量级别的模型 超线性的可扩展性  In">
+<meta property="og:description" content="读一读ZeRO-Infinity">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-08-29T07:06:19.000Z">
-<meta property="article:modified_time" content="2023-08-29T11:58:49.449Z">
+<meta property="article:modified_time" content="2023-08-30T02:22:45.786Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="ZeRO系列">
 <meta property="article:tag" content="NVMe">
@@ -199,7 +199,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.4k 字
+      1.5k 字
     </span>
   
 
@@ -208,7 +208,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      4 分钟
+      5 分钟
     </span>
   
 
@@ -241,7 +241,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：几秒前
+                  本文最后更新于：8 分钟前
                 
               </p>
             
@@ -290,6 +290,7 @@
 </ul>
 <p>优化NVMe访问,应该是对offload数据,以及回传数据进行优化</p>
 <h4 id="ease-of-use"><a class="markdownIt-Anchor" href="#ease-of-use"></a> Ease of Use</h4>
+<p>无需重构代码<mark>个人感觉是说pretrain的代码finetune无需调动</mark>,无需使用3D并行(根据contribution的说法来看,应该是不使用TP),对任意的模型架构均会自动执行训练时所需的所有通信和数据分区</p>
 
             </div>
             <hr>
