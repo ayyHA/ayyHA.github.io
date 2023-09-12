@@ -1,9 +1,9 @@
 body, div{
-    cursor:url(https://cdn.staticaly.com/gh/ayyHA/imageBed@main/cur/default.ani),
+    cursor:url(https://cdn.staticaly.com/gh/ayyHA/imageBed@main/cur/default_mcd,.cur),
 	default;
  }
  a:hover, img:hover,i:hover{
-    cursor:url(https://cdn.staticaly.com/gh/ayyHA/imageBed@main/cur/pointer.ani),
+    cursor:url(https://cdn.staticaly.com/gh/ayyHA/imageBed@main/cur/pointer_mcd.cur),
 	default;
  }
  
