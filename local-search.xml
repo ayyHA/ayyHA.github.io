@@ -14,9 +14,9 @@
     
     <tags>
       
-      <tag>ZeRO系列</tag>
-      
       <tag>NVMe</tag>
+      
+      <tag>ZeRO系列</tag>
       
       <tag>offload</tag>
       
@@ -60,11 +60,11 @@
     
     <tags>
       
-      <tag>NVMe</tag>
-      
       <tag>PCIe</tag>
       
       <tag>GPU</tag>
+      
+      <tag>NVMe</tag>
       
       <tag>SSD</tag>
       

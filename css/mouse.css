@@ -3,12 +3,12 @@ body, div{
 	default;
  }
  a, img,i:hover{
-    cursor:url(https://cdn.staticaly.com/gh/ayyHA/imageBed@main/cur/pointer_mcd.cur),
+    cursor:url(/cur/pointer_mcd.cur),
 	default;
  }
  
  div::selection,p::selection{
-	cursor:url(https://cdn.staticaly.com/gh/ayyHA/imageBed@main/cur/text.ani),
+	cursor:url(/cur/text_cinnamoroll.ani),
 	default;	
  }
  
