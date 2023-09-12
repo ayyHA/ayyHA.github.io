@@ -2,13 +2,18 @@ body, div{
     cursor:url(/cur/default_kuromi.cur),
 	default;
  }
- a, img,i:hover{
+ a, img{
     cursor:url(/cur/pointer_mcd.cur),
 	default;
  }
  
- div::selection,p::selection{
+i:hover{
+	cursor:url(/cur/pointer_mcd.cur),
+	default;
+}
+ 
+div::selection,p::selection{
 	cursor:url(/cur/text_cinnamoroll.ani),
 	default;	
- }
+}
  
