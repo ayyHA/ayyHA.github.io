@@ -1,5 +1,5 @@
 body, div{
-    cursor:url(../cur/default_kuromi.cur),
+    cursor:url(/cur/default_kuromi.cur),
 	default;
  }
  a, img,i:hover{
