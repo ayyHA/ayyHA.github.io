@@ -2,10 +2,15 @@ body, div{
     cursor:url(/cur/default_kuromi.cur),
 	default;
  }
- a, img{
+body a{
     cursor:url(/cur/pointer_mcd.cur),
 	default;
- }
+}
+
+img{
+    cursor:url(/cur/pointer_mcd.cur),
+	default;
+}
  
 i:hover{
 	cursor:url(/cur/pointer_mcd.cur),
