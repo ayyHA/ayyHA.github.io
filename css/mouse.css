@@ -1,14 +1,18 @@
-html {
-   cursor:url(https://cdn.staticaly.com/gh/ayyHA/imageBed@main/cur/default.ani),
-         default;
+html, div{
+    cursor:url(https://cdn.staticaly.com/gh/ayyHA/imageBed@main/cur/default.ani),
+	default;
  }
- a,
- img {
-   cursor:url(https://cdn.staticaly.com/gh/ayyHA/imageBed@main/cur/pointer.ani),
-         default;
+ a, img{
+    cursor:url(https://cdn.staticaly.com/gh/ayyHA/imageBed@main/cur/pointer.ani),
+	default;
  }
  
- ::selection{
+ div::selection{
 	cursor:url(https://cdn.staticaly.com/gh/ayyHA/imageBed@main/cur/text.ani),
-		default;	
+	default;	
+ }
+ 
+ p::selection{
+	cursor:url(https://cdn.staticaly.com/gh/ayyHA/imageBed@main/cur/text.ani),
+	default;	
  }
