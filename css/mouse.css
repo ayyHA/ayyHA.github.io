@@ -1,4 +1,4 @@
-body {
+html {
    cursor:url(https://cdn.staticaly.com/gh/ayyHA/imageBed@main/cur/default.ani),
          default;
  }
@@ -6,4 +6,9 @@ body {
  img {
    cursor:url(https://cdn.staticaly.com/gh/ayyHA/imageBed@main/cur/pointer.ani),
          default;
+ }
+ 
+ ::selection{
+	cursor:url(https://cdn.staticaly.com/gh/ayyHA/imageBed@main/cur/text.ani),
+		default;	
  }
