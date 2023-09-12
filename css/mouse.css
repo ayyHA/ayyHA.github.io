@@ -1,18 +1,14 @@
-html, div{
+body, div{
     cursor:url(https://cdn.staticaly.com/gh/ayyHA/imageBed@main/cur/default.ani),
 	default;
  }
- a, img{
+ a:hover, img:hover,i:hover{
     cursor:url(https://cdn.staticaly.com/gh/ayyHA/imageBed@main/cur/pointer.ani),
 	default;
  }
  
- div::selection{
+ div::selection,p::selection{
 	cursor:url(https://cdn.staticaly.com/gh/ayyHA/imageBed@main/cur/text.ani),
 	default;	
  }
  
- p::selection{
-	cursor:url(https://cdn.staticaly.com/gh/ayyHA/imageBed@main/cur/text.ani),
-	default;	
- }
