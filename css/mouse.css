@@ -1,19 +1,19 @@
 body, div{
-    cursor:url(/cur/default_kuromi.cur),
+    cursor:url(/cur/default_eroBunny.cur),
 	default;
  }
 body a{
-    cursor:url(/cur/pointer_mcd.cur),
+    cursor:url(/cur/pointer_eroBunny.cur),
 	default;
 }
 
 img{
-    cursor:url(/cur/pointer_mcd.cur),
+    cursor:url(/cur/pointer_eroBunny.cur),
 	default;
 }
  
 i:hover{
-	cursor:url(/cur/pointer_mcd.cur),
+	cursor:url(/cur/pointer_eroBunny.cur),
 	default;
 }
  
