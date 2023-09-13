@@ -11,6 +11,11 @@ img, button{
     cursor:url(/cur/pointer_eroBunny.cur),
 	default;
 }
+
+button[class^="gt-btn"]{
+    cursor:url(/cur/pointer_eroBunny.cur),
+	default;
+}
  
 i:hover{
 	cursor:url(/cur/pointer_eroBunny.cur),
