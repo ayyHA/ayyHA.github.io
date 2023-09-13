@@ -1,24 +1,24 @@
 html, body, div{
-    cursor:url(/cur/default_eroBunny.cur),
+    cursor:url(/cur/default_booKitty.cur),
 	default;
  }
 body a{
-    cursor:url(/cur/pointer_eroBunny.cur),
+    cursor:url(/cur/pointer_booKitty.cur),
 	default;
 }
 
 img, button{
-    cursor:url(/cur/pointer_eroBunny.cur),
+    cursor:url(/cur/pointer_booKitty.cur),
 	default;
 }
 
 button[class^="gt-btn"]{
-    cursor:url(/cur/pointer_eroBunny.cur),
+    cursor:url(/cur/pointer_booKitty.cur),
 	default;
 }
  
 i:hover{
-	cursor:url(/cur/pointer_eroBunny.cur),
+	cursor:url(/cur/pointer_booKitty.cur),
 	default;
 }
  
