@@ -1,4 +1,4 @@
-body, div{
+html, body, div{
     cursor:url(/cur/default_eroBunny.cur),
 	default;
  }
@@ -7,7 +7,7 @@ body a{
 	default;
 }
 
-img{
+img, button{
     cursor:url(/cur/pointer_eroBunny.cur),
 	default;
 }
