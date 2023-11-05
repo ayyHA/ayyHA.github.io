@@ -23,18 +23,18 @@
 <meta property="og:site_name" content="ayyHA&#39;s blog">
 <meta property="og:description" content="对SSD的理解和代码分析">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/ssd-yolo-arch-contrast.png">
+<meta property="og:image" content="https://s2.loli.net/2023/11/03/obM92IFdutTJzAV.png">
 <meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/resnet-arch-for-code.png">
-<meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/res50-backbone-ssd-arch.png">
-<meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/ssd-matching-strategy.png">
-<meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/ssd_experiment.png">
+<meta property="og:image" content="https://s2.loli.net/2023/11/03/NcUbuve9rpKgMR2.png">
+<meta property="og:image" content="https://s2.loli.net/2023/11/03/s5HMxcgn4FaLIfD.png">
+<meta property="og:image" content="https://s2.loli.net/2023/11/03/qRyNa4DuYB1Tlfo.png">
 <meta property="article:published_time" content="2023-03-23T02:22:30.000Z">
-<meta property="article:modified_time" content="2023-03-26T04:32:45.615Z">
+<meta property="article:modified_time" content="2023-11-05T03:59:07.475Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="SSD">
 <meta property="article:tag" content="Object Detection">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/ssd-yolo-arch-contrast.png">
+<meta name="twitter:image" content="https://s2.loli.net/2023/11/03/obM92IFdutTJzAV.png">
   
   <title>SSD理解及代码解析 - ayyHA&#39;s blog</title>
 
@@ -249,14 +249,14 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：6 个月前
+                  本文最后更新于：1 小时前
                 
               </p>
             
             <div class="markdown-body">
               <h2 id="ssd理解"><a class="markdownIt-Anchor" href="#ssd理解"></a> SSD理解</h2>
 <p>SSD(Single Shot MultiBox Detector)是一个one-stage的目标检测模型,它的网络结构如下:</p>
-<p><img src="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/ssd-yolo-arch-contrast.png" srcset="/img/loading.gif" lazyload alt="ssd-yolo-arch-contrast" /></p>
+<p><img src="https://s2.loli.net/2023/11/03/obM92IFdutTJzAV.png" srcset="/img/loading.gif" lazyload alt="ssd-yolo-arch-contrast" /></p>
 <p>根据上面的网络结构图,有:</p>
 <ul>
 <li>SSD的<strong>backbone采用的是VGG的前五层</strong>,后面的maxpool以及fc层都被换成卷积层</li>
@@ -322,7 +322,7 @@
 <p>至此,便完成了ResNet50的代码部分</p>
 <h3 id="backbone"><a class="markdownIt-Anchor" href="#backbone"></a> backbone</h3>
 <p>在开始介绍之前,我们先看下用Resnet-50作为backbone的SSD的网络结构图:(图源B站up:<a target="_blank" rel="noopener" href="https://space.bilibili.com/18161609/">霹雳吧啦Wz</a>)</p>
-<p><img src="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/res50-backbone-ssd-arch.png" srcset="/img/loading.gif" lazyload alt="res50-backbone-ssd-arch" /></p>
+<p><img src="https://s2.loli.net/2023/11/03/NcUbuve9rpKgMR2.png" srcset="/img/loading.gif" lazyload alt="res50-backbone-ssd-arch" /></p>
 <p>由图中可知:并非整个ResNet-50都用做backbone,我们选取<code>conv4</code>这一层作为第一个做预测的特征图(<code>conv5</code>及后面的层全部抛弃).因此backbone便是截取到<code>conv4</code>,也即是对于<code>nn.Module.children()</code>而言,即是取到索引的第7位,然后根据SSD论文,需要对第四层的步距修改为1,因此也需要对identity mapping的<code>stride</code>也进行修改,代码如下:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Backbone</span>(<span class="hljs-params">nn.Module</span>):</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self, pretrain_path=<span class="hljs-literal">None</span></span>):</span><br>        <span class="hljs-built_in">super</span>(Backbone, self).__init__()<br>        net = resnet50()<br>        <span class="hljs-comment"># 用于后面的特征图的channel</span><br>        self.out_channels = [<span class="hljs-number">1024</span>, <span class="hljs-number">512</span>, <span class="hljs-number">512</span>, <span class="hljs-number">256</span>, <span class="hljs-number">256</span>, <span class="hljs-number">256</span>]<br><br>        <span class="hljs-keyword">if</span> pretrain_path <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:<br>            net.load_state_dict(torch.load(pretrain_path))<br><br>        self.feature_extractor = nn.Sequential(*<span class="hljs-built_in">list</span>(net.children())[:<span class="hljs-number">7</span>])<br><br>        conv4_block1 = self.feature_extractor[-<span class="hljs-number">1</span>][<span class="hljs-number">0</span>]<br>		<br>        <span class="hljs-comment"># 这一行代码不是必须的,是用于ResNet-18/34的</span><br>        conv4_block1.conv1.stride = (<span class="hljs-number">1</span>, <span class="hljs-number">1</span>)<br>        conv4_block1.conv2.stride = (<span class="hljs-number">1</span>, <span class="hljs-number">1</span>)<br>        conv4_block1.downsample[<span class="hljs-number">0</span>].stride = (<span class="hljs-number">1</span>, <span class="hljs-number">1</span>)<br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">forward</span>(<span class="hljs-params">self, x</span>):</span><br>        x = self.feature_extractor(x)<br>        <span class="hljs-keyword">return</span> x<br></code></pre></td></tr></table></figure>
 <p>由此,我们便完成了backbone的构造,当我们通过如下方式调用</p>
@@ -406,7 +406,7 @@ M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">�
 <h4 id="正负样本匹配"><a class="markdownIt-Anchor" href="#正负样本匹配"></a> 正负样本匹配</h4>
 <p>在完成了default box的生成后,我们要开始训练前,需要根据匹配策略,区分什么样的default box为正样本,什么样的default box为负样本</p>
 <p>在论文中,作者提出了两步的匹配策略:</p>
-<p><img src="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/ssd-matching-strategy.png" srcset="/img/loading.gif" lazyload alt="ssd-matching-strategy" /></p>
+<p><img src="https://s2.loli.net/2023/11/03/s5HMxcgn4FaLIfD.png" srcset="/img/loading.gif" lazyload alt="ssd-matching-strategy" /></p>
 <p>即是按照以下策略匹配:</p>
 <ol>
 <li>每个GTbox匹配到的最大IoU的default box为正样本</li>
@@ -494,7 +494,7 @@ M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">�
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">forward</span>(<span class="hljs-params">self, bboxes_in, scores_in</span>):</span><br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    :param bboxes_in: [N,4,8732]</span><br><span class="hljs-string">    :param scores_in: [N,num_classes,8732]</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-comment"># 获得最终预测框,并且对置信度做softmax运算获得每个类别的概率</span><br>    <span class="hljs-comment"># [N,8732,4],[N,8732,num_classes]</span><br>    bboxes, probs = self.scale_back_batch(bboxes_in, scores_in)<br><br>    <span class="hljs-comment"># 用于TorchScript的</span><br>    outputs = torch.jit.annotate(<span class="hljs-type">List</span>[<span class="hljs-type">Tuple</span>[Tensor, Tensor, Tensor]], [])<br><br>    <span class="hljs-comment"># 逐张图片做出预测结果</span><br>    <span class="hljs-keyword">for</span> bbox, prob <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(bboxes.split(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>), (probs.split(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>))):<br>        <span class="hljs-comment"># [1,8732,4],[1,8732,num_classes] -&gt; [8732,4],[8732,num_classes]</span><br>        bbox = bbox.squeeze(<span class="hljs-number">0</span>)<br>        prob = prob.squeeze(<span class="hljs-number">0</span>)<br>        outputs.append(self.decode_singe_image(bbox, prob, self.criteria, self.max_output))<br>    <span class="hljs-keyword">return</span> outputs<br></code></pre></td></tr></table></figure>
 <p>至此,本文已经讲完了SSD进行目标检测任务的整体模型搭建过程,而在实际应用中,还需要涉及到如<strong>数据库数据解析</strong>(比如VOC或COCO数据集的解析),<strong>数据预处理</strong>,<strong>优化器选择</strong>,<strong>学习率调整</strong>等部分</p>
 <p>最后给出一张利用SSD进行预测的图像:</p>
-<p><img src="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/ssd_experiment.png" srcset="/img/loading.gif" lazyload alt="ssd_experiment" /></p>
+<p><img src="https://s2.loli.net/2023/11/03/qRyNa4DuYB1Tlfo.png" srcset="/img/loading.gif" lazyload alt="ssd_experiment" /></p>
 
             </div>
             <hr>

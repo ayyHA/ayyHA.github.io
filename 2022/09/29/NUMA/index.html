@@ -23,16 +23,16 @@
 <meta property="og:site_name" content="ayyHA&#39;s blog">
 <meta property="og:description" content="NUMA架构的介绍">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/CPU-North%20Bridge-Memory.png">
-<meta property="og:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/NUMA.png">
+<meta property="og:image" content="https://s2.loli.net/2023/11/03/Slw8MEfXQqrstT1.png">
+<meta property="og:image" content="https://s2.loli.net/2023/11/03/exDGdRYnWiLMpF8.png">
 <meta property="article:published_time" content="2022-09-29T08:03:42.000Z">
-<meta property="article:modified_time" content="2023-03-09T10:01:52.727Z">
+<meta property="article:modified_time" content="2023-11-05T02:28:26.550Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Memory Access">
 <meta property="article:tag" content="CPU">
 <meta property="article:tag" content="Architecture">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/CPU-North%20Bridge-Memory.png">
+<meta name="twitter:image" content="https://s2.loli.net/2023/11/03/Slw8MEfXQqrstT1.png">
   
   <title>NUMA - ayyHA&#39;s blog</title>
 
@@ -247,7 +247,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：7 个月前
+                  本文最后更新于：3 小时前
                 
               </p>
             
@@ -272,13 +272,13 @@ UMA(Uniform Memory Access):统一内存访问</p>
           </div>
 <p>先说一下UMA架构,就是CPU对内存的访问不依赖于其二者的相对位置关系,因为CPU访存是通过内存控制器(Memory Controller)来的,内存控制器被北桥芯片集成,因此是以<strong>多个CPU-北桥芯片-内存</strong>这样的方式链接的.</p>
 <p>各个CPU是通过FSB(Front Side Bus)前端总线与北桥相连.</p>
-<p><img src="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/CPU-North%20Bridge-Memory.png" srcset="/img/loading.gif" lazyload alt="CPU-North Bridge-Memory" /></p>
+<p><img src="https://s2.loli.net/2023/11/03/Slw8MEfXQqrstT1.png" srcset="/img/loading.gif" lazyload alt="CPU-North Bridge-Memory" /></p>
 <p>由上图可以看出来,总线模型保证了CPU对所有内存的访问都是一致的,不必考虑相对位置带来时间差异</p>
 <p>这种架构适合用于如服务器(网站,数据库)一类的机子上,因为这类工作都是外部请求访问时,服务器创建线程, 随机访存,然后线程处理的时间很短.</p>
 <p>但随着业务的扩展,会遇到需要很大运算量的应用,那么此刻若是有一个更接近于CPU的本地内存,可以提升速度,而且这样大运算量的应用,或者说线程,不止一个(则需要多个CPU,或者多个核心),那么UMA就不适应于这样的工作,而且FSB会成为其bottleneck(加核心没用),因此有了NUMA的出现</p>
 <p>在NUMA架构中,其将<strong>多个核心作为一个节点(Node)(如一颗多核的CPU)</strong>,<strong>内存控制器芯片(MCH)集成在Node内</strong>,<strong>每一个Node独立连接一部分内存</strong>,此直连的内存称为**“本地内存”**,Node间通过QPI(Quick Path Interconnect)总线连接.因此可以访问&quot;远程内存&quot;.</p>
 <p>由此可以见到内存访问存在本地和远程的区别!</p>
-<p><img src="https://cdn.staticaly.com/gh/ayyHA/imageBed@main/img/NUMA.png" srcset="/img/loading.gif" lazyload alt="NUMA" /></p>
+<p><img src="https://s2.loli.net/2023/11/03/exDGdRYnWiLMpF8.png" srcset="/img/loading.gif" lazyload alt="NUMA" /></p>
 <p>在Linux机器下,可以通过numactl指令进行查看</p>
 
             </div>
