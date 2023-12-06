@@ -36,7 +36,7 @@
 <meta property="og:image" content="https://s2.loli.net/2023/12/04/FvhKZHnsbom3SeG.jpg">
 <meta property="og:image" content="https://s2.loli.net/2023/12/05/Bpr61KqoZsGUI5m.png">
 <meta property="article:published_time" content="2023-03-13T16:25:38.000Z">
-<meta property="article:modified_time" content="2023-12-06T06:31:03.485Z">
+<meta property="article:modified_time" content="2023-12-06T06:39:28.900Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="pytorch">
 <meta name="twitter:card" content="summary_large_image">
@@ -255,7 +255,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：几秒前
+                  本文最后更新于：1 分钟前
                 
               </p>
             
@@ -389,10 +389,15 @@ Sequential3 --> Linear3 & Tanh
 <p><img src="https://s2.loli.net/2023/12/05/Bpr61KqoZsGUI5m.png" srcset="/img/loading.gif" lazyload alt="recursively_iter_sub_module" /></p>
 <h2 id="pytorch的hook"><a class="markdownIt-Anchor" href="#pytorch的hook"></a> PyTorch的hook</h2>
 <p>pytorch的hook有针对Tensor的,也有针对module的,涉及到的函数如下:</p>
-<pre class="mermaid">graph LR
+
+<pre>
+<code class="mermaid" >
+graph LR
 hook --> Tensor & Module
 Tensor --> register_hook
-Module --> register_forward_hook & register_forward_pre_hook & register_full_backward_hook & register_full_backward_pre_hook</pre>
+Module --> register_forward_hook & register_forward_pre_hook & register_full_backward_hook & register_full_backward_pre_hook  
+</code>
+</pre>
 <h3 id="hook-for-tensor"><a class="markdownIt-Anchor" href="#hook-for-tensor"></a> hook for Tensor</h3>
 <p><code>register_hook(hook)</code>当对应<code>Tensor</code>的梯度计算完的时候,这个钩子函数(即里面的hook)会被调用,<strong>该钩子函数可以用来打印中间节点的梯度信息,甚至修改计算完的梯度(虽然pytorch不建议你这么做)</strong>,这个<code>register_hook()</code>返回值是一个<code>handle</code>,这个<code>handle</code>可以调用<code>remove()</code>方法移除对应<code>tensor</code>的钩子函数</p>
 <p>钩子函数的声明需要遵循如下规则:</p>
