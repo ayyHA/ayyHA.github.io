@@ -32,8 +32,11 @@
 <meta property="og:image" content="https://s2.loli.net/2023/11/03/mZ2ADBWYPflF31V.png">
 <meta property="og:image" content="https://s2.loli.net/2023/11/03/lFW9cqwrdLek2xS.jpg">
 <meta property="og:image" content="https://s2.loli.net/2023/11/03/nvNOErxZqjhtWbk.png">
+<meta property="og:image" content="https://s2.loli.net/2023/12/04/DNfQgtswnzu9UPe.png">
+<meta property="og:image" content="https://s2.loli.net/2023/12/04/FvhKZHnsbom3SeG.jpg">
+<meta property="og:image" content="https://s2.loli.net/2023/12/05/Bpr61KqoZsGUI5m.png">
 <meta property="article:published_time" content="2023-03-13T16:25:38.000Z">
-<meta property="article:modified_time" content="2023-11-05T03:55:43.319Z">
+<meta property="article:modified_time" content="2023-12-06T03:58:08.811Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="pytorch">
 <meta name="twitter:card" content="summary_large_image">
@@ -210,7 +213,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      9.3k 字
+      13k 字
     </span>
   
 
@@ -219,7 +222,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      29 分钟
+      40 分钟
     </span>
   
 
@@ -252,7 +255,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：24 天前
+                  本文最后更新于：1 分钟前
                 
               </p>
             
@@ -286,6 +289,9 @@ Sequential3 --> Linear3 & Tanh
 <li>通过<code>children()</code>获取网络层级结构,只会取最外层,即根节点下的一层</li>
 <li>通过<code>modules()</code>获取网络层级结构,则类似对网络结构进行DFS,依次输出</li>
 </ul>
+<div class="note note-info">
+            <p>关于<code>named_children()</code>和<code>named_modules()</code>就不再赘述,因为是在<code>children()</code>和<code>modules()</code>的基础上加了个名字,同样的,它们也是generator类型,可以通过循环遍历,不过对应的是<code>name</code>和<code>module</code>(就是上面代码中的<code>ele</code>),可以通过列表推导式查看相应的结果:</p><p><code>net_named_children = [x for x in net.named_children()]</code></p><p><code>net_named_modules = [x for x in net.named_modules()]</code></p><p>而<code>net.parameters()</code>和<code>net.named_parameters()</code>打印的是模型每层的参数,而多了个<code>named</code>的方法则是把对应的层/子模块的名称也带上了.可以通过列表推导式来查看相应的结果.通过它们的类型也是generator.</p><p><code>net_parameters = [x for x in net.parameters()]</code></p><p><code>net_named_parameters =[x for x in net.named_parameters()]</code></p>
+          </div>
 <h2 id="pytorch中的模型容器"><a class="markdownIt-Anchor" href="#pytorch中的模型容器"></a> pytorch中的模型容器</h2>
 <p>利用模型容器,可以<strong>自动的将module注册到网络上</strong>,以及<strong>将module的parameters添加到网络上</strong></p>
 <h3 id="nnsequential"><a class="markdownIt-Anchor" href="#nnsequential"></a> nn.Sequential</h3>
@@ -363,6 +369,57 @@ Sequential3 --> Linear3 & Tanh
 <p>显然动态生成的更灵活，利于定位错误，进行debug；静态生成的则可以进行优化，更高效些。</p>
 <p>PyTorch和Tensorflow现也各自都有动态和静态的计算图于各自的子库中</p>
 <p><img src="https://s2.loli.net/2023/11/03/nvNOErxZqjhtWbk.png" srcset="/img/loading.gif" lazyload alt="Computation Graph Difference" /></p>
+<h2 id="逐层遍历模型子模块"><a class="markdownIt-Anchor" href="#逐层遍历模型子模块"></a> 逐层遍历模型子模块</h2>
+<p>当我们从<code>torchvision.models</code>中去导入一个模型的时候，比如resnet18</p>
+<p><code>from torchvision.models import resnet18</code></p>
+<p>我们通过<code>print(model) # resnet18</code>会打印出模型详细的层信息，这些个层信息是经由<code>OrderedDict</code>包装过的，即是通过该结构对层信息进行重命名</p>
+<p>我们可以通过<code>model.__dict__</code>来查看模型的内部信息，为了便于查看，我们遍历着看：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> torch<br><span class="hljs-keyword">import</span> torch.nn <span class="hljs-keyword">as</span> nn<br><span class="hljs-keyword">from</span> torchvision.models <span class="hljs-keyword">import</span> resnet18<br><br>device = torch.device(<span class="hljs-string">&quot;cuda&quot;</span> <span class="hljs-keyword">if</span> torch.cuda.is_available() <span class="hljs-keyword">else</span> <span class="hljs-string">&quot;cpu&quot;</span>)<br>model = resnet18().to(device)<br><span class="hljs-built_in">print</span>(model)<br><span class="hljs-keyword">for</span> k, v <span class="hljs-keyword">in</span> model.__dict__.items():<br>    <span class="hljs-built_in">print</span>(k, <span class="hljs-string">&#x27;:&#x27;</span>, v)<br></code></pre></td></tr></table></figure>
+<p>以下是模型内部信息打印结果(没截全)：</p>
+<p><img src="https://s2.loli.net/2023/12/04/DNfQgtswnzu9UPe.png" srcset="/img/loading.gif" lazyload alt="model-dict" /></p>
+<p>不难看出，模型内部信息包含了丰富的内容，其中我们这里关注<code>_modules</code>属性，通过它我们可以很方便地对模型的层信息（子模块）逐层遍历</p>
+<p>我们通过<code>model.__dict__[_modules]</code>获取模型的层信息，其中获取到的层信息是用<code>OrderedDict</code>包装过的，因此进行如下遍历：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">m_dict = model.__dict__[<span class="hljs-string">&#x27;_modules&#x27;</span>]<br><span class="hljs-keyword">for</span> name, sub_module <span class="hljs-keyword">in</span> m_dict.items():<br>    sub_module_class = sub_module.__class__<br>    sub_module_name = sub_module.__class__.__name__<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;sub_module_class:&quot;</span>, sub_module_class)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;sub_module_name:&quot;</span>, sub_module_name)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;name:%s\n&quot;</span> % name)<br></code></pre></td></tr></table></figure>
+<p>以下是部分遍历结果：</p>
+<p><img src="https://s2.loli.net/2023/12/04/FvhKZHnsbom3SeG.jpg" srcset="/img/loading.gif" lazyload alt="model_sub_module_iteration" /></p>
+<p>通过递归可以对子模块进行完整的遍历，因为有些子模块是通过模型容器封装的，代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> torch<br><span class="hljs-keyword">import</span> torch.nn <span class="hljs-keyword">as</span> nn<br><span class="hljs-keyword">from</span> torchvision.models <span class="hljs-keyword">import</span> resnet18<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">recursively_iter_sub_module</span>(<span class="hljs-params">module_dict, module_forward_dict</span>):</span><br>    <span class="hljs-keyword">for</span> name, sub_module <span class="hljs-keyword">in</span> module_dict.items():<br>        <span class="hljs-keyword">if</span> sub_module <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">or</span> <span class="hljs-built_in">isinstance</span>(sub_module, torch.nn.Module) <span class="hljs-keyword">is</span> <span class="hljs-literal">False</span>:<br>            <span class="hljs-keyword">break</span><br>        sub_module_class = sub_module.__class__<br>        sub_module_name = sub_module.__class__.__name__<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;sub_module_class:%s\nsub_module_name:%s\nname:%s&quot;</span> %<br>              (sub_module_class, sub_module_name, name))<br>        sub_sub_modules = sub_module.__dict__[<span class="hljs-string">&#x27;_modules&#x27;</span>]<br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(sub_sub_modules) == <span class="hljs-number">0</span>:<br>            module_forward_dict.update(&#123;sub_module: sub_module.forward&#125;)<br>        <span class="hljs-keyword">elif</span> <span class="hljs-built_in">len</span>(sub_sub_modules) &gt; <span class="hljs-number">0</span>:<br>            recursively_iter_sub_module(sub_sub_modules, module_forward_dict)<br><br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    device = torch.device(<span class="hljs-string">&quot;cuda&quot;</span> <span class="hljs-keyword">if</span> torch.cuda.is_available() <span class="hljs-keyword">else</span> <span class="hljs-string">&quot;cpu&quot;</span>)<br>    model = resnet18().to(device)<br>    sub_modules = model.__dict__[<span class="hljs-string">&#x27;_modules&#x27;</span>]<br>    sub_module_forward_dict = &#123;&#125;<br>    recursively_iter_sub_module(sub_modules, sub_module_forward_dict)<br>    <span class="hljs-keyword">for</span> module, forward <span class="hljs-keyword">in</span> sub_module_forward_dict.items():<br>        <span class="hljs-built_in">print</span>(module, <span class="hljs-string">&quot;:&quot;</span>, forward)<br><br></code></pre></td></tr></table></figure>
+<p>这里通过<code>&#123;module:forward&#125;</code>把所有的子模块按顺序封装了是为了后续便于对<code>forward</code>重封装</p>
+<p>以下是部分运行结果图：</p>
+<p><img src="https://s2.loli.net/2023/12/05/Bpr61KqoZsGUI5m.png" srcset="/img/loading.gif" lazyload alt="recursively_iter_sub_module" /></p>
+<h2 id="pytorch的hook"><a class="markdownIt-Anchor" href="#pytorch的hook"></a> PyTorch的hook</h2>
+<p>pytorch的hook有针对Tensor的,也有针对module的,涉及到的函数如下:</p>
+<pre class="mermaid">graph LR
+hook --> Tensor & Module
+Tensor --> register_hook
+Module --> register_forward_hook & register_forward_pre_hook & register_full_backward_hook & register_full_backward_pre_hook</pre>
+<h3 id="hook-for-tensor"><a class="markdownIt-Anchor" href="#hook-for-tensor"></a> hook for Tensor</h3>
+<p><code>register_hook(hook)</code>当对应<code>Tensor</code>的梯度计算完的时候,这个钩子函数(即里面的hook)会被调用,<strong>该钩子函数可以用来打印中间节点的梯度信息,甚至修改计算完的梯度(虽然pytorch不建议你这么做)</strong>,这个<code>register_hook()</code>返回值是一个<code>handle</code>,这个<code>handle</code>可以调用<code>remove()</code>方法移除对应<code>tensor</code>的钩子函数</p>
+<p>钩子函数的声明需要遵循如下规则:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">hook(grad) -&gt; Tensor <span class="hljs-keyword">or</span> <span class="hljs-literal">None</span><br></code></pre></td></tr></table></figure>
+<p>输入是这个tensor对应的梯度,返回值是一个Tensor或一个None值</p>
+<p>用例如下:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><br></code></pre></td></tr></table></figure>
+<h3 id="hook-for-module"><a class="markdownIt-Anchor" href="#hook-for-module"></a> hook for Module</h3>
+<p>用于<code>Module</code>的钩子函数在注册的时候返回值也是一个<code>handle</code>,也可以通过<code>handle.remove()</code>移除对应<code>Module</code>的钩子函数,以下对它们各自的钩子函数的声明进行介绍,并且展示一个统一的用例</p>
+<p>其中,用于<code>Module(nn.Module)</code>的子类如一些基础的算子<code>Conv2d</code>,<code>BatchNorm2d</code>,可以提取它们<code>activation</code>乃至</p>
+<ul>
+<li>
+<p><code>register_forward_hook(hook)</code>注册的钩子函数是在<code>forward</code>完成后被调用,钩子函数的声明如下:</p>
+</li>
+<li>
+<p><code>register_forward_pre_hook(hook)</code>注册的钩子函数是在<code>forward</code>执行前被调用,钩子函数的声明如下:</p>
+</li>
+<li>
+<p><code>register_full_backward_hook(hook)</code>注册的钩子函数在<code>backward</code>完成后被调用,钩子函数的声明如下:</p>
+</li>
+<li>
+<p><code>register_full_backward_pre_hook(hook)</code>注册的钩子函数在<code>backward</code>执行前被调用,钩子函数的声明如下:</p>
+</li>
+</ul>
+<p>总用例如下:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><br></code></pre></td></tr></table></figure>
+<p>具体使用可以参考:</p>
 
             </div>
             <hr>
