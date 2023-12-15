@@ -37,7 +37,7 @@
 <meta property="og:image" content="https://s2.loli.net/2023/12/05/Bpr61KqoZsGUI5m.png">
 <meta property="og:image" content="https://s2.loli.net/2023/12/10/vFOdzJ5gT4Pt2eY.png">
 <meta property="article:published_time" content="2023-03-13T16:25:38.000Z">
-<meta property="article:modified_time" content="2023-12-10T09:46:03.155Z">
+<meta property="article:modified_time" content="2023-12-15T08:40:41.533Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="pytorch">
 <meta name="twitter:card" content="summary_large_image">
@@ -214,7 +214,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      16k 字
+      18k 字
     </span>
   
 
@@ -223,7 +223,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      51 分钟
+      56 分钟
     </span>
   
 
@@ -256,7 +256,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：1 分钟前
+                  本文最后更新于：2 分钟前
                 
               </p>
             
@@ -345,9 +345,10 @@ Sequential3 --> Linear3 & Tanh
 <p>以上是分别对data,target数据进行取出,然后扩充维度,而后对扩充的维度进行拼接,便得到了期望的结果</p>
 <p>一般来说,不会用到它,但<mark>我在网上以及个人思考后</mark>(pytorch这方面源码没看懂😂),应该是通过<code>torch.stack()</code>进行的维度堆叠,因而如果图片的尺寸或者target中如标签的数目不等,则需要自定义</p>
 <p>比如说一个batch_size是2,那两张图片分别是有两个和三个目标,即对应的target为<code>[2,5]/[3,5]</code>无法用<code>stack()</code>对它们简单的拼接,因而需要自己定义一个<code>collate_fn</code>去处理这个问题,自己去定义一个batch出来的数据的格式</p>
-<h2 id="torchnndataparallel"><a class="markdownIt-Anchor" href="#torchnndataparallel"></a> torch.nn.DataParallel</h2>
-<h2 id="torchnndistributeddataparallel"><a class="markdownIt-Anchor" href="#torchnndistributeddataparallel"></a> torch.nn.DistributedDataParallel</h2>
-<h2 id="torchdistributed"><a class="markdownIt-Anchor" href="#torchdistributed"></a> torch.distributed</h2>
+<h2 id="torch数据并行"><a class="markdownIt-Anchor" href="#torch数据并行"></a> torch数据并行</h2>
+<h3 id="torchnndataparallel"><a class="markdownIt-Anchor" href="#torchnndataparallel"></a> torch.nn.DataParallel</h3>
+<h3 id="torchnndistributeddataparallel"><a class="markdownIt-Anchor" href="#torchnndistributeddataparallel"></a> torch.nn.DistributedDataParallel</h3>
+<h3 id="torchdistributed"><a class="markdownIt-Anchor" href="#torchdistributed"></a> torch.distributed</h3>
 <h2 id="计算图"><a class="markdownIt-Anchor" href="#计算图"></a> 计算图</h2>
 <p>计算图可以表示模型中的<strong>数据</strong>经过<strong>运算</strong>后的流向，是一个有向无环图（DAG），<strong>有利于用链式法则计算梯度</strong>。它是由node和edge构成，node表示的是数据，如Tensor等，edge则表示的是计算，如加减乘除、卷积、非线性函数变换等</p>
 <p><img src="https://s2.loli.net/2023/11/03/lFW9cqwrdLek2xS.jpg" srcset="/img/loading.gif" lazyload alt="ComputationGraphExample" /></p>
@@ -432,6 +433,31 @@ Module --> register_forward_hook & register_forward_pre_hook & register_full_bac
 <p>运行结果如下图:</p>
 <p><img src="https://s2.loli.net/2023/12/10/vFOdzJ5gT4Pt2eY.png" srcset="/img/loading.gif" lazyload alt="forward_backward_hook_example" /></p>
 <p>具体使用可以参考:<a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html#torch.nn.Module.register_forward_hook">pytorch-hook使用指南</a></p>
+<h2 id="dataloader中的num_worker和torch中的set_num_threads"><a class="markdownIt-Anchor" href="#dataloader中的num_worker和torch中的set_num_threads"></a> DataLoader中的num_worker和torch中的set_num_threads</h2>
+<h3 id="先说说一些cpu的概念"><a class="markdownIt-Anchor" href="#先说说一些cpu的概念"></a> 先说说一些CPU的概念</h3>
+<p>通过以下指令查看<strong>物理CPU数目</strong>:</p>
+<p><code>cat /proc/cpuinfo | grep 'physical id'| sort | uniq | wc -l </code></p>
+<p>通过以下指令查看<strong>每个CPU的核心数</strong>:</p>
+<p><code>cat /proc/cpuinfo | grep 'core id' | sort | uniq | wc -l</code></p>
+<p>以上,我们就可以计算出<strong>CPU的总核心数</strong></p>
+<p><code>总核心数=物理CPU数目*每个CPU的核心数</code></p>
+<p>而一般来说,一个核心就对应一个物理线程,而有个叫<strong>超线程</strong>的技术,可以把一个核心当作两个线程来用,也就相当于像两个核心一样.而总逻辑CPU数就是在总核心数的基础上乘上超线程的倍数</p>
+<p><code>总逻辑CPU数目=物理CPU数目*每个CPU的核心数*超线程系数</code></p>
+<p>可以通过以下指令查看<strong>总逻辑CPU数目</strong></p>
+<p><code>cat /proc/cpuinfo | grep 'processor' |sort | uniq | wc -l </code></p>
+<p>关于逻辑CPU的体现,比如<code>top</code>指令中的<code>%CPU</code>表示的是占用的逻辑CPU数目</p>
+<h3 id="关于torchset_num_threads"><a class="markdownIt-Anchor" href="#关于torchset_num_threads"></a> 关于torch.set_num_threads()</h3>
+<p>这个<strong>线程数默认是CPU核心总数</strong>,可以通过<code>torch.get_num_threads()</code>获得,且<strong>一般默认的运算效率是最高的</strong></p>
+<p>需要设置这个的场景是当<strong>多人共享CPU资源进行模型运算</strong>时用的,<strong>以避免一个进程抢占过多的CPU核心</strong></p>
+<p>除了通过<code>torch.set_num_threads()</code>设置,还可以通过环境变量设置,如:<code>MKL_NUM_THREADS和OMP_NUM_THREADS</code>来设置,它们的优先级如下:<code>torch.set_num_threads() &gt; MKL_NUM_THREADS &gt; OMP_NUM_THREADS</code></p>
+<p>其中<strong>一般要运用到这个设置是利用CPU进行大量张量操作</strong>,若是大部分的张量操作都是在GPU上,那设置这个也没啥用,且设置的时候由于PyTorch文档没有说哪些运算会从这个设置上受益,因此建议一边看着CPU利用率一边调整线程数,以最大化CPU利用率</p>
+<p>这些设置的线程应该是用于<strong>算子内并行</strong>(intra-op parallelism)的</p>
+<h3 id="关于dataloader中的参数num_worker"><a class="markdownIt-Anchor" href="#关于dataloader中的参数num_worker"></a> 关于DataLoader中的参数num_worker</h3>
+<p>DataLoader中的num_worker是用于指定加载数据和执行变换的并行worker的数目.如果你在加载很大的图片或者有着复杂的变换操作时,即是此时你的GPU处理数据很快,但是你的DataLoader喂数据给GPU很慢而导致不能连续feed GPU,这种情况下就可以设置较多的worker来解决问题</p>
+<p>一般对num_worker的设置是直到epoch中的一个step是足够快的(也就是数据可以及时喂给GPU)</p>
+<p>注意:num_worker用到的也是计算机的CPU核心数</p>
+<p>本部分内容大多学习自:<a target="_blank" rel="noopener" href="https://blog.csdn.net/a_piece_of_ppx/article/details/123714865">ddp中的核心数和线程数</a>、<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/394952301/answer/1225338415">pytorch模型在multiprocessing下前馈速度明显降低的原因是什么？</a></p>
+<p><mark>疑惑点:如果我是CPU+GPU计算,那么设置num_worker加速数据读取就好,那如果我是纯CPU计算,我默认我set_num_threads用的是CPU所有核心数,那我num_worker会抢占资源嘛,还是用的是超线程的(如果有)</mark></p>
 
             </div>
             <hr>

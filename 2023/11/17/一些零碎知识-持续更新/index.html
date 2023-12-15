@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s2.loli.net/2023/11/27/YIu4h7HD8L3fMSe.jpg">
 <meta property="article:published_time" content="2023-11-17T02:56:43.000Z">
-<meta property="article:modified_time" content="2023-11-27T08:41:05.394Z">
+<meta property="article:modified_time" content="2023-12-14T03:32:42.233Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary_large_image">
@@ -202,7 +202,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.3k 字
+      2.2k 字
     </span>
   
 
@@ -211,7 +211,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      4 分钟
+      7 分钟
     </span>
   
 
@@ -244,7 +244,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：13 天前
+                  本文最后更新于：1 天前
                 
               </p>
             
@@ -283,6 +283,27 @@ DPU：是对网卡和存储等数据的高效处理<br />
 <p><img src="https://s2.loli.net/2023/11/27/YIu4h7HD8L3fMSe.jpg" srcset="/img/loading.gif" lazyload alt="multiple-byte units" /></p>
 <p>左侧代表的是十进制前缀，右侧表示的是二进制前缀</p>
 <p>一般是制造商采用十进制，对于我们来说<strong>存储一般指的是二进制</strong>的，而在说到<strong>带宽一类的速率时，指的是十进制的</strong></p>
+<h2 id="local目录"><a class="markdownIt-Anchor" href="#local目录"></a> ./local目录</h2>
+<p>.local相当于跟全局的python环境进行了一层的隔离，在这里我们可以安装自己需要的库（在本地范围内），而无需提权<br />
+类似的安装方式大致如下：<br />
+<code>pip install target=~/.local/lib/python3.8/site-packages &lt;package-name&gt;</code><br />
+参考自：<a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_67402026/article/details/125241407">https://blog.csdn.net/m0_67402026/article/details/125241407</a></p>
+<p>当然，如果知道有多个解释器，也可以安装到对应的解释器的位置，如：<br />
+<code>D:\path\to\python.exe -m pip install --user &lt;package-name&gt;</code><br />
+参考自：<a target="_blank" rel="noopener" href="https://blog.csdn.net/ThsPool/article/details/132809683">https://blog.csdn.net/ThsPool/article/details/132809683</a></p>
+<p>参考:<a target="_blank" rel="noopener" href="https://geek-docs.com/python/python-ask-answer/603_python_what_is_the_purpose_of_homelocal.html">https://geek-docs.com/python/python-ask-answer/603_python_what_is_the_purpose_of_homelocal.html</a></p>
+<h2 id="linux软硬链接"><a class="markdownIt-Anchor" href="#linux软硬链接"></a> linux软硬链接</h2>
+<p>关于linux软链接的创建删除更新，可以这么理解，Linux的软链接相当于快捷方式 ，硬链接好像会共享原来的inode<br />
+以下是参考文章：<a target="_blank" rel="noopener" href="http://www.mobiletrain.org/about/BBS/151003.html">http://www.mobiletrain.org/about/BBS/151003.html</a></p>
+<h2 id="site-packages和distpages区别"><a class="markdownIt-Anchor" href="#site-packages和distpages区别"></a> site-packages和distpages区别:</h2>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_40614261/article/details/90023807">https://blog.csdn.net/weixin_40614261/article/details/90023807</a></p>
+<h2 id="vimrc配置"><a class="markdownIt-Anchor" href="#vimrc配置"></a> vimrc配置</h2>
+<p>注意,要查看vimrc在哪可以在一个利用vim打开的文件内通过:version查看,往下滑动可以看到vimrc文件一般配置在:<br />
+/etc/vimrc<br />
+~/.vimrc</p>
+<h2 id="module"><a class="markdownIt-Anchor" href="#module"></a> module</h2>
+<h2 id="iterableiteratorgenerator"><a class="markdownIt-Anchor" href="#iterableiteratorgenerator"></a> iterable,iterator,generator</h2>
+<p>关于python中iterable,iterator,generator:<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44966641/article/details/131501576">https://blog.csdn.net/weixin_44966641/article/details/131501576</a></p>
 <p>参考文章：</p>
 <section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/63207620/answer/1707221853">https://www.zhihu.com/question/63207620/answer/1707221853</a>
 <a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
