@@ -37,7 +37,7 @@
 <meta property="og:image" content="https://s2.loli.net/2023/12/05/Bpr61KqoZsGUI5m.png">
 <meta property="og:image" content="https://s2.loli.net/2023/12/10/vFOdzJ5gT4Pt2eY.png">
 <meta property="article:published_time" content="2023-03-13T16:25:38.000Z">
-<meta property="article:modified_time" content="2023-12-15T08:40:41.533Z">
+<meta property="article:modified_time" content="2023-12-18T08:08:36.256Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="pytorch">
 <meta name="twitter:card" content="summary_large_image">
@@ -256,7 +256,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2 分钟前
+                  本文最后更新于：6 天前
                 
               </p>
             
@@ -346,6 +346,9 @@ Sequential3 --> Linear3 & Tanh
 <p>一般来说,不会用到它,但<mark>我在网上以及个人思考后</mark>(pytorch这方面源码没看懂😂),应该是通过<code>torch.stack()</code>进行的维度堆叠,因而如果图片的尺寸或者target中如标签的数目不等,则需要自定义</p>
 <p>比如说一个batch_size是2,那两张图片分别是有两个和三个目标,即对应的target为<code>[2,5]/[3,5]</code>无法用<code>stack()</code>对它们简单的拼接,因而需要自己定义一个<code>collate_fn</code>去处理这个问题,自己去定义一个batch出来的数据的格式</p>
 <h2 id="torch数据并行"><a class="markdownIt-Anchor" href="#torch数据并行"></a> torch数据并行</h2>
+<p>以下内容参考文章:</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/648596428">分布式训练</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/467103734">快速上手</a></p>
 <h3 id="torchnndataparallel"><a class="markdownIt-Anchor" href="#torchnndataparallel"></a> torch.nn.DataParallel</h3>
 <h3 id="torchnndistributeddataparallel"><a class="markdownIt-Anchor" href="#torchnndistributeddataparallel"></a> torch.nn.DistributedDataParallel</h3>
 <h3 id="torchdistributed"><a class="markdownIt-Anchor" href="#torchdistributed"></a> torch.distributed</h3>
