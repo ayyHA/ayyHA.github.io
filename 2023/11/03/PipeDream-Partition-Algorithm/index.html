@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s2.loli.net/2023/11/28/IZoDzmGyEqfCjTB.png">
 <meta property="article:published_time" content="2023-11-03T07:10:41.000Z">
-<meta property="article:modified_time" content="2024-01-03T08:26:46.297Z">
+<meta property="article:modified_time" content="2024-01-07T09:00:08.940Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="PipeDream">
 <meta property="article:tag" content="Partition Algorithm">
@@ -203,7 +203,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      3.1k 字
+      4.6k 字
     </span>
   
 
@@ -212,7 +212,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      10 分钟
+      14 分钟
     </span>
   
 
@@ -245,7 +245,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：4 小时前
+                  本文最后更新于：2 天前
                 
               </p>
             
@@ -354,11 +354,11 @@ T(i+1 \rightarrow j,m`) &amp;③\\
 </ul>
 <p>属性部分:</p>
 <ul>
-<li>edges 边集(出边)</li>
-<li>in_edges 边集(入边)</li>
+<li>edges 边集(出边,key对应的是箭尾的点,value是个list,对应的是箭头的点)</li>
+<li>in_edges 边集(入边,key对应的是箭头的点,value是个list,对应的是箭尾的点)</li>
 <li>nodes 节点集</li>
-<li>predecessors 前序节点集</li>
-<li>successors 后继节点集</li>
+<li>_predecessors 前序节点集</li>
+<li>_successors 后继节点集</li>
 <li>还有一些反链,暂时未了解</li>
 </ul>
 <p>方法部分:</p>
@@ -371,8 +371,65 @@ T(i+1 \rightarrow j,m`) &amp;③\\
 <li>reset() # 重制前序节点集合后继节点集</li>
 <li>add_edge()</li>
 <li>remove_edge()</li>
+<li>to_dot() # 生成dot文件,即是训练模型的dag图</li>
 </ul>
 <h3 id="node类"><a class="markdownIt-Anchor" href="#node类"></a> Node类</h3>
+<p>属性部分:</p>
+<ul>
+<li>node_id 节点id号,比如<code>node58</code></li>
+<li>node_desc 形容节点作用,比如<code>Add(inplace)</code>这样的</li>
+<li>forward_compute_time</li>
+<li>backward_compute_time</li>
+<li>activation_size</li>
+<li>parameter_size</li>
+<li>stage_id</li>
+<li>depth</li>
+<li>height</li>
+</ul>
+<p>方法部分:</p>
+<ul>
+<li>
+<p>__str__()</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">return</span> <span class="hljs-string">&quot;%s -- %s -- forward_compute_time=%.3f, backward_compute_time=%.3f, activation_size=%s, parameter_size=%.3f%s&quot;</span> % (<br>            self.node_id, node_desc, self.forward_compute_time, self.backward_compute_time,<br>            activation_size, self.parameter_size, stage_id_str)<br></code></pre></td></tr></table></figure>
+<p>给出的一个例子:<code>node58 -- Add(inplace) -- forward_compute_time=0.000, backward_compute_time=0.000, activation_size=102760448.000, parameter_size=0.000</code></p>
+</li>
+<li>
+<p>from_str()</p>
+</li>
+</ul>
+<h3 id="graphcreator类"><a class="markdownIt-Anchor" href="#graphcreator类"></a> GraphCreator类</h3>
+<p>属性部分:</p>
+<ul>
+<li>model 模型,用于后面给子模块</li>
+<li>module_whitelist 白名单,处于子模块白名单</li>
+<li>summary 由torchsummary这个包的summary函数获得</li>
+<li>forward_original_methods 以{sub_module: sub_module.forward}形式存储了原始的子模块的forward函数</li>
+<li>graph Graph类的实例对象</li>
+<li>inputs 这个inputs,它的kv大概是这样的:{sub_module: sub_module TensorWrapper类的实例}</li>
+</ul>
+<p>方法部分:</p>
+<ul>
+<li>hook_modules() # 给子模块加钩子函数,具体做法是通过遍历子模块,为无后继部分的子模块或是白名单中的子模块更换forward函数,通过<code>sub_module.forward = forward_wrapper.__get__(sub_module,sub_module.__class__)</code>方法来更换,此种即是使得<code>forward_wrapper(sub_module)</code>延迟触发.内部还定义了两个方法:
+<ul>
+<li>forward_wrapper() # 把sub_module给包装成TensorWrapper</li>
+<li>forward_wrapper_root()</li>
+</ul>
+</li>
+<li>unhook_modules() # 利用<code>forward_original_methods</code>把<code>forward</code>函数还原</li>
+<li>persist_graph() # 持久化图,生成<code>graph.dot</code>(可视化的dag图),生成graph.txt,保存为条状图和对应的pdf文件</li>
+</ul>
+<h3 id="tensorwrapper类"><a class="markdownIt-Anchor" href="#tensorwrapper类"></a> TensorWrapper类</h3>
+<p>属性部分:</p>
+<ul>
+<li>tensor</li>
+<li>object_id 这是一个全局参数</li>
+<li>node_desc</li>
+<li>graph_creator</li>
+<li>activation_size</li>
+<li>_node 这个是包装好的node</li>
+</ul>
+<h3 id="torchsummary库下的summary方法"><a class="markdownIt-Anchor" href="#torchsummary库下的summary方法"></a> torchsummary库下的summary方法</h3>
+<p>这个方法是真正进行forward_compute_time等的部分,与pip的torchsummary库不一样,经由TensorWrapper整理(实际上它是把统计好的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mi>l</mi></msub><mo separator="true">,</mo><msub><mi>a</mi><mi>l</mi></msub><mo separator="true">,</mo><msub><mi>w</mi><mi>l</mi></msub></mrow><annotation encoding="application/x-tex">T_l,a_l,w_l</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.01968em;">l</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.01968em;">l</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.01968em;">l</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>信息给包装起来,通过Node类包装)</p>
 <p>参考文章:</p>
 <section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://juejin.cn/post/7010557652107264007">PipeDream-Profile</a>
 <a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://juejin.cn/post/7003637901279887367">PipeDream计算分区</a>
