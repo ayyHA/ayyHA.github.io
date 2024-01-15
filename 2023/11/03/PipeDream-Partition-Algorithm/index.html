@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s2.loli.net/2023/11/28/IZoDzmGyEqfCjTB.png">
 <meta property="article:published_time" content="2023-11-03T07:10:41.000Z">
-<meta property="article:modified_time" content="2024-01-07T09:00:08.940Z">
+<meta property="article:modified_time" content="2024-01-15T04:14:20.931Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="PipeDream">
 <meta property="article:tag" content="Partition Algorithm">
@@ -203,7 +203,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      4.6k 字
+      5.1k 字
     </span>
   
 
@@ -212,7 +212,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      14 分钟
+      16 分钟
     </span>
   
 
@@ -245,7 +245,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2 天前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -351,15 +351,42 @@ T(i+1 \rightarrow j,m`) &amp;③\\
 <ul>
 <li>source -&gt; 源点,入度为0的点</li>
 <li>sink -&gt; 汇点,出度为为0的点</li>
+<li><strong>链是指节点集合,且里面的节点间是存在单向可达的关系</strong>,即要么x到y是可达的,或者y到x是可达的</li>
+<li><strong>反链是指节点集合,且里面的节点间是不可达的</strong>,即x到y是不可达的且y到x是不可达的</li>
 </ul>
 <p>属性部分:</p>
 <ul>
-<li>edges 边集(出边,key对应的是箭尾的点,value是个list,对应的是箭头的点)</li>
-<li>in_edges 边集(入边,key对应的是箭头的点,value是个list,对应的是箭尾的点)</li>
-<li>nodes 节点集</li>
-<li>_predecessors 前序节点集</li>
-<li>_successors 后继节点集</li>
-<li>还有一些反链,暂时未了解</li>
+<li>
+<p>edges 边dict(出边,key对应的是箭尾的点,value是个list,对应的是箭头的点)</p>
+</li>
+<li>
+<p>in_edges 边dict(入边,key对应的是箭头的点,value是个list,对应的是箭尾的点)</p>
+</li>
+<li>
+<p>nodes 节点dict</p>
+</li>
+<li>
+<p>_predecessors 前序节点dict</p>
+</li>
+<li>
+<p>_successors 后继节点dict</p>
+</li>
+<li>
+<p>_augmented_antichains 增强反链dict <code>&#123;Tuple(Node.node_id) : List[Node.node_id]&#125;</code></p>
+<div class="note note-info">
+            <p><strong>增强反链 = 当前节点 + 部分前序节点</strong></p><p>找增强反链的部分前序节点的方法:</p><ol><li>获取当前节点的全部前序节点</li><li>若前序节点的出边目的节点不在当前节点的全部前序节点中,也不是当前节点,则将其加入增强反链中</li></ol><p>总之,<strong>增强反链中的部分前序节点,是存在分叉的节点,且其分叉的去向与当前节点的已走过的路径无关</strong></p>
+          </div>
+</li>
+<li>
+<p>_next_antichains 后继反链dict</p>
+<div class="note note-info">
+            <p>后继反链的查找方式如下：</p><ol><li>对输入的反链寻找增强反链；</li><li>对其增强反链进行遍历，获取增强反链节点，获取其出边对应的箭头节点</li><li>遍历出边的箭头节点们，已在反链中则不予理睬，而后进入<code>is_next_antichain()</code>进行判断</li><li>若箭头节点的后续节点不在增强反链中，则证明其为后继反链节点</li><li>将其加入后继反链中</li></ol>
+          </div>
+</li>
+<li>
+<p>_antichain_dag 反链DAG</p>
+<p>与其说_antichain_dag是反链DAG，其跟像是</p>
+</li>
 </ul>
 <p>方法部分:</p>
 <ul>
