@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s2.loli.net/2023/11/28/IZoDzmGyEqfCjTB.png">
 <meta property="article:published_time" content="2023-11-03T07:10:41.000Z">
-<meta property="article:modified_time" content="2024-02-27T02:42:48.517Z">
+<meta property="article:modified_time" content="2024-02-28T07:34:20.409Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="PipeDream">
 <meta property="article:tag" content="Partition Algorithm">
@@ -203,7 +203,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      6k 字
+      7.1k 字
     </span>
   
 
@@ -212,7 +212,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      19 分钟
+      22 分钟
     </span>
   
 
@@ -245,7 +245,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：4 小时前
+                  本文最后更新于：2 分钟前
                 
               </p>
             
@@ -287,8 +287,6 @@
 <li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo stretchy="false">(</mo><mi>j</mi><mo separator="true">,</mo><mi>m</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">A(j,m)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">A</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">m</span><span class="mclose">)</span></span></span></span>表示在<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>→</mo><mi>j</mi></mrow><annotation encoding="application/x-tex">1\rightarrow j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span></span></span></span>层间使用<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">m</span></span></span></span>个机子最优流水线的最慢stage所花费的时间；</li>
 <li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo stretchy="false">(</mo><mi>i</mi><mo>→</mo><mi>j</mi><mo separator="true">,</mo><mi>m</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">T(i\rightarrow j,m)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mopen">(</span><span class="mord mathnormal">i</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal">m</span><span class="mclose">)</span></span></span></span>表示一个单独的stage在<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>→</mo><mi>j</mi></mrow><annotation encoding="application/x-tex">i\rightarrow j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathnormal">i</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span></span></span></span>层，采用<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">m</span></span></span></span>个机子做数据并行所花费的时间，其中该时间计算公式如下：(之所以采用二取一是因为通信和计算存在重叠，不用add起来)<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow></mrow><annotation encoding="application/x-tex"></annotation></semantics></math></span><span class="katex-html" aria-hidden="true"></span></span></span></p>
 <p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow></mrow><annotation encoding="application/x-tex">
-
-
 </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"></span></span></span></p>
 </li>
 </ul>
@@ -328,10 +326,19 @@ T(i+1 \rightarrow j,m`) &amp;③\\
 </ul>
 <h2 id="pipedream划分算法代码部分"><a class="markdownIt-Anchor" href="#pipedream划分算法代码部分"></a> PipeDream划分算法代码部分</h2>
 <ul>
-<li>
-<p>profile<sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="PipeDream-Profile
-">[1]</span></a></sup></p>
-</li>
+<li>profile<sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="PipeDream-Profile
+">[1]</span></a></sup></li>
+</ul>
+<p>profile的目的是获得每个层的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>w</mi><mi>l</mi></msub><mo separator="true">,</mo><msub><mi>T</mi><mi>l</mi></msub><mo separator="true">,</mo><msub><mi>a</mi><mi>l</mi></msub></mrow><annotation encoding="application/x-tex">w_l,T_l,a_l</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.01968em;">l</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.01968em;">l</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.01968em;">l</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>，主要的函数调用步骤如下：</p>
+<ol>
+<li>在<strong>训练</strong>的时候先获取<code>summary</code>，这个函数(<code>torchsummary.summary()</code>)可以计算网络的参数信息，然后调用<code>create_graph()</code>，这个函数的目的在于通过内部的调用，生成模型的DAG图；</li>
+<li><code>create_graph()</code>内部会调用<code>torchgraph.GraphCreator()</code>，构造一个<code>GraphCreator</code>实例，这个实例的类内部定义了相关的钩子函数<code>hook_modules()</code>，可以为模型的子模块设置钩子，以追踪其内部的关联信息，然后利用<strong>模型运行</strong>，获得该信息，最后<code>unhook_modules()</code>把给子模块设置的钩子撤掉，并将profile的结果通过该类内部的<code>persist_graph()</code>方法给持久化成.dot,.txt,.pdf等类型，便于后续使用；</li>
+<li><code>GraphCreator</code>的实例记作<code>graph_creator</code>,在初始化的时候，会把<code>model</code>,<code>module_whitelist</code>,<code>summary</code>这些作为实例变量，同时增加了<code>forward_original_methods</code>这个字典用来存储子模块和子模块的原生<code>forward</code>方法，还增加了<code>graph</code>类的实例。还有个<code>inputs</code>字典，用来存储<mark>好像是</mark>子模块和子模块经由<code>TensorWrapper</code>包装后的tensor；</li>
+<li><code>graph_creator</code>实例通过调用<code>hook_modules()</code>这个方法，该方法内部通过调用<code>forward_wrapper()</code>和<code>forward_wrapper_root()</code>方法，来将子模块和模型的<code>forward</code>进行替换：<code>sub_module.forward = forward_wrapper().__get__(sub_module,sub_module.__class__)</code>。而这俩方法内部，分别将子模块和模型设置为<code>Tensorwrapper</code>（<mark>这一块的代码看不大懂，输入的是<code>sub_module</code>，但好像用作tensor？（之后debug看下这部分内在怎么运行的）</mark>），并且为图构造边；</li>
+<li>上面说到的<code>TensorWrapper</code>,它内部根据我们输入的<code>node_desc</code>，就是对节点的形容，来判断并从<code>summary</code>中获取对应元素，获取它的forward pass和backward pass的时间，激活大小，参数大小等，包装为<code>_node</code>这个成员变量；</li>
+<li>当模型运行后，获得了profile信息（<strong>整个模型的内部DAG图的构造是在<code>forward_wrapper()</code>这个function里完成的</strong>），采用persist_graph()给持久化成.dot文件（可视化一下），也持久化成.txt，便于后续使用。</li>
+</ol>
+<ul>
 <li>
 <p>compute partition<sup id="fnref:2" class="footnote-ref"><a href="#fn:2" rel="footnote"><span class="hint--top hint--rounded" aria-label="PipeDream计算分区
 ">[2]</span></a></sup></p>
