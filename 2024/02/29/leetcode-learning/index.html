@@ -25,8 +25,9 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://assets.leetcode.com/uploads/2020/08/17/mat1.jpg">
 <meta property="og:image" content="https://assets.leetcode.com/uploads/2020/08/17/mat2.jpg">
+<meta property="og:image" content="https://assets.leetcode.com/uploads/2021/01/04/partition.jpg">
 <meta property="article:published_time" content="2024-02-29T06:01:02.000Z">
-<meta property="article:modified_time" content="2024-02-29T07:52:55.891Z">
+<meta property="article:modified_time" content="2024-03-01T03:34:20.413Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="algorithm learning">
 <meta name="twitter:card" content="summary_large_image">
@@ -203,7 +204,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.4k 字
+      2.2k 字
     </span>
   
 
@@ -212,7 +213,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      4 分钟
+      7 分钟
     </span>
   
 
@@ -245,7 +246,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：16 分钟前
+                  本文最后更新于：13 分钟前
                 
               </p>
             
@@ -295,6 +296,25 @@
 <p>官方思路则感觉很套路，很模板，但又很有道理，它利用一种回溯的思想来做，就是先从简单的二进制枚举来说起，比如有一个长度为n的序列，要求其所有子序列。那么则可以用一个游标cur来在<code>[1,n]</code>这个范围内由小到大的滑动，而每一个cur指向的字符/数字，则有选和不选两种情况，选了的进递归一次，不选的进递归一次，然后当游标cur滑过了边界则将值塞进结果数组里，并return。</p>
 <p>而这个题目官方管它叫组合枚举，我感觉就是多了个临时值的大小判断，就是这个临时的数组它长度到k了，就给它塞进结果数组里，并return。然后再根据可能达不到k进行剪枝就好了。</p>
 <h3 id="重写官方代码-2"><a class="markdownIt-Anchor" href="#重写官方代码-2"></a> 重写官方代码</h3>
+<h2 id="86-分隔链表"><a class="markdownIt-Anchor" href="#86-分隔链表"></a> 86 分隔链表</h2>
+<h3 id="题目描述-3"><a class="markdownIt-Anchor" href="#题目描述-3"></a> 题目描述</h3>
+<p>给你一个链表的头节点 <code>head</code> 和一个特定值 <code>x</code> ，请你对链表进行分隔，使得所有 <strong>小于</strong> <code>x</code> 的节点都出现在 <strong>大于或等于</strong> <code>x</code> 的节点之前。</p>
+<p>你应当 <strong>保留</strong> 两个分区中每个节点的初始相对位置。</p>
+<p><strong>示例 1：</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2021/01/04/partition.jpg" srcset="/img/loading.gif" lazyload alt="img" /></p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs accesslog">输入：head = <span class="hljs-string">[1,4,3,2,5,2]</span>, x = <span class="hljs-number">3</span><br>输出：<span class="hljs-string">[1,2,2,4,3,5]</span><br></code></pre></td></tr></table></figure>
+<p><strong>示例 2：</strong></p>
+<figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs inform7">输入：head = <span class="hljs-comment">[2,1]</span>, x = 2<br>输出：<span class="hljs-comment">[1,2]</span><br></code></pre></td></tr></table></figure>
+<p><strong>提示：</strong></p>
+<ul>
+<li>链表中节点的数目在范围 <code>[0, 200]</code> 内</li>
+<li><code>-100 &lt;= Node.val &lt;= 100</code></li>
+<li><code>-200 &lt;= x &lt;= 200</code></li>
+</ul>
+<h3 id="思路-3"><a class="markdownIt-Anchor" href="#思路-3"></a> 思路</h3>
+<p>我一开始写这道题，只看到了示例2的情况，就是当<code>head.val == x</code>，因此直接进行了分类讨论，后来写着写着发现代码冗余很多，才发现一开始思路错了。不过最后还是做了出来，虽然比较暴力和耗了很长的时间。思路是要用两个指针，来做标识，分别是<code>cur_left</code>和<code>cur_right</code>，其中需要先确定<code>cur_right</code>的位置，就是第一个<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≥</mo><mi>x</mi></mrow><annotation encoding="application/x-tex">\ge x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719400000000001em;vertical-align:-0.13597em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">x</span></span></span></span>的节点的位置，因为此后要往前插入<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo><mi>x</mi></mrow><annotation encoding="application/x-tex">\lt x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">x</span></span></span></span>的节点，而<code>cur_right</code>前面的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo><mi>x</mi></mrow><annotation encoding="application/x-tex">\lt x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">x</span></span></span></span>的节点则为<code>cur_left</code>，掌管着左边界（因为要保留原来节点们的相对位置），之后遇到的<code>&lt; x</code>的节点就往这里面插入，然后滑动<code>cur_left</code>。当遇到<code>head.val == x</code>的情况，其实已经定好了<code>cur_right</code>，就是往左增加了一个节点，要移动head和<code>cur_left</code>节点为该节点。之后则化为上面的普通情况了。</p>
+<p>官方思路，我看了一下觉得很符合题目意思，又看了一下题目描述，感觉就是在暗示你，把它分成两个链表来看待。即是有两个链表，<code>small_list</code>的值都小于<code>big_list</code>的，最后需要将<code>small_list</code>末尾节点的指针指向<code>big_list</code>的头指针，而<code>big_list</code>的末尾节点的指针需要置为<code>nullptr</code>，不然可能出错。</p>
+<h3 id="重写官方代码-3"><a class="markdownIt-Anchor" href="#重写官方代码-3"></a> 重写官方代码</h3>
 
             </div>
             <hr>
