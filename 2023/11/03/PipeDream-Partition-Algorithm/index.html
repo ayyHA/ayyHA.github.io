@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s2.loli.net/2023/11/28/IZoDzmGyEqfCjTB.png">
 <meta property="article:published_time" content="2023-11-03T07:10:41.000Z">
-<meta property="article:modified_time" content="2024-03-05T13:18:15.309Z">
+<meta property="article:modified_time" content="2024-03-06T04:16:29.866Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="PipeDream">
 <meta property="article:tag" content="Partition Algorithm">
@@ -203,7 +203,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      8.1k 字
+      9.1k 字
     </span>
   
 
@@ -212,7 +212,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      25 分钟
+      28 分钟
     </span>
   
 
@@ -350,10 +350,23 @@ T(i+1 \rightarrow j,m`) &amp;③\\
 <p>**怎么去找到一个节点的后继反链呢?**首先,找到该节点的增强反链,获取增强反链中节点的出边的目的节点(后继嘛,就是后面的节点,且这个后继反链是相对于增强反链而言的,所以用增强反链中的去找),根据输入的节点的<code>antichain</code>过滤一波,剩下的预备役后继节点,一个个抓出来,跟增强反链一起丢进一个函数判断是否能成为后继节点,即判断预备役后继节点的successor与增强反链是否存在交集,不存在则说明这个预备役后继节点后面走的路不会又绕回去,则它是一个真正的后继节点.如此判断,将它们加入到对应的dict中.</p>
 <p>而把这两个概念使用在一起的时候是当我们**建立<code>antichain_dag</code>**的时候</p>
 <p><strong>如何建立<code>antichain_dag</code></strong>:</p>
+<p>在graph里有个<code>antichain_dag()</code>,通过这个建立,主要的逻辑是:</p>
+<ol>
+<li>获取sources中的第一个源点,构造其的<code>&#123;tuple(sorted(antichain)) : AntichainNode&#125;</code>(这里的<code>antichain</code>就是[node8]这样的东东,然后将这个antichain去实例化AntichainNode类,就得到了<code>antichain_mapping</code>中的一个item);</li>
+<li>然后把这个用AntichainNode实例后的source加入到<code>antichain_dag.source</code>中</li>
+<li>把antichain置入<code>antichain_queue</code>中,后期做类似bfs的操作用到它,把1中的item加入<code>antichain_mapping</code>中</li>
+<li>在类bfs的循环中,通过pop出首个antichain,然后获取它的后继反链,遍历后继反链中的节点,如果没有在<code>antichain_mapping</code>中的话就给它实例化为反链节点(AntichainNode),然后加入mapping中,并将其与antichain构造边(antichain-&gt;next_antichain,反链DAG中的边,注意它的这个节点是antichain,next_antichain对应的AntichainNode实例),然后把这个后继节点加入队列中.</li>
+</ol>
+<p>如此循环,这个反链DAG就完成了,有以下需要注意的:</p>
+<ul>
+<li>因为构建顺序是先增强反链(AntichainNode)后后继反链,所以如果节点antichain在后继反链dict中说明已经被记录过了,则直接continue就好;</li>
+<li>如果后继节点在<code>antichain_mapping</code>里面,说明前面给它构建过反链节点(AntichainNode)了(因为一个节点有可能是多个节点的后继节点),但依旧需要构建新的边,就是你新的大节点/状态,它们对这个后继节点都有指向,这也对应了前面说的找后继节点,就是找图分割点;</li>
+</ul>
+<p><strong>总的来说<code>antichain_dag</code>中的节点就是原生节点对应反链节点(增强反链形成的大节点/状态),而关系,即边的连接则是原dag中的antichain和next_antichain,就是原DAG中的原节点和后继反链节点</strong>(感觉就是原DAG去了环,所谓的环通过增强反链替代成大节点,后继反链则是找到大节点的出边节点)</p>
 <p>计算分区初步做的事情分为以下四步:</p>
 <ol>
 <li>去掉输入的source.因为输入就在第一层,之后convert model再加上,不用让optimizer决定放哪;</li>
-<li>去掉无用的输出(<code>__getitem__</code>)这种的;</li>
+<li>去掉无用的输出,就是sink中<code>node_desc</code>为(<code>__getitem__</code>)这种的;</li>
 <li>构建<code>antichain_dag</code>;</li>
 <li>对<code>antichain_dag</code>进行拓扑排序</li>
 </ol>
