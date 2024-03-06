@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s2.loli.net/2023/11/28/IZoDzmGyEqfCjTB.png">
 <meta property="article:published_time" content="2023-11-03T07:10:41.000Z">
-<meta property="article:modified_time" content="2024-03-06T04:16:29.866Z">
+<meta property="article:modified_time" content="2024-03-06T09:22:36.717Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="PipeDream">
 <meta property="article:tag" content="Partition Algorithm">
@@ -203,7 +203,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      9.1k 字
+      9.4k 字
     </span>
   
 
@@ -212,7 +212,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      28 分钟
+      29 分钟
     </span>
   
 
@@ -325,10 +325,8 @@ T(i+1 \rightarrow j,m`) &amp;③\\
 <li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo stretchy="false">(</mo><mi>j</mi><mo separator="true">,</mo><mn>1</mn><mo stretchy="false">)</mo><mo>=</mo><mi>T</mi><mo stretchy="false">(</mo><mn>1</mn><mo>→</mo><mi>j</mi><mo separator="true">,</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">A(j,1) =T(1\rightarrow j,1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">A</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">1</span><span class="mclose">)</span></span></span></span>，其中<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>j</mi><mo>∈</mo><mo stretchy="false">[</mo><mn>1</mn><mo separator="true">,</mo><mi>N</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">j \in [1,N]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mclose">]</span></span></span></span></li>
 </ul>
 <h2 id="pipedream划分算法代码部分"><a class="markdownIt-Anchor" href="#pipedream划分算法代码部分"></a> PipeDream划分算法代码部分</h2>
-<ul>
-<li>🔷<strong>profile<sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="PipeDream-Profile
-">[1]</span></a></sup></strong></li>
-</ul>
+<h3 id="profilesup-idfnref1-classfootnote-refa-hreffn1-relfootnotespan-classhinttop-hintrounded-aria-labelpipedream-profile"><a class="markdownIt-Anchor" href="#profilesup-idfnref1-classfootnote-refa-hreffn1-relfootnotespan-classhinttop-hintrounded-aria-labelpipedream-profile"></a> 🔷**profile<sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote">&lt;span class=“hint–top hint–rounded” aria-label=&quot;PipeDream-Profile</h3>
+<p>&quot;&gt;[1]</span></a></sup>**</p>
 <p>profile的目的是获得每个层的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>w</mi><mi>l</mi></msub><mo separator="true">,</mo><msub><mi>T</mi><mi>l</mi></msub><mo separator="true">,</mo><msub><mi>a</mi><mi>l</mi></msub></mrow><annotation encoding="application/x-tex">w_l,T_l,a_l</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.01968em;">l</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.01968em;">l</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.01968em;">l</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>，主要的函数调用步骤如下：</p>
 <ol>
 <li>在<strong>训练</strong>的时候先获取<code>summary</code>，这个函数(<code>torchsummary.summary()</code>)可以计算网络的参数信息，然后调用<code>create_graph()</code>，这个函数的目的在于通过内部的调用，生成模型的DAG图；</li>
@@ -338,10 +336,8 @@ T(i+1 \rightarrow j,m`) &amp;③\\
 <li>上面说到的<code>TensorWrapper</code>,它内部根据我们输入的<code>node_desc</code>，就是对节点的形容，来判断并从<code>summary</code>中获取对应元素，获取它的forward pass和backward pass的时间，激活大小，参数大小等，包装为<code>_node</code>这个成员变量；</li>
 <li>当模型运行后，获得了profile信息（<strong>整个模型的内部DAG图的构造是在<code>forward_wrapper()</code>这个function里完成的</strong>），采用persist_graph()给持久化成.dot文件（可视化一下），也持久化成.txt，便于后续使用。</li>
 </ol>
-<ul>
-<li>🔷<strong>compute partition<sup id="fnref:2" class="footnote-ref"><a href="#fn:2" rel="footnote"><span class="hint--top hint--rounded" aria-label="PipeDream计算分区
-">[2]</span></a></sup></strong></li>
-</ul>
+<h3 id="compute-partitionsup-idfnref2-classfootnote-refa-hreffn2-relfootnotespan-classhinttop-hintrounded-aria-labelpipedream计算分区"><a class="markdownIt-Anchor" href="#compute-partitionsup-idfnref2-classfootnote-refa-hreffn2-relfootnotespan-classhinttop-hintrounded-aria-labelpipedream计算分区"></a> 🔷**compute partition<sup id="fnref:2" class="footnote-ref"><a href="#fn:2" rel="footnote">&lt;span class=“hint–top hint–rounded” aria-label=&quot;PipeDream计算分区</h3>
+<p>&quot;&gt;[2]</span></a></sup>**</p>
 <p>在计算分区的部分有两个很重要的概念,一个是<strong>增强反链</strong>,一个是<strong>后继反链</strong></p>
 <p><strong>计算增强反链的目的是,更好的计算节点的时间</strong>,即将一个节点的增强反链内的节点视作一个大节点(或者说视作统一的一个状态),它们的输出激活也统一看待.</p>
 <p>**怎么样去找到一个节点的增强反链呢?**首先我们是将本节点纳入到它对应的增强反链的list中,然后在它这个节点的全部前序节点中,找到有分叉的节点,且分叉节点的出边目的节点不在全部前序节点中且也不是本节点,则这个分叉节点就可以加入到该节点的增强反链中去.</p>
@@ -370,16 +366,10 @@ T(i+1 \rightarrow j,m`) &amp;③\\
 <li>构建<code>antichain_dag</code>;</li>
 <li>对<code>antichain_dag</code>进行拓扑排序</li>
 </ol>
-<ul>
-<li>
-<p>🔷<strong>convert models<sup id="fnref:3" class="footnote-ref"><a href="#fn:3" rel="footnote"><span class="hint--top hint--rounded" aria-label="PipeDream转换模型
-">[3]</span></a></sup></strong></p>
-</li>
-<li>
-<p>🔷<strong>runtime<sup id="fnref:4" class="footnote-ref"><a href="#fn:4" rel="footnote"><span class="hint--top hint--rounded" aria-label="PipeDream运行时引擎
-">[4]</span></a></sup></strong></p>
-</li>
-</ul>
+<h3 id="convert-modelssup-idfnref3-classfootnote-refa-hreffn3-relfootnotespan-classhinttop-hintrounded-aria-labelpipedream转换模型"><a class="markdownIt-Anchor" href="#convert-modelssup-idfnref3-classfootnote-refa-hreffn3-relfootnotespan-classhinttop-hintrounded-aria-labelpipedream转换模型"></a> 🔷**convert models<sup id="fnref:3" class="footnote-ref"><a href="#fn:3" rel="footnote">&lt;span class=“hint–top hint–rounded” aria-label=&quot;PipeDream转换模型</h3>
+<p>&quot;&gt;[3]</span></a></sup>**</p>
+<h3 id="runtimesup-idfnref4-classfootnote-refa-hreffn4-relfootnotespan-classhinttop-hintrounded-aria-labelpipedream运行时引擎"><a class="markdownIt-Anchor" href="#runtimesup-idfnref4-classfootnote-refa-hreffn4-relfootnotespan-classhinttop-hintrounded-aria-labelpipedream运行时引擎"></a> 🔷**runtime<sup id="fnref:4" class="footnote-ref"><a href="#fn:4" rel="footnote">&lt;span class=“hint–top hint–rounded” aria-label=&quot;PipeDream运行时引擎</h3>
+<p>&quot;&gt;[4]</span></a></sup>**</p>
 <h2 id="pipedream划分算法代码中使用到的自定义类解析"><a class="markdownIt-Anchor" href="#pipedream划分算法代码中使用到的自定义类解析"></a> PipeDream划分算法代码中使用到的自定义类解析</h2>
 <h3 id="graph类"><a class="markdownIt-Anchor" href="#graph类"></a> Graph类</h3>
 <p>PipeDream中的Graph类有的属性和方法大致介绍:<br />
