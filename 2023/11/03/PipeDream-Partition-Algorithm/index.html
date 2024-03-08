@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s2.loli.net/2023/11/28/IZoDzmGyEqfCjTB.png">
 <meta property="article:published_time" content="2023-11-03T07:10:41.000Z">
-<meta property="article:modified_time" content="2024-03-06T15:23:18.171Z">
+<meta property="article:modified_time" content="2024-03-08T04:25:55.142Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="PipeDream">
 <meta property="article:tag" content="Partition Algorithm">
@@ -203,7 +203,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      9.4k 字
+      9.8k 字
     </span>
   
 
@@ -212,7 +212,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      29 分钟
+      31 分钟
     </span>
   
 
@@ -245,7 +245,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：18 小时前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -351,14 +351,14 @@ T(i+1 \rightarrow j,m`) &amp;③\\
 <li>获取sources中的第一个源点,构造其的<code>&#123;tuple(sorted(antichain)) : AntichainNode&#125;</code>(这里的<code>antichain</code>就是[node8]这样的东东,然后将这个antichain去实例化AntichainNode类,就得到了<code>antichain_mapping</code>中的一个item);</li>
 <li>然后把这个用AntichainNode实例后的<code>source_node</code>加入到<code>antichain_dag.source</code>中</li>
 <li>把antichain置入<code>antichain_queue</code>中,后期做类似bfs的操作用到它,把1中的item加入<code>antichain_mapping</code>中</li>
-<li>在类bfs的循环中,通过pop出首个antichain,然后获取它的后继反链,遍历后继反链中的节点,如果没有在<code>antichain_mapping</code>中的话就给它实例化为反链节点(AntichainNode),然后加入mapping中,并将其与antichain构造边(antichain-&gt;next_antichain,反链DAG中的边,注意它的这个节点是antichain,next_antichain对应的AntichainNode实例),然后把这个后继节点加入队列中.</li>
+<li>在类bfs的循环中,通过pop出首个antichain,然后获取它的后继反链,遍历后继反链中的节点,如果没有在<code>antichain_mapping</code>中的话就给它实例化为反链节点(AntichainNode),然后加入mapping中,并将其与antichain构造边(antichain-&gt;next_antichain,反链DAG中的边,注意它的这个节点是antichain和next_antichain对应的AntichainNode实例),然后把这个后继节点加入队列中.</li>
 </ol>
 <p>如此循环,这个反链DAG就完成了,有以下需要注意的:</p>
 <ul>
 <li>因为构建顺序是先增强反链(AntichainNode)后后继反链,所以如果节点antichain在后继反链dict中说明已经被记录过了,则直接continue就好;</li>
 <li>如果后继节点在<code>antichain_mapping</code>里面,说明前面给它构建过反链节点(AntichainNode)了(因为一个节点有可能是多个节点的后继节点),但依旧需要构建新的边,就是你新的大节点/状态,它们对这个后继节点都有指向,这也对应了前面说的找后继节点,就是找图分割点;</li>
 </ul>
-<p><strong>总的来说<code>antichain_dag</code>中的节点就是原生节点对应反链节点(增强反链形成的大节点/状态),而关系,即边的连接则是原dag中的antichain和next_antichain,就是原DAG中的原节点和后继反链节点</strong>(感觉就是原DAG去了环,所谓的环通过增强反链替代成大节点,后继反链则是找到大节点的出边节点)</p>
+<p><strong>总的来说<code>antichain_dag</code>中的节点就是原生节点对应反链节点(增强反链形成的大节点/状态),而关系,即边的连接则是原dag中的antichain和next_antichain,就是原DAG中的原节点和后继反链节点形成的关系,不过是用反链节点link起来的</strong>(<mark>感觉就是原DAG去了环(其实也不是,因为DAG本来就没环…,只是一种形状上的描述,找不到好的词语形容,自己画图感受),所谓的环通过增强反链替代成大节点,后继反链则是找到大节点的出边节点</mark>)</p>
 <p>计算分区初步做的事情分为以下四步:</p>
 <ol>
 <li>去掉输入的source.因为输入就在第一层,之后convert model再加上,不用让optimizer决定放哪;</li>
@@ -366,6 +366,10 @@ T(i+1 \rightarrow j,m`) &amp;③\\
 <li>构建<code>antichain_dag</code>;</li>
 <li>对<code>antichain_dag</code>进行拓扑排序</li>
 </ol>
+<p>在经过对<code>antichain_dag</code>进行拓扑排序后,可以得到<strong>顺序执行的线性序列</strong>,由<code>states</code>承载.</p>
+<div class="note note-info">
+            <p>此处对上面的过程做一个总结:</p><p>在<code>antichain_dag()</code>中,我们通过对profile生成的DAG(注意此时已对作为输入的source和无用的sink进行删除)获取它结点的增强反链,并构成<code>AntichainNode</code>,然后找到它的后继反链,对后继反链的结点生成<code>AntichainNode</code>,然后构造<code>AntichainNode[antichain]=&gt;AntichainNode[next_antichain]</code>的边,循环迭代,构造完反链DAG</p><p>据上可知增强反链是反链DAG节点的一个重要属性,而原DAG是依据后继反链来划分的反链节点,而后对反链DAG做拓扑排序(实际就是对增强反链做拓扑排序),最终得到states,states是反链节点的一个list,拓扑排序好了的.</p>
+          </div>
 <h3 id="convert-modelssup-idfnref3-classfootnote-refa-hreffn3-relfootnotespan-classhinttop-hintrounded-aria-labelpipedream转换模型"><a class="markdownIt-Anchor" href="#convert-modelssup-idfnref3-classfootnote-refa-hreffn3-relfootnotespan-classhinttop-hintrounded-aria-labelpipedream转换模型"></a> 🔷convert models<sup id="fnref:3" class="footnote-ref"><a href="#fn:3" rel="footnote">&lt;span class=“hint–top hint–rounded” aria-label=&quot;PipeDream转换模型</h3>
 <p>&quot;&gt;[3]</span></a></sup></p>
 <h3 id="runtimesup-idfnref4-classfootnote-refa-hreffn4-relfootnotespan-classhinttop-hintrounded-aria-labelpipedream运行时引擎"><a class="markdownIt-Anchor" href="#runtimesup-idfnref4-classfootnote-refa-hreffn4-relfootnotespan-classhinttop-hintrounded-aria-labelpipedream运行时引擎"></a> 🔷runtime<sup id="fnref:4" class="footnote-ref"><a href="#fn:4" rel="footnote">&lt;span class=“hint–top hint–rounded” aria-label=&quot;PipeDream运行时引擎</h3>
