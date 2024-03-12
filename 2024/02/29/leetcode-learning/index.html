@@ -27,8 +27,9 @@
 <meta property="og:image" content="https://assets.leetcode.com/uploads/2020/08/17/mat2.jpg">
 <meta property="og:image" content="https://assets.leetcode.com/uploads/2021/01/04/partition.jpg">
 <meta property="og:image" content="https://assets.leetcode.com/uploads/2021/02/19/tree1.jpg">
+<meta property="og:image" content="https://s2.loli.net/2024/03/12/H6h2EdPU5xSvKrB.png">
 <meta property="article:published_time" content="2024-02-29T06:01:02.000Z">
-<meta property="article:modified_time" content="2024-03-11T08:20:27.755Z">
+<meta property="article:modified_time" content="2024-03-12T08:02:50.979Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="algorithm learning">
 <meta name="twitter:card" content="summary_large_image">
@@ -205,7 +206,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      11k 字
+      15k 字
     </span>
   
 
@@ -214,7 +215,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      36 分钟
+      45 分钟
     </span>
   
 
@@ -247,7 +248,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2 分钟前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -510,6 +511,69 @@
 <p>官方的思路是先按左端点排序,则能合尽合,不能合则next one go go.</p>
 <h3 id="重写官方思路"><a class="markdownIt-Anchor" href="#重写官方思路"></a> 重写官方思路</h3>
 <h2 id="53-最大子数组和"><a class="markdownIt-Anchor" href="#53-最大子数组和"></a> 53 最大子数组和</h2>
+<h3 id="题目描述-11"><a class="markdownIt-Anchor" href="#题目描述-11"></a> 题目描述</h3>
+<p>给你一个整数数组 <code>nums</code> ，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。</p>
+<p><strong>子数组</strong>是数组中的一个连续部分。</p>
+<p><strong>示例 1：</strong></p>
+<figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs subunit">输入：nums = [<span class="hljs-string">-2</span>,1,<span class="hljs-string">-3</span>,4,<span class="hljs-string">-1</span>,2,1,<span class="hljs-string">-5</span>,4]<br>输出：6<br>解释：连续子数组 [4,<span class="hljs-string">-1</span>,2,1] 的和最大，为 6 。<br></code></pre></td></tr></table></figure>
+<p><strong>示例 2：</strong></p>
+<figure class="highlight fix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs fix"><span class="hljs-attr">输入：nums </span>=<span class="hljs-string"> [1]</span><br><span class="hljs-string">输出：1</span><br></code></pre></td></tr></table></figure>
+<p><strong>示例 3：</strong></p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs accesslog">输入：nums = <span class="hljs-string">[5,4,-1,7,8]</span><br>输出：<span class="hljs-number">23</span><br></code></pre></td></tr></table></figure>
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>1 &lt;= nums.length &lt;= 105</code></li>
+<li><code>-104 &lt;= nums[i] &lt;= 104</code></li>
+</ul>
+<p>**进阶：**如果你已经实现复杂度为 <code>O(n)</code> 的解法，尝试使用更为精妙的 <strong>分治法</strong> 求解。</p>
+<h3 id="思路-11"><a class="markdownIt-Anchor" href="#思路-11"></a> 思路</h3>
+<p>原思路如下虽通过了,但是有一个压力测试的用例是绕过去的:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">maxSubArray</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums)</span> </span>&#123;<br>        <span class="hljs-keyword">int</span> max,sum;<br>        <span class="hljs-comment">// 这个来定区间</span><br>        <span class="hljs-keyword">int</span> r;<br>        <span class="hljs-comment">// 把边界先给处理了</span><br>        <span class="hljs-keyword">if</span>(nums.<span class="hljs-built_in">size</span>()==<span class="hljs-number">1</span>)<br>            <span class="hljs-keyword">return</span> nums[<span class="hljs-number">0</span>];<br><br>        <span class="hljs-keyword">int</span> flag=<span class="hljs-literal">true</span>;<br><br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> l=<span class="hljs-number">0</span>;l&lt;nums.<span class="hljs-built_in">size</span>();l++)&#123;<br>            <span class="hljs-comment">// 初始值设置</span><br>            <span class="hljs-keyword">if</span>(l == <span class="hljs-number">0</span>)<br>                max = nums[l];<br>            sum = nums[l];<br>            <br>            <span class="hljs-comment">// 极端情况,全负</span><br>            <span class="hljs-keyword">if</span>(max &lt; nums[l])<br>                max = nums[l];<br>            <span class="hljs-comment">// 左端点和步距表示区间</span><br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> s=l+<span class="hljs-number">1</span>;s&lt;nums.<span class="hljs-built_in">size</span>();s++)&#123;<br>                <span class="hljs-comment">// 左端点值小于0直接跳出去</span><br>                <span class="hljs-keyword">if</span>(nums[l] &lt; <span class="hljs-number">0</span>)&#123;<br>                    sum = <span class="hljs-number">0</span>;<br>                    flag = <span class="hljs-literal">false</span>;<br>                    <span class="hljs-keyword">break</span>;<br>                &#125;<br>                <span class="hljs-comment">// 对着用例加的一个无聊的标志位,如果是有负则为false;</span><br>                <span class="hljs-keyword">if</span>(nums[s]&lt;<span class="hljs-number">0</span>)<br>                    flag = <span class="hljs-literal">false</span>;<br><br>                sum += nums[s];<br>                <span class="hljs-keyword">if</span>(sum &gt;= <span class="hljs-number">0</span>)&#123;<br>                    <span class="hljs-keyword">if</span>(sum&gt;max)<br>                        max = sum;<br>                &#125;<br>                <span class="hljs-keyword">else</span>&#123;<br>                    <span class="hljs-keyword">break</span>;<br>                &#125;<br>            &#125;<br>            <span class="hljs-keyword">if</span>(flag)<br>                <span class="hljs-keyword">break</span>;<br>        &#125;<br>        <span class="hljs-keyword">return</span> max;<br>    &#125;<br>&#125;;<br><span class="hljs-comment">/*</span><br><span class="hljs-comment">区间里的和只要是大于零(大于max(因为怕有极端情况))的就有反转的余地,不然就废了</span><br><span class="hljs-comment">*/</span><br></code></pre></td></tr></table></figure>
+<p>上面代码的思路是通过l(left)和s(stride)这两个来定区间,然后逐个区间找最大值的可能,什么时候放弃一个区间呢?</p>
+<ul>
+<li>当它开头(区间左端点)是负数(因为如果全负的话,直接从负的找最大的就好),如果有大于等于0的话,那就说明这个负的开头的不可能是最大连续子数组,因为它的起点就比别人低;</li>
+<li>当它区间的总和小于0时,也要跳出,因为你开头不为0,你这时为0了,后面即使有再大的数,也不如直接就挑那一个大数作为最大值的连续子数组</li>
+</ul>
+<p>而当我们区间的总和不为0时,则表示有回转的余地,还可以继续区间的和的最大值的计算</p>
+<p>昨天lolored跟我说她写了一个绝佳的方法,确实牛牛,代码如下:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">maxSubArray</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span> (nums.<span class="hljs-built_in">size</span>() == <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> nums[<span class="hljs-number">0</span>];<br>        <span class="hljs-keyword">int</span> max = nums[<span class="hljs-number">0</span>];<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>, len = nums.<span class="hljs-built_in">size</span>(); i &lt; len; i ++) &#123;<br>            <span class="hljs-keyword">if</span> (i == <span class="hljs-number">0</span>) <span class="hljs-keyword">continue</span>;<br>            <span class="hljs-keyword">if</span> (nums[i - <span class="hljs-number">1</span>] &gt; <span class="hljs-number">0</span>) nums[i] += nums[i - <span class="hljs-number">1</span>];<br>            <span class="hljs-keyword">if</span> (max &lt; nums[i]) max = nums[i];<br>        &#125;<br>        <span class="hljs-keyword">return</span> max;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<p>这个方法其实是把我上面的方法高度压缩了一波,利用数组内的每个值作为sum来统计,而当其本身小于0或是累和小于0则放弃,当累和比max大则更新max</p>
+<p>这个方法的时间复杂度是<code>O(n)</code>,但我觉得精简程度堪称典范,比官方的dp方法还好.</p>
+<p>官方的思路是采用动态规划的算法,这里采用一个看到的大佬的思路(<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/maximum-subarray/solutions/9058/dong-tai-gui-hua-fen-zhi-fa-python-dai-ma-java-dai/">参考自liweiwei1419</a>),作者详细地讲了这个题目<strong>如何找到/定义状态</strong>(就是子问题,<mark>从有后效性到无后效性(后面对子问题的求解不影响前面已求解完的子问题),好像要么就是给它加定语设条件,要么就是增加状态数组维度</mark>),然后找到<strong>子问题之间的联系,就是状态转移方程</strong></p>
+<p>以<code> [-2,1,-3,4,-1,2,1,-5,4]</code>为例</p>
+<p>比如一开始会想:</p>
+<ul>
+<li>含有<code>-2</code>的连续子序列的最大和 -&gt; <code>dp[0]</code></li>
+<li>含有<code>1</code>的连续子序列的最大和 -&gt; <code>dp[1]</code></li>
+<li>…</li>
+<li>含有<code>4</code>的连续子序列的最大和 -&gt; <code>dp[n-1]</code></li>
+</ul>
+<p>但是这并没有很好的阐述清楚这个问题,子问题间的关系扑朔迷离,且对现在的子问题依旧有<strong>不确定</strong>的因素就判定为仍有后效性(我感觉意思上来说就是只要你感觉怪怪的,就是还有后效性,只要当你的子问题定语够多,前提是不要错,对不对很容易感受出来)</p>
+<p>现在的不确定性就是比如含有<code>-2</code>的连续子序列有很多很多个,含有<code>1</code>的连续子序列也有很多很多个,这里的作者就借助<strong>位置</strong>这个定语来加强子问题的限定</p>
+<ul>
+<li>以<code>-2</code>为末尾元素的连续子序列的最大和 -&gt; <code>dp[0]</code></li>
+<li>…</li>
+<li>以<code>4</code>为 末尾元素的连续子序列的最大和 -&gt; <code>dp[n-1]</code></li>
+</ul>
+<p>这样就有:</p>
+<p>对于以-2为结尾的<code>[-2]</code>即是在所有连续子序列中选一个最大和的,而这个只有一种情况,所以<code>dp[0]=nums[0];</code></p>
+<p>对于以1为结尾的<code>[-2,1]</code>,<code>[1]</code>有这么两种情况,即是在选不选<code>dp[0]</code>的情况下做选择,当然我们如果前一个<code>dp[i-1]</code>的是<code>&lt;=0</code>的数加了只会更小或者说没区别,还不如就不加了.</p>
+<p>因此状态转移方程也就呼之欲出了</p>
+<p>此外,作者也说了动规题的做题路径:</p>
+<ol>
+<li>定义状态/子问题</li>
+<li>定义状态转移方程</li>
+<li>考虑初始值</li>
+<li>考虑输出</li>
+<li><mark>空间优化(这一步先放弃,一般空间不要太离谱也不会爆)</mark></li>
+</ol>
+<h3 id="重写官方思路-2"><a class="markdownIt-Anchor" href="#重写官方思路-2"></a> 重写官方思路</h3>
+<p><code>dp[i]</code>表示以<code>nums[i]</code>为结尾的连续子序列的最大和</p>
+<p>当发生状态转移的时候,即是选择<code>dp[i]</code>选择<code>dp[i] = dp[i-1] + nums[i];</code>或是<code>dp[i] = nums[i];</code>的过程,而这个选择的条件就是<code>dp[i-1]</code>是否<code>&gt;0</code></p>
+<p>定义好状态了,状态转移方程以及相关条件都定义好了,考虑初值,即<code>dp[0]</code>表示以<code>nums[0]</code>结尾的连续子序列的最大和,有且也只有一个<code>[nums[0]]</code>这么一个子序列,所以<code>dp[0] = nums[0];</code></p>
+<p>题目要求我们求出连续子序列的最大和,就是说,并不是一定要以谁结尾,而是要在这些情况中,找个最大的,也就是遍历所有的状态,找个最大的返回出去.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">maxSubArray</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums)</span> </span>&#123;<br>        <span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">dp</span><span class="hljs-params">(nums.size(),<span class="hljs-number">0</span>)</span></span>;<br>        dp[<span class="hljs-number">0</span>] = nums[<span class="hljs-number">0</span>];<br>        <span class="hljs-keyword">int</span> max = dp[<span class="hljs-number">0</span>];<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;nums.<span class="hljs-built_in">size</span>();i++)&#123;<br>            <span class="hljs-keyword">if</span>(dp[i<span class="hljs-number">-1</span>] &gt; <span class="hljs-number">0</span>)<br>                dp[i] = dp[i<span class="hljs-number">-1</span>] + nums[i];<br>            <span class="hljs-keyword">else</span><br>                dp[i] = nums[i];<br>            <span class="hljs-keyword">if</span>(dp[i] &gt; max)<br>                max = dp[i];<br>        &#125;<br>        <span class="hljs-keyword">return</span> max;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<p><img src="https://s2.loli.net/2024/03/12/H6h2EdPU5xSvKrB.png" srcset="/img/loading.gif" lazyload alt="53 最大子数组和-前后效果对比" /></p>
 <h2 id="162-寻找峰值"><a class="markdownIt-Anchor" href="#162-寻找峰值"></a> 162 寻找峰值</h2>
 <h2 id="160-相交链表"><a class="markdownIt-Anchor" href="#160-相交链表"></a> 160 相交链表</h2>
 
