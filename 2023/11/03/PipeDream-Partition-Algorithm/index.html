@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s2.loli.net/2023/11/28/IZoDzmGyEqfCjTB.png">
 <meta property="article:published_time" content="2023-11-03T07:10:41.000Z">
-<meta property="article:modified_time" content="2024-03-12T09:01:40.174Z">
+<meta property="article:modified_time" content="2024-03-13T10:05:54.561Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="PipeDream">
 <meta property="article:tag" content="Partition Algorithm">
@@ -203,7 +203,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      9.9k 字
+      10k 字
     </span>
   
 
@@ -212,7 +212,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      31 分钟
+      33 分钟
     </span>
   
 
@@ -245,7 +245,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：1 天前
+                  本文最后更新于：21 小时前
                 
               </p>
             
@@ -371,14 +371,24 @@ T(i+1 \rightarrow j,m`) &amp;③\\
             <p>此处对上面的过程做一个总结:</p><p>在<code>antichain_dag()</code>中,我们通过对profile生成的DAG(注意此时已对作为输入的source和无用的sink进行删除)获取它结点的增强反链,并构成<code>AntichainNode</code>,然后找到它的后继反链,对后继反链的结点生成<code>AntichainNode</code>,然后构造<code>AntichainNode[antichain]=&gt;AntichainNode[next_antichain]</code>的边,循环迭代,构造完反链DAG</p><p>据上可知增强反链是反链DAG节点的一个重要属性,而原DAG是依据后继反链来划分的反链节点,而后对反链DAG做拓扑排序(实际就是对增强反链做拓扑排序),最终得到states,states是反链节点的一个list,拓扑排序好了的.</p>
           </div>
 <p>获得了states,就到了<strong>自动分区</strong>的部分</p>
+<p>在开始正式自动分区的介绍前,就是进入<code>compute_partitioning()</code>之前,有如下举动:</p>
 <ul>
-<li>
-<p>计算分区(根据dp找最优化结果)</p>
-</li>
-<li>
-<p>分析分区(根据最优化结果做分区)</p>
-</li>
+<li>计算了每个state的<strong>输出激活值大小</strong>,就是<strong>根据它们的增强反链的节点的输出激活值大小,来累加到<code>states[i].output_activation_size</code></strong>.这里的<strong>输出激活值大小是state的必要前序节点给自己的输出</strong>;</li>
+<li>计算了每个state的<strong>计算时间,激活值大小,参数值大小</strong>,通过遍历原dag每个state的前置节点以进行累加;</li>
 </ul>
+<p>上面这些都是作为state的属性/成员变量而存在的.比如:</p>
+<p><code>state.output_activation_size</code> <code>state.compute_time</code> <code>state.activation_size</code> <code>state.parameter_size</code></p>
+<p><mark>需要注意:<code>output_activation_size</code>和<code>activation_size</code>是不一样的</mark></p>
+<ul>
+<li>计算了个<strong>总输出激活值大小<code>output_activation_sizes</code></strong>;</li>
+<li>计算了<strong>每个state在反链dag的前序节点<code>all_predecessor_ids</code></strong></li>
+</ul>
+<p><mark>需要注意:这里的前序节点是反链DAG的</mark></p>
+<ul>
+<li>计算了states之间的计算时间,激活值大小,参数值大小,这是一个二维数组,表示的是</li>
+</ul>
+<p><strong>🔷 计算分区(根据dp找最优化结果)<code>compute_partitioning</code></strong></p>
+<p><strong>🔷 分析分区(根据最优化结果做分区)<code>analyze_partitioning</code></strong></p>
 <h3 id="convert-modelssup-idfnref3-classfootnote-refa-hreffn3-relfootnotespan-classhinttop-hintrounded-aria-labelpipedream转换模型"><a class="markdownIt-Anchor" href="#convert-modelssup-idfnref3-classfootnote-refa-hreffn3-relfootnotespan-classhinttop-hintrounded-aria-labelpipedream转换模型"></a> 🔷convert models<sup id="fnref:3" class="footnote-ref"><a href="#fn:3" rel="footnote">&lt;span class=“hint–top hint–rounded” aria-label=&quot;PipeDream转换模型</h3>
 <p>&quot;&gt;[3]</span></a></sup></p>
 <h3 id="runtimesup-idfnref4-classfootnote-refa-hreffn4-relfootnotespan-classhinttop-hintrounded-aria-labelpipedream运行时引擎"><a class="markdownIt-Anchor" href="#runtimesup-idfnref4-classfootnote-refa-hreffn4-relfootnotespan-classhinttop-hintrounded-aria-labelpipedream运行时引擎"></a> 🔷runtime<sup id="fnref:4" class="footnote-ref"><a href="#fn:4" rel="footnote">&lt;span class=“hint–top hint–rounded” aria-label=&quot;PipeDream运行时引擎</h3>
