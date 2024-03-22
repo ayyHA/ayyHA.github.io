@@ -43,7 +43,7 @@
 <meta property="og:image" content="https://assets.leetcode.com/uploads/2020/10/06/balance_1.jpg">
 <meta property="og:image" content="https://assets.leetcode.com/uploads/2020/10/06/balance_2.jpg">
 <meta property="article:published_time" content="2024-02-29T06:01:02.000Z">
-<meta property="article:modified_time" content="2024-03-21T02:14:44.895Z">
+<meta property="article:modified_time" content="2024-03-22T09:01:21.826Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="algorithm learning">
 <meta name="twitter:card" content="summary_large_image">
@@ -220,7 +220,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      28k 字
+      30k 字
     </span>
   
 
@@ -229,7 +229,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      87 分钟
+      93 分钟
     </span>
   
 
@@ -262,7 +262,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：1 分钟前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -800,12 +800,46 @@
 </ul>
 <h3 id="思路-18"><a class="markdownIt-Anchor" href="#思路-18"></a> 思路</h3>
 <p>写这道题太挫败了,简单题我写不出来😢</p>
-<p>一开始的想法是想用bfs,层序遍历树结构,用<code>vector_&lt;vector&lt;int&gt;&gt;</code>把树结构的信息装起来,然后遍历,我们知道树的高度为h,则该行长满节点则为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>h</mi></msup></mrow><annotation encoding="application/x-tex">2^h</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.849108em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.849108em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">h</span></span></span></span></span></span></span></span></span></span></span>(h是从0开始算的),我的判断依据是当存在两行不满足长满节点,则不是平衡二叉树,然后在一个用例上错了😈,如<code>[1,2,3,4,5,6,null,8]</code>这样的,满足我的不是平衡二叉树的判断,但它又确实是,因为每一个子树都满足左右子树高度差&lt;=1</p>
+<p>一开始的想法是想用bfs,层序遍历树结构,用<code>vector&lt;vector&lt;int&gt;&gt;</code>把树结构的信息装起来,然后遍历,我们知道树的高度为h,则该行长满节点则为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi>h</mi></msup></mrow><annotation encoding="application/x-tex">2^h</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.849108em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.849108em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">h</span></span></span></span></span></span></span></span></span></span></span>(h是从0开始算的),我的判断依据是当存在两行不满足长满节点,则不是平衡二叉树,然后在一个用例上错了😈,如<code>[1,2,3,4,5,6,null,8]</code>这样的,满足我的不是平衡二叉树的判断,但它又确实是,因为每一个子树都满足左右子树高度差&lt;=1</p>
+<hr />
+<p>昨天晚上重写了这个题目,看了题解,用了递归写的,但是性能不大好,应该是属于自顶向下的那种?</p>
+<p>主要思路是所有平衡二叉树的子树都是平衡二叉树,因为都要满足左右子树高度差不为1的条件.则对于叶子节点,高度为1,一层层的这样累加上去,则可以知道根的左右子树的高度;并且在检索左右子树的高度时,也对每一个小子树的高度差进行判定,如果超过1,则直接返回-1,且上层对-1直接疯狂返回就行.即使这样时间上也只是超过53%的人</p>
+<p>重写的代码如下:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isBalanced</span><span class="hljs-params">(TreeNode* root)</span> </span>&#123;<br>        <span class="hljs-keyword">if</span>(root == <span class="hljs-literal">nullptr</span>)<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>        <span class="hljs-keyword">int</span> height_l = <span class="hljs-built_in">findHeight</span>(root-&gt;left);<br>        <span class="hljs-keyword">if</span>(height_l == <span class="hljs-number">-1</span>)<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        <span class="hljs-keyword">int</span> height_r = <span class="hljs-built_in">findHeight</span>(root-&gt;right);<br>        <span class="hljs-keyword">if</span>(height_r == <span class="hljs-number">-1</span>)<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">abs</span>(height_l - height_r) &lt;=<span class="hljs-number">1</span> ? <span class="hljs-literal">true</span> : <span class="hljs-literal">false</span>;<br>    &#125;   <br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">findHeight</span><span class="hljs-params">(TreeNode* node)</span></span>&#123;<br>        <span class="hljs-comment">// 空节点高度为0</span><br>        <span class="hljs-keyword">if</span>(node == <span class="hljs-literal">nullptr</span>)<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>        <br>        <span class="hljs-comment">// 叶子节点则高度为1</span><br>        <span class="hljs-keyword">if</span>(node-&gt;left == <span class="hljs-literal">nullptr</span> &amp;&amp; node-&gt;right == <span class="hljs-literal">nullptr</span>)<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br><br>        <span class="hljs-keyword">int</span> height_l,height_r;<br><br>        height_l = <span class="hljs-built_in">findHeight</span>(node-&gt;left);<br>        height_r = <span class="hljs-built_in">findHeight</span>(node-&gt;right);<br>        <br>        <span class="hljs-keyword">if</span>(height_l == <span class="hljs-number">-1</span> || height_r == <span class="hljs-number">-1</span>)<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>; <br>        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">abs</span>(height_l - height_r) &gt;<span class="hljs-number">1</span>)&#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">max</span>(height_l,height_r) + <span class="hljs-number">1</span> ;<br>    &#125;<br></code></pre></td></tr></table></figure>
 <h3 id="重写官方思路-5"><a class="markdownIt-Anchor" href="#重写官方思路-5"></a> 重写官方思路</h3>
+<p>之后看下有没有啥更好的题解</p>
 <h2 id="121-股票i"><a class="markdownIt-Anchor" href="#121-股票i"></a> 121 股票Ⅰ</h2>
 <h3 id="题目描述-19"><a class="markdownIt-Anchor" href="#题目描述-19"></a> 题目描述</h3>
+<p>给定一个数组 <code>prices</code> ，它的第 <code>i</code> 个元素 <code>prices[i]</code> 表示一支给定股票第 <code>i</code> 天的价格。</p>
+<p>你只能选择 <strong>某一天</strong> 买入这只股票，并选择在 <strong>未来的某一个不同的日子</strong> 卖出该股票。设计一个算法来计算你所能获取的最大利润。</p>
+<p>返回你可以从这笔交易中获取的最大利润。如果你不能获取任何利润，返回 <code>0</code> 。</p>
+<p><strong>示例 1：</strong></p>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs tap">输入：[7,1,5,3,6,4]<br>输出：5<br>解释：在第<span class="hljs-number"> 2 </span>天（股票价格 = 1）的时候买入，在第<span class="hljs-number"> 5 </span>天（股票价格 = 6）的时候卖出，最大利润 = 6-1 =<span class="hljs-number"> 5 </span>。<br>     注意利润不能是 7-1 = 6, 因为卖出价格需要大于买入价格；同时，你不能在买入前卖出股票。<br></code></pre></td></tr></table></figure>
+<p><strong>示例 2：</strong></p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs accesslog">输入：prices = <span class="hljs-string">[7,6,4,3,1]</span><br>输出：<span class="hljs-number">0</span><br>解释：在这种情况下, 没有交易完成, 所以最大利润为 <span class="hljs-number">0</span>。<br></code></pre></td></tr></table></figure>
 <h3 id="思路-19"><a class="markdownIt-Anchor" href="#思路-19"></a> 思路</h3>
+<p>写这道题的时候我的心路历程如下:</p>
+<ol>
+<li>左右指针,左扫最低,右扫最高,相减为ans,为负则0 -&gt; failed;</li>
+<li>慢慢划过去,找最小值,然后最大值是最小值右边的(历史最低点不一定是赚到最多钱的时候<code>[2,5,1,3]</code>)</li>
+</ol>
+<p>然后不知道触动了哪个叛逆的神经,我想了下,如果动态规划做的话:</p>
+<p><code>dp[i]</code>表示第<code>i</code>天的最大收益,则它这个会模糊不清吗(就是有无后效性),然后就大概的过一过,比如:</p>
+<ul>
+<li><code>dp[0]</code>第一天的最大收益</li>
+<li><code>dp[1]</code>第二天的最大收益</li>
+<li>…</li>
+<li><code>dp[len-1]</code>最后一天的最大收益</li>
+</ul>
+<p>那这个最大收益呢,它并不是说我一定非得要在那天卖出(上面的就有点模糊,有后效性,因为我们不知道在第几天卖出,描述很模糊,但买入一定是之前的某个时间节点),就是<strong>直至到第<code>i</code>天的最大收益</strong>,同时转移方程也出来了(很神奇,感觉只要状态找好了找对了,转移方程就很快出来的):</p>
+<p><code>dp[i] = max(dp[i-1],prices[i]-min)</code></p>
+<p>即直到第<code>i</code>天的最大收益,要么是直到第i-1天的最大收益,要么是今天的卖出价减去之前存储好的相对较低的买入价,两者取max即为所得</p>
+<p>同时初始值<code>dp[0]</code>肯定是0,因为撑死就今天买入,卖出如果是同一天的话,也是0.</p>
+<p>同时期望的输出就是<code>dp[len-1]</code>,直到最后一天的最大收益(战斗到股市最后一刻),因为存的是最大利润,故输出其即可.</p>
 <h3 id="重写官方思路-6"><a class="markdownIt-Anchor" href="#重写官方思路-6"></a> 重写官方思路</h3>
+<p>和你的一样哇哈哈</p>
+<p>思路一倒是居然没有往这里想,就是跟之前有道题类似(好像是组合?),限定左端,然后右端在左端下一位移动;左端往右走一位,右端在左端下一位继续移动;</p>
+<p>限定了区间,但据说会报超时.</p>
 <h2 id="122-股票ii"><a class="markdownIt-Anchor" href="#122-股票ii"></a> 122 股票Ⅱ</h2>
 <h3 id="题目描述-20"><a class="markdownIt-Anchor" href="#题目描述-20"></a> 题目描述</h3>
 <h3 id="思路-20"><a class="markdownIt-Anchor" href="#思路-20"></a> 思路</h3>
