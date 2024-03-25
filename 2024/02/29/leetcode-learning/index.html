@@ -43,7 +43,7 @@
 <meta property="og:image" content="https://assets.leetcode.com/uploads/2020/10/06/balance_1.jpg">
 <meta property="og:image" content="https://assets.leetcode.com/uploads/2020/10/06/balance_2.jpg">
 <meta property="article:published_time" content="2024-02-29T06:01:02.000Z">
-<meta property="article:modified_time" content="2024-03-22T09:01:21.826Z">
+<meta property="article:modified_time" content="2024-03-25T06:28:56.935Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="algorithm learning">
 <meta name="twitter:card" content="summary_large_image">
@@ -220,7 +220,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      30k 字
+      32k 字
     </span>
   
 
@@ -229,7 +229,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      93 分钟
+      99 分钟
     </span>
   
 
@@ -842,8 +842,49 @@
 <p>限定了区间,但据说会报超时.</p>
 <h2 id="122-股票ii"><a class="markdownIt-Anchor" href="#122-股票ii"></a> 122 股票Ⅱ</h2>
 <h3 id="题目描述-20"><a class="markdownIt-Anchor" href="#题目描述-20"></a> 题目描述</h3>
+<p>给你一个整数数组 <code>prices</code> ，其中 <code>prices[i]</code> 表示某支股票第 <code>i</code> 天的价格。</p>
+<p>在每一天，你可以决定是否购买和/或出售股票。你在任何时候 <strong>最多</strong> 只能持有 <strong>一股</strong> 股票。你也可以先购买，然后在 <strong>同一天</strong> 出售。</p>
+<p>返回 <em>你能获得的 <strong>最大</strong> 利润</em> 。</p>
+<p><strong>示例 1：</strong></p>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs tap">输入：prices = [7,1,5,3,6,4]<br>输出：7<br>解释：在第<span class="hljs-number"> 2 </span>天（股票价格 = 1）的时候买入，在第<span class="hljs-number"> 3 </span>天（股票价格 = 5）的时候卖出, 这笔交易所能获得利润 =<span class="hljs-number"> 5 </span>-<span class="hljs-number"> 1 </span>=<span class="hljs-number"> 4 </span>。<br>     随后，在第<span class="hljs-number"> 4 </span>天（股票价格 = 3）的时候买入，在第<span class="hljs-number"> 5 </span>天（股票价格 = 6）的时候卖出, 这笔交易所能获得利润 =<span class="hljs-number"> 6 </span>-<span class="hljs-number"> 3 </span>=<span class="hljs-number"> 3 </span>。<br>     总利润为<span class="hljs-number"> 4 </span>+<span class="hljs-number"> 3 </span>=<span class="hljs-number"> 7 </span>。<br></code></pre></td></tr></table></figure>
+<p><strong>示例 2：</strong></p>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs tap">输入：prices = [1,2,3,4,5]<br>输出：4<br>解释：在第<span class="hljs-number"> 1 </span>天（股票价格 = 1）的时候买入，在第<span class="hljs-number"> 5 </span>天 （股票价格 = 5）的时候卖出, 这笔交易所能获得利润 =<span class="hljs-number"> 5 </span>-<span class="hljs-number"> 1 </span>=<span class="hljs-number"> 4 </span>。<br>     总利润为<span class="hljs-number"> 4 </span>。<br></code></pre></td></tr></table></figure>
+<p><strong>示例 3：</strong></p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs accesslog">输入：prices = <span class="hljs-string">[7,6,4,3,1]</span><br>输出：<span class="hljs-number">0</span><br>解释：在这种情况下, 交易无法获得正利润，所以不参与交易可以获得最大利润，最大利润为 <span class="hljs-number">0</span> 。<br></code></pre></td></tr></table></figure>
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>1 &lt;= prices.length &lt;= 3 * 10^4</code></li>
+<li><code>0 &lt;= prices[i] &lt;= 10^4</code></li>
+</ul>
 <h3 id="思路-20"><a class="markdownIt-Anchor" href="#思路-20"></a> 思路</h3>
+<p>一开始的时候没啥思路,知道这题递归做,虽然说递归做出来了,但是官网跟我类似的方法是贪心算法,bad,分不清了</p>
+<p>我的想法是<code>dp[i]</code>继续表示<strong>直到第i天的最大利润</strong>,但是跟前面的有点不一样,因为我们现在可以<strong>每一天可以多次交易(可以买入卖出),但是任何时候最多只有一股</strong>,也即是说我可能第三天买,第四天价格好就卖了,第五天又买入,第七天行情好了,又卖出去,并不是说买入的时候一定比卖出的早(因为多次交易,可能在之前就有卖出行为了),感觉原来的状态依旧可行,于是修改状态转移方程思路如下:</p>
+<p>dp[i]是我直到第i天的最大利润,它的计算方式是:它如果今天不卖出东西的话(就是没赚钱嘛,我依旧不管什么时候买入的),那它就是dp[i-1],那如果今天卖东西呢(就是卖了,有得赚嘛),那就是dp[i-1]+prices[i]-minPrice.那卖不卖东西,其实看的是赚不赚钱:</p>
+<p><code>dp[i] = dp[i-1] +  max(0,prices[i]-minPrice)</code></p>
+<p>那问题转移到了minPrice怎么找,我们知道,因为任何时候最多持有一股,所以卖了的话,minPrice就得更新(有股且卖).那如果没卖(有股和无股,且不卖,更新minPrice),当天的价格低,就给它换,即是更新到一个价格相对更低的minPrice,当然你得先看它(前一天的价格)卖的话赚不赚钱,赚的话先卖了,再更新,故minPrice变成了:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">int</span> minPrice = prices[<span class="hljs-number">0</span>]; <span class="hljs-comment">// 初值</span><br><span class="hljs-keyword">bool</span> flag = <span class="hljs-literal">false</span>; <span class="hljs-comment">// 是否出售</span><br><span class="hljs-keyword">for</span>(...)&#123;<br>    <span class="hljs-keyword">if</span>(prices[i]-minPrice&gt;<span class="hljs-number">0</span>)&#123;<br>        flag = <span class="hljs-literal">true</span>;<br>    &#125;<br>    dp[i] = dp[i<span class="hljs-number">-1</span>] + <span class="hljs-built_in">max</span>(<span class="hljs-number">0</span>,prices[i]-minPrice);<br>	<span class="hljs-keyword">if</span>(minPrice &gt; prices[i])&#123;<br>        minPrice = prices[i];<br>    &#125;<br>    <span class="hljs-keyword">if</span>(flag)&#123;<br>        minPrice = prices[i]; <span class="hljs-comment">// 大的话在之后的遍历会缩</span><br>        flag = <span class="hljs-literal">false</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>还加了flag辅助,虽然好像没啥用(简化代码这个flag可以去掉)</p>
+<p>但是官方说这个是贪心算法,我看了下评论区的人的解释:<strong>只要是利润都是赚的,那直接累加利润就是能赚到的最多的钱</strong>,确实如此!</p>
+<p>官方的动态规划的做法则是从<strong>最多只能持有一股股票</strong>入手</p>
+<p>那如果第i天交易结束,我手里要么有一股股票,要么没有股票,所以我们原先121的<code>dp[i]</code>,直到第i天的最大利润,可以加个定语变为:<strong>直到第i天有一股股票的最大利润</strong>和<strong>直到第i天没有股票时的最大利润</strong>,而只增加定语并不能解决真正的问题,则要加个维度来表示这个定语了,于是有新的状态定义如下:</p>
+<p><code>dp[i][0]</code>: 直到第i天交易结束后没有股票时的最大利润</p>
+<p><code>dp[i][1]</code>: 直到第i天交易结束后有一股股票时的最大利润</p>
+<p>对应状态的变化可以这样想,买入一股,相当于赊账买入,则减,卖出相当于进账,则加.则我们的状态表示<code>dp[i]</code>直到第i天的账户余额数</p>
+<p>因此引出状态转移方程如下:</p>
+<p><code>dp[i][0] = max(dp[i-1][0],dp[i-1][1] + prices[i])</code></p>
+<p><code>dp[i][1] = max(dp[i-1][1],dp[i-1][0] - prices[i])</code></p>
+<p>相应的对于如&quot;直到第1天交易结束时的最大利润&quot;这样的初始值的处置也可以分为:<code>dp[0][0] = 0;dp[0][1] = -prices[0]</code></p>
+<p>然后最终的输出是要输出能获得的最大利润,显然<code>dp[n-1][1]</code>是比<code>dp[n-1][0]</code>所赚的钱少的,还有一股股票压箱底呢,因此最终的输出就直接是<code>dp[n-1][0]</code></p>
 <h3 id="重写官方思路-7"><a class="markdownIt-Anchor" href="#重写官方思路-7"></a> 重写官方思路</h3>
+<p>有缘重写一下咯~</p>
+<h2 id="46-全排列"><a class="markdownIt-Anchor" href="#46-全排列"></a> 46 全排列</h2>
+<h3 id="题目描述-21"><a class="markdownIt-Anchor" href="#题目描述-21"></a> 题目描述</h3>
+<h3 id="思路-21"><a class="markdownIt-Anchor" href="#思路-21"></a> 思路</h3>
+<h3 id="重写官方思路-8"><a class="markdownIt-Anchor" href="#重写官方思路-8"></a> 重写官方思路</h3>
+<h2 id="47-全排列ii"><a class="markdownIt-Anchor" href="#47-全排列ii"></a> 47  全排列Ⅱ</h2>
+<h3 id="题目描述-22"><a class="markdownIt-Anchor" href="#题目描述-22"></a> 题目描述</h3>
+<h3 id="思路-22"><a class="markdownIt-Anchor" href="#思路-22"></a> 思路</h3>
+<h3 id="重写官方思路-9"><a class="markdownIt-Anchor" href="#重写官方思路-9"></a> 重写官方思路</h3>
 
             </div>
             <hr>
