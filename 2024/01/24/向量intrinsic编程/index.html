@@ -24,8 +24,9 @@
 <meta property="og:description" content="学习一下intrinsic编程">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s2.loli.net/2024/02/27/ofa25ckdz9A1iwP.jpg">
+<meta property="og:image" content="https://jsd.cdn.zzko.cn/gh/ayyHA/imageBed@main/img/ICC-tanh%20ask.png">
 <meta property="article:published_time" content="2024-01-24T09:08:13.000Z">
-<meta property="article:modified_time" content="2024-03-26T10:09:40.226Z">
+<meta property="article:modified_time" content="2024-03-26T12:46:23.279Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="intrinsic编程">
 <meta property="article:tag" content="AVX&#x2F;AVX2">
@@ -203,7 +204,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.3k 字
+      2.7k 字
     </span>
   
 
@@ -212,7 +213,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      7 分钟
+      8 分钟
     </span>
   
 
@@ -245,7 +246,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：1 小时前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -303,10 +304,21 @@
 <p>SET系列,LOAD系列,STORE系列,MATH系列,COMPARE系列,CONVERT系列,SHUFFLES系列,详情参见<sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="玩转SIMD编程
 ">[1]</span></a></sup></p>
 <p>注:load是往向量寄存器YMM里灌数据,而store给从向量寄存器写到内存去</p>
+<p>其中shuffles中有个<code>_mm256_blendv_pd(__m256d a,__m256d b,__m256d mask)</code>中的v表示的是variable,否则是constant,且它可以这么理解:mask中的false由a填充,true的部分则由b填充</p>
 <h2 id="第一个intrinsic的demo"><a class="markdownIt-Anchor" href="#第一个intrinsic的demo"></a> 第一个intrinsic的demo</h2>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;immintrin.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span> <span class="hljs-keyword">const</span> *argv[])</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-built_in">srand</span>(<span class="hljs-built_in">time</span>(<span class="hljs-number">0</span>));<br>    __m256 a = _mm256_set_ps(<span class="hljs-number">1.0</span>, <span class="hljs-number">2.1</span>, <span class="hljs-number">3.2</span>, <span class="hljs-number">4.3</span>,<br>                             <span class="hljs-number">5.4</span>, <span class="hljs-number">6.5</span>, <span class="hljs-number">7.6</span>, <span class="hljs-number">8.7</span>);<br><br>    __m256 b = _mm256_set_ps(<span class="hljs-number">3.8</span>, <span class="hljs-number">4.9</span>, <span class="hljs-number">6.0</span>, <span class="hljs-number">7.1</span>,<br>                             <span class="hljs-number">8.2</span>, <span class="hljs-number">9.3</span>, <span class="hljs-number">10.4</span>, <span class="hljs-number">11.5</span>);<br><br>    __m256 c = _mm256_add_ps(a, b);<br><br>    <span class="hljs-keyword">float</span> d[<span class="hljs-number">8</span>];<br><br>    _mm256_storeu_ps(d, c); <span class="hljs-comment">// 这里的u是unaligned的意思</span><br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">8</span>; i++)<br>        cout &lt;&lt; d[i] &lt;&lt; ends;<br>    cout &lt;&lt; endl;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p><strong><code>immintrin.h</code>是AVX的头文件,然后在编译的时候要加上<code>-mavx</code>以启用AVX指令集</strong></p>
-<h2 id="参考文章"><a class="markdownIt-Anchor" href="#参考文章"></a> 参考文章：</h2>
+<h2 id="avx2算子编写"><a class="markdownIt-Anchor" href="#avx2算子编写"></a> AVX2算子编写</h2>
+<p>这部分的内容大量的参考了学习资料<sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="玩转SIMD编程
+">[1]</span></a></sup>,其中内容编写部分是我看了之后自己重新编写的</p>
+<h3 id="gelu"><a class="markdownIt-Anchor" href="#gelu"></a> GELU</h3>
+<p>参照学习资料<sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="玩转SIMD编程
+">[1]</span></a></sup>自行观看,过于直白,其中tanh是一种近似实现,当然也可以用别的轻量数学库来替换,好像是Intel C++ Compiler没有这个的实现(但是好像MKL是有的),用别的编译器可能存在不支持AVX2指令的情况.查了下百度,原因如下(<strong>要做优化,就别用cmath这些,当然icc针对这些数学公式也有优化的库:mkl</strong>):</p>
+<p><img src="https://jsd.cdn.zzko.cn/gh/ayyHA/imageBed@main/img/ICC-tanh%20ask.png" srcset="/img/loading.gif" lazyload alt="icc-tanh" /></p>
+<h3 id="softmax"><a class="markdownIt-Anchor" href="#softmax"></a> softmax</h3>
+<h3 id="矩阵加"><a class="markdownIt-Anchor" href="#矩阵加"></a> 矩阵加</h3>
+<h3 id="矩阵转置"><a class="markdownIt-Anchor" href="#矩阵转置"></a> 矩阵转置</h3>
+<h2 id="参考文章"><a class="markdownIt-Anchor" href="#参考文章"></a> 参考文章</h2>
 <section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/591900754">玩转SIMD编程</a>
 <a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_17075011/article/details/130555559">AVX/AVX2,内存对齐学习</a>
 <a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:3" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://blog.csdn.net/fengbingchun/article/details/18460199/">SSE2 Intrinsic function介绍</a>
