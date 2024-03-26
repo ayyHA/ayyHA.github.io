@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s2.loli.net/2024/02/27/ofa25ckdz9A1iwP.jpg">
 <meta property="article:published_time" content="2024-01-24T09:08:13.000Z">
-<meta property="article:modified_time" content="2024-02-28T07:35:44.857Z">
+<meta property="article:modified_time" content="2024-03-26T10:09:40.226Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="intrinsic编程">
 <meta property="article:tag" content="AVX&#x2F;AVX2">
@@ -203,7 +203,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.2k 字
+      2.3k 字
     </span>
   
 
@@ -212,7 +212,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      4 分钟
+      7 分钟
     </span>
   
 
@@ -245,7 +245,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：1 个月前
+                  本文最后更新于：1 小时前
                 
               </p>
             
@@ -255,7 +255,7 @@
 <p>我们接触的传统的程序，一般是SISD，即Single Instruction Single Data，单指令单数据流，它是传统的串行计算机架构，即相当于在该计算机上，任何时刻都是从指令流里取一条指令来处理数据流中的一个数据，交由一个核心来处理。</p>
 <p>SIMD则是利用到了计算机的多个核心的较新的并行架构，采用控制器来控制多个处理器，对多个核心的不同数据执行同一条指令，从而实现并行。</p>
 <p>SIMD有对应SIMD指令集，而支持这些SIMD指令集的CPU在设计的时候增加了专用的<strong>向量寄存器</strong>，</p>
-<p>就好像之前一条指令只能处理一个单精度浮点数，而现在采用一条SIMD指令能处理如4个，8个甚至更多个的单精度浮点数，这些数据就存储于向量寄存器中，显然，向量寄存器较通用寄存器其能容纳更多的位数。当然，放入向量寄存器的多个数据的数据类型是一致的。</p>
+<p>就好像之前一条指令只能处理一个单精度浮点数，而现在采用一条SIMD指令能处理如4个，8个甚至更多个的单精度浮点数，这些数据就存储于向量寄存器中，显然，<strong>向量寄存器较通用寄存器其能容纳更多的位数</strong>。当然，<strong>放入向量寄存器的多个数据的数据类型是一致的</strong>。</p>
 <h3 id="simd指令集的历史进程"><a class="markdownIt-Anchor" href="#simd指令集的历史进程"></a> SIMD指令集的历史进程</h3>
 <p>下图是SIMD指令集随CPU的发展：</p>
 <p><img src="https://s2.loli.net/2024/02/27/ofa25ckdz9A1iwP.jpg" srcset="/img/loading.gif" lazyload alt="SIMD_Instruction_development" /></p>
@@ -283,11 +283,34 @@
 <p>在说到SIMD指令集，如AVX指令集时，我们知道，可以采用指令集中的汇编指令去操纵YMM寄存器，但是，汇编难写难读难管理，因此有了<strong>Intrinsic Function</strong>。</p>
 <p><strong>Intrinsic Function</strong>就跟C一样，是较于汇编的一种高级语言（但没到C那种高级程度，只是用类C的方式编写汇编），它又与C不同（毕竟面对的寄存器不是通用寄存器了，而是向量寄存器），但可以和C/C++无缝融合</p>
 <p>需要注意：<strong>Intrinsic Function并非完全与指令集一一对应</strong></p>
+<p>SSE/AVX的intrinsic function命名习惯如下:</p>
+<p><code>__&lt;return_type&gt; _&lt;vector_size&gt;_&lt;intrin_op&gt;_&lt;suffix&gt;</code></p>
+<ul>
+<li>返回类型return_type就是上面对应的SIMD数据类型,如<code>__m256d</code>这些</li>
+<li>向量长度vector_size就是代表<strong>函数操作的数据向量的位长度</strong>,如<code>mm</code>表示128位的数据向量(SSE),<code>mm256</code>表示256位的数据向量(AVX/AVX2),<code>mm512</code>表示512位的数据向量(AVX512)</li>
+<li>代表函数具体功能的<code>intrin_op</code></li>
+<li><strong>suffix是后缀,表示函数参数的数据类型</strong>,p=packed,s=single(fp32),d=double(fp64),ep=整型(具体英文指代词没找到)
+<ul>
+<li>ps</li>
+<li>pd</li>
+<li>epi8/epi16/epi32/epi64</li>
+<li>epu8/epu16/epu32/epu64</li>
+<li>si128/si256: 未指定的128位/256位向量,si=unSpecIfied</li>
+</ul>
+</li>
+</ul>
 <h3 id="常规方法类型"><a class="markdownIt-Anchor" href="#常规方法类型"></a> 常规方法类型</h3>
+<p>SET系列,LOAD系列,STORE系列,MATH系列,COMPARE系列,CONVERT系列,SHUFFLES系列,详情参见<sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="玩转SIMD编程
+">[1]</span></a></sup></p>
+<p>注:load是往向量寄存器YMM里灌数据,而store给从向量寄存器写到内存去</p>
 <h2 id="第一个intrinsic的demo"><a class="markdownIt-Anchor" href="#第一个intrinsic的demo"></a> 第一个intrinsic的demo</h2>
-<p>参考文章：</p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/591900754">玩转SIMD编程</a></p>
-
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;immintrin.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span> <span class="hljs-keyword">const</span> *argv[])</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-built_in">srand</span>(<span class="hljs-built_in">time</span>(<span class="hljs-number">0</span>));<br>    __m256 a = _mm256_set_ps(<span class="hljs-number">1.0</span>, <span class="hljs-number">2.1</span>, <span class="hljs-number">3.2</span>, <span class="hljs-number">4.3</span>,<br>                             <span class="hljs-number">5.4</span>, <span class="hljs-number">6.5</span>, <span class="hljs-number">7.6</span>, <span class="hljs-number">8.7</span>);<br><br>    __m256 b = _mm256_set_ps(<span class="hljs-number">3.8</span>, <span class="hljs-number">4.9</span>, <span class="hljs-number">6.0</span>, <span class="hljs-number">7.1</span>,<br>                             <span class="hljs-number">8.2</span>, <span class="hljs-number">9.3</span>, <span class="hljs-number">10.4</span>, <span class="hljs-number">11.5</span>);<br><br>    __m256 c = _mm256_add_ps(a, b);<br><br>    <span class="hljs-keyword">float</span> d[<span class="hljs-number">8</span>];<br><br>    _mm256_storeu_ps(d, c); <span class="hljs-comment">// 这里的u是unaligned的意思</span><br><br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">8</span>; i++)<br>        cout &lt;&lt; d[i] &lt;&lt; ends;<br>    cout &lt;&lt; endl;<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><strong><code>immintrin.h</code>是AVX的头文件,然后在编译的时候要加上<code>-mavx</code>以启用AVX指令集</strong></p>
+<h2 id="参考文章"><a class="markdownIt-Anchor" href="#参考文章"></a> 参考文章：</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/591900754">玩转SIMD编程</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_17075011/article/details/130555559">AVX/AVX2,内存对齐学习</a>
+<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:3" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://blog.csdn.net/fengbingchun/article/details/18460199/">SSE2 Intrinsic function介绍</a>
+<a href="#fnref:3" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
             </div>
             <hr>
             <div>
