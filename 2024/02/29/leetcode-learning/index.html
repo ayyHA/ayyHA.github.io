@@ -43,8 +43,10 @@
 <meta property="og:image" content="https://assets.leetcode.com/uploads/2020/12/01/tree2.jpg">
 <meta property="og:image" content="https://assets.leetcode.com/uploads/2020/10/06/balance_1.jpg">
 <meta property="og:image" content="https://assets.leetcode.com/uploads/2020/10/06/balance_2.jpg">
+<meta property="og:image" content="https://assets.leetcode.com/uploads/2020/11/13/rotate1.jpg">
+<meta property="og:image" content="https://assets.leetcode.com/uploads/2020/11/13/roate2.jpg">
 <meta property="article:published_time" content="2024-02-29T06:01:02.000Z">
-<meta property="article:modified_time" content="2024-03-27T07:53:02.722Z">
+<meta property="article:modified_time" content="2024-03-28T16:57:35.204Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="algorithm learning">
 <meta name="twitter:card" content="summary_large_image">
@@ -221,7 +223,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      35k 字
+      36k 字
     </span>
   
 
@@ -230,7 +232,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      108 分钟
+      113 分钟
     </span>
   
 
@@ -263,7 +265,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：1 天前
+                  本文最后更新于：1 分钟前
                 
               </p>
             
@@ -271,6 +273,8 @@
               <h2 id="前情提要"><a class="markdownIt-Anchor" href="#前情提要"></a> 前情提要</h2>
 <p>🔴 -&gt; 一般是指hard的题目,且没pass出来的,就是连暴力解法都想不到的</p>
 <p>🔵 -&gt; 表示十拿九稳的题目</p>
+<h2 id="c的字符数组和c的string转换以及常用函数"><a class="markdownIt-Anchor" href="#c的字符数组和c的string转换以及常用函数"></a> C的字符数组和C++的string转换以及常用函数</h2>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++">string s = <span class="hljs-string">&quot;hahaha&quot;</span>;<br><span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* c_s = s.<span class="hljs-built_in">c_str</span>();<br><br></code></pre></td></tr></table></figure>
 <h2 id="一些stl容器回顾"><a class="markdownIt-Anchor" href="#一些stl容器回顾"></a> 一些STL容器回顾</h2>
 <p>这里主要记着主要方法,后续有新的会来补充,以便于一开始训练的时候查方法,当然也会说一下不同容器/相似容器间的差别</p>
 <h3 id="顺序容器"><a class="markdownIt-Anchor" href="#顺序容器"></a> 顺序容器</h3>
@@ -931,6 +935,68 @@
 <p>我们先对nums排序,若是<code>nums[i] == nums[i-1]</code>说明此时滑到了重复的数字上,为了避免越界需加上<code>i&gt;0</code>,而当flags[i-1]还为true的时候,表明正在发生如下的排列:<code>1a...</code>,而当<code>nums[i-1]</code>为false的时候说明已排列好,则此时的排列若是<code>nums[i] == nums[i-1] &amp;&amp; !flags[i-1]</code>说明在排重复的序列了,可以直接continue</p>
 <p>这样做会使得重复数字的第一个数排好情况,而后面重复的那些,就直接continue,continue走掉,直到一个新的重复序列的开头~</p>
 <p>已重写🆗</p>
+<h2 id="49-字母异位词分组"><a class="markdownIt-Anchor" href="#49-字母异位词分组"></a> 49 字母异位词分组</h2>
+<h3 id="题目描述-23"><a class="markdownIt-Anchor" href="#题目描述-23"></a> 题目描述</h3>
+<p>给你一个字符串数组，请你将 <strong>字母异位词</strong> 组合在一起。可以按任意顺序返回结果列表。</p>
+<p><strong>字母异位词</strong> 是由重新排列源单词的所有字母得到的一个新单词。</p>
+<p><strong>示例 1:</strong></p>
+<figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs prolog">输入: strs = [<span class="hljs-string">&quot;eat&quot;</span>, <span class="hljs-string">&quot;tea&quot;</span>, <span class="hljs-string">&quot;tan&quot;</span>, <span class="hljs-string">&quot;ate&quot;</span>, <span class="hljs-string">&quot;nat&quot;</span>, <span class="hljs-string">&quot;bat&quot;</span>]<br>输出: [[<span class="hljs-string">&quot;bat&quot;</span>],[<span class="hljs-string">&quot;nat&quot;</span>,<span class="hljs-string">&quot;tan&quot;</span>],[<span class="hljs-string">&quot;ate&quot;</span>,<span class="hljs-string">&quot;eat&quot;</span>,<span class="hljs-string">&quot;tea&quot;</span>]]<br></code></pre></td></tr></table></figure>
+<p><strong>示例 2:</strong></p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs lua">输入: strs = [<span class="hljs-string">&quot;&quot;</span>]<br>输出: <span class="hljs-string">[[&quot;&quot;]]</span><br></code></pre></td></tr></table></figure>
+<p><strong>示例 3:</strong></p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs lua">输入: strs = [<span class="hljs-string">&quot;a&quot;</span>]<br>输出: <span class="hljs-string">[[&quot;a&quot;]]</span><br></code></pre></td></tr></table></figure>
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>1 &lt;= strs.length &lt;= 104</code></li>
+<li><code>0 &lt;= strs[i].length &lt;= 100</code></li>
+<li><code>strs[i]</code> 仅包含小写字母</li>
+</ul>
+<h3 id="思路-23"><a class="markdownIt-Anchor" href="#思路-23"></a> 思路</h3>
+<p>写这道题,我只有暴力的想法!非常暴力,以至于很弱智:</p>
+<ol>
+<li>标志flags表征这个字串是否加入过结果数组;</li>
+<li>两层遍历,第一层从左往右,第二层顺着第一层,在它右起新一个位置搜索,两个字串比对长度,长度一致则排序,若一致则加入vecString,并置标志位;</li>
+<li>从第二层遍历出来,判断vecString的size是否不为0,不为0则加入结果数组;</li>
+</ol>
+<p>以上以极高时间复杂度完成了整道题,但是内存开销则还可以(?很怪)</p>
+<p>同时发现了自己在C的字符数组这一块的相关函数忘得差不多了.之后补齐相关的知识</p>
+<h3 id="重写官方思路-10"><a class="markdownIt-Anchor" href="#重写官方思路-10"></a> 重写官方思路</h3>
+<p>官方的思路是用哈希表来处理这个问题,主要是抓住字母异位词的特点来处理,有两种做法一种是排序,一种是根据比如<code>[pet,etp,cat,rag]</code>构造对应的key值,如:<code>1e1p1t,1e1p1t,1a1c1t,1a1g1r</code>这样.</p>
+<p>重写一遍代码如下(29号再写):</p>
+<h2 id="61-旋转链表"><a class="markdownIt-Anchor" href="#61-旋转链表"></a> 61 旋转链表</h2>
+<h3 id="题目描述-24"><a class="markdownIt-Anchor" href="#题目描述-24"></a> 题目描述</h3>
+<p>给你一个链表的头节点 <code>head</code> ，旋转链表，将链表每个节点向右移动 <code>k</code> 个位置。</p>
+<p><strong>示例 1：</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2020/11/13/rotate1.jpg" srcset="/img/loading.gif" lazyload alt="img" /></p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs accesslog">输入：head = <span class="hljs-string">[1,2,3,4,5]</span>, k = <span class="hljs-number">2</span><br>输出：<span class="hljs-string">[4,5,1,2,3]</span><br></code></pre></td></tr></table></figure>
+<p><strong>示例 2：</strong></p>
+<p><img src="https://assets.leetcode.com/uploads/2020/11/13/roate2.jpg" srcset="/img/loading.gif" lazyload alt="img" /></p>
+<figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs inform7">输入：head = <span class="hljs-comment">[0,1,2]</span>, k = 4<br>输出：<span class="hljs-comment">[2,0,1]</span><br></code></pre></td></tr></table></figure>
+<p><strong>提示：</strong></p>
+<ul>
+<li>链表中节点的数目在范围 <code>[0, 500]</code> 内</li>
+<li><code>-100 &lt;= Node.val &lt;= 100</code></li>
+<li><code>0 &lt;= k &lt;= 2 * 10^9</code></li>
+</ul>
+<h3 id="思路-24"><a class="markdownIt-Anchor" href="#思路-24"></a> 思路</h3>
+<p>因为我们旋转1次就会把尾节点放到前面,当旋转链表的长度<code>len</code>次的话,就相当于没动,因此旋转的次数<code>k</code>要对长度<code>len</code>取余,避免转圈圈,而当<code>k%len</code>的时候表示需要从尾巴移动这么多个节点,也即相当于我们的链表从第1个节点(即头节点)到<code>len-(k%len)</code>这个节点的时候是不用动的,因此从头节点为1开始计数,直到遇到第<code>len-(k%len)</code>个节点,则此刻该节点的next是要移到前面去的,这时我们可以借用一个空节点<code>preHead</code>(前于head节点)来承接要被切开的节点,并置新的尾节点的next为<code>nullptr</code>.此刻我们有两个链表,一个是以head为代表的,一个是以preHead为代表的,(这时跟分隔链表那道题就基本一样了).让preHead扫到next节点是<code>nullptr</code>的,接上head节点,然后head节点变为preHead节点的next节点,则完成了链表旋转.</p>
+<p>这道题一开始十几分钟有思路,后来被边界卡了一下,就对着failed的用例在写,导致最后写了1个小时出头,非常糟糕,最后还是把前面乱改的部分删掉,然后重新理清思路再写,就AC了</p>
+<div class="note note-info">
+            <ol><li>做题要先把边界,特殊情况给考虑了;</li><li>要理清思路写,不要根据用例编码,乱了就重新捋一遍思路.</li></ol>
+          </div>
+<h3 id="重写官方思路-11"><a class="markdownIt-Anchor" href="#重写官方思路-11"></a> 重写官方思路</h3>
+<h2 id="287"><a class="markdownIt-Anchor" href="#287"></a> 287</h2>
+<h3 id="题目描述-25"><a class="markdownIt-Anchor" href="#题目描述-25"></a> 题目描述</h3>
+<h3 id="思路-25"><a class="markdownIt-Anchor" href="#思路-25"></a> 思路</h3>
+<h3 id="重写官方思路-12"><a class="markdownIt-Anchor" href="#重写官方思路-12"></a> 重写官方思路</h3>
+<h2 id="20-有效的括号"><a class="markdownIt-Anchor" href="#20-有效的括号"></a> 20 有效的括号</h2>
+<h3 id="题目描述-26"><a class="markdownIt-Anchor" href="#题目描述-26"></a> 题目描述</h3>
+<h3 id="思路-26"><a class="markdownIt-Anchor" href="#思路-26"></a> 思路</h3>
+<h3 id="重写官方思路-13"><a class="markdownIt-Anchor" href="#重写官方思路-13"></a> 重写官方思路</h3>
+<h2 id="215"><a class="markdownIt-Anchor" href="#215"></a> 215</h2>
+<h3 id="题目描述-27"><a class="markdownIt-Anchor" href="#题目描述-27"></a> 题目描述</h3>
+<h3 id="思路-27"><a class="markdownIt-Anchor" href="#思路-27"></a> 思路</h3>
+<h3 id="重写官方思路-14"><a class="markdownIt-Anchor" href="#重写官方思路-14"></a> 重写官方思路</h3>
 
             </div>
             <hr>
