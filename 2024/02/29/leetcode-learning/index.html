@@ -46,7 +46,7 @@
 <meta property="og:image" content="https://assets.leetcode.com/uploads/2020/11/13/rotate1.jpg">
 <meta property="og:image" content="https://assets.leetcode.com/uploads/2020/11/13/roate2.jpg">
 <meta property="article:published_time" content="2024-02-29T06:01:02.000Z">
-<meta property="article:modified_time" content="2024-03-29T09:11:57.650Z">
+<meta property="article:modified_time" content="2024-03-30T16:53:14.669Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="algorithm learning">
 <meta name="twitter:card" content="summary_large_image">
@@ -223,7 +223,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      38k 字
+      39k 字
     </span>
   
 
@@ -265,7 +265,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：几秒前
+                  本文最后更新于：1 分钟前
                 
               </p>
             
@@ -277,19 +277,33 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++">string s = <span class="hljs-string">&quot;hahaha&quot;</span>;<br><span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* c_s = s.<span class="hljs-built_in">c_str</span>();<br><br></code></pre></td></tr></table></figure>
 <h2 id="一些stl容器回顾"><a class="markdownIt-Anchor" href="#一些stl容器回顾"></a> 一些STL容器回顾</h2>
 <p>这里主要记着主要方法,后续有新的会来补充,以便于一开始训练的时候查方法,当然也会说一下不同容器/相似容器间的差别</p>
+<p>参考资料<a target="_blank" rel="noopener" href="https://www.cnblogs.com/lvshen/p/17839484.html">STL容器</a></p>
 <h3 id="顺序容器"><a class="markdownIt-Anchor" href="#顺序容器"></a> 顺序容器</h3>
 <h4 id="vector"><a class="markdownIt-Anchor" href="#vector"></a> vector</h4>
 <h4 id="queue"><a class="markdownIt-Anchor" href="#queue"></a> queue</h4>
+<p>queue参考资料:<a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_59068776/article/details/130549065">queue基本方法</a></p>
 <h4 id="deque双端队列"><a class="markdownIt-Anchor" href="#deque双端队列"></a> deque(双端队列)</h4>
 <p>相比于vector,可以更好更迅速的处理头部元素</p>
 <h4 id="list双向链表"><a class="markdownIt-Anchor" href="#list双向链表"></a> list(双向链表)</h4>
 <h4 id="forward_list单链表"><a class="markdownIt-Anchor" href="#forward_list单链表"></a> forward_list(单链表)</h4>
+<h4 id="stack栈"><a class="markdownIt-Anchor" href="#stack栈"></a> stack(栈)</h4>
+<ul>
+<li>push() #压入</li>
+<li>pop() # 弹出</li>
+<li>top() # get栈顶</li>
+<li>back() # get栈底</li>
+<li>empty()</li>
+<li>size()</li>
+</ul>
+<p>不能通过索引遍历,用<code>while(!s.empty())</code>遍历</p>
+<p>stack参考资料:<a target="_blank" rel="noopener" href="https://blog.csdn.net/H1727548/article/details/130857503">stack基本方法</a></p>
 <h3 id="关联容器"><a class="markdownIt-Anchor" href="#关联容器"></a> 关联容器</h3>
 <h4 id="set"><a class="markdownIt-Anchor" href="#set"></a> set</h4>
-<p>内部是通过红黑树实现的,去重且递增(自动有序),遍历只可以通过iterator遍历,插入值是insert的方式</p>
+<p>内部是通过<strong>红黑树</strong>实现的,<strong>去重且递增</strong>(自动有序),遍历只可以通过iterator遍历,插入值是insert的方式</p>
 <p><img src="https://s2.loli.net/2024/03/27/kCuPm5slzJyDUB3.png" srcset="/img/loading.gif" lazyload alt="set方法大全" /></p>
+<p>set参考资料:<a target="_blank" rel="noopener" href="https://blog.csdn.net/H1727548/article/details/130800542">set</a></p>
 <h4 id="unordered_map"><a class="markdownIt-Anchor" href="#unordered_map"></a> unordered_map</h4>
-<p>底层是通过哈希表实现的无序map</p>
+<p>底层是通过<strong>哈希表实现的无序map</strong></p>
 <h4 id="ordered_map"><a class="markdownIt-Anchor" href="#ordered_map"></a> ordered_map</h4>
 <h2 id="一些板子"><a class="markdownIt-Anchor" href="#一些板子"></a> 一些板子</h2>
 <p>写题记录总结,并记忆一些板子,以便后期快速完成题目</p>
