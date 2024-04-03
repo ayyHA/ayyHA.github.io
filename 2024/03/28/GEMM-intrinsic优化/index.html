@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://s2.loli.net/2024/04/01/9jZVnSvBcqyEoQ2.jpg">
 <meta property="og:image" content="https://jsd.cdn.zzko.cn/gh/ayyHA/imageBed@main/img/InnerProduct-LoopChange.jpg">
 <meta property="article:published_time" content="2024-03-28T05:28:14.000Z">
-<meta property="article:modified_time" content="2024-04-02T01:35:07.887Z">
+<meta property="article:modified_time" content="2024-04-03T06:26:41.779Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="GEMM">
 <meta property="article:tag" content="intrinsic优化">
@@ -246,7 +246,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：1 天前
+                  本文最后更新于：3 小时前
                 
               </p>
             
@@ -286,7 +286,8 @@
 <p>在进行矩阵计算的时候，我们一个很大的矩阵无法放进寄存器里，也可能无法放进L1,L2cache中，因此需要对矩阵分块放置在这些</p>
 <h2 id="micro-kernel"><a class="markdownIt-Anchor" href="#micro-kernel"></a> micro-kernel</h2>
 <h2 id="参考文章"><a class="markdownIt-Anchor" href="#参考文章"></a> 参考文章</h2>
-<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/593537184">x64 CPU GEMM优化</a>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:0" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://www.intel.com/content/www/us/en/docs/intrinsics-guide/index.html">intel-intrinsic</a>
+<a href="#fnref:0" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/593537184">x64 CPU GEMM优化</a>
 <a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://www.cnblogs.com/myseries/p/14458367.html">CPU流水线并行</a>
 <a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
             </div>
@@ -316,6 +317,12 @@
                 <div class="post-prevnext">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2024/04/03/review-CS-basic-knowledge/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">review-CS-basic-knowledge</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
@@ -566,20 +573,5 @@
 <script  src="/js/boot.js" ></script>
 
   <script type="text/javascript" src="/js/funnyTitle.js"></script>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"display":{"position":"left","width":150,"height":300,"hOffset":30,"vOffset":-50,"superSample":2},"mobile":{"show":false},"react":{"opacityDefault":0.7,"opacityOnHover":0.2}});</script></body>
 </html>
