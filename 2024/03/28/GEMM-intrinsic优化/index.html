@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://s2.loli.net/2024/04/01/9jZVnSvBcqyEoQ2.jpg">
 <meta property="og:image" content="https://jsd.cdn.zzko.cn/gh/ayyHA/imageBed@main/img/InnerProduct-LoopChange.jpg">
 <meta property="article:published_time" content="2024-03-28T05:28:14.000Z">
-<meta property="article:modified_time" content="2024-04-03T06:26:41.779Z">
+<meta property="article:modified_time" content="2024-04-08T09:32:09.900Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="GEMM">
 <meta property="article:tag" content="intrinsic优化">
@@ -204,7 +204,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.9k 字
+      2.4k 字
     </span>
   
 
@@ -213,7 +213,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      6 分钟
+      8 分钟
     </span>
   
 
@@ -246,7 +246,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：3 小时前
+                  本文最后更新于：17 小时前
                 
               </p>
             
@@ -277,6 +277,20 @@
 <p>主频可以通过<code>lscpu</code>里面查看</p>
 <p>FMA数目应该要翻阅处理器的手册或去官网查详细的参数</p>
 <p>寄存器位宽需要配合FMA支持情况查看，有<code>YMM</code>256位的寄存器，也有<code>ZMM</code>512位的寄存器</p>
+<h2 id="flame的矩阵优化"><a class="markdownIt-Anchor" href="#flame的矩阵优化"></a> FLAME的矩阵优化</h2>
+<p>在学习的时候，跟着参考资料三的项目进行了一些基础的矩阵优化<sup id="fnref:3" class="footnote-ref"><a href="#fn:3" rel="footnote"><span class="hint--top hint--rounded" aria-label="(简易的GEMM优化)[https://github.com/flame/how-to-optimize-gemm]
+">[3]</span></a></sup>，主要包括的优化思想是<strong>循环展开(loop unroll)，内联函数(inline function)，矩阵分块(blocking)，矩阵打包(packing)，intrinsic编程</strong>。因为原项目的优化有点点啰嗦，我给它重写并合并了一些优化手段</p>
+<p>主要思想：</p>
+<ul>
+<li>通过朴素的矩阵乘，将内积的函数单独<code>add_dot</code>提取出来，然后由<strong>1x1</strong>,即一行乘一列的1次内积变换为<strong>1x4</strong>，即一次做4次内积，取A阵的一行，与B阵的四列分别进行相乘，则一次可以完成四次内积；</li>
+<li>在此之上对<code>add_dot</code>进行<strong>内联</strong>，以减少函数调用次数，和减少循环次数以及利用空间局部性；</li>
+<li>利用<strong>寄存器存储</strong>频繁使用的值</li>
+<li><strong>循环展开</strong></li>
+<li>在<strong>1x4</strong>思想上变为<strong>4x4</strong>，即一次完成十六次内积</li>
+<li>采用<strong>intrinsic编程</strong>（SSE指令集，由于只有128位长的向量寄存器，其实对于64位的双精度浮点数有点不是很够用…）</li>
+<li><strong>分块</strong>，<strong>打包</strong></li>
+</ul>
+<p>相关代码细节：<a target="_blank" rel="noopener" href="https://www.github.com/ayyHA/OperatorDev">OperatorDev</a></p>
 <h2 id="矩阵分块"><a class="markdownIt-Anchor" href="#矩阵分块"></a> 矩阵分块</h2>
 <p>针对行主序的矩阵进行计算,其中<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>A</mi><mrow><mi>M</mi><mo>×</mo><mi>K</mi></mrow></msub></mrow><annotation encoding="application/x-tex">A_{M×K}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.891661em;vertical-align:-0.208331em;"></span><span class="mord"><span class="mord mathnormal">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.328331em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">M</span><span class="mbin mtight">×</span><span class="mord mathnormal mtight" style="margin-right:0.07153em;">K</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span></span></span></span><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mrow><mi>K</mi><mo>×</mo><mi>N</mi></mrow></msub></mrow><annotation encoding="application/x-tex">B_{K×N}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.891661em;vertical-align:-0.208331em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.328331em;"><span style="top:-2.5500000000000003em;margin-left:-0.05017em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.07153em;">K</span><span class="mbin mtight">×</span><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span></span></span></span>,<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mrow><mi>M</mi><mo>×</mo><mi>N</mi></mrow></msub></mrow><annotation encoding="application/x-tex">C_{M×N}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.891661em;vertical-align:-0.208331em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.328331em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">M</span><span class="mbin mtight">×</span><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span></span></span></span>我们以BLAS(基本的线性代数函数接口规范)有:</p>
 <p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>C</mi><mo>=</mo><mi>α</mi><mi>A</mi><mi>B</mi><mo>+</mo><mi>β</mi><mi>C</mi></mrow><annotation encoding="application/x-tex">C = \alpha AB + \beta C
@@ -289,7 +303,8 @@
 <section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:0" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://www.intel.com/content/www/us/en/docs/intrinsics-guide/index.html">intel-intrinsic</a>
 <a href="#fnref:0" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/593537184">x64 CPU GEMM优化</a>
 <a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://www.cnblogs.com/myseries/p/14458367.html">CPU流水线并行</a>
-<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:3" class="footnote-text"><span>(简易的GEMM优化)[<a target="_blank" rel="noopener" href="https://github.com/flame/how-to-optimize-gemm">https://github.com/flame/how-to-optimize-gemm</a>]
+<a href="#fnref:3" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
             </div>
             <hr>
             <div>

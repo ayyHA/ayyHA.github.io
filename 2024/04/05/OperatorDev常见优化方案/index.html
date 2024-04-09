@@ -13,21 +13,42 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="">
+  <meta name="description" content="总结一些算子开发时的优化手段">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="归档">
-<meta property="og:url" content="http://example.com/archives/2023/08/index.html">
+  <meta name="description" content="总结一些算子开发时的优化手段">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OperatorDev常见优化方案">
+<meta property="og:url" content="http://example.com/2024/04/05/OperatorDev%E5%B8%B8%E8%A7%81%E4%BC%98%E5%8C%96%E6%96%B9%E6%A1%88/index.html">
 <meta property="og:site_name" content="ayyHA&#39;s blog">
+<meta property="og:description" content="总结一些算子开发时的优化手段">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-04-05T07:00:15.000Z">
+<meta property="article:modified_time" content="2024-04-08T06:44:58.083Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="GEMM">
+<meta property="article:tag" content="Conv">
 <meta name="twitter:card" content="summary_large_image">
   
-  <title>归档 - ayyHA&#39;s blog</title>
+  <title>OperatorDev常见优化方案 - ayyHA&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
 
 
 <!-- 主题依赖的图标库，不要自行修改 -->
@@ -58,7 +79,7 @@
 
 
 <body>
-  <header style="height: 60vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
@@ -159,9 +180,43 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="归档">
+            <span class="h2" id="subtitle" title="OperatorDev常见优化方案">
               
             </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2024-04-05 15:00" pubdate>
+        2024年4月5日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      0 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      1 分钟
+    </span>
+  
+
+  
+  
+</div>
 
             
           </div>
@@ -174,46 +229,116 @@
 
   <main>
     
-      <div class="container nopadding-x-md">
-        <div class="py-5" id="board"
-          >
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-<div class="list-group">
-  <p class="h4">共计 46 篇文章</p>
-  <hr>
-  
-  
-    
       
-      <p class="h5">2023</p>
-    
-    <a href="/2023/08/29/Read-paper-ZeRO-Infinity/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Read paper: ZeRO-Infinity</span>
-      <time style="float: right;">08-29</time>
-    </a>
-  
-    
-    <a href="/2023/08/21/%E8%AE%A1%E7%AE%97%E5%8D%B8%E8%BD%BD%E5%92%8C%E8%AE%A1%E7%AE%97%E8%BF%81%E7%A7%BB%E7%9A%84%E7%AE%80%E8%A6%81%E4%BB%8B%E7%BB%8D/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">计算卸载和计算迁移的简要介绍</span>
-      <time style="float: right;">08-21</time>
-    </a>
-  
-</div>
 
-
-
-
-
-              </div>
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">OperatorDev常见优化方案</h1>
+            
+              <p class="note note-info">
+                
+                  本文最后更新于：20 小时前
+                
+              </p>
+            
+            <div class="markdown-body">
+              
             </div>
-          </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/GEMM/">GEMM</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Conv/">Conv</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/04/03/review-CS-basic-knowledge/">
+                        <span class="hidden-mobile">review-CS-basic-knowledge</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', function() {
+        var options = Object.assign(
+          {"clientID":"1db059241d978c80eecd","clientSecret":"fa4f54290b2645c1dd4af84d9241dcb8c3e8e637","repo":"ayyBlog","owner":"ayyha","admin":["ayyha"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
+          {
+            id: '20d48a467ec63347e3a1596f53b3034c'
+          }
+        )
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
         </div>
       </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
     
 
     
@@ -321,6 +446,19 @@
 
 
 
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
 
 
   <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
@@ -342,6 +480,13 @@
 
 
 
+
+  
+
+  
+    <!-- KaTeX -->
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0/dist/katex.min.css" />
+  
 
 
 
