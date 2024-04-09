@@ -4,11 +4,34 @@
   
   
   <entry>
+    <title>一些奇奇怪怪的hpc技术栈</title>
+    <link href="/2024/04/09/%E4%B8%80%E4%BA%9B%E5%A5%87%E5%A5%87%E6%80%AA%E6%80%AA%E7%9A%84hpc%E6%8A%80%E6%9C%AF%E6%A0%88/"/>
+    <url>/2024/04/09/%E4%B8%80%E4%BA%9B%E5%A5%87%E5%A5%87%E6%80%AA%E6%80%AA%E7%9A%84hpc%E6%8A%80%E6%9C%AF%E6%A0%88/</url>
+    
+    <content type="html"><![CDATA[<p>因为大多数知识都是通过网络了解,有一些奇怪且必须了解且有前景的技术或是与HPC相关的技术栈会被记录在此</p><h2 id="模型压缩"><a class="markdownIt-Anchor" href="#模型压缩"></a> 模型压缩</h2><ul><li>量化</li><li>蒸馏</li><li>剪枝</li><li>二值化</li></ul><h2 id="模型转换"><a class="markdownIt-Anchor" href="#模型转换"></a> 模型转换</h2><ul><li>onnx</li></ul><h2 id="模型推理"><a class="markdownIt-Anchor" href="#模型推理"></a> 模型推理</h2><ul><li><strong>tensorRT</strong></li><li><strong>TVM</strong></li></ul><h2 id="推理优化"><a class="markdownIt-Anchor" href="#推理优化"></a> 推理优化</h2><h2 id="算子开发"><a class="markdownIt-Anchor" href="#算子开发"></a> 算子开发</h2><ul><li><strong>JIT:</strong> just in time,一款编译器</li><li><strong>xbyak</strong>: 类汇编的C</li><li><strong>RISC-V</strong>: 一个初学的精简指令集</li><li><strong>ARMv8</strong>: 之后主体采用armv8的汇编指令进行算子ILP</li><li><strong>cutlass</strong>: 主要对运用TensorCore对密集计算进行优化.编写算子本质上是密集计算的性能问题,要写一个极致优化的算子is hard,cutlass可以提供一个模板库来实现高性能的密集计算算子<ul><li>参考资料: <a href="https://zhuanlan.zhihu.com/p/677616101">cutlass相关教程系列</a></li></ul></li></ul><p><strong>AscendC</strong>是华为公司开发的一款编程语言</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>hpc</tag>
+      
+      <tag>cutlass</tag>
+      
+      <tag>tvm</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>OperatorDev常见优化方案</title>
     <link href="/2024/04/05/OperatorDev%E5%B8%B8%E8%A7%81%E4%BC%98%E5%8C%96%E6%96%B9%E6%A1%88/"/>
     <url>/2024/04/05/OperatorDev%E5%B8%B8%E8%A7%81%E4%BC%98%E5%8C%96%E6%96%B9%E6%A1%88/</url>
     
-    <content type="html"><![CDATA[]]></content>
+    <content type="html"><![CDATA[<h2 id="内联函数"><a class="markdownIt-Anchor" href="#内联函数"></a> 内联函数</h2><h2 id="循环展开"><a class="markdownIt-Anchor" href="#循环展开"></a> 循环展开</h2><h2 id="分块打包"><a class="markdownIt-Anchor" href="#分块打包"></a> 分块打包</h2>]]></content>
     
     
     
