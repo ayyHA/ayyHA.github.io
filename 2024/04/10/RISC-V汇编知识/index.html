@@ -23,15 +23,17 @@
 <meta property="og:site_name" content="ayyHA&#39;s blog">
 <meta property="og:description" content="学习RISC-V汇编基础,作为arm指令学习的前置">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2024/04/11/LzxNYwOvQ3Kmsoa.png">
+<meta property="og:image" content="https://s2.loli.net/2024/04/11/KpsvP2FqOofh8mr.png">
 <meta property="og:image" content="https://s2.loli.net/2024/04/11/lMyUdCmc15LovRQ.png">
 <meta property="og:image" content="https://s2.loli.net/2024/04/11/O2UbnNtp8XPx1Ki.png">
 <meta property="article:published_time" content="2024-04-10T01:40:53.000Z">
-<meta property="article:modified_time" content="2024-04-11T04:28:48.318Z">
+<meta property="article:modified_time" content="2024-04-11T07:47:31.782Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="RISC-V">
 <meta property="article:tag" content="assembly">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://s2.loli.net/2024/04/11/lMyUdCmc15LovRQ.png">
+<meta name="twitter:image" content="https://s2.loli.net/2024/04/11/LzxNYwOvQ3Kmsoa.png">
   
   <title>RISC-V汇编知识 - ayyHA&#39;s blog</title>
 
@@ -204,7 +206,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.9k 字
+      3.2k 字
     </span>
   
 
@@ -213,7 +215,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      9 分钟
+      10 分钟
     </span>
   
 
@@ -246,7 +248,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：几秒前
+                  本文最后更新于：2 小时前
                 
               </p>
             
@@ -259,8 +261,10 @@
 <p>RISC-V与别的指令集架构不同之处在于，它被设计为<strong>模块化ISA</strong>，而如x86是<strong>增量ISA</strong></p>
 <p>增量ISA：在支持原有的指令集的基础上增加新的指令和功能，就是向下兼容的意思（那感觉操作码的位置空间都被占的差不多了…）</p>
 <p><strong>模块化ISA：由1个基本的整数指令集（如RV32I/RV64I）+可选的扩展指令集</strong></p>
+<p><img src="https://s2.loli.net/2024/04/11/LzxNYwOvQ3Kmsoa.png" srcset="/img/loading.gif" lazyload alt="RISC-V IS basic" /></p>
+<p><img src="https://s2.loli.net/2024/04/11/KpsvP2FqOofh8mr.png" srcset="/img/loading.gif" lazyload alt="RISC-V IS extension" /></p>
 <div class="note note-info">
-            <p><strong>注意：在下文的讨论中，我们所采用的基础数据集是RV32I，关于扩展指令集，本文不涉及</strong></p>
+            <p><strong>注意：在下文的讨论中，我们所采用的基础指令集是RV32I，关于扩展指令集，本文不涉及</strong></p><p>如果想要使用<code>mul</code>,<code>div</code>,<code>rem</code>表示乘，除，取余操作，这些需要加上扩展指令集M才可以用，即RV32IM</p>
           </div>
 <h2 id="单位度量"><a class="markdownIt-Anchor" href="#单位度量"></a> 单位度量</h2>
 <p>在RISC-V中,一个字节是8位,16位的被称作半字,32位则称作字(word),64位则是双字</p>
@@ -268,16 +272,19 @@
             <p>注意：在8086的学习中，关于堆栈段里涉及到的字（word）这个的大小是2个字节，所以不同的处理器架构乃至说不同的生态，在一些没有统一定论的数据格式的规范上，是很混乱的，所以这些东西遇到了要查一查文档。</p>
           </div>
 <h2 id="寄存器"><a class="markdownIt-Anchor" href="#寄存器"></a> 寄存器</h2>
-<p>采用32位寄存器（RV32I）,有32个,常用别名(一般用别名,有特殊含义)见下表:</p>
+<p>采用32位寄存器（RV32I）,有<strong>32个</strong>,常用别名(一般用别名,有特殊含义)见下表:</p>
 <p><img src="https://s2.loli.net/2024/04/11/lMyUdCmc15LovRQ.png" srcset="/img/loading.gif" lazyload alt="RISC-V register info" /></p>
-<p>一般在进行数据传输的时候,若是把一个字节的数搬到寄存器中去的话,需要做<strong>符号位扩展</strong>,即需要将8位的数扩展为32位,且不改变数值本身的大小.在计算机中是以补码存储,比如<code>(-2)=(10000010)b</code>的补码形式为<code>(11111110)b</code>将其扩展为32为则是用符号位补足剩余的位数<code>(11111111 11111111 11111111 11111110)b </code>,则成功扩展,对补码取补码即得原码,可见依旧是-2</p>
+<p>一般在进行数据传输的时候,若是把一个字节的数搬到寄存器中去的话,需要做<strong>符号位扩展</strong>,<strong>即需要将8位的数扩展为32位,且不改变数值本身的大小</strong>.在计算机中是以补码存储,比如<code>(-2)=(10000010)b</code>的补码形式为<code>(11111110)b</code>将其扩展为32为则是用符号位补足剩余的位数<code>(11111111 11111111 11111111 11111110)b </code>,则成功扩展,对补码取补码即得原码,可见依旧是-2</p>
 <h2 id="操作码"><a class="markdownIt-Anchor" href="#操作码"></a> 操作码</h2>
 <h3 id="指令"><a class="markdownIt-Anchor" href="#指令"></a> 指令</h3>
-<p>在RISC-V中，一般涉及到多个寄存器的操作时，第一个寄存器一般都是目标寄存器</p>
-<p>RISC-V的指令集很清晰，它都是一些明确语义的英文单词的首字母拼接而成，如分支指令的bne，表示<u>b</u>ranch <u>n</u>ot <u>e</u>qual</p>
-<p>RISC-V指令集针对不足32位的数的写入会做符号位扩展，而如lw(<u>l</u>oad <u>w</u>ord)一类的则不扩展，因为一个word就是32位，可以满足寄存器的要求，如lb(<u>l</u>oad <u>b</u>yte)则需要做符号位扩展</p>
+<p>在RISC-V中，一般涉及到多个寄存器的操作时，<strong>第一个寄存器一般都是目标寄存器</strong></p>
+<p>RISC-V的<strong>指令</strong>集很清晰，它都是一些<strong>明确语义的英文单词的首字母拼接而成</strong>，如分支指令的<code>bne</code>，表示<u>b</u>ranch <u>n</u>ot <u>e</u>qual</p>
+<p>RISC-V指令集针对不足32位的数的写入会做符号位扩展，而如<code>lw</code>(<u>l</u>oad <u>w</u>ord)一类的则不扩展，因为一个word就是32位，可以满足寄存器的要求，如<code>lb</code>(<u>l</u>oad <u>b</u>yte)则需要做符号位扩展</p>
 <h4 id="基本指令"><a class="markdownIt-Anchor" href="#基本指令"></a> 基本指令</h4>
 <p><code>op dst src1 src2</code></p>
+<p>比如一些基础的算术，逻辑运算，如：</p>
+<p><code>add t0 t1 t2 # 将t1,t2寄存器的值相加，放置到t0寄存器中</code></p>
+<p><code>sll t0 t0 t2 #将t0寄存器的值逻辑左移t2值位，放置到t0寄存器中</code></p>
 <h4 id="立即数指令immediate-instruction"><a class="markdownIt-Anchor" href="#立即数指令immediate-instruction"></a> 立即数指令(immediate instruction)</h4>
 <p><code>opi dst src imm</code></p>
 <p>立即数指令基本上都是在相应的操作符后面加个i（immediate）</p>
@@ -315,7 +322,9 @@
 <p><img src="https://s2.loli.net/2024/04/11/O2UbnNtp8XPx1Ki.png" srcset="/img/loading.gif" lazyload alt="RISC-V instruction format" /></p>
 <h2 id="内存布局"><a class="markdownIt-Anchor" href="#内存布局"></a> 内存布局</h2>
 <p>我们整个程序都是存在内存中的，无论是指令还是数据（函数本质上也是指令和数据的复合体），因此将内存划分成了几个区域来存储我们的程序</p>
-<p>有一部分数据是运行的时候不会变的，比如字符串，比如代码，这些就放在ROM区，而函数的调用涉及到的栈帧开销，对象创建设计到的新内存开辟，统一成员信息的静态变量，全局可见的全局变量，则放在RAM区</p>
+<p>有一部分数据是运行的时候不会变的，比如字符串，比如代码，这些就放在ROM区，而函数的调用涉及到的栈帧开销，对象创建涉及到的新内存开辟，统一成员信息的静态变量，全局可见的全局变量，则放在RAM区。</p>
+<p>为此对于代码段给它起个名字叫text，对字符串这种只读的常量放置在rodata处，它俩都是ROM区的；</p>
+<p>对已初始化的全局变量，静态变量则放置在data处；对未初始化的全局变量静态变量则放在bss(block started by symbol segment)处；再往上就是heap，堆区，用于存放malloc等方式分配出来的变量；再往上就是stack区，用来存放函数。整体的内存布局如下图所示：</p>
 <h2 id="关于代码编写"><a class="markdownIt-Anchor" href="#关于代码编写"></a> 关于代码编写</h2>
 <p>若想在以RISC-V架构的处理器上进行编程,需要一套对应的编程工具链(编译器,汇编器,链接器,加载器)</p>
 <p>而目前大多数的处理器是x86架构或是ARM架构,因此需要先用QEMU模拟器,模拟对应的处理器,然后搭建对应的编译环境,相关信息请参阅参考文件中关于环境搭建的文章进行执行</p>
@@ -332,6 +341,7 @@
 <p><a target="_blank" rel="noopener" href="https://www.zhihu.com/column/c_1747638745254453248">UCB CS61C课程笔记</a></p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_62730135/article/details/126799687">一文学懂RISC-V汇编操作</a></p>
 <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/337147166">RISC-V 汇编语言程序设计基础简析</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/column/c_1215698269139152896">一起学习RISC-V编程</a></p>
 <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/259305354">RISC-V编译环境的搭建</a></p>
 <p><a target="_blank" rel="noopener" href="https://riscv-programming.org/">RISC-V汇编学习环境</a></p>
 <p><a target="_blank" rel="noopener" href="https://antoniocgj.github.io/RISC-V-ALE/">RISC-ALE</a></p>
