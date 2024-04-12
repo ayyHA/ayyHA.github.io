@@ -26,11 +26,13 @@
 <meta property="og:image" content="https://s2.loli.net/2024/04/11/LzxNYwOvQ3Kmsoa.png">
 <meta property="og:image" content="https://s2.loli.net/2024/04/11/KpsvP2FqOofh8mr.png">
 <meta property="og:image" content="https://s2.loli.net/2024/04/11/lMyUdCmc15LovRQ.png">
+<meta property="og:image" content="https://s2.loli.net/2024/04/12/SWBmroywzQViFpM.png">
 <meta property="og:image" content="https://s2.loli.net/2024/04/11/O2UbnNtp8XPx1Ki.png">
 <meta property="og:image" content="https://s2.loli.net/2024/04/11/vOx8CgkTUuWeHsb.png">
 <meta property="og:image" content="https://s2.loli.net/2024/04/11/bUkD25KZzONXPRt.png">
+<meta property="og:image" content="https://s2.loli.net/2024/04/12/UD4uEVdS1fjKJbX.png">
 <meta property="article:published_time" content="2024-04-10T01:40:53.000Z">
-<meta property="article:modified_time" content="2024-04-11T11:41:15.285Z">
+<meta property="article:modified_time" content="2024-04-12T10:29:29.142Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="RISC-V">
 <meta property="article:tag" content="assembly">
@@ -208,7 +210,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      3.3k 字
+      5.2k 字
     </span>
   
 
@@ -217,7 +219,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      10 分钟
+      16 分钟
     </span>
   
 
@@ -250,7 +252,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：22 分钟前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -289,29 +291,43 @@
 <p><code>sll t0 t0 t2 #将t0寄存器的值逻辑左移t2值位，放置到t0寄存器中</code></p>
 <h4 id="立即数指令immediate-instruction"><a class="markdownIt-Anchor" href="#立即数指令immediate-instruction"></a> 立即数指令(immediate instruction)</h4>
 <p><code>opi dst src imm</code></p>
-<p>立即数指令基本上都是在相应的操作符后面加个i（immediate）</p>
-<h4 id="分支指令branch-instruction"><a class="markdownIt-Anchor" href="#分支指令branch-instruction"></a> 分支指令(branch instruction)</h4>
+<p>比如<code>addi t0 x0 2</code> t0的值被置位2，x0这个寄存器的值永远是0</p>
+<p>立即数指令基本上都是在相应的操作符后面加个<strong>i</strong>（immediate）</p>
+<h4 id="分支指令branch-instruction有条件的跳转"><a class="markdownIt-Anchor" href="#分支指令branch-instruction有条件的跳转"></a> 分支指令(branch instruction)[有条件的跳转]</h4>
 <p><code>bop src1 src2 label</code></p>
-<p>分支指令是<code>src1 bop src2</code>时，则会跳转到label的位置，当然后面的label也可以换做是数字，比如是个100，那就表示条件满足则令pc=pc+2*100</p>
+<p>分支指令是<code>src1 bop src2</code>时，则会跳转到label的位置（条件跳转），当然后面的label也可以换做是数字，比如是个100，那就表示条件满足则令pc=pc+2*100</p>
 <div class="note note-info">
             <p>注意：pc是程序计数器，指示的是下一条指令的位置，修改pc即是指示程序下一条指令应该取哪的。我们的指令都是4字节的，合理来说应该*4才对，但好像是为了兼容16位的，所以*2</p>
           </div>
 <p>分支指令可以用来做for,while一类的循环</p>
-<p>示例：</p>
-<figure class="highlight as"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs as"><br></code></pre></td></tr></table></figure>
-<h4 id="数据传输指令"><a class="markdownIt-Anchor" href="#数据传输指令"></a> 数据传输指令</h4>
+<p>示例for(while差不多)：</p>
+<figure class="highlight as"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs as"><span class="hljs-comment">/* C码:</span><br><span class="hljs-comment">// t0 -&gt; i,t1 -&gt; 10</span><br><span class="hljs-comment">for(int i=0;i&lt;10;i++)</span><br><span class="hljs-comment">&#123;</span><br><span class="hljs-comment">...</span><br><span class="hljs-comment">&#125;</span><br><span class="hljs-comment">*/</span><br># RISC-V assemble<br>addi t0 x0 <span class="hljs-number">0</span><br>addi t1 x0 <span class="hljs-number">10</span><br>loop: bge t0 t1 end<br>...<br>addi t0 t0 <span class="hljs-number">1</span><br>beq x0 x0 loop # 也可以这么写jal x0 loop <br>end:<br># 跳出循环了<br></code></pre></td></tr></table></figure>
+<h4 id="数据传输指令内存和寄存器的交流"><a class="markdownIt-Anchor" href="#数据传输指令内存和寄存器的交流"></a> 数据传输指令[内存和寄存器的交流]</h4>
 <p>现在CISC和RISC指令集其实都很纷繁复杂，一种比较明显的区别是CISC中的访存操作存在隐式的，而RISC中则是显式的进行访存操作（通过访存取值如load，将值从寄存器写回内存的store）</p>
 <ul>
-<li><code>lw</code></li>
-<li><code>sw</code></li>
-<li><code>lb</code></li>
-<li><code>sb</code></li>
+<li><code>lw rd imm(rs)</code>rs里的值作为基址，imm作为偏移,从(rs+imm)表示的内存地址开始，依次取1个<u>w</u>ord的数据放到rd中去</li>
+<li><code>sw rd imm(rs) </code>跟上面一样，不过是把rd里的32位的值，放置到以(rs+imm)表示的内存地址所指向的空间，一个地址指向的空间可以存放的是一个字节的数据，这里要放4个字节的数据，即(rs+imm)~(rs+imm+3)的空间内放的都是rd的值（具体放的顺序看大小端）</li>
+<li><code>lb rd imm(rs)</code> 跟lw差不多，不过这里取的是一个字节，要做符号位扩展，放到rd中去（如果是lbu这种，就是无符号扩展，前面填0补够位数就好了）</li>
+<li><code>sb rd imm(rs)</code>跟sw差不多，不过因为是一个字节，直接塞到(rs+imm)指向的空间里面去就好</li>
 </ul>
+<h4 id="跳转指令无条件的跳转"><a class="markdownIt-Anchor" href="#跳转指令无条件的跳转"></a> 跳转指令[无条件的跳转]</h4>
+<p><code>jal rd label</code> jump and link,一般这个rd是ra(return address)这个寄存器。在调用这条指令的时候会先把pc的值存入ra，然后无条件跳转到label处，当然这个label可以是我们的函数名，也可以是100这样的东西，就相当于pc= pc + 2*100，将pc换成这个值，然后执行下一条指令的时候就回去取这个pc，就会跳到我们期望的位置了，label实际上也是这样，就是改变pc，让它跳到我们的函数区域。</p>
 <h3 id="伪指令"><a class="markdownIt-Anchor" href="#伪指令"></a> 伪指令</h3>
+<ul>
+<li><code>mv rd rs</code>，这个是让rd寄存器获取rs寄存器的值（register copy）</li>
+<li><code>li rd imm</code> li表示load immediate，往rd里放立即数的值</li>
+<li><code>la</code>la表示load address</li>
+<li><code>ret</code>即pc从当前位置返回到ra所指向的指令位置，实际是通过<code>jalr x0 ra 0</code>即pc=ra+0，这是一条I型指令即<code>jalr rd rs imm</code>表示rd=pc+4,pc=rs+imm</li>
+</ul>
+<img src="https://s2.loli.net/2024/04/12/SWBmroywzQViFpM.png" srcset="/img/loading.gif" lazyload alt="RISC-V pseudo instruction" style="zoom:67%;" />
 <h3 id="伪操作"><a class="markdownIt-Anchor" href="#伪操作"></a> 伪操作</h3>
 <h3 id="宏"><a class="markdownIt-Anchor" href="#宏"></a> 宏</h3>
 <h2 id="函数调用"><a class="markdownIt-Anchor" href="#函数调用"></a> 函数调用</h2>
+<p>从jal这一条指令来看，函数调用即是我们在调用前把需要传入的参数放入a0~a7这些参数寄存器中，然后通过jal把下一条指令的地址放到ra中去，以便return,然后就跳转到jal中标定的label，即是我们的函数名，执行完毕后可以把要返回的值放入a0，然后ret。</p>
+<p>实际中我们的函数调用涉及到栈帧概念：</p>
+<h3 id="栈帧"><a class="markdownIt-Anchor" href="#栈帧"></a> 栈帧</h3>
 <h2 id="关于嵌套的函数"><a class="markdownIt-Anchor" href="#关于嵌套的函数"></a> 关于嵌套的函数</h2>
+<p>函数P调用函数Q，P称为调用者(caller)，Q称为被调用者（callee），它们两个各自有需要保存的寄存器，只需要压栈保护自己要保存的东西即可，然后可以用另一方的寄存器。</p>
 <h2 id="指令格式"><a class="markdownIt-Anchor" href="#指令格式"></a> 指令格式</h2>
 <p>在RISC-V中，每一条指令都是<strong>4字节</strong>，这跟那种指令不定长的指令集不同，每条指令均为4个字节的设计，PC自动增4，以跳到下一跳指令的内存位置，同时也方便我们的硬件解析指令的设计，因为32位的指令中，哪个位置是放寄存器的，哪个位置是放操作码的是固定的。</p>
 <p>以下是RV32I的指令集格式，共有六种类型的指令。其中<strong>opcode</strong>代表的是<strong>操作码</strong>，<strong>rd</strong>(register destination)代表的是<strong>目标寄存器</strong>,rs(register source)代表的是<strong>源操作器</strong>，funct3代表的是3位的用来指示该操作码具体指令的功能，funct同理，imm代表的是立即数，有的imm是分为高低位被拆开的，imm有12位的，也有20位的，具体是针对不同的指令类型而言。</p>
@@ -331,7 +347,7 @@
 <p>对已初始化的全局变量，静态变量则放置在data处；对未初始化的全局变量静态变量则放在bss(block started by symbol segment)处；再往上就是heap，堆区，用于存放malloc等方式分配出来的变量；再往上就是stack区，用来存放函数。整体的内存布局如下图所示：</p>
 <img src="https://s2.loli.net/2024/04/11/vOx8CgkTUuWeHsb.png" srcset="/img/loading.gif" lazyload alt="memory allocation" style="zoom:50%;" />
 <img src="https://s2.loli.net/2024/04/11/bUkD25KZzONXPRt.png" srcset="/img/loading.gif" lazyload alt="RISC-V-memory allocation" style="zoom:67%;" />
-<p>其中在RISC-V在还保留了一个区域</p>
+<p>而在RISC-V内存分配图的右边则是一个栈帧的图,可以看到它的fp用作ebp的功能，sp用作esp的功能（这里的ebp和esp是x86系列里关于栈帧的俩指针）</p>
 <h2 id="关于代码编写"><a class="markdownIt-Anchor" href="#关于代码编写"></a> 关于代码编写</h2>
 <p>若想在以RISC-V架构的处理器上进行编程,需要一套对应的编程工具链(编译器,汇编器,链接器,加载器)</p>
 <p>而目前大多数的处理器是x86架构或是ARM架构,因此需要先用QEMU模拟器,模拟对应的处理器,然后搭建对应的编译环境,相关信息请参阅参考文件中关于环境搭建的文章进行执行</p>
@@ -340,15 +356,31 @@
 <hr />
 <p>谷歌的colab有用于RISC-V的汇编学习的教程，在此编程~</p>
 <p>主要是编程完后用clang和lld生成可执行文件，再提交可执行文件给<strong>RISC-V-ALE</strong>（RISC-V-assemble language environment）解析及运行</p>
+<h2 id="risc-v的特权架构"><a class="markdownIt-Anchor" href="#risc-v的特权架构"></a> RISC-V的特权架构</h2>
+<p>RISC-V有三级特权架构，<strong>U-User S-Supervisor M-Machine</strong>，越往后的则权限等级越高</p>
+<p>之所以会学到特权架构，是因为在使用colab的helloworld程序时，看到了一个叫做ecall的指令，这个指令很奇怪，就光秃秃一个操作符，没有操作数</p>
+<p>ecall叫做environment call,是一个环境调用指令，调用它的时候，我们会从U模式切换到更高级的模式，在更高级的模式有一类称为CSR(control state register，控制状态寄存器)的寄存器，这是在S和M模式才有的寄存器，在进行模式切换的时候，会对我们的PC进行保存，保存在sepc/mepc，这个e实际上是exception，即是<strong>异常</strong>的意思，跟x86一样，<strong>RISC-V也存在中断和异常的处理</strong>。程序会在stvec/mtvec找到中断的基址，然后在scause/mcasue中找到这次异常对应的号码（见下图）,然后发现是环境调用异常事件（发生地址跳转），就会去寄存器a7（参数寄存器那个a7）里看你想要处理的是什么系统调用（我们在a7存放的值被称为<strong>系统调用号</strong>，见再下一个图），然后a0~a6传入的是参数，处理好后会把返回值放到a0寄存器里面去。</p>
+<p><img src="https://s2.loli.net/2024/04/12/UD4uEVdS1fjKJbX.png" srcset="/img/loading.gif" lazyload alt="[m,s]cause code" /></p>
+<p>详细了解中断可以从这篇文章去看<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42031299/article/details/134033246?spm=1001.2014.3001.5502">RISC-V中断处理和中断控制器</a></p>
+<h2 id="关于x86中的intel规范和att规范"><a class="markdownIt-Anchor" href="#关于x86中的intel规范和att规范"></a> 关于X86中的Intel规范和AT&amp;T规范</h2>
+<h2 id="关于clang和lld"><a class="markdownIt-Anchor" href="#关于clang和lld"></a> 关于clang和lld</h2>
+<p>在colab提供的clang和lld中，大致说一下它二者的作用：</p>
+<ul>
+<li>clang</li>
+<li>lld 用作链接器</li>
+</ul>
 <h2 id="参考文件"><a class="markdownIt-Anchor" href="#参考文件"></a> 参考文件</h2>
-<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/column/c_1747638745254453248">UCB CS61C课程笔记</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_62730135/article/details/126799687">一文学懂RISC-V汇编操作</a></p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/337147166">RISC-V 汇编语言程序设计基础简析</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/column/c_1215698269139152896">一起学习RISC-V编程</a></p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/259305354">RISC-V编译环境的搭建</a></p>
-<p><a target="_blank" rel="noopener" href="https://riscv-programming.org/">RISC-V汇编学习环境</a></p>
-<p><a target="_blank" rel="noopener" href="https://antoniocgj.github.io/RISC-V-ALE/">RISC-ALE</a></p>
-<p><a target="_blank" rel="noopener" href="https://inst.eecs.berkeley.edu/~cs61c/sp21/resources-pdfs/riscvcard.pdf">RISC-V card</a></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/column/c_1747638745254453248">UCB CS61C课程笔记</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_62730135/article/details/126799687">一文学懂RISC-V汇编操作</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/337147166">RISC-V 汇编语言程序设计基础简析</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/column/c_1215698269139152896">一起学习RISC-V编程</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/259305354">RISC-V编译环境的搭建</a></li>
+<li><a target="_blank" rel="noopener" href="https://riscv-programming.org/">RISC-V汇编学习环境</a></li>
+<li><a target="_blank" rel="noopener" href="https://antoniocgj.github.io/RISC-V-ALE/">RISC-ALE</a></li>
+<li><a target="_blank" rel="noopener" href="https://inst.eecs.berkeley.edu/~cs61c/sp21/resources-pdfs/riscvcard.pdf">RISC-V card</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/jameslzhu/riscv-card/blob/master/riscv-card.pdf">RISC-V card2(有扩展指令集，伪指令等的解析，更全面)</a></li>
+</ul>
 
             </div>
             <hr>
@@ -633,20 +665,5 @@
 <script  src="/js/boot.js" ></script>
 
   <script type="text/javascript" src="/js/funnyTitle.js"></script>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"display":{"position":"left","width":150,"height":300,"hOffset":30,"vOffset":-50,"superSample":2},"mobile":{"show":false},"react":{"opacityDefault":0.7,"opacityOnHover":0.2}});</script></body>
 </html>
