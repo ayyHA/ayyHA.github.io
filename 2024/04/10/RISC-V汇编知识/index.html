@@ -27,13 +27,15 @@
 <meta property="og:image" content="https://s2.loli.net/2024/04/11/KpsvP2FqOofh8mr.png">
 <meta property="og:image" content="https://s2.loli.net/2024/04/11/lMyUdCmc15LovRQ.png">
 <meta property="og:image" content="https://s2.loli.net/2024/04/13/FvdrPtTm5gUQBY3.png">
+<meta property="og:image" content="https://s2.loli.net/2024/04/15/qrVfZ6ARzBLdwsC.png">
 <meta property="og:image" content="https://s2.loli.net/2024/04/12/SWBmroywzQViFpM.png">
 <meta property="og:image" content="https://s2.loli.net/2024/04/11/O2UbnNtp8XPx1Ki.png">
 <meta property="og:image" content="https://s2.loli.net/2024/04/11/vOx8CgkTUuWeHsb.png">
 <meta property="og:image" content="https://s2.loli.net/2024/04/11/bUkD25KZzONXPRt.png">
 <meta property="og:image" content="https://s2.loli.net/2024/04/12/UD4uEVdS1fjKJbX.png">
+<meta property="og:image" content="https://s2.loli.net/2024/04/15/RLWbIwSiBEvkDCj.png">
 <meta property="article:published_time" content="2024-04-10T01:40:53.000Z">
-<meta property="article:modified_time" content="2024-04-14T12:09:22.450Z">
+<meta property="article:modified_time" content="2024-04-15T04:32:58.282Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="RISC-V">
 <meta property="article:tag" content="assembly">
@@ -211,7 +213,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      6.7k 字
+      7.4k 字
     </span>
   
 
@@ -220,7 +222,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      21 分钟
+      23 分钟
     </span>
   
 
@@ -253,7 +255,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：5 小时前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -303,7 +305,7 @@
 <p><code>bop rs1 rs2 label</code></p>
 <p>分支指令是<code>rs1 bop rs2</code>时，则会跳转到label的位置（条件跳转），当然后面的label也可以换做是数字，比如是个100，那就表示条件满足则令pc=pc+2*100</p>
 <div class="note note-info">
-            <p>注意：pc是程序计数器，指示的是下一条指令的位置，修改pc即是指示程序下一条指令应该取哪的。我们的指令都是4字节的，合理来说应该*4才对，但好像是为了兼容16位的，所以*2</p>
+            <p>注意：pc是程序计数器，指示的是下一条指令的位置，修改pc即是指示程序下一条指令应该取哪的。我们的指令都是4字节的，合理来说应该*4才对，但好像是为了兼容16位的，所以*2</p><p>而作为一个标签,比如:</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs assembly">0x1c |beq rs1 rs2 loop # 前面那|是用来分隔下地址和指令<br># ...<br># ...<br>0x38 |loop: ...<br></code></pre></td></tr></table></figure><p>这里我们当<code>rs1==rs2</code>会跳转到loop这个标签**,loop实际上指代的就是<code>loop:...</code>这条指令的地址**,实际在运行的时候它会被转换成一个偏移值,即分支指令的标签会被替换为:<strong>下一条指令地址相较于loop所指代指令地址的值</strong>,这个值是以字节为单位的,比如上面那里的值是0x38-0x20(0x1c + 0x4) = 0x18 = 24(10)字节,而按照上面说的会对数字*2处理,因此实际这个偏移量会是12(以2字节,也即是半字为偏移量的系数)</p><p><mark>但实际上我在模拟器上试的时候显示的是6,即是以字为偏移量系数</mark></p><img src="https://s2.loli.net/2024/04/15/qrVfZ6ARzBLdwsC.png" srcset="/img/loading.gif" lazyload alt="RISC-V strange label offset" style="zoom:65%;" />
           </div>
 <p>分支指令可以用来做for,while一类的循环</p>
 <p>示例for(while差不多)：</p>
@@ -331,11 +333,41 @@
 </ul>
 <img src="https://s2.loli.net/2024/04/12/SWBmroywzQViFpM.png" srcset="/img/loading.gif" lazyload alt="RISC-V pseudo instruction" style="zoom:67%;" />
 <h3 id="伪操作"><a class="markdownIt-Anchor" href="#伪操作"></a> 伪操作</h3>
-<p><strong>伪操作用于指导汇编器去理解汇编程序的行为</strong></p>
+<p><strong>伪操作用于指导汇编器去理解汇编程序的行为</strong>.<strong>以<code>.</code>作为伪操作的开头</strong></p>
 <ul>
-<li>声明当前属于哪个段</li>
-<li>声明字串</li>
+<li>声明当前属于哪个段
+<ul>
+<li><code>.data</code> 已初始化的全局变量静态变量</li>
+<li><code>.text</code> 代码段</li>
+<li><code>.bss</code>未初始化的全局变量静态变量</li>
 </ul>
+</li>
+<li>声明字串
+<ul>
+<li><code>str1: .string &quot;哈哈哈哈哈2\n&quot;</code></li>
+</ul>
+</li>
+<li>定义符号
+<ul>
+<li><code>.set tmp,100</code></li>
+</ul>
+</li>
+<li>定义字节/半字/字数组
+<ul>
+<li><code>byte_list: .byte 1,2,3</code></li>
+<li><code>word_list:.word 0x12345678,0x111 </code></li>
+</ul>
+</li>
+<li>做地址对齐
+<ul>
+<li><code>.align 3</code></li>
+<li><code>.balign 4</code></li>
+</ul>
+</li>
+</ul>
+<div class="note note-info">
+            <p><strong>标签和符号实际上都是代表内存地址</strong>(如<code>str1:</code>代表这里的(数据)地址和<code>loop:</code>代表这里的(指令)地址,本质上是一样的,只不过内存被分了段),然后易于记忆和使用,但是标签应该更多的是指用于流程控制(比如<code>bne x0,x0,loop</code>),而符号则是如变量这些(比如<code> li t0,tmp</code>,其中tmp在数据段被定义<code>.set tmp,100</code>)</p><p>二者之后都会被弄到<strong>符号表</strong>去</p>
+          </div>
 <h3 id="宏"><a class="markdownIt-Anchor" href="#宏"></a> 宏</h3>
 <p><strong>宏实际上是由伪操作组成的</strong></p>
 <p>用<code>.macro macro_name,para1,para2,...</code>定义宏,用<code>.endm</code>结束宏,通过利用宏定义,我们可以弄出一些属于自己的频繁使用的伪指令,调用时直接宏名作为指令名,然后传入需要的参数即可</p>
@@ -378,7 +410,7 @@
 <h2 id="内存布局"><a class="markdownIt-Anchor" href="#内存布局"></a> 内存布局</h2>
 <p>我们整个程序都是存在内存中的，无论是指令还是数据（函数本质上也是指令和数据的复合体），因此将内存划分成了几个区域来存储我们的程序</p>
 <p>有一部分数据是运行的时候不会变的，比如字符串，比如代码，这些就放在ROM区，而函数的调用涉及到的栈帧开销，对象创建涉及到的新内存开辟，统一成员信息的静态变量，全局可见的全局变量，则放在RAM区。</p>
-<p>为此对于代码段给它起个名字叫text，对字符串这种只读的常量放置在rodata处，它俩都是ROM区的；</p>
+<p>为此对于代码段给它起个名字叫text，对字符串这种只读的常量放置在rodata(<mark>这个在RISCV中还没有,用伪操作别用它,直接用data</mark>)处，它俩都是ROM区的；</p>
 <p>对已初始化的全局变量，静态变量则放置在data处；对未初始化的全局变量静态变量则放在bss(block started by symbol segment)处；再往上就是heap，堆区，用于存放malloc等方式分配出来的变量；再往上就是stack区，用来存放函数。整体的内存布局如下图所示：</p>
 <img src="https://s2.loli.net/2024/04/11/vOx8CgkTUuWeHsb.png" srcset="/img/loading.gif" lazyload alt="memory allocation" style="zoom:50%;" />
 <img src="https://s2.loli.net/2024/04/11/bUkD25KZzONXPRt.png" srcset="/img/loading.gif" lazyload alt="RISC-V-memory allocation" style="zoom:67%;" />
@@ -395,7 +427,8 @@
 <p>RISC-V有三级特权架构，<strong>U-User S-Supervisor M-Machine</strong>，越往后的则权限等级越高</p>
 <p>之所以会学到特权架构，是因为在使用colab的helloworld程序时，看到了一个叫做ecall的指令，这个指令很奇怪，就光秃秃一个操作符，没有操作数</p>
 <p>ecall叫做environment call,是一个环境调用指令，调用它的时候，我们会从U模式切换到更高级的模式，在更高级的模式有一类称为CSR(control state register，控制状态寄存器)的寄存器，这是在S和M模式才有的寄存器，在进行模式切换的时候，会对我们的PC进行保存，保存在sepc/mepc，这个e实际上是exception，即是<strong>异常</strong>的意思，跟x86一样，<strong>RISC-V也存在中断和异常的处理</strong>。程序会在stvec/mtvec找到中断的基址，然后在scause/mcasue中找到这次异常对应的号码（见下图）,然后发现是环境调用异常事件（发生地址跳转），就会去寄存器a7（参数寄存器那个a7）里看你想要处理的是什么系统调用（我们在a7存放的值被称为<strong>系统调用号</strong>，见再下一个图），然后a0~a6传入的是参数，处理好后会把返回值放到a0寄存器里面去。</p>
-<p><img src="https://s2.loli.net/2024/04/12/UD4uEVdS1fjKJbX.png" srcset="/img/loading.gif" lazyload alt="[m,s]cause code" /></p>
+<img src="https://s2.loli.net/2024/04/12/UD4uEVdS1fjKJbX.png" srcset="/img/loading.gif" lazyload alt="[m,s]cause code" style="zoom:67%;" />
+<img src="https://s2.loli.net/2024/04/15/RLWbIwSiBEvkDCj.png" srcset="/img/loading.gif" lazyload alt="RISC-V syscall number" style="zoom:67%;" />
 <p>详细了解中断可以从这篇文章去看<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42031299/article/details/134033246?spm=1001.2014.3001.5502">RISC-V中断处理和中断控制器</a></p>
 <h2 id="关于x86中的intel规范和att规范"><a class="markdownIt-Anchor" href="#关于x86中的intel规范和att规范"></a> 关于X86中的Intel规范和AT&amp;T规范</h2>
 <h2 id="关于clang和lld"><a class="markdownIt-Anchor" href="#关于clang和lld"></a> 关于clang和lld</h2>
@@ -411,9 +444,9 @@
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/337147166">RISC-V 汇编语言程序设计基础简析</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.zhihu.com/column/c_1215698269139152896">一起学习RISC-V编程</a></li>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/259305354">RISC-V编译环境的搭建</a></li>
-<li><a target="_blank" rel="noopener" href="https://riscv-programming.org/">RISC-V汇编学习环境</a></li>
-<li><a target="_blank" rel="noopener" href="https://creatorsim.github.io/creator/">在线RISC-V汇编学习环境(有样例,以及优秀的调试面板)</a></li>
-<li><a target="_blank" rel="noopener" href="https://antoniocgj.github.io/RISC-V-ALE/">RISC-ALE</a></li>
+<li><s><a target="_blank" rel="noopener" href="https://riscv-programming.org/">RISC-V汇编学习环境</a></s></li>
+<li><a target="_blank" rel="noopener" href="https://creatorsim.github.io/creator/">在线RISC-V汇编学习环境(有样例,以及优秀的调试面板,但是系统调用号啥的好像不一样)</a></li>
+<li><s><a target="_blank" rel="noopener" href="https://antoniocgj.github.io/RISC-V-ALE/">RISC-ALE</a></s></li>
 <li><a target="_blank" rel="noopener" href="https://inst.eecs.berkeley.edu/~cs61c/sp21/resources-pdfs/riscvcard.pdf">RISC-V card</a></li>
 <li><a target="_blank" rel="noopener" href="https://github.com/jameslzhu/riscv-card/blob/master/riscv-card.pdf">RISC-V card2(有扩展指令集，伪指令等的解析，更全面)</a></li>
 </ul>
