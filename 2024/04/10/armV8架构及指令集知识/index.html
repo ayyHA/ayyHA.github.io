@@ -25,10 +25,12 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s2.loli.net/2024/04/18/9BJZxrGLgn1Sepm.png">
 <meta property="og:image" content="https://s2.loli.net/2024/04/18/l6nvdY2sVQALmaJ.jpg">
+<meta property="og:image" content="https://s2.loli.net/2024/04/19/ZwBocAkCQxyn2jI.png">
+<meta property="og:image" content="https://s2.loli.net/2024/04/19/DTApiKL1HOl8aUf.png">
 <meta property="og:image" content="https://s2.loli.net/2024/04/18/uckhg4E7wfvAYVF.jpg">
 <meta property="og:image" content="https://s2.loli.net/2024/04/18/r2SY7ToR5fzQjan.png">
 <meta property="article:published_time" content="2024-04-10T01:41:20.000Z">
-<meta property="article:modified_time" content="2024-04-18T08:32:40.590Z">
+<meta property="article:modified_time" content="2024-04-19T02:11:59.240Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="armv8">
 <meta property="article:tag" content="assembly">
@@ -207,7 +209,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      7.8k 字
+      7.9k 字
     </span>
   
 
@@ -249,7 +251,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：几秒前
+                  本文最后更新于：5 天前
                 
               </p>
             
@@ -313,7 +315,16 @@
 <li>q: 表示用到是128的向量寄存器</li>
 <li>x</li>
 <li>_high</li>
-<li>_lane | _laneq</li>
+<li>_lane | _laneq: 表示从一个向量的通道中取一个标量操作数.有q和无q的区别就是向量寄存器是用128位还是64位(感觉就默认的向量寄存器(不加q)就是用64位).下面是官网的两个例子:
+<ul>
+<li>
+<img src="https://s2.loli.net/2024/04/19/ZwBocAkCQxyn2jI.png" srcset="/img/loading.gif" lazyload alt="vfmaq_laneq_f32" style="zoom:50%;" />
+</li>
+<li>
+<img src="https://s2.loli.net/2024/04/19/DTApiKL1HOl8aUf.png" srcset="/img/loading.gif" lazyload alt="vfmaq_lane_f32" style="zoom:50%;" />
+</li>
+</ul>
+</li>
 <li>_n: 表示有一个标量操作数,是要从参数中获取</li>
 <li>_result:</li>
 <li>_type: 表示每个通道的具体的数据类型</li>
