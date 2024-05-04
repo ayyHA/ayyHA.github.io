@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s2.loli.net/2024/05/02/DJUrKgnVy1qAlY8.png">
 <meta property="article:published_time" content="2024-01-24T09:08:24.000Z">
-<meta property="article:modified_time" content="2024-05-04T07:00:27.434Z">
+<meta property="article:modified_time" content="2024-05-04T07:15:45.873Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="makefile">
 <meta name="twitter:card" content="summary_large_image">
@@ -202,7 +202,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      6.5k 字
+      6.6k 字
     </span>
   
 
@@ -211,7 +211,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      20 分钟
+      21 分钟
     </span>
   
 
@@ -244,7 +244,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：1 分钟前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -360,7 +360,10 @@ A <em>recipe</em> is an action that <code>make</code> carries out. A recipe may 
 <figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs makefile">DEPS := <span class="hljs-variable">$(<span class="hljs-built_in">patsubst</span> %.o,%.d,<span class="hljs-variable">$(OBJS)</span>)</span><br><span class="hljs-comment"># ...</span><br><span class="hljs-comment"># ...</span><br><span class="hljs-keyword">-include</span> <span class="hljs-variable">$(DEPS)</span><br></code></pre></td></tr></table></figure>
 <h3 id="通用模板"><a class="markdownIt-Anchor" href="#通用模板"></a> 通用模板</h3>
 <p>通用模板中的内容上面都介绍过,是我目前用的一个通用模板,要改的话在上面改就行了</p>
-<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs makefile">SUBDIR := .<br><br>OUTPUT := ./obj<br>TARGET := test<br>INCS := <span class="hljs-variable">$(<span class="hljs-built_in">foreach</span> <span class="hljs-built_in">dir</span>,<span class="hljs-variable">$(SUBDIR)</span>,-I<span class="hljs-variable">$(dir)</span>)</span><br>INCS += `pkg-config --cflags opencv4`<br><br>SRCS := <span class="hljs-variable">$(<span class="hljs-built_in">foreach</span> <span class="hljs-built_in">dir</span>,<span class="hljs-variable">$(SUBDIR)</span>,$(<span class="hljs-built_in">wildcard</span> <span class="hljs-variable">$(dir)</span>/*.cpp)</span>)<br><br>OBJS := <span class="hljs-variable">$(<span class="hljs-built_in">patsubst</span> %.cpp,<span class="hljs-variable">$(OUTPUT)</span>/%.o,<span class="hljs-variable">$(SRCS)</span>)</span><br>DEPS := <span class="hljs-variable">$(<span class="hljs-built_in">patsubst</span> %.o,%.d,<span class="hljs-variable">$(OBJS)</span>)</span><br><br>LIBS := `pkg-config --libs opencv4`<br><br><span class="hljs-variable">$(TARGET)</span> : <span class="hljs-variable">$(OBJS)</span><br>		@echo linking...<br>		@g++ <span class="hljs-variable">$^</span> -o <span class="hljs-variable">$@</span> <span class="hljs-variable">$(LIBS)</span><br>		@echo complete!<br><br><span class="hljs-variable">$(OUTPUT)</span>/%.o : %.cpp<br>		@echo compling...<br>		@mkdir -p <span class="hljs-variable">$(<span class="hljs-built_in">dir</span> <span class="hljs-variable">$@</span>)</span><br>		@g++ -MMD -MP -c <span class="hljs-variable">$(INCS)</span> <span class="hljs-variable">$&lt;</span> -o <span class="hljs-variable">$@</span> <span class="hljs-variable">$(LIBS)</span><br>		@echo complete!<br><br>.PHONY : clean<br><br>clean :<br>		@echo cleaning...<br>		@rm -rf <span class="hljs-variable">$(OUTPUT)</span> <span class="hljs-variable">$(TARGET)</span><br>		@echo complete!<br><br><span class="hljs-keyword">-include</span> <span class="hljs-variable">$(DEPS)</span> <br></code></pre></td></tr></table></figure>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs makefile">SUBDIR := .<br><br>OUTPUT := ./obj<br>TARGET := test<br>INCS := <span class="hljs-variable">$(<span class="hljs-built_in">foreach</span> <span class="hljs-built_in">dir</span>,<span class="hljs-variable">$(SUBDIR)</span>,-I<span class="hljs-variable">$(dir)</span>)</span><br>INCS += `pkg-config --cflags opencv4` <span class="hljs-comment"># 通过pkg-config指令,将opencv4的头文件路径列出</span><br><br>SRCS := <span class="hljs-variable">$(<span class="hljs-built_in">foreach</span> <span class="hljs-built_in">dir</span>,<span class="hljs-variable">$(SUBDIR)</span>,$(<span class="hljs-built_in">wildcard</span> <span class="hljs-variable">$(dir)</span>/*.cpp)</span>)<br><br>OBJS := <span class="hljs-variable">$(<span class="hljs-built_in">patsubst</span> %.cpp,<span class="hljs-variable">$(OUTPUT)</span>/%.o,<span class="hljs-variable">$(SRCS)</span>)</span><br>DEPS := <span class="hljs-variable">$(<span class="hljs-built_in">patsubst</span> %.o,%.d,<span class="hljs-variable">$(OBJS)</span>)</span><br><br>LIBS := `pkg-config --libs opencv4` <span class="hljs-comment"># 通过pkg-config指令,将opencv4的库文件路径列出</span><br><br><span class="hljs-variable">$(TARGET)</span> : <span class="hljs-variable">$(OBJS)</span><br>		@echo linking...<br>		@g++ <span class="hljs-variable">$^</span> -o <span class="hljs-variable">$@</span> <span class="hljs-variable">$(LIBS)</span><br>		@echo complete!<br><br><span class="hljs-variable">$(OUTPUT)</span>/%.o : %.cpp<br>		@echo compling...<br>		@mkdir -p <span class="hljs-variable">$(<span class="hljs-built_in">dir</span> <span class="hljs-variable">$@</span>)</span><br>		@g++ -MMD -MP -c <span class="hljs-variable">$(INCS)</span> <span class="hljs-variable">$&lt;</span> -o <span class="hljs-variable">$@</span><br>		@echo complete!<br><br>.PHONY : clean<br><br>clean :<br>		@echo cleaning...<br>		@rm -rf <span class="hljs-variable">$(OUTPUT)</span> <span class="hljs-variable">$(TARGET)</span><br>		@echo complete!<br><br><span class="hljs-keyword">-include</span> <span class="hljs-variable">$(DEPS)</span> <br></code></pre></td></tr></table></figure>
+<div class="note note-info">
+            <p><strong>注意: Please note: you need to put a tab character at the beginning of every recipe line!</strong></p><p><strong>在每个执行语句要用tab字符(制表符)开头!</strong></p>
+          </div>
 <h2 id="参考文件"><a class="markdownIt-Anchor" href="#参考文件"></a> 参考文件</h2>
 <section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://blog.csdn.net/dreamerway/article/details/24991099">C++程序组织：.h .cpp与分离式编译</a>
 <a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/618350718">写给初学者的Makefile入门指南</a>
