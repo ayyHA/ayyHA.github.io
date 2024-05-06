@@ -49,8 +49,10 @@
 <meta property="og:image" content="https://assets.leetcode.com/uploads/2021/03/03/pal2linked-list.jpg">
 <meta property="og:image" content="https://assets.leetcode.com/uploads/2021/02/19/rev1ex1.jpg">
 <meta property="og:image" content="https://assets.leetcode.com/uploads/2021/02/19/rev1ex2.jpg">
+<meta property="og:image" content="https://pic.leetcode-cn.com/1649833948-arSlXd-image.png">
+<meta property="og:image" content="https://pic.leetcode-cn.com/1649833763-BljEbP-image.png">
 <meta property="article:published_time" content="2024-02-29T06:01:02.000Z">
-<meta property="article:modified_time" content="2024-05-04T04:10:13.739Z">
+<meta property="article:modified_time" content="2024-05-06T02:07:00.229Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="algorithm learning">
 <meta name="twitter:card" content="summary_large_image">
@@ -227,7 +229,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      42k 字
+      44k 字
     </span>
   
 
@@ -236,7 +238,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      130 分钟
+      137 分钟
     </span>
   
 
@@ -269,7 +271,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：3 小时前
+                  本文最后更新于：1 小时前
                 
               </p>
             
@@ -1175,12 +1177,61 @@
 <figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs prolog">输入：<br>[<span class="hljs-string">&quot;MinStack&quot;</span>,<span class="hljs-string">&quot;push&quot;</span>,<span class="hljs-string">&quot;push&quot;</span>,<span class="hljs-string">&quot;push&quot;</span>,<span class="hljs-string">&quot;getMin&quot;</span>,<span class="hljs-string">&quot;pop&quot;</span>,<span class="hljs-string">&quot;top&quot;</span>,<span class="hljs-string">&quot;getMin&quot;</span>]<br>[[],[<span class="hljs-number">-2</span>],[<span class="hljs-number">0</span>],[<span class="hljs-number">-3</span>],[],[],[],[]]<br><br>输出：<br>[null,null,null,null,<span class="hljs-number">-3</span>,null,<span class="hljs-number">0</span>,<span class="hljs-number">-2</span>]<br><br>解释：<br><span class="hljs-symbol">MinStack</span> minStack = new <span class="hljs-symbol">MinStack</span>();<br>minStack.push(<span class="hljs-number">-2</span>);<br>minStack.push(<span class="hljs-number">0</span>);<br>minStack.push(<span class="hljs-number">-3</span>);<br>minStack.getMin();   --&gt; 返回 <span class="hljs-number">-3.</span><br>minStack.pop();<br>minStack.top();      --&gt; 返回 <span class="hljs-number">0.</span><br>minStack.getMin();   --&gt; 返回 <span class="hljs-number">-2.</span><br></code></pre></td></tr></table></figure>
 <p><strong>提示：</strong></p>
 <ul>
-<li><code>-231 &lt;= val &lt;= 231 - 1</code></li>
+<li><code>-2^31 &lt;= val &lt;= 2^31 - 1</code></li>
 <li><code>pop</code>、<code>top</code> 和 <code>getMin</code> 操作总是在 <strong>非空栈</strong> 上调用</li>
-<li><code>push</code>, <code>pop</code>, <code>top</code>, and <code>getMin</code>最多被调用 <code>3 * 104</code> 次</li>
+<li><code>push</code>, <code>pop</code>, <code>top</code>, and <code>getMin</code>最多被调用 <code>3 * 10^4</code> 次</li>
 </ul>
 <h3 id="思路-32"><a class="markdownIt-Anchor" href="#思路-32"></a> 思路</h3>
+<p>这道题,感觉自己把自己绕进去了,因为看着题目说要构建最小栈,于是想,栈的push和pop执行也很快,那么题目要求常数时间检索到最小元素,就感觉应该三个都是常数时间的级别</p>
+<p>关于栈的构建其实很简单,只要用个vector一类的容器便可以解决,<code>push()</code>对应<code>push_back()</code>,<code>pop()</code>对应<code>pop_back()</code>,<code>top()</code>对应<code>back()</code></p>
+<div class="note note-info">
+            <p>后面看一个外国人的这道题的代码时,用的是链表来构建栈,不过是头插构建(这让我想到反转链表),这样top就是头节点,pop也就是头节点的移动,push也就是头插,而且关于常数时间检索最小值的处理也很直接,直接通过min来处理当前头值对应的最小值和新值,由此得到最小值</p>
+          </div>
+<p>而关于常数时间检索最小值,又觉得是本题的关键,可以在push和pop的时候维持一个有序的链表(其实一开始是lolored提出来的,因为我做题目纠结在一些点上会宕机),因为链表增删方便且快速,而有序则在push和pop的时候来进行维护,其中头节点是最小的值(升序的链表),其实一开始会担心这样写会不会超时,但最终其实还是AC了的,然后lolored说这个链表是双向链表,但其实单向应该就ok,毕竟也需要遍历链表嘛,而且也没利用到尾节点干嘛,但考虑到前面LRUCache那道题我用的是list而非自己写的双向链表,便也写了双向链表</p>
 <h3 id="重写官方思路-19"><a class="markdownIt-Anchor" href="#重写官方思路-19"></a> 重写官方思路</h3>
+<p>官方思路十分简洁,通过两个stack来模拟最小栈,一个是数值的栈,一个是最小值的栈,需要注意这两个的push和pop是同步的,不过最小值的栈存储的是当前对应stack的最小值,只需要每次都拿自己的top和新来的value进行一下比较就好,最小的就push进去.</p>
+<h2 id="lcp-52-二叉搜索树染色"><a class="markdownIt-Anchor" href="#lcp-52-二叉搜索树染色"></a> LCP 52 二叉搜索树染色</h2>
+<h3 id="题目描述-33"><a class="markdownIt-Anchor" href="#题目描述-33"></a> 题目描述</h3>
+<p>欢迎各位勇者来到力扣城，本次试炼主题为「二叉搜索树染色」。</p>
+<p>每位勇士面前设有一个<strong>二叉搜索树</strong>的模型，模型的根节点为 <code>root</code>，树上的各个节点值均不重复。初始时，所有节点均为蓝色。现在按顺序对这棵二叉树进行若干次操作， <code>ops[i] = [type, x, y]</code> 表示第 <code>i</code> 次操作为：</p>
+<ul>
+<li><code>type</code> 等于 0 时，将节点值范围在 <code>[x, y]</code> 的节点均染蓝</li>
+<li><code>type</code> 等于 1 时，将节点值范围在 <code>[x, y]</code> 的节点均染红</li>
+</ul>
+<p>请返回完成所有染色后，该二叉树中红色节点的数量。</p>
+<p><strong>注意：</strong></p>
+<ul>
+<li>题目保证对于每个操作的 <code>x</code>、<code>y</code> 值定出现在二叉搜索树节点中</li>
+</ul>
+<p><strong>示例 1：</strong></p>
+<blockquote>
+<p>输入：<code>root = [1,null,2,null,3,null,4,null,5], ops = [[1,2,4],[1,1,3],[0,3,5]]</code></p>
+<p>输出：<code>2</code></p>
+<p>解释： 第 0 次操作，将值为 2、3、4 的节点染红； 第 1 次操作，将值为 1、2、3 的节点染红； 第 2 次操作，将值为 3、4、5 的节点染蓝； 因此，最终值为 1、2 的节点为红色节点，返回数量 2<img src="https://pic.leetcode-cn.com/1649833948-arSlXd-image.png" srcset="/img/loading.gif" lazyload alt="image.png" /></p>
+</blockquote>
+<p><strong>示例 2：</strong></p>
+<blockquote>
+<p>输入：<code>root = [4,2,7,1,null,5,null,null,null,null,6]</code> <code>ops = [[0,2,2],[1,1,5],[0,4,5],[1,5,7]]</code></p>
+<p>输出：<code>5</code></p>
+<p>解释： 第 0 次操作，将值为 2 的节点染蓝； 第 1 次操作，将值为 1、2、4、5 的节点染红； 第 2 次操作，将值为 4、5 的节点染蓝； 第 3 次操作，将值为 5、6、7 的节点染红； 因此，最终值为 1、2、5、6、7 的节点为红色节点，返回数量 5<img src="https://pic.leetcode-cn.com/1649833763-BljEbP-image.png" srcset="/img/loading.gif" lazyload alt="image.png" /></p>
+</blockquote>
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>1 &lt;= 二叉树节点数量 &lt;= 10^5</code></li>
+<li><code>1 &lt;= ops.length &lt;= 10^5</code></li>
+<li><code>ops[i].length == 3</code></li>
+<li><code>ops[i][0]</code> 仅为 <code>0</code> or <code>1</code></li>
+<li><code>0 &lt;= ops[i][1] &lt;= ops[i][2] &lt;= 10^9</code></li>
+<li><code>0 &lt;= 节点值 &lt;= 10^9</code></li>
+</ul>
+<h3 id="思路-33"><a class="markdownIt-Anchor" href="#思路-33"></a> 思路</h3>
+<p>我的思路是中序遍历获取树的节点值(因为你树是bst,但其实后面用到的容器如果是map或set的话,因为这俩容器底层实现是红黑树,所以其实前序遍历也行,毕竟最终迭代器遍历也是按升序的顺序遍历的),然后用一个map把数据装着,key用节点值表示,而val则是0-蓝色,1-红色.然后迭代器遍历ops,根据(*ops_iter)[1]和(*ops_iter)[2]的值,也就是x,y,因为恒存在,所以可以通过<code>find()</code>获得它们的迭代器,然后由iter_x遍历到iter_y,给它们的属性值second设置op值(注意迭代器没有重载大于小于,只有等于不等于运算符,所以iter_y在外面设置一下second),然后这个二重循环完了之后,对map用迭代器遍历,统计值为1的key,这样就获得了最终染色为红色的节点数目.</p>
+<p>思路和写法是对的,但是!会超时;</p>
+<p>lolored给我提供了一个建议:倒序思考看看</p>
+<p>倒序的好处是:每个点的状态都是最终确定的,是蓝的就是蓝的,是红的就是红的,不会被覆盖.但是要知道一个点可能被多个区间重叠,即会多次被访问,可以通过标志位去处理(当时没往这里想,应该是可行的,不知道会不会超时),也可以通过删除点去处理(我当时想的是删除区间),但是如何知道一个区间被处理完了呢,这就要用到<code>lower_bound()</code>这个神奇的函数了,这个函数可以根据你给的值,找到<code>&gt;=</code>该值的最近的迭代器(这个函数针对的是有序的情况,而set,map这些天生就是有序),那这样很利于节点的删除,而且一个点被删了的话,找到的就是<code>end()</code>,如果一个x<code>&gt;=</code>y那也说明区间被删干净了,因为这时候<code>lower_bound()</code>找到的是越过了y值的迭代器,而且这样还可以统计最终为红色的节点数目,省了另开一个循环统计的时间</p>
+<h3 id="重写官方思路-20"><a class="markdownIt-Anchor" href="#重写官方思路-20"></a> 重写官方思路</h3>
+<p>这里是依据别人的实现思路重写的:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++"><br></code></pre></td></tr></table></figure>
 
             </div>
             <hr>
