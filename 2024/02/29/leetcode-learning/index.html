@@ -52,7 +52,7 @@
 <meta property="og:image" content="https://pic.leetcode-cn.com/1649833948-arSlXd-image.png">
 <meta property="og:image" content="https://pic.leetcode-cn.com/1649833763-BljEbP-image.png">
 <meta property="article:published_time" content="2024-02-29T06:01:02.000Z">
-<meta property="article:modified_time" content="2024-05-07T08:55:16.910Z">
+<meta property="article:modified_time" content="2024-05-08T01:57:34.810Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="algorithm learning">
 <meta name="twitter:card" content="summary_large_image">
@@ -229,7 +229,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      48k 字
+      50k 字
     </span>
   
 
@@ -238,7 +238,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      149 分钟
+      155 分钟
     </span>
   
 
@@ -271,7 +271,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：1 小时前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -330,6 +330,13 @@
 <li><code>substr(start,len)</code> 从<code>start</code>处,切len这么长的子串</li>
 <li><code>substring()</code></li>
 </ul>
+<p><strong>初始化函数</strong></p>
+<p>在结构体或者类中,需要对一些为指针的成员实现初始化(别的也尽量初始化),不然会报内存不对齐的错误,传统的C在<code>cstring</code>这个库里有<code>memset(void* s,int c,size_t n)</code>可以对一块内存进行初始化,如:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Trie</span>&#123;</span><br><span class="hljs-keyword">private</span>:<br>    <span class="hljs-keyword">bool</span> isEnd;<br>    Trie* next[<span class="hljs-number">26</span>];<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">Trie</span>()&#123;<br>        isEnd=<span class="hljs-literal">false</span>;<br>        <span class="hljs-built_in">memset</span>(next,<span class="hljs-number">0</span>,<span class="hljs-built_in"><span class="hljs-keyword">sizeof</span></span>(next));<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<p>注意:由于<code>memset</code>是按字节对内存块进行初始化,也就是说第二个参数c只会取低八位,然后赋值给一块地址(一块地址是一字节).比如int是4字节,那如果给的c是1,就会变成<code>0x01010101</code>,每个字节分别是<code>0000 0001</code>这么一个情况,所以一般第二位填0或-1就好了,它跟那种<code>vector&lt;int&gt;v(10,5) // 十个数,每个都是5</code>不一样</p>
+<div class="note note-info">
+            <p>由于LeetCode检测机制更加严格，所以我们在创建节点是，还需将指针域赋值。</p><p>参考文件:<a target="_blank" rel="noopener" href="https://blog.csdn.net/Zhenyu_Coder/article/details/132273442">runtime error: member access within misaligned address(力扣最常见错误之一)</a></p>
+          </div>
 <h3 id="顺序容器"><a class="markdownIt-Anchor" href="#顺序容器"></a> 顺序容器</h3>
 <h4 id="vector"><a class="markdownIt-Anchor" href="#vector"></a> vector</h4>
 <h4 id="queue容器适配器"><a class="markdownIt-Anchor" href="#queue容器适配器"></a> queue[容器适配器]</h4>
@@ -1334,6 +1341,20 @@
 <h3 id="题目描述-35"><a class="markdownIt-Anchor" href="#题目描述-35"></a> 题目描述</h3>
 <h3 id="思路-35"><a class="markdownIt-Anchor" href="#思路-35"></a> 思路</h3>
 <h3 id="重写官方思路-22"><a class="markdownIt-Anchor" href="#重写官方思路-22"></a> 重写官方思路</h3>
+<h2 id="208-实现trie前缀树"><a class="markdownIt-Anchor" href="#208-实现trie前缀树"></a> 208 实现Trie(前缀树)</h2>
+<h3 id="题目描述-36"><a class="markdownIt-Anchor" href="#题目描述-36"></a> 题目描述</h3>
+<h3 id="思路-36"><a class="markdownIt-Anchor" href="#思路-36"></a> 思路</h3>
+<p>最初思路很质朴,这种题目肯定在操作上卡时间,尽量选个插入搜索都快的,关于<code>startswith</code>这种前缀匹配的函数,要手撸.那插入和搜索快的就是哈希表,因此选了<code>unordered_set&lt;int&gt;</code>来存,关于<code>startswith</code>函数的实现则是比较朴素的,遍历哈希表,然后用prefix的长度去截取字串的长度(就是substr嘛),然后比较有无满足的字串,有则置标志位跳出循环,返回true,没有就返回false</p>
+<p>AC了,但是时间也只是刚好过线</p>
+<h3 id="重写官方思路-23"><a class="markdownIt-Anchor" href="#重写官方思路-23"></a> 重写官方思路</h3>
+<p>参考了别人的思考,了解了Trie这种神奇的结构:<strong>非典型的多叉树</strong></p>
+<p>它的节点定义是:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Trie</span>&#123;</span><br><span class="hljs-keyword">private</span>:<br>    <span class="hljs-keyword">bool</span> isEnd;<br>    Trie* next[<span class="hljs-number">26</span>];<br>&#125;;<br><span class="hljs-keyword">public</span>:<br><span class="hljs-comment">//...</span><br></code></pre></td></tr></table></figure>
+<p>跟别的多叉树不同,别的多叉树里面会存值和指向其所负责的孩子节点;而这里存着的是一个<strong>布尔值</strong>,<strong>表示</strong>到没到终点(即是否是<strong>一个单词的结束</strong>),而<strong>next指针指向的是下一个字符</strong>,如&quot;sea&quot;,&quot;shell&quot;这样的单词,第一个Trie的next的<code>'s'-'a'</code>处索引到的是指向下一个Trie,而此时该索引的指针非nullptr则表示,已有单词的字符是以<code>'s'</code>开头</p>
+<p>构建的前缀树可以用于自动补全</p>
+<p>清楚了它的节点定义后,可以根据题目要求写出三个函数实现了(<code>insert | search | startswith</code>)</p>
+<p>代码如下:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">/*</span><br><span class="hljs-comment">前缀树:非典型的多节点树</span><br><span class="hljs-comment">*/</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Trie</span> &#123;</span><br><span class="hljs-keyword">private</span>:<br>    <span class="hljs-keyword">bool</span> end;<br>    Trie* next[<span class="hljs-number">26</span>];<br><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">Trie</span>() &#123;        <br>        end = <span class="hljs-literal">false</span>;<br>        <span class="hljs-built_in">memset</span>(next,<span class="hljs-number">0</span>,<span class="hljs-built_in"><span class="hljs-keyword">sizeof</span></span>(next));<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">insert</span><span class="hljs-params">(string word)</span> </span>&#123;<br>        Trie* node = <span class="hljs-keyword">this</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">char</span>&amp; c:word)&#123;<br>            <span class="hljs-keyword">if</span>(node-&gt;next[c<span class="hljs-number">-97</span>] != <span class="hljs-literal">nullptr</span>)&#123;<br>                node = node-&gt;next[c<span class="hljs-number">-97</span>];<br>            &#125;<span class="hljs-keyword">else</span>&#123;<br>                Trie *_node = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Trie</span>();<br>                node-&gt;next[c<span class="hljs-number">-97</span>] = _node;<br>                node = node-&gt;next[c<span class="hljs-number">-97</span>];<br>            &#125;<br>        &#125;<br>        node-&gt;end = <span class="hljs-literal">true</span>;<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">search</span><span class="hljs-params">(string word)</span> </span>&#123;<br>        Trie* node = <span class="hljs-keyword">this</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">char</span>&amp; c:word)&#123;<br>            <span class="hljs-keyword">if</span>(node-&gt;next[c<span class="hljs-number">-97</span>]==<span class="hljs-literal">nullptr</span>)&#123;<br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>            &#125;<br>            node = node-&gt;next[c<span class="hljs-number">-97</span>];<br>        &#125;<br>        <span class="hljs-keyword">return</span> node-&gt;end;<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">startsWith</span><span class="hljs-params">(string prefix)</span> </span>&#123;<br>        Trie* node = <span class="hljs-keyword">this</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">char</span>&amp; c : prefix)&#123;<br>            <span class="hljs-keyword">if</span>(node-&gt;next[c<span class="hljs-number">-97</span>]==<span class="hljs-literal">nullptr</span>)&#123;<br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>            &#125;<br>            node = node-&gt;next[c<span class="hljs-number">-97</span>];<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
 
             </div>
             <hr>
@@ -1616,20 +1637,5 @@
 <script  src="/js/boot.js" ></script>
 
   <script type="text/javascript" src="/js/funnyTitle.js"></script>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"display":{"position":"left","width":150,"height":300,"hOffset":30,"vOffset":-50,"superSample":2},"mobile":{"show":false},"react":{"opacityDefault":0.7,"opacityOnHover":0.2}});</script></body>
 </html>
