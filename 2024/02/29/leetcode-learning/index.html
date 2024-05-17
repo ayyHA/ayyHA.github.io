@@ -53,7 +53,7 @@
 <meta property="og:image" content="https://pic.leetcode-cn.com/1649833763-BljEbP-image.png">
 <meta property="og:image" content="https://aliyun-lc-upload.oss-cn-hangzhou.aliyuncs.com/aliyun-lc-upload/uploads/2018/07/25/question_11.jpg">
 <meta property="article:published_time" content="2024-02-29T06:01:02.000Z">
-<meta property="article:modified_time" content="2024-05-17T06:34:39.124Z">
+<meta property="article:modified_time" content="2024-05-17T09:13:10.058Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="algorithm learning">
 <meta name="twitter:card" content="summary_large_image">
@@ -230,7 +230,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      55k 字
+      56k 字
     </span>
   
 
@@ -239,7 +239,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      173 分钟
+      176 分钟
     </span>
   
 
@@ -272,7 +272,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2 分钟前
+                  本文最后更新于：1 分钟前
                 
               </p>
             
@@ -315,24 +315,25 @@
 <li><code>toupper()</code>将一个字符转为大写</li>
 <li><code>tolower()</code>将一个字符转为小写</li>
 </ul>
+<p>上面的是针对字符的,源自<code>&lt;ctype.h&gt;</code></p>
 <p>对于字串来说的话,导入algorithm库可有以下转换方式:</p>
 <ul>
-<li><code>transform(s.begin().s.end(),s.begin(),::tolower)</code> 转换整个字串为小写,其中第一二个参数是输入容器的起始和终止迭代器(终止不含),第三个参数是输出容器的开始迭代器,第四个参数是一元函数对象</li>
-<li><code>transform(s.begin(),s.end(),s.begin(),::toupper)</code> 转换整个字串为大写</li>
+<li><strong><code>transform(s.begin().s.end(),s.begin(),::tolower)</code></strong> 转换整个字串为小写,其中第一二个参数是输入容器的起始和终止迭代器(终止不含),第三个参数是输出容器的开始迭代器,第四个参数是一元函数对象</li>
+<li><strong><code>transform(s.begin(),s.end(),s.begin(),::toupper)</code></strong> 转换整个字串为大写</li>
 </ul>
 <p><strong>字符串和整型的转换:</strong></p>
 <ul>
-<li><code>stoi(string,nullptr,base)</code> 字串转整数,base是string的进制,比如string是二进制的,则这里就写个2,会自动做进制转换</li>
-<li><code>to_string(int/long/float)</code> 将一个数字常量转为字符串</li>
+<li><strong><code>stoi(string,nullptr,base)</code></strong> 字串转整数,base是string的进制,比如string是二进制的,则这里就写个2,会自动做进制转换</li>
+<li><strong><code>to_string(int/long/float)</code></strong> 将一个数字常量转为字符串</li>
 </ul>
 <p>还有一种<code>atoi()</code>,<code>itoa</code>的字串和整型的转换,但是需要注意这种针对的是字符数组,而非string</p>
 <p><strong>字符串做切片</strong></p>
 <ul>
-<li><code>substr(start,len)</code> 从<code>start</code>处,切len这么长的子串,不指定len则到结尾</li>
-<li><code>substring(start,end)</code> 从start处开始,切到end,其中不包括end索引的字符,不指定end则到结尾</li>
+<li><strong><code>substr(start,len)</code></strong> 从<code>start</code>处,切len这么长的子串,不指定len则到结尾</li>
+<li><s><code>substring(start,end)</code> 从start处开始,切到end,其中不包括end索引的字符,不指定end则到结尾</s><mark>[这是java/js才有的,搞错了= =]</mark></li>
 </ul>
 <p><strong>初始化函数</strong></p>
-<p>在结构体或者类中,需要对一些为指针的成员实现初始化(别的也尽量初始化),不然会报内存不对齐的错误,传统的C在<code>cstring</code>这个库里有<code>memset(void* s,int c,size_t n)</code>可以对一块内存进行初始化,如:</p>
+<p>在结构体或者类中,需要对一些为指针的成员实现初始化(别的也尽量初始化),不然会报内存不对齐的错误,传统的C在<code>cstring</code>这个库里有**<code>memset(void* s,int c,size_t n)</code>**可以对一块内存进行初始化,如:</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Trie</span>&#123;</span><br><span class="hljs-keyword">private</span>:<br>    <span class="hljs-keyword">bool</span> isEnd;<br>    Trie* next[<span class="hljs-number">26</span>];<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">Trie</span>()&#123;<br>        isEnd=<span class="hljs-literal">false</span>;<br>        <span class="hljs-built_in">memset</span>(next,<span class="hljs-number">0</span>,<span class="hljs-built_in"><span class="hljs-keyword">sizeof</span></span>(next));<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
 <p>注意:由于<code>memset</code>是按字节对内存块进行初始化,也就是说第二个参数c只会取低八位,然后赋值给一块地址(一块地址是一字节).比如int是4字节,那如果给的c是1,就会变成<code>0x01010101</code>,每个字节分别是<code>0000 0001</code>这么一个情况,所以一般第二位填0或-1就好了,它跟那种<code>vector&lt;int&gt;v(10,5) // 十个数,每个都是5</code>不一样</p>
 <div class="note note-info">
@@ -382,6 +383,22 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">//	假设题目给的数组是:vector&lt;int&gt;&amp; nums</span><br><span class="hljs-keyword">int</span> len = nums.<span class="hljs-built_in">size</span>();<br><span class="hljs-keyword">int</span>* prefix = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[len+<span class="hljs-number">1</span>]; <span class="hljs-comment">// 要多一个位置</span><br>prefix[<span class="hljs-number">0</span>] = <span class="hljs-number">0</span>;	<span class="hljs-comment">// 初值</span><br><span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i&lt;=len; i++)<br>    prefix[i] = prefix[i<span class="hljs-number">-1</span>] + nums[i<span class="hljs-number">-1</span>];<br><span class="hljs-comment">/*</span><br><span class="hljs-comment">... 对前缀和数据的操作,如想获得[i,j]区间的累和,则可以通过prefix[j+1] - prefix[i]获得</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">delete</span> []prefix;<br></code></pre></td></tr></table></figure>
 <h3 id="差分数组"><a class="markdownIt-Anchor" href="#差分数组"></a> 差分数组</h3>
 <h3 id="滑动窗口"><a class="markdownIt-Anchor" href="#滑动窗口"></a> 滑动窗口</h3>
+<p>滑动窗口常见于字符串匹配一类的题目,通常暴力求解会遇到TLE的问题,因此需要借助滑动窗口这一算法思想来实现</p>
+<p><strong>滑动窗口本质上是左右指针,通过右端的指针不断扩张,直至满足一定条件,再经由左端的指针不断收缩,收缩到一定条件,则继续右端指针扩张,直至右端指针越了字串的界</strong></p>
+<p>右端指针扩张的过程,可以看作是正在寻找可行解,当满足可行解的条件,则停止扩展,通过左端指针收缩,来优化可行解,寻找到当前小区间里的局部最优解,当不再满足可行解的条件,则不再收缩,而是还给右端指针继续扩张.如此遍历完整个数组,我们便在局部最优解中挑选出了全局最优解(<mark>有些题目是要找全局最优解,有些是要收集所有符合条件的解,因题而异,这里只是说一种思想</mark>)</p>
+<p>模板如下:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">slidingWindow</span><span class="hljs-params">(string s,string t)</span></span>&#123;<br>    <span class="hljs-comment">// need表示需要满足的条件,window表示的是滑动窗口内的数据</span><br>    unordered_map&lt;<span class="hljs-keyword">char</span>,<span class="hljs-keyword">int</span>&gt; need,window;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> c:t)<br>        need[c]++;<br>    <span class="hljs-comment">// 左右指针,左开右闭[left,right)</span><br>    <span class="hljs-keyword">int</span> left=<span class="hljs-number">0</span>,right=<span class="hljs-number">0</span>;<br>    <span class="hljs-comment">// valid表示符合要求的数目,当valid==need.size()则表明符合题意</span><br>    <span class="hljs-keyword">int</span> valid=<span class="hljs-number">0</span>; <br>    <span class="hljs-keyword">while</span>(right &lt; s.<span class="hljs-built_in">size</span>())&#123;<br>        <span class="hljs-keyword">char</span> c = s[right];<br>        right++;<br>        <span class="hljs-comment">// 1.对c处理,怎么个扩张法</span><br>        <span class="hljs-comment">// ...</span><br>        <span class="hljs-comment">// ...</span><br>        <span class="hljs-keyword">while</span>(<span class="hljs-comment">/* 2.满足条件,开始收缩*/</span>)&#123;<br>            <span class="hljs-comment">// 3.怎么更新局部最优解</span><br>            <span class="hljs-keyword">char</span> d = s[left];<br>            left++;<br>            <span class="hljs-comment">// 4.对d处理,怎么收缩法</span><br>            <span class="hljs-comment">// ...</span><br>            <span class="hljs-comment">// ...</span><br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>上面是一个模板,在写同类型题目的时候要思考以下四个问题:</p>
+<ol>
+<li>右端指针扩张,怎么更新值;</li>
+<li>满足什么条件开始收缩;</li>
+<li>怎么更新局部最优解;</li>
+<li>左端指针收缩,怎么更新值;</li>
+</ol>
+<p>参考资料:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/find-all-anagrams-in-a-string/solutions/9749/hua-dong-chuang-kou-tong-yong-si-xiang-jie-jue-zi-">leetcode评论区大佬对于滑动窗口的高见</a></li>
+</ul>
 <h2 id="排序系列"><a class="markdownIt-Anchor" href="#排序系列"></a> 排序系列</h2>
 <h3 id="堆排序"><a class="markdownIt-Anchor" href="#堆排序"></a> 堆排序</h3>
 <p>一种<strong>选择算法</strong>,<strong>不稳定</strong>(相同值的元素的相对位置可能发生改变),<strong><code>O(nlogn)</code></strong></p>
@@ -1509,6 +1526,10 @@
 <h3 id="题目-18"><a class="markdownIt-Anchor" href="#题目-18"></a> 题目</h3>
 <h3 id="思路-56"><a class="markdownIt-Anchor" href="#思路-56"></a> 思路</h3>
 <p>经典dp题,走到第n阶楼梯的方式是从第n-1阶往上走,或者n-2阶往上走</p>
+<h2 id="76-最小覆盖字串"><a class="markdownIt-Anchor" href="#76-最小覆盖字串"></a> 76 最小覆盖字串</h2>
+<h3 id="题目-19"><a class="markdownIt-Anchor" href="#题目-19"></a> 题目</h3>
+<h3 id="思路-57"><a class="markdownIt-Anchor" href="#思路-57"></a> 思路</h3>
+<p>从字串s中找到覆盖字串t的最小字串,滑动窗口实现</p>
 
             </div>
             <hr>
