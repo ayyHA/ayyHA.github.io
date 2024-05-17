@@ -53,7 +53,7 @@
 <meta property="og:image" content="https://pic.leetcode-cn.com/1649833763-BljEbP-image.png">
 <meta property="og:image" content="https://aliyun-lc-upload.oss-cn-hangzhou.aliyuncs.com/aliyun-lc-upload/uploads/2018/07/25/question_11.jpg">
 <meta property="article:published_time" content="2024-02-29T06:01:02.000Z">
-<meta property="article:modified_time" content="2024-05-09T11:32:43.646Z">
+<meta property="article:modified_time" content="2024-05-17T06:34:39.124Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="algorithm learning">
 <meta name="twitter:card" content="summary_large_image">
@@ -230,7 +230,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      54k 字
+      55k 字
     </span>
   
 
@@ -239,7 +239,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      169 分钟
+      173 分钟
     </span>
   
 
@@ -272,7 +272,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：7 天前
+                  本文最后更新于：2 分钟前
                 
               </p>
             
@@ -1430,6 +1430,85 @@
 <p>上面的方法的弊端在于用了find,它是一个比较耗时的操作,且右端的i可以换个更加通俗的名字:end</p>
 <p>可以使用如map之类的数据结构来存放数据,已有的数据则为1,没有(默认为0)则为0,若数据重复,则计数一次,在进一步的循环中,不断移出值,更改start,直到计数重新置为0,则有如下代码:</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">int</span> len = s.<span class="hljs-built_in">size</span>();<br><span class="hljs-keyword">if</span>(len &lt;= <span class="hljs-number">1</span>)<br>    <span class="hljs-keyword">return</span> len;<br>unordered_map&lt;<span class="hljs-keyword">char</span>,<span class="hljs-keyword">int</span>&gt; mp;<br><span class="hljs-keyword">int</span> start=<span class="hljs-number">0</span>,end=<span class="hljs-number">0</span>,mx=<span class="hljs-number">0</span>;<br><span class="hljs-keyword">int</span> count=<span class="hljs-number">0</span>;<br><span class="hljs-keyword">while</span>(end&lt;len)&#123;<br>    <span class="hljs-keyword">if</span>(mp[s[end]] &gt; <span class="hljs-number">0</span>)<br>        count++;<br>    mp[s[end]]++;<br>    <span class="hljs-keyword">while</span>(count&gt;<span class="hljs-number">0</span>)&#123;<br>        <span class="hljs-keyword">if</span>(mp[s[start]]&gt;<span class="hljs-number">1</span>)<br>            count--;<br>        mp[s[start]]--;<br>        start++;<br>    &#125;<br>    mx = <span class="hljs-built_in">max</span>(mx,end-start+<span class="hljs-number">1</span>);<br>    end++;<br>&#125;<br><span class="hljs-keyword">return</span> mx;<br></code></pre></td></tr></table></figure>
+<h2 id="876-链表的中间节点"><a class="markdownIt-Anchor" href="#876-链表的中间节点"></a> 876 链表的中间节点</h2>
+<h3 id="题目"><a class="markdownIt-Anchor" href="#题目"></a> 题目</h3>
+<h3 id="思路-39"><a class="markdownIt-Anchor" href="#思路-39"></a> 思路</h3>
+<p>快慢指针,这样找到的中间节点是中间节点或中间偏下的节点</p>
+<h2 id="21-合并两个有序链表"><a class="markdownIt-Anchor" href="#21-合并两个有序链表"></a> 21 合并两个有序链表</h2>
+<h3 id="题目-2"><a class="markdownIt-Anchor" href="#题目-2"></a> 题目</h3>
+<h3 id="思路-40"><a class="markdownIt-Anchor" href="#思路-40"></a> 思路</h3>
+<p>归并排序的合并思想</p>
+<h2 id="148-排序链表"><a class="markdownIt-Anchor" href="#148-排序链表"></a> 148 排序链表🔴</h2>
+<h3 id="题目-3"><a class="markdownIt-Anchor" href="#题目-3"></a> 题目</h3>
+<h3 id="思路-41"><a class="markdownIt-Anchor" href="#思路-41"></a> 思路</h3>
+<p>归并排序进行链表排序,需要①876找到中间节点;②21合并两个有序链表,同时掌握归并排序的知识</p>
+<h2 id="lcr140-训练计划ii"><a class="markdownIt-Anchor" href="#lcr140-训练计划ii"></a> LCR140 训练计划Ⅱ</h2>
+<h3 id="题目-4"><a class="markdownIt-Anchor" href="#题目-4"></a> 题目</h3>
+<p>找链表中的倒数第N个节点</p>
+<h3 id="思路-42"><a class="markdownIt-Anchor" href="#思路-42"></a> 思路</h3>
+<p>快慢指针,快指针先走N步,再快慢指针同步距行进,直至快指针nullptr了,就说明慢指针走到了</p>
+<h2 id="19-删除链表的倒数第n个节点"><a class="markdownIt-Anchor" href="#19-删除链表的倒数第n个节点"></a> 19 删除链表的倒数第N个节点</h2>
+<h3 id="题目-5"><a class="markdownIt-Anchor" href="#题目-5"></a> 题目</h3>
+<h3 id="思路-43"><a class="markdownIt-Anchor" href="#思路-43"></a> 思路</h3>
+<p>思路同上,也是快慢指针,快的先走N步,然后快慢指针再同步距行进,不过需要注意,可能删的是头节点,则快指针此时直接走到nullptr了,因此需要分支判断一下</p>
+<h2 id="92-反转链表ii"><a class="markdownIt-Anchor" href="#92-反转链表ii"></a> 92 反转链表Ⅱ</h2>
+<h3 id="题目-6"><a class="markdownIt-Anchor" href="#题目-6"></a> 题目</h3>
+<h3 id="思路-44"><a class="markdownIt-Anchor" href="#思路-44"></a> 思路</h3>
+<p>需分情况讨论,首先走到区间左右端点,然后记录左右端点的左侧和右侧端点,方便后面拼接,同时把此时的slow节点记录下,后面要跟尾巴拼接,局部区间反转完后,拼接链表即可.</p>
+<p>但需要注意,可能存在整个链表反转,以及区间左端点是head的情况,需要分类讨论一下</p>
+<p>这道题相对做得比较混乱</p>
+<h2 id="17-电话号码的字母组合"><a class="markdownIt-Anchor" href="#17-电话号码的字母组合"></a> 17 电话号码的字母组合</h2>
+<h3 id="题目-7"><a class="markdownIt-Anchor" href="#题目-7"></a> 题目</h3>
+<h3 id="思路-45"><a class="markdownIt-Anchor" href="#思路-45"></a> 思路</h3>
+<p>每个数字对应一个字串,每次从各自的一个字串取一个字符,按数字的顺序排列.找出所有排列的情况.通过DFS实现,是顺序已定的排列问题(个人思路里说的排列和组合,更多的是往全排列以及组合模板上靠的排列组合思想)</p>
+<h2 id="1-两数之和"><a class="markdownIt-Anchor" href="#1-两数之和"></a> 1 两数之和</h2>
+<h3 id="题目-8"><a class="markdownIt-Anchor" href="#题目-8"></a> 题目</h3>
+<h3 id="思路-46"><a class="markdownIt-Anchor" href="#思路-46"></a> 思路</h3>
+<p>哈希表(虽然一开始我是排序+双指针+找索引的方式,而且找索引还不能用unordered_map,比如3+3=6,key唯一的情况会找不到两个索引,用的是朴素的找索引方式找的,很慢)的思路则非常好,一重循环直接完成</p>
+<h2 id="2-两数相加"><a class="markdownIt-Anchor" href="#2-两数相加"></a> 2 两数相加</h2>
+<h3 id="题目-9"><a class="markdownIt-Anchor" href="#题目-9"></a> 题目</h3>
+<h3 id="思路-47"><a class="markdownIt-Anchor" href="#思路-47"></a> 思路</h3>
+<p>普通的链表加法,但要细心,因为进位可能是9999+1的情况,且最后的carry_bit也要检查是否要new多一个节点</p>
+<h2 id="45-跳跃游戏ii"><a class="markdownIt-Anchor" href="#45-跳跃游戏ii"></a> 45 跳跃游戏Ⅱ</h2>
+<h3 id="题目-10"><a class="markdownIt-Anchor" href="#题目-10"></a> 题目</h3>
+<h3 id="思路-48"><a class="markdownIt-Anchor" href="#思路-48"></a> 思路</h3>
+<ul>
+<li>dp</li>
+<li>滚动的去找</li>
+<li>在每次的跳跃中,已跳跃的步数都是一样的,在遇到此次跳跃的边界end前,要更新下一次跳跃的最远边界,然后在更新边界的时候,也更新已跳跃的步数即可(这个是看别人的方法学来的)</li>
+</ul>
+<h2 id="781-森林中的兔子"><a class="markdownIt-Anchor" href="#781-森林中的兔子"></a> 781 森林中的兔子</h2>
+<h3 id="题目-11"><a class="markdownIt-Anchor" href="#题目-11"></a> 题目</h3>
+<h3 id="思路-49"><a class="markdownIt-Anchor" href="#思路-49"></a> 思路</h3>
+<p>逻辑题</p>
+<h2 id="15-三数之和"><a class="markdownIt-Anchor" href="#15-三数之和"></a> 15 三数之和</h2>
+<h3 id="题目-12"><a class="markdownIt-Anchor" href="#题目-12"></a> 题目</h3>
+<h3 id="思路-50"><a class="markdownIt-Anchor" href="#思路-50"></a> 思路</h3>
+<p>排序+左右指针,由左及右遍历,根据索引定左右指针,找match的;当下一次索引的值与左边的值是一样的则直接跳过,不必要重复计算,然后可以用set对收集到的三数vector进行去重,最后灌到ans即可</p>
+<h2 id="102-二叉树的层序遍历"><a class="markdownIt-Anchor" href="#102-二叉树的层序遍历"></a> 102 二叉树的层序遍历</h2>
+<h3 id="题目-13"><a class="markdownIt-Anchor" href="#题目-13"></a> 题目</h3>
+<h3 id="思路-51"><a class="markdownIt-Anchor" href="#思路-51"></a> 思路</h3>
+<p>BFS模板</p>
+<h2 id="128-最长连续序列"><a class="markdownIt-Anchor" href="#128-最长连续序列"></a> 128 最长连续序列</h2>
+<h3 id="题目-14"><a class="markdownIt-Anchor" href="#题目-14"></a> 题目</h3>
+<h3 id="思路-52"><a class="markdownIt-Anchor" href="#思路-52"></a> 思路</h3>
+<p>哈希表,逻辑理通,即可解决(如何用哈希表去找到最长连续序列,最长则意味着start是它)</p>
+<h2 id="54-螺旋矩阵"><a class="markdownIt-Anchor" href="#54-螺旋矩阵"></a> 54 螺旋矩阵</h2>
+<h3 id="题目-15"><a class="markdownIt-Anchor" href="#题目-15"></a> 题目</h3>
+<h3 id="思路-53"><a class="markdownIt-Anchor" href="#思路-53"></a> 思路</h3>
+<p>四个边界u,d,l,r,边界如u&gt;d则跳出,但可==</p>
+<h2 id="283-移动零"><a class="markdownIt-Anchor" href="#283-移动零"></a> 283 移动零</h2>
+<h3 id="题目-16"><a class="markdownIt-Anchor" href="#题目-16"></a> 题目</h3>
+<h3 id="思路-54"><a class="markdownIt-Anchor" href="#思路-54"></a> 思路</h3>
+<p>双指针,区间[l,r)圈养了一堆0,有点像冒泡一样,一直交换非0数与0(l)</p>
+<h2 id="438-找到字符串的所有字母异位词"><a class="markdownIt-Anchor" href="#438-找到字符串的所有字母异位词"></a> 438 找到字符串的所有字母异位词</h2>
+<h3 id="题目-17"><a class="markdownIt-Anchor" href="#题目-17"></a> 题目</h3>
+<h3 id="思路-55"><a class="markdownIt-Anchor" href="#思路-55"></a> 思路</h3>
+<p>滑动窗口,一般都是左指针out,右指针in,通过一定条件判断是否match,则push_back,然后左指针再out掉一个字符这样</p>
+<h2 id="70-爬楼梯"><a class="markdownIt-Anchor" href="#70-爬楼梯"></a> 70 爬楼梯</h2>
+<h3 id="题目-18"><a class="markdownIt-Anchor" href="#题目-18"></a> 题目</h3>
+<h3 id="思路-56"><a class="markdownIt-Anchor" href="#思路-56"></a> 思路</h3>
+<p>经典dp题,走到第n阶楼梯的方式是从第n-1阶往上走,或者n-2阶往上走</p>
 
             </div>
             <hr>
