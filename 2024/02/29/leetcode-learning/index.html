@@ -53,7 +53,7 @@
 <meta property="og:image" content="https://pic.leetcode-cn.com/1649833763-BljEbP-image.png">
 <meta property="og:image" content="https://aliyun-lc-upload.oss-cn-hangzhou.aliyuncs.com/aliyun-lc-upload/uploads/2018/07/25/question_11.jpg">
 <meta property="article:published_time" content="2024-02-29T06:01:02.000Z">
-<meta property="article:modified_time" content="2024-05-17T09:13:10.058Z">
+<meta property="article:modified_time" content="2024-05-19T09:57:08.324Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="algorithm learning">
 <meta name="twitter:card" content="summary_large_image">
@@ -230,7 +230,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      56k 字
+      57k 字
     </span>
   
 
@@ -239,7 +239,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      176 分钟
+      178 分钟
     </span>
   
 
@@ -272,7 +272,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：1 分钟前
+                  本文最后更新于：1 天前
                 
               </p>
             
@@ -387,13 +387,27 @@
 <p><strong>滑动窗口本质上是左右指针,通过右端的指针不断扩张,直至满足一定条件,再经由左端的指针不断收缩,收缩到一定条件,则继续右端指针扩张,直至右端指针越了字串的界</strong></p>
 <p>右端指针扩张的过程,可以看作是正在寻找可行解,当满足可行解的条件,则停止扩展,通过左端指针收缩,来优化可行解,寻找到当前小区间里的局部最优解,当不再满足可行解的条件,则不再收缩,而是还给右端指针继续扩张.如此遍历完整个数组,我们便在局部最优解中挑选出了全局最优解(<mark>有些题目是要找全局最优解,有些是要收集所有符合条件的解,因题而异,这里只是说一种思想</mark>)</p>
 <p>模板如下:</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">slidingWindow</span><span class="hljs-params">(string s,string t)</span></span>&#123;<br>    <span class="hljs-comment">// need表示需要满足的条件,window表示的是滑动窗口内的数据</span><br>    unordered_map&lt;<span class="hljs-keyword">char</span>,<span class="hljs-keyword">int</span>&gt; need,window;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> c:t)<br>        need[c]++;<br>    <span class="hljs-comment">// 左右指针,左开右闭[left,right)</span><br>    <span class="hljs-keyword">int</span> left=<span class="hljs-number">0</span>,right=<span class="hljs-number">0</span>;<br>    <span class="hljs-comment">// valid表示符合要求的数目,当valid==need.size()则表明符合题意</span><br>    <span class="hljs-keyword">int</span> valid=<span class="hljs-number">0</span>; <br>    <span class="hljs-keyword">while</span>(right &lt; s.<span class="hljs-built_in">size</span>())&#123;<br>        <span class="hljs-keyword">char</span> c = s[right];<br>        right++;<br>        <span class="hljs-comment">// 1.对c处理,怎么个扩张法</span><br>        <span class="hljs-comment">// ...</span><br>        <span class="hljs-comment">// ...</span><br>        <span class="hljs-keyword">while</span>(<span class="hljs-comment">/* 2.满足条件,开始收缩*/</span>)&#123;<br>            <span class="hljs-comment">// 3.怎么更新局部最优解</span><br>            <span class="hljs-keyword">char</span> d = s[left];<br>            left++;<br>            <span class="hljs-comment">// 4.对d处理,怎么收缩法</span><br>            <span class="hljs-comment">// ...</span><br>            <span class="hljs-comment">// ...</span><br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">slidingWindow</span><span class="hljs-params">(string s,string t)</span></span>&#123;<br>    <span class="hljs-comment">// need表示需要满足的条件,window表示的是滑动窗口内的数据</span><br>    unordered_map&lt;<span class="hljs-keyword">char</span>,<span class="hljs-keyword">int</span>&gt; need,window;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> c:t)<br>        need[c]++;<br>    <span class="hljs-comment">// 左右指针,左开右闭[left,right)</span><br>    <span class="hljs-keyword">int</span> left=<span class="hljs-number">0</span>,right=<span class="hljs-number">0</span>;<br>    <span class="hljs-comment">// valid表示符合要求的字符数目,比如t=&quot;aabc&quot;; need = &#123;&#123;&#x27;a&#x27;,2&#125;,&#123;&#x27;b&#x27;,1&#125;,&#123;&#x27;c&#x27;,1&#125;&#125;;</span><br>    <span class="hljs-comment">// 则当&#x27;a&#x27;的数目window中收集满了2个,才会给valid自增(后续还可能收集到a,且没有达到进入收缩区间的条件,即a的数目&gt;=2),因此当valid数目和need.size()相等时,则表明t中的字符都在我们的滑动区间里,且可能是&quot;aaabaababc&quot;的形式,则需要收缩区间,找到符合题意的!</span><br>    <span class="hljs-keyword">int</span> valid=<span class="hljs-number">0</span>; <br>    <span class="hljs-keyword">while</span>(right &lt; s.<span class="hljs-built_in">size</span>())&#123;<br>        <span class="hljs-keyword">char</span> c = s[right];<br>        right++;<br>        <span class="hljs-comment">// 1.对c处理,怎么个扩张法</span><br>        <span class="hljs-comment">// ...</span><br>        <span class="hljs-comment">// ...</span><br>        <span class="hljs-keyword">while</span>(<span class="hljs-comment">/* 2.满足条件,开始收缩*/</span>)&#123;<br>            <span class="hljs-comment">// 3.怎么更新局部最优解</span><br>            <span class="hljs-keyword">char</span> d = s[left];<br>            left++;<br>            <span class="hljs-comment">// 4.对d处理,怎么收缩法</span><br>            <span class="hljs-comment">// ...</span><br>            <span class="hljs-comment">// ...</span><br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>上面是一个模板,在写同类型题目的时候要思考以下四个问题:</p>
 <ol>
-<li>右端指针扩张,怎么更新值;</li>
-<li>满足什么条件开始收缩;</li>
-<li>怎么更新局部最优解;</li>
-<li>左端指针收缩,怎么更新值;</li>
+<li>
+<p>右端指针扩张,怎么更新值;</p>
+</li>
+<li>
+<p>满足什么条件开始收缩;</p>
+<p>一般来说,如果是字串匹配系列的题目,我们会有两个字串,一个字串s(source)要包含另一个字串t(target),当<code>valid==need.size()</code>的时候,则说明目前滑动窗口[left,right)里面已经包含了该字串t(滑动窗口是在s上滑动的)</p>
+<ul>
+<li>[<strong>76-最小覆盖字串</strong>] : 目的最小覆盖,则意味着覆盖(包含)之后再收缩,并在里面更新局部最优解,收缩至不再覆盖为止,则跳出收缩.即此时的收缩条件是<code>valid == need.size()</code></li>
+<li>[<strong>567-字符串的排列</strong> <strong>438-找到字符串的所有字母异位词</strong>] : 明确要找匹配到字串t的别的排列形式(即<code>t=&quot;abc&quot;</code>,s里有<code>&quot;cab&quot;</code>也满足),即意味滑动窗口里的尺寸如果比字串t大,必不满足字串t的排列,因此收缩条件应该是<code>right-left == t.size()</code>,而判断是不是满足排列(这里就不是局部最优解的问题了,因为没有最…之类的限定词),就是<code>valid==need.size()</code></li>
+<li>[<strong>3-无重复字符的的最长子串</strong>] : 这个题目它只有s没有t,则不要need这个容器了,直接在滑动窗口里统计就好,当window[c]&gt;1则表明有重复的了,那就要开始收缩,直至没有重复的,此刻则需要在收缩循环的外面统计最长字串</li>
+</ul>
+</li>
+<li>
+<p>怎么更新局部最优解;(结合2看)</p>
+</li>
+<li>
+<p>左端指针收缩,怎么更新值;</p>
+</li>
 </ol>
 <p>参考资料:</p>
 <ul>
