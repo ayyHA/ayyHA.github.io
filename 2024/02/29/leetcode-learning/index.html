@@ -53,7 +53,7 @@
 <meta property="og:image" content="https://pic.leetcode-cn.com/1649833763-BljEbP-image.png">
 <meta property="og:image" content="https://aliyun-lc-upload.oss-cn-hangzhou.aliyuncs.com/aliyun-lc-upload/uploads/2018/07/25/question_11.jpg">
 <meta property="article:published_time" content="2024-02-29T06:01:02.000Z">
-<meta property="article:modified_time" content="2024-05-22T03:14:04.843Z">
+<meta property="article:modified_time" content="2024-05-23T03:53:43.953Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="algorithm learning">
 <meta name="twitter:card" content="summary_large_image">
@@ -230,7 +230,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      59k 字
+      60k 字
     </span>
   
 
@@ -239,7 +239,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      185 分钟
+      189 分钟
     </span>
   
 
@@ -272,7 +272,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：10 分钟前
+                  本文最后更新于：3 分钟前
                 
               </p>
             
@@ -281,7 +281,7 @@
 <p>🔴 -&gt; 一般是指hard的题目,且没pass出来的,就是连暴力解法都想不到的</p>
 <p>🔵 -&gt; 表示十拿九稳的题目</p>
 <h2 id="c的字符数组和c的string转换以及常用函数"><a class="markdownIt-Anchor" href="#c的字符数组和c的string转换以及常用函数"></a> C的字符数组和C++的string转换以及常用函数</h2>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++">string s = <span class="hljs-string">&quot;hahaha&quot;</span>;<br><span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* c_s = s.<span class="hljs-built_in">c_str</span>();<br><br></code></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++">string s = <span class="hljs-string">&quot;hahaha&quot;</span>;<br><span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* c_s = s.<span class="hljs-built_in">c_str</span>();<br></code></pre></td></tr></table></figure>
 <div class="note note-info">
             <p>c++中通过导入iomanip,可以用fixed来使浮点数定位(无论double d 里的值是整数浮点数,统统给它输出浮点数形式)<br />通过setprecision(n)来确定整体数字位数,若没有结合fixed使用,则代表的位数是整数位+小数位n;<mark>结合fixed使用则代表的位数是小数位n</mark></p>
           </div>
@@ -397,7 +397,7 @@
 <p>实现手段: 递归</p>
 <p>适用于: 树,图</p>
 <p>经典题目: 迷宫找通路</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-comment">/*状态*/</span>)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span>(<span class="hljs-comment">/*递归结束条件*/</span>)&#123;<br>        <span class="hljs-comment">// ...</span><br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-comment">/*找寻新状态*/</span>)&#123;<br>        <span class="hljs-comment">// 定义新状态</span><br>    	<span class="hljs-keyword">if</span>(<span class="hljs-comment">/*新状态满足边界条件*/</span> &amp;&amp; <span class="hljs-comment">/*新状态满足题意*/</span> &amp;&amp; <span class="hljs-comment">/*新状态满足标志位*/</span>)&#123;<br>            flag[<span class="hljs-comment">/*新状态*/</span>]=...<span class="hljs-comment">// 设置标志位</span><br>            <span class="hljs-built_in">dfs</span>(<span class="hljs-comment">/*新状态*/</span>);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-comment">/*状态*/</span>)</span> </span>&#123;<br>    <span class="hljs-keyword">if</span>(<span class="hljs-comment">/*递归结束条件*/</span>)&#123;<br>        <span class="hljs-comment">// ...</span><br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-comment">/*找寻新状态*/</span>)&#123;<br>        <span class="hljs-comment">// 定义新状态</span><br>    	<span class="hljs-keyword">if</span>(<span class="hljs-comment">/*新状态满足边界条件*/</span> &amp;&amp; <span class="hljs-comment">/*新状态满足题意*/</span> &amp;&amp; <span class="hljs-comment">/*新状态满足标志位*/</span>)&#123;<br>            flag[<span class="hljs-comment">/*新状态*/</span>]=...<span class="hljs-comment">// 设置标志位</span><br>            <span class="hljs-built_in">dfs</span>(<span class="hljs-comment">/*新状态*/</span>);<br>            flag[<span class="hljs-comment">/*新状态*/</span>]=...<span class="hljs-comment">// 设置为旧的flag以回溯</span><br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 <div class="note note-info">
             <p>状态是指比如迷宫里的坐标xy一类的东西</p>
           </div>
@@ -414,10 +414,10 @@
 <h3 id="差分数组"><a class="markdownIt-Anchor" href="#差分数组"></a> 差分数组</h3>
 <h3 id="滑动窗口"><a class="markdownIt-Anchor" href="#滑动窗口"></a> 滑动窗口</h3>
 <p>滑动窗口常见于字符串匹配一类的题目,通常暴力求解会遇到TLE的问题,因此需要借助滑动窗口这一算法思想来实现</p>
-<p><strong>滑动窗口本质上是左右指针,通过右端的指针不断扩张,直至满足一定条件,再经由左端的指针不断收缩,收缩到一定条件,则继续右端指针扩张,直至右端指针越了字串的界</strong></p>
-<p>右端指针扩张的过程,可以看作是正在寻找可行解,当满足可行解的条件,则停止扩展,通过左端指针收缩,来优化可行解,寻找到当前小区间里的局部最优解,当不再满足可行解的条件,则不再收缩,而是还给右端指针继续扩张.如此遍历完整个数组,我们便在局部最优解中挑选出了全局最优解(<mark>有些题目是要找全局最优解,有些是要收集所有符合条件的解,因题而异,这里只是说一种思想</mark>)</p>
+<p><strong>滑动窗口本质上是左右指针,通过右端的指针不断扩张,直至满足一定条件,再经由左端的指针不断收缩,收缩到一定条件,则继续右端指针扩张,循环往复,直至右端指针越了字串的界</strong></p>
+<p>右端指针扩张的过程,可以看作是正在寻找可行解,<strong>当满足可行解的条件,则停止扩展</strong>,通过左端指针收缩,来<strong>优化可行解,寻找到当前小区间里的局部最优解</strong>,当不再满足可行解的条件,则不再收缩,而是还给右端指针继续扩张.如此遍历完整个数组,我们便在局部最优解中挑选出了全局最优解(<mark>有些题目是要找全局最优解,有些是要收集所有符合条件的解,因题而异,这里只是说一种思想</mark>)</p>
 <p>模板如下:</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">slidingWindow</span><span class="hljs-params">(string s,string t)</span></span>&#123;<br>    <span class="hljs-comment">// need表示需要满足的条件,window表示的是滑动窗口内的数据</span><br>    unordered_map&lt;<span class="hljs-keyword">char</span>,<span class="hljs-keyword">int</span>&gt; need,window;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> c:t)<br>        need[c]++;<br>    <span class="hljs-comment">// 左右指针,左开右闭[left,right)</span><br>    <span class="hljs-keyword">int</span> left=<span class="hljs-number">0</span>,right=<span class="hljs-number">0</span>;<br>    <span class="hljs-comment">// valid表示符合要求的字符数目,比如t=&quot;aabc&quot;; need = &#123;&#123;&#x27;a&#x27;,2&#125;,&#123;&#x27;b&#x27;,1&#125;,&#123;&#x27;c&#x27;,1&#125;&#125;;</span><br>    <span class="hljs-comment">// 则当&#x27;a&#x27;的数目window中收集满了2个,才会给valid自增(后续还可能收集到a,且没有达到进入收缩区间的条件,即a的数目&gt;=2),因此当valid数目和need.size()相等时,则表明t中的字符都在我们的滑动区间里,且可能是&quot;aaabaababc&quot;的形式,则需要收缩区间,找到符合题意的!</span><br>    <span class="hljs-keyword">int</span> valid=<span class="hljs-number">0</span>; <br>    <span class="hljs-keyword">while</span>(right &lt; s.<span class="hljs-built_in">size</span>())&#123;<br>        <span class="hljs-keyword">char</span> c = s[right];<br>        right++;<br>        <span class="hljs-comment">// 1.对c处理,怎么个扩张法</span><br>        <span class="hljs-comment">// ...</span><br>        <span class="hljs-comment">// ...</span><br>        <span class="hljs-keyword">while</span>(<span class="hljs-comment">/* 2.满足条件,开始收缩*/</span>)&#123;<br>            <span class="hljs-comment">// 3.怎么更新局部最优解</span><br>            <span class="hljs-keyword">char</span> d = s[left];<br>            left++;<br>            <span class="hljs-comment">// 4.对d处理,怎么收缩法</span><br>            <span class="hljs-comment">// ...</span><br>            <span class="hljs-comment">// ...</span><br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">slidingWindow</span><span class="hljs-params">(string s,string t)</span></span>&#123;<br>    <span class="hljs-comment">// need表示需要满足的条件,window表示的是滑动窗口内的数据</span><br>    unordered_map&lt;<span class="hljs-keyword">char</span>,<span class="hljs-keyword">int</span>&gt; need,window;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> c:t)<br>        need[c]++;<br>    <span class="hljs-comment">// 左右指针,左闭右开[left,right)</span><br>    <span class="hljs-keyword">int</span> left=<span class="hljs-number">0</span>,right=<span class="hljs-number">0</span>;<br>    <span class="hljs-comment">// valid表示符合要求的字符数目,比如t=&quot;aabc&quot;; need = &#123;&#123;&#x27;a&#x27;,2&#125;,&#123;&#x27;b&#x27;,1&#125;,&#123;&#x27;c&#x27;,1&#125;&#125;;</span><br>    <span class="hljs-comment">// 则当&#x27;a&#x27;的数目window中收集满了2个,才会给valid自增(后续还可能收集到a,且没有达到进入收缩区间的条件,即a的数目&gt;=2),因此当valid数目和need.size()相等时,则表明t中的字符都在我们的滑动区间里,且可能是&quot;aaabaababc&quot;的形式,则需要收缩区间,找到符合题意的!</span><br>    <span class="hljs-keyword">int</span> valid=<span class="hljs-number">0</span>; <br>    <span class="hljs-keyword">while</span>(right &lt; s.<span class="hljs-built_in">size</span>())&#123;<br>        <span class="hljs-keyword">char</span> c = s[right];<br>        right++;<br>        <span class="hljs-comment">// 1.对c处理,怎么个扩张法</span><br>        <span class="hljs-comment">// ...</span><br>        <span class="hljs-comment">// ...</span><br>        <span class="hljs-keyword">while</span>(<span class="hljs-comment">/* 2.满足条件,开始收缩*/</span>)&#123;<br>            <span class="hljs-comment">// 3.怎么更新局部最优解</span><br>            <span class="hljs-keyword">char</span> d = s[left];<br>            left++;<br>            <span class="hljs-comment">// 4.对d处理,怎么收缩法</span><br>            <span class="hljs-comment">// ...</span><br>            <span class="hljs-comment">// ...</span><br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>上面是一个模板,在写同类型题目的时候要思考以下四个问题:</p>
 <ol>
 <li>
@@ -476,13 +476,31 @@
 </ol>
 <p>示例:</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// left是左指针,right是右指针+1,即整个区间是:[left,right)</span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">quickSort</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums,<span class="hljs-keyword">int</span> left,<span class="hljs-keyword">int</span> right)</span></span>&#123;<br>    <span class="hljs-comment">// 选定基准索引</span><br>    <span class="hljs-keyword">int</span> key = left;<br>    <span class="hljs-comment">// 确定左右指针</span><br>    <span class="hljs-keyword">int</span> l = left,r=right<span class="hljs-number">-1</span>;<br>    <span class="hljs-keyword">while</span>(l&lt;r)&#123;<br>        <span class="hljs-keyword">while</span>(l&lt;r &amp;&amp; nums[r] &gt;= nums[key])<br>            r--;<br>        <span class="hljs-keyword">while</span>(l&lt;r &amp;&amp; nums[l] &lt;= nums[key])<br>            l++;<br>        <span class="hljs-built_in">swap</span>(nums[l],nums[r]);<br>    &#125;<br>    <span class="hljs-comment">// 把基准交换到属于它的位置,此刻索引&lt;基准的是值&lt;=它的,索引&gt;基准的是值&gt;=它的</span><br>    <span class="hljs-built_in">swap</span>(nums[l],nums[key]);<br>    <span class="hljs-keyword">if</span>(l &gt; left)<br>        <span class="hljs-built_in">quickSort</span>(nums,left,l); <span class="hljs-comment">// [left,l),其中l是基准确定的位置</span><br>    <span class="hljs-keyword">if</span>(l+<span class="hljs-number">1</span> &lt; right)<br>        <span class="hljs-built_in">quickSort</span>(nums,l+<span class="hljs-number">1</span>,right); <span class="hljs-comment">// [l+1,right)</span><br>&#125;<br></code></pre></td></tr></table></figure>
-<h2 id="shell排序"><a class="markdownIt-Anchor" href="#shell排序"></a> shell排序</h2>
+<h3 id="shell排序"><a class="markdownIt-Anchor" href="#shell排序"></a> shell排序</h3>
+<h3 id="拓扑排序"><a class="markdownIt-Anchor" href="#拓扑排序"></a> 拓扑排序</h3>
+<p>拓扑排序是用于有向无环图(下称DAG)来生成一个线性序列,这个序列满足:</p>
+<ul>
+<li>序列中的每个顶点有且仅出现一次</li>
+<li>在图中如果存在u到v的一条路径,那么在序列中u一定出现在v之前</li>
+</ul>
+<p>对于拓扑排序,经典的应用问题是AOV图(Activity Of Vertex),用于给一个活动网络进行排序,以获取其执行的序列</p>
+<p>对于拓扑排序,此处采用的是BFS算法进行实现: 通过邻接矩阵装载图信息,并构建一个入度列表,对入度列表中入度为0的点,push进队列,然后依次执行如下步骤:</p>
+<ul>
+<li>出队,放入toplo数组</li>
+<li>根据邻接矩阵找到以它作为弧尾的点,对它们的入度-1</li>
+<li>若有节点入度为0,则push进队列</li>
+</ul>
+<p>重复以上三个步骤,则当队列为空时,说明以拓扑排序完毕</p>
+<p>需要注意:拓扑排序仅针对DAG图,同时也可以利用上述方法增加一些条件来检查有向图中是否有环(有环的节点,入度无法通过上述操作减为0,但队列会跳出,即意味着toplo数组中的节点数量肯定少于图中给出的节点数量,否则的话是相等的)</p>
+<p>板子代码如下:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">/*</span><br><span class="hljs-comment">    B</span><br><span class="hljs-comment">  /  \ </span><br><span class="hljs-comment">A      D</span><br><span class="hljs-comment">  \  /</span><br><span class="hljs-comment">   C</span><br><span class="hljs-comment">*/</span><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>	<span class="hljs-keyword">int</span> vertexNum; <span class="hljs-comment">// 顶点数</span><br>	<span class="hljs-keyword">int</span> edgeNum;   <span class="hljs-comment">// 边数</span><br>	<span class="hljs-comment">// 4 4</span><br>	cin &gt;&gt; vertexNum &gt;&gt; edgeNum;<br>	vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; <span class="hljs-built_in">adjacency</span>(vertexNum); 	<span class="hljs-comment">// 邻接矩阵		</span><br>	<span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">indegrees</span><span class="hljs-params">(vertexNum,<span class="hljs-number">0</span>)</span></span>;		   <span class="hljs-comment">// 入度列表 </span><br>	<span class="hljs-comment">/*</span><br><span class="hljs-comment">	   A B</span><br><span class="hljs-comment">	   A C</span><br><span class="hljs-comment">	   B D</span><br><span class="hljs-comment">	   C D</span><br><span class="hljs-comment">	*/</span><br>	<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;edgeNum;i++)&#123;<br>		<span class="hljs-keyword">char</span> a,b;<br>		cin &gt;&gt; a &gt;&gt; b;<br>		<span class="hljs-keyword">int</span> A;<br>		<span class="hljs-keyword">int</span> B;<br>		A = a - <span class="hljs-string">&#x27;A&#x27;</span>;<br>		B = b - <span class="hljs-string">&#x27;A&#x27;</span>;<br>		adjacency[A].<span class="hljs-built_in">push_back</span>(B);	<span class="hljs-comment">// 记录有向图的边信息&lt;a,b&gt;</span><br>		indegrees[B]++;			   <span class="hljs-comment">// b的入度增加</span><br>	&#125;	<br>	queue&lt;<span class="hljs-keyword">int</span>&gt; q;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;vertexNum;i++)&#123;  <span class="hljs-comment">// 将入度为零的点,即源点放入队列中</span><br>		<span class="hljs-keyword">if</span>(!indegrees[i])<br>			q.<span class="hljs-built_in">push</span>(i);<br>	&#125;<br>	vector&lt;<span class="hljs-keyword">int</span>&gt; toplo;<br>	<span class="hljs-keyword">while</span>(!q.<span class="hljs-built_in">empty</span>())&#123;			  <span class="hljs-comment">// BFS</span><br>		<span class="hljs-keyword">int</span> pre = q.<span class="hljs-built_in">front</span>();<br>		q.<span class="hljs-built_in">pop</span>();<br>		toplo.<span class="hljs-built_in">push_back</span>(pre);<br>		<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span>&amp; i:adjacency[pre])&#123;<br>			<span class="hljs-keyword">if</span>(--indegrees[i] == <span class="hljs-number">0</span>)<br>				q.<span class="hljs-built_in">push</span>(i);<br>		&#125; <br>	&#125;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span>&amp; i:toplo)&#123;<br>		<span class="hljs-keyword">char</span> c = i + <span class="hljs-number">65</span>;<br>		cout &lt;&lt; c &lt;&lt; <span class="hljs-string">&quot; &quot;</span>; <br>	&#125;<br>	cout &lt;&lt; endl;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 <h2 id="算法总结"><a class="markdownIt-Anchor" href="#算法总结"></a> 算法总结</h2>
 <h2 id="一些数据结构回顾"><a class="markdownIt-Anchor" href="#一些数据结构回顾"></a> 一些数据结构回顾</h2>
 <h3 id="二叉搜索树"><a class="markdownIt-Anchor" href="#二叉搜索树"></a> 二叉搜索树</h3>
 <p>二叉搜索树(BST)是二叉树的一个特别概念,可以理解为排了序的二叉树</p>
 <p>左孩子 &lt;= 根节点 &lt;= 右孩子</p>
 <p>详细可见<a target="_blank" rel="noopener" href="https://ayyha.github.io/2022/10/15/BST,AVL%E6%A0%91,B%E6%A0%91,B+%E6%A0%91,%E7%BA%A2%E9%BB%91%E6%A0%91/">BST,AVL,B,B+,RBT</a></p>
+<h3 id="邻接矩阵"><a class="markdownIt-Anchor" href="#邻接矩阵"></a> 邻接矩阵</h3>
 <h2 id="每日一练"><a class="markdownIt-Anchor" href="#每日一练"></a> 每日一练</h2>
 <h3 id="2864-最大二进制奇数"><a class="markdownIt-Anchor" href="#2864-最大二进制奇数"></a> 2864 最大二进制奇数</h3>
 <h4 id="题目描述"><a class="markdownIt-Anchor" href="#题目描述"></a> 题目描述</h4>
@@ -1561,11 +1579,11 @@
 <h2 id="283-移动零"><a class="markdownIt-Anchor" href="#283-移动零"></a> 283 移动零</h2>
 <h3 id="题目-16"><a class="markdownIt-Anchor" href="#题目-16"></a> 题目</h3>
 <h3 id="思路-54"><a class="markdownIt-Anchor" href="#思路-54"></a> 思路</h3>
-<p>双指针,区间[l,r)圈养了一堆0,有点像冒泡一样,一直交换非0数与0(l)</p>
+<p>双指针,区间[l,r)圈养了一堆0,有点像冒泡一样,一直交换非0数与0</p>
 <h2 id="438-找到字符串的所有字母异位词"><a class="markdownIt-Anchor" href="#438-找到字符串的所有字母异位词"></a> 438 找到字符串的所有字母异位词</h2>
 <h3 id="题目-17"><a class="markdownIt-Anchor" href="#题目-17"></a> 题目</h3>
 <h3 id="思路-55"><a class="markdownIt-Anchor" href="#思路-55"></a> 思路</h3>
-<p>滑动窗口,一般都是左指针out,右指针in,通过一定条件判断是否match,则push_back,然后左指针再out掉一个字符这样</p>
+<p>滑动窗口,一般都是左指针out,右指针in,通过一定条件判断是否match,则push_back,然后左指针再out掉一个字符这样(具体参考板子部分&quot;“滑动窗口”&quot;的内容)</p>
 <h2 id="70-爬楼梯"><a class="markdownIt-Anchor" href="#70-爬楼梯"></a> 70 爬楼梯</h2>
 <h3 id="题目-18"><a class="markdownIt-Anchor" href="#题目-18"></a> 题目</h3>
 <h3 id="思路-56"><a class="markdownIt-Anchor" href="#思路-56"></a> 思路</h3>
@@ -1610,6 +1628,10 @@
 <h3 id="题目-28"><a class="markdownIt-Anchor" href="#题目-28"></a> 题目</h3>
 <h3 id="思路-66"><a class="markdownIt-Anchor" href="#思路-66"></a> 思路</h3>
 <h3 id="代码-9"><a class="markdownIt-Anchor" href="#代码-9"></a> 代码</h3>
+<h2 id="207-课程表"><a class="markdownIt-Anchor" href="#207-课程表"></a> 207 课程表</h2>
+<h3 id="题目-29"><a class="markdownIt-Anchor" href="#题目-29"></a> 题目</h3>
+<h3 id="思路-67"><a class="markdownIt-Anchor" href="#思路-67"></a> 思路</h3>
+<h3 id="代码-10"><a class="markdownIt-Anchor" href="#代码-10"></a> 代码</h3>
 
             </div>
             <hr>
