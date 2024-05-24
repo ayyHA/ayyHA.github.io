@@ -53,7 +53,7 @@
 <meta property="og:image" content="https://pic.leetcode-cn.com/1649833763-BljEbP-image.png">
 <meta property="og:image" content="https://aliyun-lc-upload.oss-cn-hangzhou.aliyuncs.com/aliyun-lc-upload/uploads/2018/07/25/question_11.jpg">
 <meta property="article:published_time" content="2024-02-29T06:01:02.000Z">
-<meta property="article:modified_time" content="2024-05-23T03:53:43.953Z">
+<meta property="article:modified_time" content="2024-05-24T02:28:03.851Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="algorithm learning">
 <meta name="twitter:card" content="summary_large_image">
@@ -230,7 +230,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      60k 字
+      61k 字
     </span>
   
 
@@ -239,7 +239,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      189 分钟
+      190 分钟
     </span>
   
 
@@ -272,7 +272,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：3 分钟前
+                  本文最后更新于：8 分钟前
                 
               </p>
             
@@ -358,6 +358,13 @@
           </div>
 <h3 id="顺序容器"><a class="markdownIt-Anchor" href="#顺序容器"></a> 顺序容器</h3>
 <h4 id="vector"><a class="markdownIt-Anchor" href="#vector"></a> vector</h4>
+<ul>
+<li><code>push_back()</code></li>
+<li><code>emplace_back()</code></li>
+</ul>
+<div class="note note-info">
+            <p>上面两个函数都是向容器尾部添加元素</p><p>push_back():1. 创建元素; 2. 调用移动构造函数/拷贝构造函数,将元素弄到容器中</p><p>emplace_back(): 1. 直接在容器尾部创建元素,减少了拷贝/移动的开销</p><p>其中<strong>移动构造函数</strong>和<strong>拷贝构造函数</strong>是不同的:<strong>后者是将一个已存在的对象复制到一个新的对象中;前者是将一个对象的资源移动到一个新的对象中</strong>.因为一般自己写的拷贝构造是深拷贝(为了避免浅拷贝指向同一块内存的问题)所以涉及到<strong>内存分配</strong>,而拷贝又涉及到<strong>数据复制</strong></p><p>而其中移动构造涉及到右值引用的知识,可以看看参考文件</p><p>参考文件:</p><ul><li><a target="_blank" rel="noopener" href="https://gitcode.csdn.net/65eed6611a836825ed79f6e7.html?dp_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NTk3OTAyMCwiZXhwIjoxNzE3MTIwNTQyLCJpYXQiOjE3MTY1MTU3NDIsInVzZXJuYW1lIjoid2VpeGluXzQ1Mzg4MzEyIn0.NhR7qBK3BAP_eFFZfFm1NLr7JxVF3TFaKd_tDLsOZ-4">【C++11】之 emplace_back() 与 push_back() 的区别</a></li><li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44355021/article/details/129369368">移动构造函数与拷贝构造函数对比</a> (未看完)</li></ul>
+          </div>
 <h4 id="queue容器适配器"><a class="markdownIt-Anchor" href="#queue容器适配器"></a> queue[容器适配器]</h4>
 <p>queue参考资料:<a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_59068776/article/details/130549065">queue基本方法</a></p>
 <h4 id="deque双端队列"><a class="markdownIt-Anchor" href="#deque双端队列"></a> deque(双端队列)</h4>
