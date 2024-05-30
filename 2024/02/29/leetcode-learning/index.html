@@ -54,7 +54,7 @@
 <meta property="og:image" content="https://pic.leetcode-cn.com/1649833763-BljEbP-image.png">
 <meta property="og:image" content="https://aliyun-lc-upload.oss-cn-hangzhou.aliyuncs.com/aliyun-lc-upload/uploads/2018/07/25/question_11.jpg">
 <meta property="article:published_time" content="2024-02-29T06:01:02.000Z">
-<meta property="article:modified_time" content="2024-05-25T09:38:42.484Z">
+<meta property="article:modified_time" content="2024-05-27T13:17:19.521Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="algorithm learning">
 <meta name="twitter:card" content="summary_large_image">
@@ -231,7 +231,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      63k 字
+      64k 字
     </span>
   
 
@@ -240,7 +240,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      197 分钟
+      199 分钟
     </span>
   
 
@@ -273,7 +273,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：几秒前
+                  本文最后更新于：3 天前
                 
               </p>
             
@@ -529,6 +529,40 @@
 <ul>
 <li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/find-all-anagrams-in-a-string/solutions/9749/hua-dong-chuang-kou-tong-yong-si-xiang-jie-jue-zi-">leetcode评论区大佬对于滑动窗口的高见</a></li>
 </ul>
+<h3 id="dp背包系列"><a class="markdownIt-Anchor" href="#dp背包系列"></a> DP背包系列</h3>
+<p>在说起背包系列的问题前,先说下动规题的四大步骤:</p>
+<ol>
+<li><strong>确定子问题/状态</strong>,这一步需要好好分析,一般是<strong>前k个…/直到第k个…的最大/最小…</strong>,要保证<strong>无后效性</strong>,<strong>后来的结果不会影响前面的结果</strong>,可以通过叠定语或增加数组维度来实现,如果读起来自己觉得有问题的一般就是有问题;子问题是具备<strong>最优子结构</strong>的,<strong>可以通过求解子问题,最终获得原问题的解</strong>,如果奔头不是这个,那求来也没用</li>
+<li><strong>推导出状态转移方程</strong>,DP具备<strong>子问题重叠</strong>的性质,也就是说状态转移方程会出现至少两个dp的某种转移的等式</li>
+<li>确定初值</li>
+<li>确定原问题的答案</li>
+</ol>
+<p>其中当涉及到多维dp的时候,遍历的顺序也是一个考虑的点,如0/1背包滚动数组版本和完全背包滚动数组版本,内嵌循环的正向遍历和倒序遍历就是这两个问题的关键区别,即取的物品可否重复</p>
+<h4 id="01背包"><a class="markdownIt-Anchor" href="#01背包"></a> 0/1背包</h4>
+<p>有一个承重为W的背包,N件物品,第i件物品对应的重量是weight[i],对应的价值是value[i],<strong>每件物品只能被取一次</strong>,问如何能使得背包的物品总价值最大?</p>
+<ol>
+<li>
+<p>状态定义</p>
+<p><code>dp[i][j]</code>表示当背包容量为j时,前i件([0,i-1])物品中的最大价值</p>
+</li>
+<li>
+<p>转移方程</p>
+<p><code>dp[i][j] = max(dp[i-1][j],dp[i-1][j-weight[i-1]]+value(i-1));</code></p>
+</li>
+<li>
+<p>初始状态</p>
+<p>当<code>i=0</code>,表示前0件物品,则统统填0;</p>
+<p>当<code>j=0</code>,表示背包容量为0,则亦填0;</p>
+<p>物品价值没有负数的初始状态才填零;如果物品价值有负数,则填-INF</p>
+</li>
+<li>
+<p>最终输出</p>
+<p><code>dp[N][W]</code>是最终输出,表示前N件物品中任意抽取,且当背包容量为W时的最大价值,即原题意</p>
+</li>
+</ol>
+<p>遍历顺序:<mark>需要好好思考</mark>(说是先遍历物品数量,再遍历背包容量;和反过来的情况是一样的)</p>
+<h4 id="完全背包"><a class="markdownIt-Anchor" href="#完全背包"></a> 完全背包</h4>
+<p>有一个承重为W的背包,N件物品,第i件物品对应的重量是weight[i],对应的价值是value[i],<strong>每件物品能无限次取</strong>,问如何能使得背包的物品总价值最大?</p>
 <h2 id="排序系列"><a class="markdownIt-Anchor" href="#排序系列"></a> 排序系列</h2>
 <h3 id="堆排序"><a class="markdownIt-Anchor" href="#堆排序"></a> 堆排序</h3>
 <p>一种<strong>选择算法</strong>,<strong>不稳定</strong>(相同值的元素的相对位置可能发生改变),<strong><code>O(nlogn)</code></strong></p>
