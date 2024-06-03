@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://s2.loli.net/2023/11/27/YIu4h7HD8L3fMSe.jpg">
 <meta property="og:image" content="https://s2.loli.net/2024/04/30/gVWkNmHxF156Csv.png">
 <meta property="article:published_time" content="2023-11-17T02:56:43.000Z">
-<meta property="article:modified_time" content="2024-05-30T08:57:43.788Z">
+<meta property="article:modified_time" content="2024-06-03T02:35:31.810Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary_large_image">
@@ -203,7 +203,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      4.6k 字
+      5.9k 字
     </span>
   
 
@@ -212,7 +212,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      14 分钟
+      18 分钟
     </span>
   
 
@@ -245,7 +245,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：1 分钟前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -394,7 +394,85 @@ DPU：是对网卡和存储等数据的高效处理<br />
 <li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/lvdongjie/p/8994092.html">GDB调试程序参考</a></li>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/litanglian9839/article/details/84966811">GDB-layout-1</a></li>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/zhangjs0322/article/details/10152279">GDB-layout-2</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/wohu1104/article/details/125083029">GDB一些参考</a><section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/63207620/answer/1707221853">https://www.zhihu.com/question/63207620/answer/1707221853</a><br />
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/wohu1104/article/details/125083029">GDB一些参考</a></li>
+</ul>
+<h2 id="c之const的位置"><a class="markdownIt-Anchor" href="#c之const的位置"></a> c++之const的位置</h2>
+<p><strong>const默认作用于其左边的东西,否则作用于其右边的东西</strong></p>
+<blockquote>
+<p>const applies to the thing left of it. If there is nothing on the left then it applies to the thing right of it.</p>
+</blockquote>
+<p>例子:</p>
+<ul>
+<li>
+<p><code>const int *</code>是一个指针指向一个常量整型 a pointer to a constant integer</p>
+</li>
+<li>
+<p><code>int* const</code> 是一个常量指针指向一个整型 a constant pointer to an integer</p>
+</li>
+<li>
+<p><code>int const * const</code> 是一个常量指针指向一个常量整型 a contanst pointer to a constant integer</p>
+</li>
+<li>
+<p><code>...</code></p>
+</li>
+</ul>
+<p>可以通过<strong>从右往左读</strong>的方式来理解,然后一般写的时候也建议按照<strong>eastern const style</strong>(把const放东边/右边)来写</p>
+<div class="note note-info">
+            <p>注:看的时候脑子冒出来左结合右结合,搜了一下,<strong>结合性是为了处理具有相同优先级的运算符时,确定他们在表达式中结合的顺序</strong></p><p>左结合即是指在一个表达式中有多个具有相同优先级的运算符,它们在表达式中从左到右依次结合,如:<code>a + b + c</code> -&gt; <code>(a + b) + c</code></p><p>右结合即是指具有相同优先级的多个运算符在表达式中从右到左依次结合,如:<code>a = b = c</code> -&gt; <code>a = ( b = c)</code></p><p>参考文件:</p><ul><li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_47441055/article/details/131384865">结合性,左结合,右结合</a></li></ul>
+          </div>
+<p><strong>参考文件:</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/443195492/answer/1723886545">const位置摆放</a></li>
+</ul>
+<h2 id="c之namespace"><a class="markdownIt-Anchor" href="#c之namespace"></a> C++之namespace</h2>
+<ol>
+<li><strong>全局范围内定义</strong>,通过<code>namespace ns_name&#123;...&#125;</code>这样定义,不可以局部范围内定义;</li>
+<li><strong>namespace可嵌套</strong>;</li>
+<li><strong>namespace目的:避免命名冲突</strong>;</li>
+<li>我们要使用某一命名空间内的变量/函数时:
+<ul>
+<li><strong>用::(作用域限定符)来获得,如std::cin</strong>;</li>
+<li><strong>命名空间全部展开</strong><mark>不推荐</mark><code>using namespace std;</code>;</li>
+<li><strong>命名空间部分展开</strong><code>using std::endl;</code></li>
+</ul>
+</li>
+</ol>
+<div class="note note-info">
+            <p>其中作用域限定符有:全局范围的,类范围的,也有namespace范围的,使用如下:</p><ul><li>global scope: <code>::var</code></li><li>class scope: <code>class::var</code></li><li>namespace scope: <code>namespace::var</code></li></ul><p>通过访问左侧的scope来知道想要访问的var是哪里的</p>
+          </div>
+<p><strong>参考文件:</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/2202_75303754/article/details/131782875">c++ namespace</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/holm/articles/13715169.html">作用域限定符</a></li>
+</ul>
+<h2 id="c之左值纯右值将亡值"><a class="markdownIt-Anchor" href="#c之左值纯右值将亡值"></a> C++之左值,纯右值,将亡值</h2>
+<ul>
+<li><strong>左值(left-hand-side value)简称lvalue</strong></li>
+<li><strong>纯右值(pure right-hand-side value)简称prvalue</strong></li>
+<li><strong>将亡值(expiring value)简称xvalue</strong></li>
+</ul>
+<p>三者的由来与函数返回值相关:</p>
+<ul>
+<li><strong>直接存在寄存器里返回</strong></li>
+<li><strong>直接操作用于接收返回值的变量(函数返回值转换为出参,由函数内部直接操作外部的栈空间)</strong></li>
+<li><strong>使用匿名空间接收函数返回值,这是一个临时的内存空间,用完即析构</strong></li>
+</ul>
+<p>prvalue,lvalue,xvalue对应上述三种情况.</p>
+<p>这三种值的出现与C<ins>是C的extension有关,C</ins>的结构体乃至类增加了构造函数和析构函数,并将之与变量的生命周期进行绑定有关</p>
+<p>详细情况参看参考文件中腾讯技术工程对这一块的讲解</p>
+<p><strong>参考文件:</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/428340896/answer/2913419725">为什么C++要分左右值</a></li>
+</ul>
+<h2 id="c平凡类型与非平凡类型"><a class="markdownIt-Anchor" href="#c平凡类型与非平凡类型"></a> c++平凡类型与非平凡类型</h2>
+<p><strong>参考文件:</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/vviccc/article/details/138089766">C++11 内存布局术语解读（平凡类型、平凡可复制类型、标准布局类型）</a></li>
+</ul>
+<h2 id="c11新特性"><a class="markdownIt-Anchor" href="#c11新特性"></a> C++11新特性</h2>
+<p><strong>参考文件:</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/650986900">C++11新特性</a><section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/63207620/answer/1707221853">https://www.zhihu.com/question/63207620/answer/1707221853</a><br />
 <a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section></li>
 </ul>
 
