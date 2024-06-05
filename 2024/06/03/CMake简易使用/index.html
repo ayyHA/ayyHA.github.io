@@ -13,32 +13,24 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="狠狠复习计算机基础知识">
+  <meta name="description" content="CMake简易使用">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <meta name="description" content="狠狠复习计算机基础知识">
+  <meta name="description" content="CMake简易使用">
 <meta property="og:type" content="article">
-<meta property="og:title" content="review-CS-basic-knowledge">
-<meta property="og:url" content="http://example.com/2024/04/03/review-CS-basic-knowledge/index.html">
+<meta property="og:title" content="CMake简易使用">
+<meta property="og:url" content="http://example.com/2024/06/03/CMake%E7%AE%80%E6%98%93%E4%BD%BF%E7%94%A8/index.html">
 <meta property="og:site_name" content="ayyHA&#39;s blog">
-<meta property="og:description" content="狠狠复习计算机基础知识">
+<meta property="og:description" content="CMake简易使用">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://s2.loli.net/2024/05/16/Ih2SJvQTrjWnf65.png">
-<meta property="og:image" content="https://s2.loli.net/2024/05/16/27JjqrCkyudGpXb.png">
-<meta property="og:image" content="https://s2.loli.net/2024/05/16/YhIQ6XFWfeu9OaZ.png">
-<meta property="og:image" content="https://s2.loli.net/2024/05/16/v8coAk6V4GFzudN.png">
-<meta property="og:image" content="https://s2.loli.net/2024/05/16/Dpk2J5VFNM6AHwv.png">
-<meta property="og:image" content="https://s2.loli.net/2024/05/16/sfurLUeI3XVTElW.png">
-<meta property="article:published_time" content="2024-04-03T09:48:26.000Z">
-<meta property="article:modified_time" content="2024-05-16T07:19:12.295Z">
+<meta property="article:published_time" content="2024-06-03T07:10:53.000Z">
+<meta property="article:modified_time" content="2024-06-05T06:54:16.964Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="OperatingSystem">
-<meta property="article:tag" content="ComputerNetwork">
-<meta property="article:tag" content="ComputerComposition">
+<meta property="article:tag" content="CMake">
+<meta property="article:tag" content="C++项目编译工具">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://s2.loli.net/2024/05/16/Ih2SJvQTrjWnf65.png">
   
-  <title>review-CS-basic-knowledge - ayyHA&#39;s blog</title>
+  <title>CMake简易使用 - ayyHA&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -188,7 +180,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="review-CS-basic-knowledge">
+            <span class="h2" id="subtitle" title="CMake简易使用">
               
             </span>
 
@@ -198,8 +190,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2024-04-03 17:48" pubdate>
-        2024年4月3日 下午
+      <time datetime="2024-06-03 15:10" pubdate>
+        2024年6月3日 下午
       </time>
     </span>
   
@@ -209,7 +201,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.7k 字
+      2.4k 字
     </span>
   
 
@@ -218,7 +210,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      5 分钟
+      8 分钟
     </span>
   
 
@@ -247,82 +239,61 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">review-CS-basic-knowledge</h1>
+            <h1 style="display: none">CMake简易使用</h1>
             
               <p class="note note-info">
                 
-                  本文最后更新于：20 天前
+                  本文最后更新于：1 分钟前
                 
               </p>
             
             <div class="markdown-body">
-              <h2 id="c智能指针"><a class="markdownIt-Anchor" href="#c智能指针"></a> C++智能指针</h2>
-<p>参考资料：</p>
+              <h2 id="基本语法"><a class="markdownIt-Anchor" href="#基本语法"></a> 基本语法</h2>
+<p><strong>通过编写平台无关的CMakeLists.txt文件来定制整个编译流程,然后执行之,根据目标平台生成所需的Makefile文件</strong>.流程如下:</p>
+<ol>
+<li>编写CMake配置文件CMakeLists.txt;</li>
+<li>执行命令<code>cmake path</code>或选择带交互式界面的<code>ccmake path</code>,<code>path</code>是CMakeLists.txt所在的目录;</li>
+<li>生成Makefile后使用<code>make</code>命令进行编译;</li>
+</ol>
+<p>因此采用CMake进行C++项目工程编译的关键在于编写CMakeLists.txt配置文件</p>
+<p><strong><code>CMakeLists.txt</code>主要由命令,注释,空格组成,其中命令不区分大小写,<code>#</code>后跟着注释</strong><br />
+<strong>命令由命令名称,小括号,参数组成,参数用空格间隔开</strong></p>
+<h2 id="常用命令"><a class="markdownIt-Anchor" href="#常用命令"></a> 常用命令</h2>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-cn/cpp/cpp/smart-pointers-modern-cpp">ms智能指针</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45445740/article/details/134520594">C++智能指针</a></li>
+<li><code>cmake_minimum_required(VERSION X.X)</code>: 运行此配置文件所需的cmake最低版本;</li>
+<li><code>project(projectName)</code>: 指明项目名称;</li>
+<li><code>add_executable()</code>: 将源文件(放后面)编译成可执行文件(放前面)</li>
+<li><code>aux_source_directory(&lt;dir&gt; &lt;variable&gt;)</code>: 指定dir,会获取该目录下的所有源文件,将结果存入变量variable中(通过${}调用变量)</li>
+<li><code>add_subdirectory()</code>: 增加编译子目录,会去编译子目录下的<code>CMakeLists.txt</code>文件</li>
+<li><code>target_link_libraries()</code>: 参数第一个放可执行文件,后面放链接库的库名,可能是自己的库</li>
+<li><code>add_library()</code>: 生成链接库,跟add_executable一样,生成的库名放前面,后面放的是源文件</li>
+<li><code>configure_file(&lt;input&gt; &lt;output&gt;)</code>: 将输入的配置文件,一般是<code>config.h.in</code>,里面编写了一些<code>#cmakedefine ...</code>语句,让<code>CMakeLists.txt</code>中的变量转换为宏定义,转换后的文件为<code>output</code>,里面的宏定义可以在代码中通过<code>#include ...</code>引入</li>
+<li><code>option(&lt;variable&gt; &quot;&lt;help_text&gt;&quot; [value])</code> 定义一个变量,中间的是描述变量的作用,value可以写ON/OFF,不写则默认OFF,可以跟<code>CMakeLists.txt</code>中的<code>if()...endif()</code>一类的搭配使用,还可以和上面的配置文件搭配使用</li>
+<li><code>set(&lt;variable&gt; value1 value2 ...)</code> 用来定义变量</li>
+<li><code>include_directories()</code> 用以增加需要扫描的头文件路径</li>
+<li><code>find_package(&lt;variable&gt; library_name HINTS &lt;dir&gt;)</code> 查找指定目录下的名为<code>library_name</code>的库,在编译前便会进行查找,而非到链接阶段再去看有没有库</li>
+<li><code>message()</code>可以在打印<code>CMakeLists</code>中的变量或是提示信息</li>
 </ul>
-<h2 id="总线相关"><a class="markdownIt-Anchor" href="#总线相关"></a> 总线相关</h2>
-<p>CPU内部和cache是通过<strong>本地总线</strong>(<strong>local bus</strong>,又叫<strong>后端总线</strong>)连接的,而访存是通过接口连上<strong>系统总线</strong>,系统总线又连上<strong>IO桥接器</strong>(<strong>北桥芯片</strong>),桥接器一端是IO总线,一端是内存总线(又叫<strong>前端总线</strong>)</p>
-<img src="https://s2.loli.net/2024/05/16/Ih2SJvQTrjWnf65.png" srcset="/img/loading.gif" lazyload alt="bus-arch-rough" style="zoom:67%;" />
+<h2 id="预定义变量"><a class="markdownIt-Anchor" href="#预定义变量"></a> 预定义变量</h2>
+<p>参见最后一篇的参考文件,预定义变量对我们的项目工程排布有很大作用,需要记住常用的</p>
+<h2 id="通用模板"><a class="markdownIt-Anchor" href="#通用模板"></a> 通用模板</h2>
+<p>目前所采用的项目目录结构如下:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs txt">.<br>├── bin<br>│   └── main<br>├── build<br>├── CMakeLists.txt<br>├── config.h.in<br>├── include<br>│   ├── config.h<br>│   └── xmath.h<br>├── lib<br>│   └── libxmath.a<br>└── src<br>    └── main.cpp<br></code></pre></td></tr></table></figure>
 <ul>
-<li><strong>北桥芯片主要控制CPU内存显卡等高速设备</strong></li>
-<li><strong>后南桥芯片被加入,是用来负责IO总线之间的通信</strong></li>
+<li>bin目录用来存放生成的可执行文件</li>
+<li>build目录用以执行<code>cmake .. &amp;&amp; make</code></li>
+<li>include目录用以放置头文件,故基本上扫描的头文件路径就是它</li>
+<li>lib目录放置的是自己编写的静态/动态库,这是由另外的进行生成,我试着把库生成和main.cpp写在一个项目,但是在执行make的时候总出错,应该是我编写的问题,后续修改这个问题</li>
+<li>src目录用以放置源文件</li>
+<li><code>config.h.in</code>文件装放的是一些对源文件编译有影响的cmake中的变量,在<code>cmake .. </code>的时候会生成config.h,转换为C可用的宏定义</li>
 </ul>
-<img src="https://s2.loli.net/2024/05/16/27JjqrCkyudGpXb.png" srcset="/img/loading.gif" lazyload alt="bus-arch-rough-south" style="zoom:67%;" />
-<p>参考资料:</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs cmake"><span class="hljs-keyword">cmake_minimum_required</span>(VERSION <span class="hljs-number">2.8</span>)<br><span class="hljs-keyword">project</span>(final_demo)<br><span class="hljs-keyword">add_compile_options</span>(-Wall -std=c++<span class="hljs-number">11</span>)<br><br><span class="hljs-keyword">option</span>(MYMATH <span class="hljs-string">&quot;USE MY POW FUNCTION&quot;</span> <span class="hljs-keyword">ON</span>)<br><br><span class="hljs-keyword">configure_file</span>(<span class="hljs-variable">$&#123;PROJECT_SOURCE_DIR&#125;</span>/config.h.in <span class="hljs-variable">$&#123;PROJECT_SOURCE_DIR&#125;</span>/<span class="hljs-keyword">include</span>/config.h)<br><span class="hljs-keyword">include_directories</span>(<span class="hljs-variable">$&#123;PROJECT_SOURCE_DIR&#125;</span>/<span class="hljs-keyword">include</span>)<br><br><span class="hljs-keyword">if</span>(MYMATH)<br>    <span class="hljs-comment"># add_subdirectory($&#123;PROJECT_SOURCE_DIR&#125;/src/math)</span><br><span class="hljs-keyword">endif</span>()<br><br><span class="hljs-keyword">set</span>(EXECUTABLE_OUTPUT_PATH <span class="hljs-variable">$&#123;PROJECT_SOURCE_DIR&#125;</span>/bin)<br><span class="hljs-keyword">aux_source_directory</span>(<span class="hljs-variable">$&#123;PROJECT_SOURCE_DIR&#125;</span>/src SRC_CPP)<br><span class="hljs-keyword">add_executable</span>(main <span class="hljs-variable">$&#123;SRC_CPP&#125;</span>)<br><span class="hljs-keyword">if</span>(MYMATH)<br><span class="hljs-keyword">target_link_libraries</span>(main <span class="hljs-variable">$&#123;PROJECT_SOURCE_DIR&#125;</span>/lib/libxmath.a)<br><span class="hljs-keyword">endif</span>()<br></code></pre></td></tr></table></figure>
+<h2 id="参考文件"><a class="markdownIt-Anchor" href="#参考文件"></a> 参考文件</h2>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/675605402">揭秘计算机内部通信：探秘数据、地址与控制信号的奥秘</a></li>
-</ul>
-<h2 id="cpu的三级缓存"><a class="markdownIt-Anchor" href="#cpu的三级缓存"></a> CPU的三级缓存</h2>
-<p>CPU的三级缓存:<strong>L1Cache,L2Cache,L3Cache</strong></p>
-<p>其中L1,L2是核心(core)内的缓存,而L3则是多核心共用的缓存,也在片内</p>
-<img src="https://s2.loli.net/2024/05/16/YhIQ6XFWfeu9OaZ.png" srcset="/img/loading.gif" lazyload alt="3level-cache-arch" style="zoom:80%;" />
-<p>L1Cache是分离缓存,分为L1 D-Cache和L1 I-Cache可以避免访存冲突(总不可能流水线处理的时候IF和MEM这俩个流水段打起来吧)</p>
-<p>L2Cache则变为统一缓存,毕竟分离缓存的size不好掌握,cache资源又宝贵,如果分离的话,又cache没用满就吃亏了</p>
-<img src="https://s2.loli.net/2024/05/16/v8coAk6V4GFzudN.png" srcset="/img/loading.gif" lazyload alt="cache-arch" style="zoom:80%;" />
-<p>从<strong>单核的缓存一致性</strong>来讲,有**写直达(Write through)和写回(Write back)**两种策略来确保缓存一致性</p>
-<ul>
-<li><strong>Write through</strong>无论你这个更新的数据在不在cache内都得写回内存;</li>
-</ul>
-<img src="https://s2.loli.net/2024/05/16/Dpk2J5VFNM6AHwv.png" srcset="/img/loading.gif" lazyload alt="cache-write-through" style="zoom:80%;" />
-<ul>
-<li><strong>Write back</strong>则是多了个dirty标志位,标识cache line中的数据和内存中的是否一致,不过这会使得读cache line进去,且cache已满,且交换出去的cache块是dirty的,就要执行一次写操作</li>
-</ul>
-<img src="https://s2.loli.net/2024/05/16/sfurLUeI3XVTElW.png" srcset="/img/loading.gif" lazyload alt="cache-write-back" style="zoom:80%;" />
-<p>参考资料:</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/669258217">一文吃透CPU三级缓存</a> 只讲了单个核心的缓存一致性问题，对于多个核心的缓存一致性问题没有描述</li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/584128599">我把 CPU 三级缓存的秘密，藏在这 8 张图里</a></li>
-</ul>
-<h2 id="内存对齐"><a class="markdownIt-Anchor" href="#内存对齐"></a> 内存对齐</h2>
-<h2 id="c语言的存储层次"><a class="markdownIt-Anchor" href="#c语言的存储层次"></a> C语言的存储层次</h2>
-<p>参考资料:</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/xiandang8023/article/details/126036564">C语言的内存层次</a></li>
-</ul>
-<h2 id="虚拟内存"><a class="markdownIt-Anchor" href="#虚拟内存"></a> 虚拟内存</h2>
-<p>关于虚存,<strong>每个进程都有虚存</strong>,比如32位的os就给每个进程弄个4GB的虚存,用虚存可以相较于用真实的物理地址:</p>
-<ul>
-<li>可以给人制造扩大内存的假象(无限大),<strong>规避内存不足的问题</strong>(当然如果真的物理内存不足了,就会通过内存页面置换策略,把久没用到的页帧放到swap分区里面,然后把要用的页帧替上去,不过这个过程涉及到硬盘读取,slow);</li>
-<li>然后也<strong>不存在</strong>同时<strong>访问同一地址</strong>修改造成的<strong>数据冲突</strong>;</li>
-<li>也可以对<strong>碎片化的内存</strong>进行使用;</li>
-</ul>
-<p>通过<strong>MMU(Memory Management Unit)<strong>这个部件来实现</strong>VA -&gt; PA</strong>(CPU收到VA交给它翻译成PA),它是通过<strong>TLB(快表)<strong>和</strong>页表(Page Table)<strong>这俩个表来实现VA-&gt;PA的(<strong>页表是放在进程的内存里面的</strong>),TLB里面放置的是Page Table的常用页表项(局部性原理)<br />
-这俩表里面放的都是叫做&quot;<strong>页表项</strong>&quot;的东东,是</strong>VA-&gt;PA的映射</strong><br />
-<strong>每个物理页和虚拟页是大小相等的4KB,它们的映射关系就是一对页表项</strong></p>
-<p>什么时候会出现<strong>缺页异常</strong>呢?显然是在我们的TLB和Page Table都找不到映射关系或没有权限,就报异常(Page Fault)了,而这个异常,会让你的CPU读不到数据,它就罢工,进程就出现了缺页中断,用户态就切换到了内核态,就交由内核的PageFaultHandler来处理:<br />
-分三类缺页中断:</p>
-<ul>
-<li><strong>Hard Page Fault/Major Page Fault</strong>: 就是找不到这个映射关系了(页帧),要CPU去打开磁盘设备读取到物理内存中,再让MMU建立VA-&gt;PA的映射关系;</li>
-<li><strong>Soft Page Fault/Minor Page Fault</strong>: 实际上物理内存有这个页帧,是被别的进程调入的,我们这个进程不知道而已.只需要MMU建立VA-&gt;PA的映射关系即可.(一般出现在多进程共享内存区域);</li>
-<li><strong>Invalid Page Fault</strong>: 内存地址越界,解空指针引用,权限问题,那么内核就会报Segment Fault,中断你的进程(挂掉你的进程)</li>
-</ul>
-<p><strong>内存的惰性分配(或者叫延时分配),malloc并无真正分配,只是用到你申请的物理内存时,发现没有才会启动申请,这期间就会出现Page Fault</strong></p>
-<p>参考资料:</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/fwb330198372/article/details/107343468">深入浅出：操作系统之虚拟内存</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/Mind_programmonkey/article/details/116722530">【计算机操作系统-内存管理】-内存的缺页异常是什么？现在有逻辑地址，但是物理地址没有加载到内存会怎么样？</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/534439206">全网最细的CMake教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/664125090">[C++]Cmake使用教程(看这一篇就够了)</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/b1049112625/article/details/136501488">cmake的configure_file的用法</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44688770/article/details/128857512">CMake常见的预定义变量</a></li>
 </ul>
 
             </div>
@@ -334,11 +305,9 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/OperatingSystem/">OperatingSystem</a>
+                      <a class="hover-with-bg" href="/tags/CMake/">CMake</a>
                     
-                      <a class="hover-with-bg" href="/tags/ComputerNetwork/">ComputerNetwork</a>
-                    
-                      <a class="hover-with-bg" href="/tags/ComputerComposition/">ComputerComposition</a>
+                      <a class="hover-with-bg" href="/tags/C-%E9%A1%B9%E7%9B%AE%E7%BC%96%E8%AF%91%E5%B7%A5%E5%85%B7/">C++项目编译工具</a>
                     
                   </div>
                 
@@ -355,18 +324,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/04/05/OperatorDev%E5%B8%B8%E8%A7%81%E4%BC%98%E5%8C%96%E6%96%B9%E6%A1%88/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">OperatorDev常见优化方案</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/03/28/GEMM-intrinsic%E4%BC%98%E5%8C%96/">
-                        <span class="hidden-mobile">GEMM-intrinsic优化</span>
+                      <a href="/2024/04/15/cutlass%E5%AD%A6%E4%B9%A0/">
+                        <span class="hidden-mobile">cutlass学习</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -391,7 +354,7 @@
         var options = Object.assign(
           {"clientID":"1db059241d978c80eecd","clientSecret":"fa4f54290b2645c1dd4af84d9241dcb8c3e8e637","repo":"ayyBlog","owner":"ayyha","admin":["ayyha"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
           {
-            id: 'e5d328866dc5b53b142680e2dec9ee93'
+            id: '0d6f6da35f6d7e29497b61c6c6f35106'
           }
         )
         var gitalk = new Gitalk(options);
