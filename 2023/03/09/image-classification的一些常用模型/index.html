@@ -33,6 +33,8 @@
 <meta property="og:image" content="https://s2.loli.net/2023/11/03/oitGubIhfULBCNz.png">
 <meta property="og:image" content="https://s2.loli.net/2023/11/03/vJsnQ57IxA4u3io.png">
 <meta property="og:image" content="https://s2.loli.net/2023/11/03/iSO18I3bW4Aqc2o.png">
+<meta property="og:image" content="https://jsd.cdn.zzko.cn/gh/ayyHA/imageBed@main/img/bn_formula.png">
+<meta property="og:image" content="https://s2.loli.net/2024/06/06/wHiZQaXj1AxPLre.png">
 <meta property="og:image" content="https://s2.loli.net/2023/11/03/jdz5WgZEM2StRCk.png">
 <meta property="og:image" content="https://s2.loli.net/2023/11/03/DqwHk1ucSGFJ6zM.png">
 <meta property="og:image" content="https://s2.loli.net/2023/11/03/gaOzPJvTboqWLpc.png">
@@ -50,7 +52,7 @@
 <meta property="og:image" content="https://s2.loli.net/2023/11/03/yhqYpdAxa3VnMOD.png">
 <meta property="og:image" content="https://s2.loli.net/2023/11/03/MA1jzymQpGP5vCx.png">
 <meta property="article:published_time" content="2023-03-09T03:42:23.000Z">
-<meta property="article:modified_time" content="2023-11-05T05:19:12.258Z">
+<meta property="article:modified_time" content="2024-06-06T04:14:41.455Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="CNN">
 <meta property="article:tag" content="ResNet">
@@ -229,7 +231,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      9.5k 字
+      10k 字
     </span>
   
 
@@ -238,7 +240,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      30 分钟
+      33 分钟
     </span>
   
 
@@ -271,7 +273,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：7 个月前
+                  本文最后更新于：4 分钟前
                 
               </p>
             
@@ -377,6 +379,26 @@
 -68.267.847-113-73.952-191-73.952z'/></svg></span></span></span></span></span></span></span></span></span>满足<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo stretchy="false">(</mo><mn>0</mn><mo separator="true">,</mo><msup><mn>1</mn><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">N(0,1^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mopen">(</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord">1</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>的分布</p>
 <p>显然，batch size应该越大越好，因为希望能代表的是整个训练集的分布规律。而我们在前向传递的过程中统计到的是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo stretchy="false">(</mo><mi>μ</mi><mo separator="true">,</mo><msup><mi>σ</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">N(\mu,\sigma^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mopen">(</span><span class="mord mathnormal">μ</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>的值，然后反向传递会得到一个<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi></mrow><annotation encoding="application/x-tex">\gamma</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span></span></span></span>和<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>β</mi></mrow><annotation encoding="application/x-tex">\beta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.05278em;">β</span></span></span></span>的值，这两个分别是对统计到的分布规律作scale和shift操作。</p>
 <p>此外BN层是放在conv层和激活层间的，而且conv层不要用bias，因为用了结果也一样</p>
+<h4 id="后期补充"><a class="markdownIt-Anchor" href="#后期补充"></a> 后期补充</h4>
+<p>batch normalization计算公式如下:</p>
+<img src="https://jsd.cdn.zzko.cn/gh/ayyHA/imageBed@main/img/bn_formula.png" srcset="/img/loading.gif" lazyload alt="bn_formula" style="zoom:67%;" />
+<p>一共涉及到四个参数,其中<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>μ</mi></mrow><annotation encoding="application/x-tex">\mu</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">μ</span></span></span></span>和<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>σ</mi></mrow><annotation encoding="application/x-tex">\sigma</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span></span></span></span>代表的是训练阶段forward pass时统计得到的两个数值,用于对同一batch内的<strong>同维</strong>数据做标准化,将同一个batch内的数据分布标准化为正态分布;而<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi></mrow><annotation encoding="application/x-tex">\gamma</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span></span></span></span>和<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>β</mi></mrow><annotation encoding="application/x-tex">\beta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.05278em;">β</span></span></span></span>则是训练阶段backward pass时的两个learnable parameter,用于将标准化后的数据做一个仿射变换;</p>
+<div class="note note-info">
+            <p><strong>同维</strong></p><ul><li>对于四维的卷积<code>[N,C,H,W]</code>指的是同一个channel,而另外的三个维度则拼成一个维度<code>[C,N*H*W]</code>,逐channel来计算均值和方差,同样的这时的四个参数的维度都是C维,即有C个<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>μ</mi></mrow><annotation encoding="application/x-tex">\mu</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">μ</span></span></span></span>,C个<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>σ</mi></mrow><annotation encoding="application/x-tex">\sigma</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span></span></span></span>,C个<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi></mrow><annotation encoding="application/x-tex">\gamma</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.05556em;">γ</span></span></span></span>,C个<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>β</mi></mrow><annotation encoding="application/x-tex">\beta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathnormal" style="margin-right:0.05278em;">β</span></span></span></span></li><li>对于二维的线性层<code>[N,n]</code>,指的是同一列,即同一个特征,这是四个参数的维度都是n维</li></ul><p>个人理解:因为我们是对同一个batch的数据来做normalization(与单纯的standardize不同,还有仿射变换拉回原来的分布特征),那么期望得到的是一个batch内的均值方差,对于图片来说,是规律化的信息,而channel的信息需要单独处理,如果混合处理,会破坏原有的信息</p>
+          </div>
+<p>对于训练阶段,会对每个batch都计算各自的均值和方差,并应用该阶段的均值和方差(即<code>batch_mean</code>和<code>batch_var</code>),同时会将该阶段的均值和方差利用滑动平均的技巧与之前那些batch的均值方差进行统计(以得到<code>moving_mean</code>和<code>moving_var</code>),以用作推理阶段;</p>
+<p>对于推理阶段,会对每个sample采用训练阶段训练好的滑动均值和滑动方差(<code>moving_mean</code>和<code>moving_var</code>),而另外两个参数则是训练时学到的</p>
+<p>具体的计算公式如下:</p>
+<img src="https://s2.loli.net/2024/06/06/wHiZQaXj1AxPLre.png" srcset="/img/loading.gif" lazyload alt="bn_detail_formula" style="zoom:67%;" />
+<p>其中这个滑动平均的思想在训练过程中的做法如下:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">moving_mean = moving_mean * momentum + batch_mean * (<span class="hljs-number">1</span>-momentum)<br>moving_var = moving_var * momentum + batch_var * (<span class="hljs-number">1</span>-momentum)<br></code></pre></td></tr></table></figure>
+<p>momentum是动量参数,在Tensorflow中是0.99,在PyTorch中是0.9,初始的<code>moving_mean=0</code>,<code>moving_var=1</code>即为标准正态分布</p>
+<p><strong>参考文件:</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/93643523">【基础算法】六问透彻理解BN(Batch Normalization）</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/522525435">吃透bn</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/521535855">超细节的bn,ln知识点</a></li>
+</ul>
 <h3 id="迁移学习"><a class="markdownIt-Anchor" href="#迁移学习"></a> 迁移学习</h3>
 <p>迁移学习即是使用别人预训练好的模型参数（需要注意别人的预处理方式），能快速训练出较理想结果，且在数据集较小的情况下也能如此。</p>
 <p>为何能进行迁移学习呢，就拿卷积来说，我们一开始学习到的是低级特征，比如一些角点信息、纹理信息，其实是通用的，而后学习到的是五官这一类的高级抽象信息，而后再由全连接层对这些信息进行组合输出对应类别的概率。显然前面的低级信息应是通用的。</p>
