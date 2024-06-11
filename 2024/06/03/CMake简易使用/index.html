@@ -24,7 +24,7 @@
 <meta property="og:description" content="CMake简易使用">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-06-03T07:10:53.000Z">
-<meta property="article:modified_time" content="2024-06-05T06:54:16.964Z">
+<meta property="article:modified_time" content="2024-06-07T06:57:42.725Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="CMake">
 <meta property="article:tag" content="C++项目编译工具">
@@ -201,7 +201,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.4k 字
+      2.6k 字
     </span>
   
 
@@ -243,7 +243,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：21 小时前
+                  本文最后更新于：4 天前
                 
               </p>
             
@@ -260,19 +260,48 @@
 <strong>命令由命令名称,小括号,参数组成,参数用空格间隔开</strong></p>
 <h2 id="常用命令"><a class="markdownIt-Anchor" href="#常用命令"></a> 常用命令</h2>
 <ul>
-<li><code>cmake_minimum_required(VERSION X.X)</code>: 运行此配置文件所需的cmake最低版本;</li>
-<li><code>project(projectName)</code>: 指明项目名称;</li>
-<li><code>add_executable()</code>: 将源文件(放后面)编译成可执行文件(放前面)</li>
-<li><code>aux_source_directory(&lt;dir&gt; &lt;variable&gt;)</code>: 指定dir,会获取该目录下的所有源文件,将结果存入变量variable中(通过${}调用变量)</li>
-<li><code>add_subdirectory()</code>: 增加编译子目录,会去编译子目录下的<code>CMakeLists.txt</code>文件</li>
-<li><code>target_link_libraries()</code>: 参数第一个放可执行文件,后面放链接库的库名,可能是自己的库</li>
-<li><code>add_library()</code>: 生成链接库,跟add_executable一样,生成的库名放前面,后面放的是源文件</li>
-<li><code>configure_file(&lt;input&gt; &lt;output&gt;)</code>: 将输入的配置文件,一般是<code>config.h.in</code>,里面编写了一些<code>#cmakedefine ...</code>语句,让<code>CMakeLists.txt</code>中的变量转换为宏定义,转换后的文件为<code>output</code>,里面的宏定义可以在代码中通过<code>#include ...</code>引入</li>
-<li><code>option(&lt;variable&gt; &quot;&lt;help_text&gt;&quot; [value])</code> 定义一个变量,中间的是描述变量的作用,value可以写ON/OFF,不写则默认OFF,可以跟<code>CMakeLists.txt</code>中的<code>if()...endif()</code>一类的搭配使用,还可以和上面的配置文件搭配使用</li>
-<li><code>set(&lt;variable&gt; value1 value2 ...)</code> 用来定义变量</li>
-<li><code>include_directories()</code> 用以增加需要扫描的头文件路径</li>
-<li><code>find_package(&lt;variable&gt; library_name HINTS &lt;dir&gt;)</code> 查找指定目录下的名为<code>library_name</code>的库,在编译前便会进行查找,而非到链接阶段再去看有没有库</li>
-<li><code>message()</code>可以在打印<code>CMakeLists</code>中的变量或是提示信息</li>
+<li>
+<p><code>cmake_minimum_required(VERSION X.X)</code>: 运行此配置文件所需的cmake最低版本;</p>
+</li>
+<li>
+<p><code>project(projectName)</code>: 指明项目名称;</p>
+</li>
+<li>
+<p><code>add_executable()</code>: 将源文件(放后面)编译成可执行文件(放前面)</p>
+</li>
+<li>
+<p><code>aux_source_directory(&lt;dir&gt; &lt;variable&gt;)</code>: 指定dir,会获取该目录下的所有源文件,将结果存入变量variable中(通过${}调用变量)</p>
+</li>
+<li>
+<p><code>add_subdirectory()</code>: 增加编译子目录,会去编译子目录下的<code>CMakeLists.txt</code>文件</p>
+</li>
+<li>
+<p><code>target_link_libraries()</code>: 参数第一个放可执行文件,后面放链接库的库名,可能是自己的库</p>
+</li>
+<li>
+<p><code>add_library()</code>: 生成链接库,跟add_executable一样,生成的库名放前面,后面放的是源文件</p>
+</li>
+<li>
+<p><code>configure_file(&lt;input&gt; &lt;output&gt;)</code>: 将输入的配置文件,一般是<code>config.h.in</code>,里面编写了一些<code>#cmakedefine ...</code>语句,让<code>CMakeLists.txt</code>中的变量转换为宏定义,转换后的文件为<code>output</code>,里面的宏定义可以在代码中通过<code>#include ...</code>引入</p>
+</li>
+<li>
+<p><code>option(&lt;variable&gt; &quot;&lt;help_text&gt;&quot; [value])</code> 定义一个变量,中间的是描述变量的作用,value可以写ON/OFF,不写则默认OFF,可以跟<code>CMakeLists.txt</code>中的<code>if()...endif()</code>一类的搭配使用,还可以和上面的配置文件搭配使用</p>
+</li>
+<li>
+<p><code>set(&lt;variable&gt; value1 value2 ...)</code> 用来定义变量</p>
+</li>
+<li>
+<p><code>include_directories()</code> 用以增加需要扫描的头文件路径</p>
+</li>
+<li>
+<p><code>find_package(&lt;variable&gt; library_name HINTS &lt;dir&gt;)</code> 查找指定目录下的名为<code>library_name</code>的库,在编译前便会进行查找,而非到链接阶段再去看有没有库</p>
+<div class="note note-info">
+            <p>注:实质上<code>find_package</code>一般用作寻找系统中安装的第三方库并进行链接,找的是<code>xxxConfig.cmake</code>这种包配置文件,比如找OpenCV的<code>OpenCVConfig.cmake</code>.一般的使用形式是:<code>find_package(OpenCV REQUIRED) # 查找名为opencv的包,找不到就报错,会终止当前的cmake进程不再执行.</code></p><p><strong>参考文件:</strong></p><ul><li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/631259689">find_package</a></li></ul>
+          </div>
+</li>
+<li>
+<p><code>message()</code>可以在打印<code>CMakeLists</code>中的变量或是提示信息</p>
+</li>
 </ul>
 <h2 id="预定义变量"><a class="markdownIt-Anchor" href="#预定义变量"></a> 预定义变量</h2>
 <p>参见最后一篇的参考文件,预定义变量对我们的项目工程排布有很大作用,需要记住常用的</p>
