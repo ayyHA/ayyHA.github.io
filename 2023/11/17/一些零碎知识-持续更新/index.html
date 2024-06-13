@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://s2.loli.net/2023/11/27/YIu4h7HD8L3fMSe.jpg">
 <meta property="og:image" content="https://s2.loli.net/2024/04/30/gVWkNmHxF156Csv.png">
 <meta property="article:published_time" content="2023-11-17T02:56:43.000Z">
-<meta property="article:modified_time" content="2024-06-04T02:53:26.077Z">
+<meta property="article:modified_time" content="2024-06-13T07:06:43.183Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary_large_image">
@@ -203,7 +203,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      5.9k 字
+      6.2k 字
     </span>
   
 
@@ -212,7 +212,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      18 分钟
+      19 分钟
     </span>
   
 
@@ -245,7 +245,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：7 天前
+                  本文最后更新于：10 小时前
                 
               </p>
             
@@ -477,7 +477,17 @@ DPU：是对网卡和存储等数据的高效处理<br />
 <h2 id="c智能指针"><a class="markdownIt-Anchor" href="#c智能指针"></a> C++智能指针</h2>
 <p>参考文件:</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/670068158">智能指针</a><section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/63207620/answer/1707221853">https://www.zhihu.com/question/63207620/answer/1707221853</a><br />
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/670068158">智能指针</a></li>
+</ul>
+<h2 id="elf文件格式了解"><a class="markdownIt-Anchor" href="#elf文件格式了解"></a> ELF文件格式了解</h2>
+<p>ELF(Excutable Linkable Format)是linux下可执行文件的存储格式,是COFF(Comman File Format)的一种变体</p>
+<p>目标文件,动态库,静态库以及可执行文件都用ELF文件格式来进行存储</p>
+<p>一般二进制文件的存储格式中都有文件头,是通过读文件头来确认如何解析文件(个人感觉文件头存储了许多的元数据)</p>
+<p>补Elf64_Ehdr和Elf64_Shdr,前者是ELF文件头,里面有比如段表(节头表Section Header Table)的信息,比如有多少个段,段大小,段偏移;后者则是记录每个段表的元信息</p>
+<p>参考文件:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/544198038">从零解析ELF目标文件(附源码)</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42570601/article/details/124695589">链接装载与库：第三章——ELF文件结构</a><section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/63207620/answer/1707221853">https://www.zhihu.com/question/63207620/answer/1707221853</a><br />
 <a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section></li>
 </ul>
 
