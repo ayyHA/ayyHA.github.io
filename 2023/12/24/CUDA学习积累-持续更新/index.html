@@ -23,14 +23,18 @@
 <meta property="og:site_name" content="ayyHA&#39;s blog">
 <meta property="og:description" content="学学CUDA,之后想开发算子">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2024/07/03/iWIVfJknL79A1aD.png">
+<meta property="og:image" content="https://s2.loli.net/2024/07/03/DzW7bO2gwC91IJj.png">
+<meta property="og:image" content="https://s2.loli.net/2024/07/03/p6JANBGKTlrvYMO.png">
 <meta property="article:published_time" content="2023-12-24T06:18:12.000Z">
-<meta property="article:modified_time" content="2023-12-28T09:20:16.951Z">
+<meta property="article:modified_time" content="2024-07-03T11:14:18.554Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="CUDA">
 <meta property="article:tag" content="C++">
 <meta property="article:tag" content="HPC">
 <meta property="article:tag" content="Operator Development">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://s2.loli.net/2024/07/03/iWIVfJknL79A1aD.png">
   
   <title>CUDA学习积累(持续更新) - ayyHA&#39;s blog</title>
 
@@ -203,7 +207,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      691 字
+      1.9k 字
     </span>
   
 
@@ -212,7 +216,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      2 分钟
+      6 分钟
     </span>
   
 
@@ -245,7 +249,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：6 个月前
+                  本文最后更新于：3 天前
                 
               </p>
             
@@ -268,9 +272,33 @@
 <li>性能分析：nsight,nvprof</li>
 <li>函数库：cuBLAS,cuSparse,…</li>
 </ul>
-<h3 id="gpu硬件架构"><a class="markdownIt-Anchor" href="#gpu硬件架构"></a> GPU硬件架构</h3>
+<h3 id="gpu内存层次"><a class="markdownIt-Anchor" href="#gpu内存层次"></a> GPU内存层次</h3>
+<img src="https://s2.loli.net/2024/07/03/iWIVfJknL79A1aD.png" srcset="/img/loading.gif" lazyload alt="gpu-logical-memory-hierarchy" style="zoom:67%;" />
+<p>上图呈现的是GPU的逻辑内存层次结构,分为<strong>grid-block-thread</strong>,其中我们在CUDA中会通过**<code>dim3</code>**类型来对它们进行定义,<code>dim3</code>类型可以理解为结构体,内部有x,y,z三个值(空间直角坐标系),默认缺省值为1</p>
+<p>grid(网格)内部有多个block(线程块),block内部有多个thread(线程),在编写CUDA程序时,会分为host端和device端(异构编程模型嘛),我们在调用核函数的时候,会通过执行配置参数,声明这一个核函数需要用到的grid和block</p>
+<p>而在核函数内部,会有如<code>gridDim</code>,<code>blockDim</code>这两个内置参数来查看外部声明的配置参数的大小,并且可以通过<code>blockIdx</code>,<code>threadIdx</code>找到对应block属于grid的第几行第几列,对应thread在block内的线程号以及相对于整个grid它的线程号等信息</p>
+<p>实际上GPU的内存层次并非上述的<strong>grid-block-thread</strong>,这一概念是为了将软硬件剥离,以提高程序员编写的简易性,但若是考虑到性能优化,就一定需要了解其真正的物理内存层次,下图展示的是Fermi架构的内存层次,gpu硬件的内存层次整体大同小异</p>
+<img src="https://s2.loli.net/2024/07/03/DzW7bO2gwC91IJj.png" srcset="/img/loading.gif" lazyload alt="gpuFermi-physical-memory-hierarchy" style="zoom:67%;" />
+<p>可以看到上述分为了两个层次,第一个层次是许多的SM由DRAM(全局内存,就是通俗意义的显存)围绕,而内部所有的SM共享一个L2Cache,也就是SM们可以通过L2Cache进行通信;</p>
+<p>右侧展开了单个SM,可以看到内部有许多的CUDA Core(SP),还有L1Cache和Shared Memory所共享的64KB内存,以及一个超大的Regster File,其中内部还包括warp的调度器,发射单元等部件</p>
+<p>实际上,我们的block它在运行的时候会被调度到SM上(<strong>SM是真正的核心组件</strong>),<strong>一个SM可以调度多个block</strong>,具体多少,看它的资源,因为我们<strong>线程的寄存器,线程块的共享内存,是用的SM的资源</strong>.而<strong>在SM上的一个block会被划分为多个warp,一个warp是32个线程,warp是最基本的执行单元,warp内部遵循SIMT,每个线程同时执行相同的指令</strong>,而每个线程它拥有自己独立的PC和寄存器状态,也即有自己的执行路径</p>
+<p>因此block应该设置为32的倍数,如果不是32的倍数,余下的部分会单独划为1个warp,该warp除了需要的线程,剩余的线程都是inactive</p>
+<p>下面是关于逻辑内存与对应的物理内存的关系,需要牢记哪些内存是片上内存,哪些是板载内存</p>
+<p><img src="https://s2.loli.net/2024/07/03/p6JANBGKTlrvYMO.png" srcset="/img/loading.gif" lazyload alt="gpu-memory-distribution" /></p>
+<h2 id="基础的例子向量加"><a class="markdownIt-Anchor" href="#基础的例子向量加"></a> 基础的例子向量加</h2>
+<p>通过向量加这一例子,了解cuda编程的大致形式</p>
+<h2 id="算子系列"><a class="markdownIt-Anchor" href="#算子系列"></a> 算子系列</h2>
+<h3 id="reduce"><a class="markdownIt-Anchor" href="#reduce"></a> reduce</h3>
+<p>reduce即为所说的规约操作,较为正式的说法是在一串数据中采用满足结合律的二元操作符最终得到一个结果,而这个操作符一般是求和,求均值,求最大最小值.下面以求和操作为例</p>
+<p>通俗的说就是给定一个长度为n的数组,对n个数进行累加,得到的结果便是规约的结果</p>
+<h3 id="gemm"><a class="markdownIt-Anchor" href="#gemm"></a> GEMM</h3>
+<h3 id="attention"><a class="markdownIt-Anchor" href="#attention"></a> Attention</h3>
+<h3 id="flashattention"><a class="markdownIt-Anchor" href="#flashattention"></a> FlashAttention</h3>
 <h2 id="参考文章"><a class="markdownIt-Anchor" href="#参考文章"></a> 参考文章:</h2>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/462191421">GPU内存(显存)的理解与基本使用</a></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/462191421">GPU内存(显存)的理解与基本使用</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/34587739">CUDA编程入门极简教程</a></li>
+</ul>
 
             </div>
             <hr>
