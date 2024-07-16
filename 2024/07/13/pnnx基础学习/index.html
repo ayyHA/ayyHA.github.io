@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://s2.loli.net/2024/07/17/umnT5Uze1aRfql6.png">
 <meta property="og:image" content="https://s2.loli.net/2024/07/17/BT85sEXMcSyNCU3.png">
 <meta property="article:published_time" content="2024-07-13T07:17:08.000Z">
-<meta property="article:modified_time" content="2024-07-16T22:16:43.618Z">
+<meta property="article:modified_time" content="2024-07-16T22:42:44.513Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="pnnx">
 <meta name="twitter:card" content="summary_large_image">
@@ -203,7 +203,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      5.3k 字
+      5.4k 字
     </span>
   
 
@@ -353,11 +353,8 @@
 <p><strong>PNNX: <u>P</u>yTorch <u>N</u>eural <u>N</u>etwork e<u>X</u>change</strong></p>
 <p>模型部署新方式</p>
 <p><mark>介绍补充</mark></p>
-<h2 id="pnnx转ncnn运行resnet-50快速上手vulkan"><a class="markdownIt-Anchor" href="#pnnx转ncnn运行resnet-50快速上手vulkan"></a> PNNX转NCNN运行resnet-50快速上手(vulkan)</h2>
-<p>开始前的注意事项:</p>
-<ul>
-<li>请先确定自己ncnn已编译安装完成</li>
-</ul>
+<h2 id="pnnx2ncnn运行resnet-50快速上手vulkan"><a class="markdownIt-Anchor" href="#pnnx2ncnn运行resnet-50快速上手vulkan"></a> pnnx2ncnn运行ResNet-50快速上手(vulkan)</h2>
+<p>开始前请先确定自己的ncnn已编译安装完成</p>
 <h3 id="搭建项目结构"><a class="markdownIt-Anchor" href="#搭建项目结构"></a> 搭建项目结构</h3>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs txt">.<br>|-- CMakeLists.txt<br>|-- bin<br>|-- build<br>|-- images<br>|   `-- cat.jpg<br>|-- src<br>|   `-- infer.cpp<br>|-- utils<br>|   `-- resnet50.py<br>`-- weight_param<br></code></pre></td></tr></table></figure>
 <p>项目结构如上所示,其中:</p>
@@ -373,12 +370,12 @@
 <h3 id="获取pnnx"><a class="markdownIt-Anchor" href="#获取pnnx"></a> 获取pnnx</h3>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">pip install pnnx<br></code></pre></td></tr></table></figure>
 <div class="note note-info">
-            <p>注: 此法方便快捷,当然也可以wget对应的源文件进行编译</p>
+            <p>注: 此方法方便快捷,当然也可以<code>wget</code>对应的源文件进行编译</p>
           </div>
-<h3 id="编写resnet50并进行转换"><a class="markdownIt-Anchor" href="#编写resnet50并进行转换"></a> 编写resnet50并进行转换</h3>
+<h3 id="pytorch-resnet50转换为torchscipt"><a class="markdownIt-Anchor" href="#pytorch-resnet50转换为torchscipt"></a> PyTorch ResNet50转换为TorchScipt</h3>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> torch<br><span class="hljs-keyword">import</span> torchvision.models <span class="hljs-keyword">as</span> models<br><br><span class="hljs-comment"># 加载预训练好的ResNet-50</span><br>resnet = models.resnet50(pretrained=<span class="hljs-literal">True</span>)<br>resnet.<span class="hljs-built_in">eval</span>()<br><br><span class="hljs-comment"># 输入参数为[1,3,224,224]</span><br>ipt = torch.randn(<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">224</span>, <span class="hljs-number">224</span>)<br><br>jit_model = torch.jit.trace(resnet, ipt)<br>jit_model.save(<span class="hljs-string">&#x27;../weight_param/resnet50.pth&#x27;</span>) <br></code></pre></td></tr></table></figure>
-<p>在utils下运行<code>python resnet50.py</code>后,在<code>weight_param</code>文件夹下得到<code>resnet50.pth</code></p>
-<h3 id="pnnx转ncnn"><a class="markdownIt-Anchor" href="#pnnx转ncnn"></a> pnnx转ncnn</h3>
+<p>在utils下运行<code>python resnet50.py</code>后,在weight_param文件夹下得到<code>resnet50.pth</code></p>
+<h3 id="pnnx转torchscipt为ncnn"><a class="markdownIt-Anchor" href="#pnnx转torchscipt为ncnn"></a> pnnx转TorchScipt为ncnn</h3>
 <p>在weight_param下运行<code>pnnx resnet50.pth [1,3,224,224]</code></p>
 <div class="note note-info">
             <p>注: 在命令行中通过输入<code>pnnx</code>后运行,可以看到一些<code>Sample Usage</code>,里面有举例说明用法</p>
