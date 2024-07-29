@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://s2.loli.net/2024/07/28/3fzoFhjaureYSiO.png">
 <meta property="og:image" content="https://s2.loli.net/2024/07/28/vtNbw7MP9BxlT1y.png">
 <meta property="article:published_time" content="2023-12-24T06:18:12.000Z">
-<meta property="article:modified_time" content="2024-07-28T09:28:28.490Z">
+<meta property="article:modified_time" content="2024-07-29T08:38:54.433Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="CUDA">
 <meta property="article:tag" content="C++">
@@ -212,7 +212,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      9.6k 字
+      9.7k 字
     </span>
   
 
@@ -254,7 +254,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：1 分钟前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -274,8 +274,9 @@
 <ul>
 <li>编译器：nvcc(nvidia cuda compiler)</li>
 <li>调试器：nvcc-gdb</li>
-<li>性能分析：nsight,nvprof</li>
+<li>性能分析：nsight,nvprof <a target="_blank" rel="noopener" href="https://docs.nvidia.com/nsight-compute/NsightCompute/index.html">NsightCompute</a></li>
 <li>函数库：cuBLAS,cuSparse,…</li>
+<li>二进制工具: cuobjdump,nvdisasm <a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/cuda-binary-utilities/index.html">cuda-binary-utilities</a></li>
 </ul>
 <h3 id="gpu内存层次"><a class="markdownIt-Anchor" href="#gpu内存层次"></a> GPU内存层次</h3>
 <img src="https://s2.loli.net/2024/07/03/iWIVfJknL79A1aD.png" srcset="/img/loading.gif" lazyload alt="gpu-logical-memory-hierarchy" style="zoom:67%;" />
@@ -405,7 +406,7 @@
 <p>因此在这种warp内部的排列下,将8个warp排好,如下:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">warp0 | warp1 | warp2 | warp3<br>warp4 | warp5 | warp6 | warp7<br></code></pre></td></tr></table></figure>
 <p>则满足了x和y方向上的线程各16的要求,然后求出对应的warpId和laneId,取对应的值进行计算,不过需要注意,这里我们把内部的8x8拆成了4个4x4计算,如下图示:</p>
-<p><img src="https://s2.loli.net/2024/07/28/vtNbw7MP9BxlT1y.png" srcset="/img/loading.gif" lazyload alt="resharp_warp" /></p>
+<img src="https://s2.loli.net/2024/07/28/vtNbw7MP9BxlT1y.png" srcset="/img/loading.gif" lazyload alt="resharp_warp" style="zoom:50%;" />
 <p><strong>当解决了shared memory bank conflict之后,我们的性能就能达到cuBLAS的95.6%了(M=N=K=4096)</strong></p>
 <h4 id="register-bank-conflict"><a class="markdownIt-Anchor" href="#register-bank-conflict"></a> register bank conflict</h4>
 <p><mark>暂时没有胆量去碰触SASS,还在积累,希望能看懂PTX和SASS</mark></p>
@@ -415,6 +416,7 @@
 <h3 id="gemv"><a class="markdownIt-Anchor" href="#gemv"></a> GEMV</h3>
 <h3 id="spmv"><a class="markdownIt-Anchor" href="#spmv"></a> SPMV</h3>
 <h3 id="attention"><a class="markdownIt-Anchor" href="#attention"></a> Attention</h3>
+<h3 id="ringattention"><a class="markdownIt-Anchor" href="#ringattention"></a> RingAttention</h3>
 <h3 id="flashattention"><a class="markdownIt-Anchor" href="#flashattention"></a> FlashAttention</h3>
 <h2 id="参考文章"><a class="markdownIt-Anchor" href="#参考文章"></a> 参考文章:</h2>
 <ul>
@@ -423,9 +425,9 @@
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/34587739">CUDA编程入门极简教程</a></li>
 <li><a target="_blank" rel="noopener" href="https://face2ai.com/program-blog">谭升blog</a></li>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qccz123456/article/details/84971157">thrust库的使用</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/column/c_1437330196193640448">深入浅出GPU优化</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/column/c_1139113249399345152">CUDA编程方法论</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/column/c_1437330196193640448">深入浅出GPU优化</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/column/c_1437330196193640448">棍子哥-深入浅出GPU优化</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/column/c_1139113249399345152">cloudcore-CUDA编程方法论</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/410278370">旷世天元-CUDA 矩阵乘法终极优化指南</a></li>
 </ul>
 
             </div>
