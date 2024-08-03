@@ -54,7 +54,7 @@
 <meta property="og:image" content="https://pic.leetcode-cn.com/1649833763-BljEbP-image.png">
 <meta property="og:image" content="https://aliyun-lc-upload.oss-cn-hangzhou.aliyuncs.com/aliyun-lc-upload/uploads/2018/07/25/question_11.jpg">
 <meta property="article:published_time" content="2024-02-29T06:01:02.000Z">
-<meta property="article:modified_time" content="2024-08-02T02:34:15.360Z">
+<meta property="article:modified_time" content="2024-08-03T02:57:30.654Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="algorithm learning">
 <meta name="twitter:card" content="summary_large_image">
@@ -231,7 +231,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      64k 字
+      67k 字
     </span>
   
 
@@ -240,7 +240,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      199 分钟
+      208 分钟
     </span>
   
 
@@ -273,7 +273,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：1 小时前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -428,6 +428,9 @@
 <li><code>size()</code></li>
 <li><code>empty()</code></li>
 </ul>
+<p>有一个比较可能会遇到的问题就是<strong>重写比较函数</strong>,这里给出一个模板:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">auto</span> cmp = [&amp;](<span class="hljs-keyword">const</span> <span class="hljs-keyword">auto</span>&amp; a,<span class="hljs-keyword">const</span> <span class="hljs-keyword">auto</span>&amp; b)&#123;<br>    <span class="hljs-keyword">return</span> a.xxx &gt; b.xxx;					<span class="hljs-comment">//这样构造的是该规则下的小顶堆,可以按sort理解为这是降序,然后堆排序降序的话是小顶堆弄的</span><br>&#125;<br>priority_queue&lt;T,vector&lt;T&gt;,<span class="hljs-keyword">decltype</span>(cmp)&gt; <span class="hljs-built_in">pq</span>(cmp);<br></code></pre></td></tr></table></figure>
+<p>这么一个模板可以重写比较规则,使得出来的大顶堆/小顶堆(也就是最大值/最小值)符合我们的需求</p>
 <p>参考文件:</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_68278653/article/details/131015181">priority_queue</a></li>
@@ -540,29 +543,66 @@
 <p>其中当涉及到多维dp的时候,遍历的顺序也是一个考虑的点,如0/1背包滚动数组版本和完全背包滚动数组版本,内嵌循环的正向遍历和倒序遍历就是这两个问题的关键区别,即取的物品可否重复</p>
 <h4 id="01背包"><a class="markdownIt-Anchor" href="#01背包"></a> 0/1背包</h4>
 <p>有一个承重为W的背包,N件物品,第i件物品对应的重量是weight[i],对应的价值是value[i],<strong>每件物品只能被取一次</strong>,问如何能使得背包的物品总价值最大?</p>
-<ol>
-<li>
-<p>状态定义</p>
-<p><code>dp[i][j]</code>表示当背包容量为j时,前i件([0,i-1])物品中的最大价值</p>
-</li>
-<li>
-<p>转移方程</p>
-<p><code>dp[i][j] = max(dp[i-1][j],dp[i-1][j-weight[i-1]]+value(i-1));</code></p>
-</li>
-<li>
-<p>初始状态</p>
-<p>当<code>i=0</code>,表示前0件物品,则统统填0;</p>
-<p>当<code>j=0</code>,表示背包容量为0,则亦填0;</p>
-<p>物品价值没有负数的初始状态才填零;如果物品价值有负数,则填-INF</p>
-</li>
-<li>
-<p>最终输出</p>
-<p><code>dp[N][W]</code>是最终输出,表示前N件物品中任意抽取,且当背包容量为W时的最大价值,即原题意</p>
-</li>
-</ol>
-<p>遍历顺序:<mark>需要好好思考</mark>(说是先遍历物品数量,再遍历背包容量;和反过来的情况是一样的)</p>
+<p>遍历顺序:<mark>需要好好思考</mark>(说是先遍历物品数量,再遍历背包容量;和反过来的情况是否符合题意)</p>
+<p>以二维的为例:</p>
+<p><strong><code>dp[i][j]</code>表示从以<code>[0,i]</code>为下标的物品中任取,但每个物品只可以取一次,放到容量为j的背包里,所能达到的最大价值</strong>.要获得<code>dp[i][j]</code>的值可以从以下两个状态中转移过来,并取其中最大的进行转移:</p>
+<ul>
+<li><code>dp[i-1][j]</code>,表示<strong>不取第i个物品</strong>,不取可能是背包容量不够,也可能是此时的最大价值更大;此时的最大价值延用<code>dp[i-1][j]</code></li>
+<li><code>dp[i-1][j-weights[i]] + value[i]</code>,表示<strong>取第i个物品</strong>,value[i]是第i个物品的价值,前面的一串则表示放入第i个物品的话,<br />
+此时的背包(<code>j-weight[i]</code>)的最大价值是多少,以加上物品i的价值</li>
+</ul>
+<p><strong>本质上01背包就是选和不选问题,用回溯法来处理复杂度为O(2^n)(物品数目)</strong></p>
+<p>经上面分析可以得到转移方程:</p>
+<p><strong><code>dp[i][j] = max(dp[i-1][j],dp[i-1][j-weights[i]] + values[i]);</code></strong></p>
+<p>关于<strong>初值设置</strong>,求最大值,若物品价值都是正数,则初值置为0;若物品价值有负数,则初值置为负无穷(根据题意设置)</p>
+<p>关于<strong>遍历顺序</strong>,对于二维dp来说其实遍历物品先还是遍历容量先,对于一个二维的表格来说,就是行主序列主序的那个折线图,实质无影响,因为都构建出了下一步需要的数据</p>
+<p>但<strong>为了易于理解和记忆,之后关于01背包统一先遍历物品后遍历背包容量</strong></p>
+<p><strong>在考虑第i个物品的加入时,是从[0,i-1]个物品任取的情况下出发考虑的,也就是说: 第i行的数据是基于第i-1行而创建的</strong></p>
+<p>正因如此,所以可以把第i-1行的数据拷贝到第i行,如此的话,不如舍去i这个维度,则引出了<strong>一维的01背包dp</strong>(<strong>只是dp这个数组是一维的,实质遍历还是两层for</strong>)</p>
+<p>以一维的为例:</p>
+<p><strong><code>dp[j]</code>,表示容量为j的背包,所能存放的最大价值</strong></p>
+<p>显然,它要么维持<code>dp[j]</code>,要么则取<code>dp[j-weights[i]] + values[i]</code>,表示为容量为j-weights[i]的背包所能获得的最大价值加上第i件物品的价值;</p>
+<p>由此得出<strong>转移方程:<code>dp[j] = max(dp[j],dp[j-weights[i]] + values[i]);</code></strong></p>
+<p><strong>初值选取跟二维的一样</strong></p>
+<p>遍历顺序,在二维dp中,我们的背包容量是正序遍历(从小到大),但是如果这里从小到大遍历,则会存在小容量背包先更新,后面大容量背包更新时则会用到更新后的小容量背包的值,即物品被重复取了</p>
+<p>因此它得<strong>倒序遍历</strong>,即<strong>从大到小遍历</strong>,这样<strong>大容量的背包用到的是上一个状态的小容量背包</strong></p>
+<p>同时<strong>两个for循环也得是先物品再容量,把一个物品正确放入后,再滑到下个物品</strong>,若是先容量再物品,则存在大容量背包会取到价值最高且能放入的一个物品,因为小容量背包的状态没有更新,所以它只会取能放入自己背包的最大价值的单个物品</p>
+<p>模板代码如下:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs c++">vector&lt;<span class="hljs-keyword">int</span>&gt; weights = &#123;<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>&#125;;	  <span class="hljs-comment">// 物品对应的权重</span><br>vector&lt;<span class="hljs-keyword">int</span>&gt; values = &#123;<span class="hljs-number">10</span>, <span class="hljs-number">25</span>, <span class="hljs-number">30</span>&#125;;	  <span class="hljs-comment">// 物品对应的价值</span><br><span class="hljs-keyword">int</span> bagWeight = <span class="hljs-number">4</span>;					<span class="hljs-comment">// 背包容量</span><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-comment">// 01bag problem,1-dimension</span><br>	<span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">dp</span><span class="hljs-params">(bagWeight + <span class="hljs-number">1</span>, <span class="hljs-number">0</span>)</span></span>;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; weights.<span class="hljs-built_in">size</span>(); i++)<br>	&#123;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = bagWeight; j &gt;= <span class="hljs-number">0</span>; j--)<br>		&#123;<br>			<span class="hljs-keyword">if</span> (j &gt;= weights[i])<br>				dp[j] = <span class="hljs-built_in">max</span>(dp[j], dp[j - weights[i]] + values[i]);<br>		&#125;<br>	&#125;<br>	cout &lt;&lt; dp[bagWeight] &lt;&lt; endl;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 <h4 id="完全背包"><a class="markdownIt-Anchor" href="#完全背包"></a> 完全背包</h4>
-<p>有一个承重为W的背包,N件物品,第i件物品对应的重量是weight[i],对应的价值是value[i],<strong>每件物品能无限次取</strong>,问如何能使得背包的物品总价值最大?</p>
+<p>在01背包的基础上,<strong>允许重复取</strong>,也就是对于一维的01背包dp而言,<strong>正序遍历</strong>,则此时<strong>小容量的背包先更新,大容量的背包后更新,会用到更新后的小容量背包,恰好是满足无限次取(重复取),求得最大价值</strong></p>
+<p>它的<strong>两个for的遍历顺序则无所谓,都可以了</strong></p>
+<p>模板代码如下:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs c++">vector&lt;<span class="hljs-keyword">int</span>&gt; weights = &#123;<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>&#125;;<br>vector&lt;<span class="hljs-keyword">int</span>&gt; values = &#123;<span class="hljs-number">15</span>, <span class="hljs-number">20</span>, <span class="hljs-number">30</span>&#125;;<br><span class="hljs-keyword">int</span> bagWeight = <span class="hljs-number">4</span>;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">dp</span><span class="hljs-params">(bagWeight + <span class="hljs-number">1</span>, <span class="hljs-number">0</span>)</span></span>;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; weights.<span class="hljs-built_in">size</span>(); i++)<br>    &#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt;= bagWeight; j++)<br>        &#123;<br>            <span class="hljs-keyword">if</span> (j &gt;= weights[i])<br>                dp[j] = <span class="hljs-built_in">max</span>(dp[j], dp[j - weights[i]] + values[i]);<br>        &#125;<br>    &#125;<br>    cout &lt;&lt; dp[bagWeight] &lt;&lt; endl;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h4 id="多路归并"><a class="markdownIt-Anchor" href="#多路归并"></a> 多路归并</h4>
+<p>以丑数Ⅱ来说,所构造的丑数序列中的数,都是从2,3,5的倍数中变幻出来的,即:丑数序列:<code>[1, 2, 3, 4, 5, 6, 8, 9, 10, 12, ...]</code>中的数是:</p>
+<ul>
+<li>丑数序列中的数是2的倍数<code>1*2,2*2,3*2,4*2,5*2,...</code></li>
+<li>丑数序列中的数是3的倍数<code>1*3,2*3,3*3,4*3,5*3,...</code></li>
+<li>丑数序列中的数是5的倍数<code>1*5,2*5,3*5,4*5,5*5,...</code></li>
+</ul>
+<p><strong>是上面这三条路径经过一定规则的归并从而获得了丑数序列</strong>,针对于这道题的规则,即是丑数序列是按照升序的规则进行排列的,因此从三条路径中取数要每次取最小的,取完了这个数,你就滑到丑数序列的下一位,继续滑到该路径的最前面,跟另外两条路经的最前面的数进行对比</p>
+<p>这里的意思就是:比如丑数序列初始化为:[1]对于三条路径是:</p>
+<ul>
+<li><code>1*2</code>; (这里的1是通过指向丑数序列第0位的索引得到的)</li>
+<li><code>1*3</code></li>
+<li><code>1*5</code></li>
+</ul>
+<p>找出最小的放入丑数序列并滑动,则变为:<code>[1,2]</code></p>
+<ul>
+<li><code>2*2</code>(滑动到丑数序列的下一位索引1,对应丑数是2)</li>
+<li><code>1*3</code> (上次的数你不是最小的,你没滑动,保持原样)</li>
+<li><code>1*5</code></li>
+</ul>
+<p>而针对于比如373题这种两个数组<code>nums1</code>和<code>nums2</code>,比如<code>nums1</code>是m,<code>nums2</code>是n,从俩数组对应的组合出m*n个数,从这里取第k个最小的,而<code>nums1</code>,<code>nums2</code>又是升序排列的,显然这些个数可以看作是m条路径,每个路径首先取自己的数(就是<code>nums1</code>对应的)和<code>nums2</code>的第0位;然后依据规则:取最小的,而后弹出最小的数,最小的数后面的数顶上来,假设当前最小的数是第i条路径产生的,则下一个数就是第i条路径的[i,1];由此取数即可</p>
+<p>当然后面这个题目相对于丑数Ⅱ的题目而言不是固定的路径数,因此不可以通过具体的多少个指针来滑动,可以结合优先队列一起做~</p>
+<p>综上,个人总结的多路归并是:<strong>题目所要求的结果可以通过多条路径经过一定规则的归并而获得某一个具体的序列,序列中的某个数,是题目所求的</strong>,则可以采用多路归并+优先队列的思想来做</p>
+<p>典型例题:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/ugly-number-ii/">264. 丑数Ⅱ</a></li>
+<li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/find-k-pairs-with-smallest-sums">373. 查找和最小的k对数字</a></li>
+<li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/k-th-smallest-prime-fraction/">786.第k个最小的质数分数</a></li>
+</ul>
 <h2 id="排序系列"><a class="markdownIt-Anchor" href="#排序系列"></a> 排序系列</h2>
 <h3 id="堆排序"><a class="markdownIt-Anchor" href="#堆排序"></a> 堆排序</h3>
 <p>一种<strong>选择算法</strong>,<strong>不稳定</strong>(相同值的元素的相对位置可能发生改变),<strong><code>O(nlogn)</code></strong></p>
@@ -2034,5 +2074,20 @@
 <script  src="/js/boot.js" ></script>
 
   <script type="text/javascript" src="/js/funnyTitle.js"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"display":{"position":"left","width":150,"height":300,"hOffset":30,"vOffset":-50,"superSample":2},"mobile":{"show":false},"react":{"opacityDefault":0.7,"opacityOnHover":0.2}});</script></body>
 </html>
