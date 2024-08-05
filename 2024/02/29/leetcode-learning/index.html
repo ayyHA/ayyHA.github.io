@@ -54,7 +54,7 @@
 <meta property="og:image" content="https://pic.leetcode-cn.com/1649833763-BljEbP-image.png">
 <meta property="og:image" content="https://aliyun-lc-upload.oss-cn-hangzhou.aliyuncs.com/aliyun-lc-upload/uploads/2018/07/25/question_11.jpg">
 <meta property="article:published_time" content="2024-02-29T06:01:02.000Z">
-<meta property="article:modified_time" content="2024-08-03T03:00:38.782Z">
+<meta property="article:modified_time" content="2024-08-05T10:16:10.680Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="algorithm learning">
 <meta name="twitter:card" content="summary_large_image">
@@ -231,7 +231,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      67k 字
+      68k 字
     </span>
   
 
@@ -240,7 +240,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      208 分钟
+      213 分钟
     </span>
   
 
@@ -273,7 +273,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：9 分钟前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -332,6 +332,11 @@
 <ul>
 <li><a target="_blank" rel="noopener" href="https://www.jb51.net/article/263333.htm">c++自定义sort()函数的排序方法介绍</a></li>
 </ul>
+<h3 id="iota"><a class="markdownIt-Anchor" href="#iota"></a> iota</h3>
+<p>这是一个区间填充函数,所在头文件为<code>numeric</code>,函数原型如下:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">template</span> &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ForwardIt</span>, <span class="hljs-keyword">class</span> <span class="hljs-title">T</span>&gt;</span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">iota</span><span class="hljs-params">(ForwardIt first, ForwardIt last, T value)</span></span>;<br></code></pre></td></tr></table></figure>
+<p>前两个参数用迭代器指定区间范围,最后的参数用来指示起始值,可以迅速的填充好一个区间,比如:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">int</span> size = n;<br><span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">idx</span><span class="hljs-params">(n)</span></span>;<br><span class="hljs-built_in">iota</span>(idx.<span class="hljs-built_in">begin</span>(),idx.<span class="hljs-built_in">end</span>(),<span class="hljs-number">0</span>); <span class="hljs-comment">// [0, ..., n-1]</span><br></code></pre></td></tr></table></figure>
 <h2 id="一些stl容器回顾"><a class="markdownIt-Anchor" href="#一些stl容器回顾"></a> 一些STL容器回顾</h2>
 <p>这里主要记着主要方法,后续有新的会来补充,以便于一开始训练的时候查方法,当然也会说一下不同容器/相似容器间的差别</p>
 <p>参考资料:</p>
@@ -603,6 +608,24 @@
 <li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/find-k-pairs-with-smallest-sums">373. 查找和最小的k对数字</a></li>
 <li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/k-th-smallest-prime-fraction/">786.第k个最小的质数分数</a></li>
 </ul>
+<h3 id="dijkstra-单源最短距离"><a class="markdownIt-Anchor" href="#dijkstra-单源最短距离"></a> dijkstra-单源最短距离</h3>
+<h3 id="floyd-多源最短距离"><a class="markdownIt-Anchor" href="#floyd-多源最短距离"></a> floyd-多源最短距离</h3>
+<p>构建一个矩阵<code>vector&lt;vector&lt;int&gt;&gt; adjacency(n,vector&lt;int&gt;(n,INF))</code>(大概长这样,一开始假设都不可达,就是INF远嘛),通过已有的距离更新这个阵(就是直接相邻的点,邻接点嘛),然后利用松弛的思想,就是<code>a-&gt;c</code>顶点a到顶点c的距离,可能是这样最近,也可能是<code>a-&gt;b-&gt;c</code>,先途径顶点b再到达顶点c会更快,通过一个min即可比较出来,如何进行n个点的松弛呢</p>
+<p>对一个二维阵操作,需要两重for,再进行n个点的松弛,显然需要套多一层循环,即三重循环可以完成</p>
+<p>模板如下:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> k=<span class="hljs-number">0</span>;k&lt;n;k++)&#123;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;n;i++)&#123;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j=<span class="hljs-number">0</span>;j&lt;n;j++)&#123;<br>            adjacency[i][j] = <span class="hljs-built_in">min</span>(adjacency[i][j],adjacency[i][k] + adjacency[k][j]);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="并查集"><a class="markdownIt-Anchor" href="#并查集"></a> 并查集</h3>
+<p>并查集它的名字指示了它的功能:支持合并(union)以及查找(find)功能的集合</p>
+<p>集合用树来表示,许多集合即许多树构成了森林.当然如果真的整个树形结构蛮麻烦的,因此都是转成数组来处理</p>
+<p>我们可以对这些集合中的元素进行如下操作:</p>
+<ul>
+<li>该元素所属的集合(即这个元素所属哪一棵树,树用其根来代表);</li>
+<li>查看两个元素是否属于一个集合(这俩元素是否是一棵树上,即根节点是否相同);</li>
+<li>合并两个集合(让其中一棵树的根节点指向另一棵树的根节点);</li>
+</ul>
+<p>主要思想:通过一个数组<code>vector&lt;int&gt; parent</code>来使得数组中的元素指向它们所属树的父节点,一开始的时候各自以自己为父节点,且只有自己这个节点,此时父节点等于元素本身,即体现了它是根节点.通过:<code>iota(parent.begin(),parent.end(),0);</code>初始化,然后通过模板下的<code>_union</code>操作可以使得两棵树合并成一棵树,这时会找到某一元素的根节点,修改该元素所属父节点的指向,则此时<code>parent[rootx]</code>这棵树就指向了以<code>rooty</code>为根的树,如此操作可以使得想合并的元素给它弄到一颗树上.树的总数则可以通过遍历<code>parent</code>数组,利用<code>x==parent[x]</code>则<code>cnt++;</code>来统计树的总数</p>
+<p>模板如下:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">unionFindSet</span>&#123;</span><br>  <span class="hljs-keyword">private</span>:<br>    vector&lt;<span class="hljs-keyword">int</span>&gt; parent;<br>  <span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">find</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span></span>&#123;<br>        <span class="hljs-keyword">if</span>(x!=parent[x])&#123;<br>			parent[x] = <span class="hljs-built_in">find</span>(parent[x]);	<span class="hljs-comment">// 这里做了路径压缩,在查找的时候会修改元素的父节点,使得元素的父节点直接指向根节点,把树的高度尽量控制在2   </span><br>        &#125;<br>        <span class="hljs-keyword">return</span> parent[x];<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isConnected</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x,<span class="hljs-keyword">int</span> y)</span></span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">find</span>(x) == <span class="hljs-built_in">find</span>(y);<br>    &#125;<br>    <span class="hljs-keyword">void</span> _union(<span class="hljs-keyword">int</span> x,<span class="hljs-keyword">int</span> y)&#123;<br>        <span class="hljs-keyword">int</span> rootx = <span class="hljs-built_in">find</span>(x);<br>        <span class="hljs-keyword">int</span> rooty = <span class="hljs-built_in">find</span>(y);<br>        <span class="hljs-keyword">if</span>(rootx == rooty)<br>           	<span class="hljs-keyword">return</span>;<br>        parent[rootx] = rooty;<br>    &#125; <br>&#125;;<br></code></pre></td></tr></table></figure>
 <h2 id="排序系列"><a class="markdownIt-Anchor" href="#排序系列"></a> 排序系列</h2>
 <h3 id="堆排序"><a class="markdownIt-Anchor" href="#堆排序"></a> 堆排序</h3>
 <p>一种<strong>选择算法</strong>,<strong>不稳定</strong>(相同值的元素的相对位置可能发生改变),<strong><code>O(nlogn)</code></strong></p>
