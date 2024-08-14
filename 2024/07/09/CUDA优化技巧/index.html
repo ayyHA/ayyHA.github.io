@@ -29,7 +29,7 @@
 <meta property="og:image" content="https://s2.loli.net/2024/07/26/25PqRkyQHugMYFs.png">
 <meta property="og:image" content="https://s2.loli.net/2024/07/26/iaJXFLNsQfvbk9m.png">
 <meta property="article:published_time" content="2024-07-09T06:37:05.000Z">
-<meta property="article:modified_time" content="2024-07-27T03:10:43.380Z">
+<meta property="article:modified_time" content="2024-08-13T10:02:56.020Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="CUDA">
 <meta property="article:tag" content="OpDev">
@@ -207,7 +207,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      4.4k 字
+      5.2k 字
     </span>
   
 
@@ -216,7 +216,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      14 分钟
+      16 分钟
     </span>
   
 
@@ -249,7 +249,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：16 天前
+                  本文最后更新于：21 小时前
                 
               </p>
             
@@ -304,6 +304,29 @@
 <li><a target="_blank" rel="noopener" href="https://forums.developer.nvidia.com/t/how-to-understand-the-bank-conflict-of-shared-mem/260900">how-to-understand-bank-conflict-of-shared-memory</a></li>
 <li><a target="_blank" rel="noopener" href="https://forums.developer.nvidia.com/t/unexpected-shared-memory-bank-conflict/77228">LDS.128-how-to-increase-bandwidth</a></li>
 <li><a target="_blank" rel="noopener" href="https://code.hitori.moe/post/cuda-shared-memory-access-mechanism-with-vectorized-instructions/">CUDA Shared Memory 在向量化指令下的访存机制</a></li>
+</ul>
+<h2 id="ampere架构的异步拷贝"><a class="markdownIt-Anchor" href="#ampere架构的异步拷贝"></a> Ampere架构的异步拷贝</h2>
+<p>异步拷贝的作用是<code>global mem -&gt; shared mem</code>而无需借助register中转，在说异步拷贝前，先需要说下state space这个玩意</p>
+<h3 id="关于shared-state-space的一些理解"><a class="markdownIt-Anchor" href="#关于shared-state-space的一些理解"></a> 关于shared state space的一些理解</h3>
+<p>在ptx/sass级别，cuda内部有一个状态空间(state space)的系统,这玩意是一个分区的寻址结构(<mark>给我一种ptx上的namespace的感觉</mark>)，shared是一个state space<br />
+对其中一个state space进行访问可以使用以下两种类型的指针的任意一种：</p>
+<ul>
+<li>被修饰的适合于该空间的指针；</li>
+<li>generic pointer，这种类型的指针没有携带任何的state或者额外的信息去声明它所属于的state space；</li>
+</ul>
+<p>在CUDA C<ins>中，指针就是指针，没有额外的修饰或者说元信息,当使用c</ins>中公开的方法去进行异步拷贝，不需要显式的转换；</p>
+<p>当你使用PTX指令去做比如异步拷贝的时候就需要一个shared state space pointer，而不是generic pointer。就比如你用c++取得这个需要的state space地址，然后用ptx内联汇编去发射这条指令，你就可以用<code>__cvta_generic_to_shared()</code>来进行地址的转换</p>
+<p>在ptx/sass中的state space pointer在c++中没有可以用来模拟的东东，因此使用了size_t的返回类型来识别64位的数量</p>
+<blockquote>
+<p>shared state space pointer seems to easily fit in 32 bits</p>
+</blockquote>
+<h3 id="小实验"><a class="markdownIt-Anchor" href="#小实验"></a> 小实验</h3>
+<p><strong>参考文件：</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/parallel-thread-execution/index.html#state-spaces">Nvidia-PTX-state-spaces</a></li>
+<li><a target="_blank" rel="noopener" href="https://forums.developer.nvidia.com/t/problem-about-ptx-instruction-cp-async-ca-shared-global/224219/2">Nvidia-forum-PTXinstructionCP_ASYNC_CA_SHARED</a></li>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/76992939/confusion-about-cvta-generic-to-shared">Confusion about __cvta_generic_to_shared</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/666438274">跟着样例学CUDA PTX(1)</a></li>
 </ul>
 
             </div>
