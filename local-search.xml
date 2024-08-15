@@ -4,31 +4,6 @@
   
   
   <entry>
-    <title>cutlass学习(持续更新)</title>
-    <link href="/2024/08/08/cutlass%E5%AD%A6%E4%B9%A0/"/>
-    <url>/2024/08/08/cutlass%E5%AD%A6%E4%B9%A0/</url>
-    
-    <content type="html"><![CDATA[<!-- flag of hidden posts -->]]></content>
-    
-    
-    
-    <tags>
-      
-      <tag>OpDev</tag>
-      
-      <tag>GPU</tag>
-      
-      <tag>CUDA C/C++</tag>
-      
-      <tag>cutlass</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>tensor-core学习</title>
     <link href="/2024/08/08/tensor-core%E5%AD%A6%E4%B9%A0/"/>
     <url>/2024/08/08/tensor-core%E5%AD%A6%E4%B9%A0/</url>
@@ -46,19 +21,6 @@
       <tag>tensor core</tag>
       
     </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>how-to-understand-Roofline</title>
-    <link href="/2024/07/30/how-to-understand-Roofline/"/>
-    <url>/2024/07/30/how-to-understand-Roofline/</url>
-    
-    <content type="html"><![CDATA[<!-- flag of hidden posts -->]]></content>
-    
-    
     
   </entry>
   
@@ -180,9 +142,9 @@
     
     <tags>
       
-      <tag>cutlass</tag>
-      
       <tag>hpc</tag>
+      
+      <tag>cutlass</tag>
       
       <tag>tvm</tag>
       
