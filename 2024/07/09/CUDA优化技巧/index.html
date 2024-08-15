@@ -28,8 +28,11 @@
 <meta property="og:image" content="https://s2.loli.net/2024/07/26/8GczNsDFakHBoJR.png">
 <meta property="og:image" content="https://s2.loli.net/2024/07/26/25PqRkyQHugMYFs.png">
 <meta property="og:image" content="https://s2.loli.net/2024/07/26/iaJXFLNsQfvbk9m.png">
+<meta property="og:image" content="https://s2.loli.net/2024/08/15/UoxzYPOJhvrLMQc.png">
+<meta property="og:image" content="https://s2.loli.net/2024/08/15/E8DzujRVlGAQNXU.png">
+<meta property="og:image" content="https://s2.loli.net/2024/08/15/dwjsovzxFD7lWQ9.png">
 <meta property="article:published_time" content="2024-07-09T06:37:05.000Z">
-<meta property="article:modified_time" content="2024-08-13T10:02:56.020Z">
+<meta property="article:modified_time" content="2024-08-15T08:40:56.510Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="CUDA">
 <meta property="article:tag" content="OpDev">
@@ -207,7 +210,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      5.2k 字
+      7.3k 字
     </span>
   
 
@@ -216,7 +219,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      16 分钟
+      23 分钟
     </span>
   
 
@@ -249,7 +252,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：21 小时前
+                  本文最后更新于：12 分钟前
                 
               </p>
             
@@ -307,22 +310,58 @@
 </ul>
 <h2 id="ampere架构的异步拷贝"><a class="markdownIt-Anchor" href="#ampere架构的异步拷贝"></a> Ampere架构的异步拷贝</h2>
 <p>异步拷贝的作用是<code>global mem -&gt; shared mem</code>而无需借助register中转，在说异步拷贝前，先需要说下state space这个玩意</p>
-<h3 id="关于shared-state-space的一些理解"><a class="markdownIt-Anchor" href="#关于shared-state-space的一些理解"></a> 关于shared state space的一些理解</h3>
-<p>在ptx/sass级别，cuda内部有一个状态空间(state space)的系统,这玩意是一个分区的寻址结构(<mark>给我一种ptx上的namespace的感觉</mark>)，shared是一个state space<br />
-对其中一个state space进行访问可以使用以下两种类型的指针的任意一种：</p>
+<h3 id="关于state-space的一些理解"><a class="markdownIt-Anchor" href="#关于state-space的一些理解"></a> 关于state space的一些理解</h3>
+<p>在ptx/sass级别，cuda内部有一个状态空间(state space)的系统,这玩意是一个分区的寻址结构(<mark>给我一种ptx上的namespace的感觉</mark>),按照<strong>参考文件2</strong>的解释:</p>
+<blockquote>
+<p>A state space is a storage area with particular characteristics.</p>
+</blockquote>
+<p><strong>状态空间这个存储区域有着自己的特性,所有的变量都是驻留在一些状态空间中的</strong>.状态空间的特性有:<u>大小,可否寻址,访问速度,访问权限,以及线程间的共享级别</u></p>
+<p>下图是所有的状态空间:</p>
+<img src="https://s2.loli.net/2024/08/15/UoxzYPOJhvrLMQc.png" srcset="/img/loading.gif" lazyload alt="state-space" style="zoom:80%;" />
+<p>下图是各状态空间对应的特性:</p>
+<img src="https://s2.loli.net/2024/08/15/E8DzujRVlGAQNXU.png" srcset="/img/loading.gif" lazyload alt="properties of state space" style="zoom:80%;" />
+<p>说完state space,回到异步拷贝上来</p>
+<p>我们在cuda中对其中一个state space进行访问可以使用以下两种类型的指针的任意一种：</p>
 <ul>
-<li>被修饰的适合于该空间的指针；</li>
-<li>generic pointer，这种类型的指针没有携带任何的state或者额外的信息去声明它所属于的state space；</li>
+<li><strong>被修饰的适合于该空间的指针</strong>；</li>
+<li><strong>generic pointer</strong>，这种类型的指针没有携带任何的state或者额外的信息去声明它所属于的state space；</li>
 </ul>
 <p>在CUDA C<ins>中，指针就是指针，没有额外的修饰或者说元信息,当使用c</ins>中公开的方法去进行异步拷贝，不需要显式的转换；</p>
-<p>当你使用PTX指令去做比如异步拷贝的时候就需要一个shared state space pointer，而不是generic pointer。就比如你用c++取得这个需要的state space地址，然后用ptx内联汇编去发射这条指令，你就可以用<code>__cvta_generic_to_shared()</code>来进行地址的转换</p>
-<p>在ptx/sass中的state space pointer在c++中没有可以用来模拟的东东，因此使用了size_t的返回类型来识别64位的数量</p>
+<p>而当你使用PTX指令(比如内联汇编)去做比如异步拷贝的时候就需要一个shared state space pointer，而不是generic pointer。就比如你用c++取得这个需要的state space地址，然后用ptx内联汇编去发射这条指令.你可以用<code>__cvta_generic_to_shared()</code>来进行地址的转换,从而获得shared state space的pointer</p>
+<p>在ptx/sass中的state space pointer在c++中没有可以用来模拟的东东，因此使用了<code>size_t</code>的返回类型来识别64位的数量,虽然好像共享内存state space的pointer它是32位的(<mark>?</mark>)</p>
 <blockquote>
-<p>shared state space pointer seems to easily fit in 32 bits</p>
+<p><strong>shared state space pointer seems to easily fit in 32 bits</strong></p>
 </blockquote>
+<h3 id="cpasync指令详情"><a class="markdownIt-Anchor" href="#cpasync指令详情"></a> <code>cp.async</code>指令详情</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs assembly">cp.async.ca.shared&#123;::cta&#125;.global&#123;.level::cache_hint&#125;&#123;.level::prefetch_size&#125;<br>                         [dst], [src], cp-size&#123;, src-size&#125;&#123;, cache-policy&#125; ;<br>cp.async.cg.shared&#123;::cta&#125;.global&#123;.level::cache_hint&#125;&#123;.level::prefetch_size&#125;<br>                         [dst], [src], 16&#123;, src-size&#125;&#123;, cache-policy&#125; ;<br>cp.async.ca.shared&#123;::cta&#125;.global&#123;.level::cache_hint&#125;&#123;.level::prefetch_size&#125;<br>                         [dst], [src], cp-size&#123;, ignore-src&#125;&#123;, cache-policy&#125; ;<br>cp.async.cg.shared&#123;::cta&#125;.global&#123;.level::cache_hint&#125;&#123;.level::prefetch_size&#125;<br>                         [dst], [src], 16&#123;, ignore-src&#125;&#123;, cache-policy&#125; ;<br><br>.level::cache_hint =     &#123; .L2::cache_hint &#125;<br>.level::prefetch_size =  &#123; .L2::64B, .L2::128B, .L2::256B &#125;<br>cp-size =                &#123; 4, 8, 16 &#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li><code>dst</code>shared state space的地址</li>
+<li><code>src</code>: global state space的地址</li>
+<li><code>cp-size</code>: byte为单位的整型常量,表示的是拷贝的数据的大小,可选值为4,8,16</li>
+</ul>
+<div class="note note-warning">
+            <p>没用到的先没细看,用到再look别的可选operand是啥意思</p>
+          </div>
+<p>因为是异步拷贝,异步是nonblock的,所以你要拿个东西阻塞它,如果需要在某些代码执行前获取到结果的话:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs assembly">cp.async.wait_all;<br></code></pre></td></tr></table></figure>
+<p>也可以:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs assembly">cp.async.commit_group;<br>cp.async.wait_group 0;	// 这个0实际上是一个整型常量的operand N,别的意思没看懂,只看懂了0的,当N=0,执行线程等待所有先前的cp.async-group完成<br></code></pre></td></tr></table></figure>
+<p><strong>上下这俩wait的语句块是等价的</strong></p>
+<p><mark>这里没搞懂官网的按组提交异步拷贝指令(说是执行了<code>cp.async.commit_group</code>就标记了这一个异步拷贝组的结束(就是划分组的意思)),但是这个等待又好像不是一一对应的等待,好像是一个范围?没看懂举的例子,后面遇到再回来look</mark></p>
 <h3 id="小实验"><a class="markdownIt-Anchor" href="#小实验"></a> 小实验</h3>
+<p>这里的小实验的目的是用异步拷贝,把A的值给它异步拷贝到共享内存去,然后再从共享内存放到B中去,其中:</p>
+<ul>
+<li>A原有的值<code>A: [0,1,2,3,4,5,...,31]</code></li>
+<li>B期望的结果<code>B:[31,30,29,28,...,0]</code></li>
+</ul>
+<p>我们每个线程(这里就是只开了1个block且只有32个线程)负责1个int类型的数据的移动,恰好只有32个数,1个线程也只需要搬运1次~</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function">__global__ <span class="hljs-keyword">void</span> <span class="hljs-title">test_cp_async</span><span class="hljs-params">(<span class="hljs-keyword">int</span>* __restrict__ A,<span class="hljs-keyword">int</span>* __restrict__ B)</span></span>&#123;<br>    <span class="hljs-keyword">int</span> tid = threadIdx.x;<br>    __shared__ <span class="hljs-keyword">int</span> smem[<span class="hljs-number">32</span>];<br>    <span class="hljs-keyword">size_t</span> smemAddr = __cvta_generic_to_shared(smem + tid);<br>    <span class="hljs-function"><span class="hljs-keyword">asm</span> <span class="hljs-title">volatile</span><span class="hljs-params">(<span class="hljs-string">&quot;cp.async.ca.shared.global [%0],[%1],4; \n&quot;</span> ::<span class="hljs-string">&quot;l&quot;</span>(smemAddr),<span class="hljs-string">&quot;l&quot;</span>(A+<span class="hljs-number">31</span>-tid))</span></span>;<br>    <span class="hljs-function"><span class="hljs-keyword">asm</span> <span class="hljs-title">volatile</span><span class="hljs-params">(<span class="hljs-string">&quot;cp.async.commit_group; \n&quot;</span> ::)</span></span>;<br>    <span class="hljs-function"><span class="hljs-keyword">asm</span> <span class="hljs-title">volatile</span><span class="hljs-params">(<span class="hljs-string">&quot;cp.async.wait_group 0;  \n&quot;</span> ::)</span></span>;<br>    B[tid] = smem[tid];<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>实验结果如下图所示:</p>
+<p><img src="https://s2.loli.net/2024/08/15/dwjsovzxFD7lWQ9.png" srcset="/img/loading.gif" lazyload alt="test_cp_async" /></p>
+<h3 id="怎么就支持了gmem-smem呢"><a class="markdownIt-Anchor" href="#怎么就支持了gmem-smem呢"></a> 怎么就支持了GMEM-&gt;SMEM呢</h3>
 <p><strong>参考文件：</strong></p>
 <ul>
+<li><a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/parallel-thread-execution/#data-movement-and-conversion-instructions-cp-async">Nvidia-PTX-cp.async</a></li>
 <li><a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/parallel-thread-execution/index.html#state-spaces">Nvidia-PTX-state-spaces</a></li>
 <li><a target="_blank" rel="noopener" href="https://forums.developer.nvidia.com/t/problem-about-ptx-instruction-cp-async-ca-shared-global/224219/2">Nvidia-forum-PTXinstructionCP_ASYNC_CA_SHARED</a></li>
 <li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/76992939/confusion-about-cvta-generic-to-shared">Confusion about __cvta_generic_to_shared</a></li>

@@ -54,7 +54,7 @@
 <meta property="og:image" content="https://pic.leetcode-cn.com/1649833763-BljEbP-image.png">
 <meta property="og:image" content="https://aliyun-lc-upload.oss-cn-hangzhou.aliyuncs.com/aliyun-lc-upload/uploads/2018/07/25/question_11.jpg">
 <meta property="article:published_time" content="2024-02-29T06:01:02.000Z">
-<meta property="article:modified_time" content="2024-08-05T10:16:10.680Z">
+<meta property="article:modified_time" content="2024-08-14T17:14:40.649Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="algorithm learning">
 <meta name="twitter:card" content="summary_large_image">
@@ -231,7 +231,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      68k 字
+      69k 字
     </span>
   
 
@@ -240,7 +240,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      213 分钟
+      217 分钟
     </span>
   
 
@@ -273,7 +273,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：9 天前
+                  本文最后更新于：16 小时前
                 
               </p>
             
@@ -506,6 +506,13 @@
 <p>前缀和数组即<code>prefix[i]</code>表示的是原数组nums在<code>[0,i-1]</code>这个区间的元素的累和</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">//	假设题目给的数组是:vector&lt;int&gt;&amp; nums</span><br><span class="hljs-keyword">int</span> len = nums.<span class="hljs-built_in">size</span>();<br><span class="hljs-keyword">int</span>* prefix = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[len+<span class="hljs-number">1</span>]; <span class="hljs-comment">// 要多一个位置</span><br>prefix[<span class="hljs-number">0</span>] = <span class="hljs-number">0</span>;	<span class="hljs-comment">// 初值</span><br><span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i&lt;=len; i++)<br>    prefix[i] = prefix[i<span class="hljs-number">-1</span>] + nums[i<span class="hljs-number">-1</span>];<br><span class="hljs-comment">/*</span><br><span class="hljs-comment">... 对前缀和数据的操作,如想获得[i,j]区间的累和,则可以通过prefix[j+1] - prefix[i]获得</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">delete</span> []prefix;<br></code></pre></td></tr></table></figure>
 <h3 id="差分数组"><a class="markdownIt-Anchor" href="#差分数组"></a> 差分数组</h3>
+<h3 id="反转链表系列"><a class="markdownIt-Anchor" href="#反转链表系列"></a> 反转链表系列</h3>
+<p>&quot;反转链表,反转链表Ⅱ,K个一组链表进行翻转&quot;这三道题目本质上是针对反转链表的层层深入,如果采用朴素的头插法进行实现,其实罗里吧嗦要写比较多的代码.因此有了这个模板系列:</p>
+<p>针对反转链表,主要需要建立三个指针,<code>pre</code>,<code>cur</code>,<code>nxt</code>,用以进行反转,最终返回<code>pre</code>指针即可,而判断循环终止的条件是<code>cur!=nullptr</code></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// 1. 反转链表</span><br>ListNode* pre,*cur,*nxt;<br>pre = <span class="hljs-literal">nullptr</span>;<br><span class="hljs-keyword">while</span>(cur!=<span class="hljs-literal">nullptr</span>)&#123;<br>    nxt = cur-&gt;next;<br>    cur-&gt;next = pre;<br>    pre = cur;<br>    cur = nxt;<br>&#125;<br><span class="hljs-keyword">return</span> pre;<br></code></pre></td></tr></table></figure>
+<p>针对反转链表Ⅱ,是针对区间<code>[left,right]</code>进行的反转,因此我们还需要一个前序节点<code>p0</code>来在left对应的节点前面,以在最后反转结束时,将区间反转的结果与链表中未进行反转的节点进行拼接.但是left如果是1,即是头节点,那么就相对麻烦,因此可以<code>new</code>1个dummy节点,这样一来整体代码就统一了</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// 2. 反转链表Ⅱ</span><br>ListNode* dummy = <span class="hljs-keyword">new</span> <span class="hljs-built_in">ListNode</span>(<span class="hljs-number">0</span>,head);<br>ListNode* p0 = dummy;<br>ListNode* pre = <span class="hljs-literal">nullptr</span>,*cur,*nxt;<br><span class="hljs-keyword">int</span> sz = right - sz + <span class="hljs-number">1</span>;<br><span class="hljs-keyword">while</span>(left&gt;<span class="hljs-number">1</span>)&#123;<br>    p0 = p0-&gt;next;<br>    left--;<br>&#125;<br>cur = p0-&gt;next;<br><span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;sz;i++)&#123;<br>    nxt = cur-&gt;next;<br>    cur-&gt;next = pre;<br>    pre = cur;<br>    cur = nxt;<br>&#125;<br>p0-&gt;next-&gt;next = cur;<br>p0-&gt;next = pre;<br><span class="hljs-keyword">return</span> dummy-&gt;next;<br></code></pre></td></tr></table></figure>
+<p>针对K个一组链表进行反转,实际上就是在上面的反转链表Ⅱ的基础上,①每次需要满足剩余节点大于K才可以进行反转;②并且p0应该指向的是下一个cur的前序节点(原先就是p0-&gt;next指向的那个点),你得后面给p0指回去.把这两点满足了这题就出来了</p>
 <h3 id="滑动窗口"><a class="markdownIt-Anchor" href="#滑动窗口"></a> 滑动窗口</h3>
 <p>滑动窗口常见于字符串匹配一类的题目,通常暴力求解会遇到TLE的问题,因此需要借助滑动窗口这一算法思想来实现</p>
 <p><strong>滑动窗口本质上是左右指针,通过右端的指针不断扩张,直至满足一定条件,再经由左端的指针不断收缩,收缩到一定条件,则继续右端指针扩张,循环往复,直至右端指针越了字串的界</strong></p>
@@ -625,7 +632,15 @@
 </ul>
 <p>主要思想:通过一个数组<code>vector&lt;int&gt; parent</code>来使得数组中的元素指向它们所属树的父节点,一开始的时候各自以自己为父节点,且只有自己这个节点,此时父节点等于元素本身,即体现了它是根节点.通过:<code>iota(parent.begin(),parent.end(),0);</code>初始化,然后通过模板下的<code>_union</code>操作可以使得两棵树合并成一棵树,这时会找到某一元素的根节点,修改该元素所属父节点的指向,则此时<code>parent[rootx]</code>这棵树就指向了以<code>rooty</code>为根的树,如此操作可以使得想合并的元素给它弄到一颗树上.树的总数则可以通过遍历<code>parent</code>数组,利用<code>x==parent[x]</code>则<code>cnt++;</code>来统计树的总数</p>
 <p>模板如下:</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">unionFindSet</span>&#123;</span><br>  <span class="hljs-keyword">private</span>:<br>    vector&lt;<span class="hljs-keyword">int</span>&gt; parent;<br>  <span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">find</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span></span>&#123;<br>        <span class="hljs-keyword">if</span>(x!=parent[x])&#123;<br>			parent[x] = <span class="hljs-built_in">find</span>(parent[x]);	<span class="hljs-comment">// 这里做了路径压缩,在查找的时候会修改元素的父节点,使得元素的父节点直接指向根节点,把树的高度尽量控制在2   </span><br>        &#125;<br>        <span class="hljs-keyword">return</span> parent[x];<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isConnected</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x,<span class="hljs-keyword">int</span> y)</span></span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">find</span>(x) == <span class="hljs-built_in">find</span>(y);<br>    &#125;<br>    <span class="hljs-keyword">void</span> _union(<span class="hljs-keyword">int</span> x,<span class="hljs-keyword">int</span> y)&#123;<br>        <span class="hljs-keyword">int</span> rootx = <span class="hljs-built_in">find</span>(x);<br>        <span class="hljs-keyword">int</span> rooty = <span class="hljs-built_in">find</span>(y);<br>        <span class="hljs-keyword">if</span>(rootx == rooty)<br>           	<span class="hljs-keyword">return</span>;<br>        parent[rootx] = rooty;<br>    &#125; <br>&#125;;<br></code></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">unionFindSet</span>&#123;</span><br>  <span class="hljs-keyword">private</span>:<br>    vector&lt;<span class="hljs-keyword">int</span>&gt; parent;<br>  <span class="hljs-keyword">public</span>:<br>    <span class="hljs-comment">// 含路径压缩的find</span><br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">find</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span></span>&#123;<br>        <span class="hljs-keyword">if</span>(x!=parent[x])&#123;<br>			parent[x] = <span class="hljs-built_in">find</span>(parent[x]);	<span class="hljs-comment">// 这里做了路径压缩,在查找的时候会修改元素的父节点,使得元素的父节点直接指向根节点,把树的高度尽量控制在2   </span><br>        &#125;<br>        <span class="hljs-keyword">return</span> parent[x];<br>    &#125;<br>    <span class="hljs-comment">//  不含路径压缩的find</span><br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">no_compress_find</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x)</span></span>&#123;<br>        <span class="hljs-keyword">while</span>(x!=parent[x])&#123;<br>            x = parent[x];<br>        &#125;<br>        <span class="hljs-keyword">return</span> parent[x];				<span class="hljs-comment">// 这里没有做路径压缩,直接返回根节点</span><br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isConnected</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x,<span class="hljs-keyword">int</span> y)</span></span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">find</span>(x) == <span class="hljs-built_in">find</span>(y);<br>    &#125;<br>    <span class="hljs-keyword">void</span> _union(<span class="hljs-keyword">int</span> x,<span class="hljs-keyword">int</span> y)&#123;<br>        <span class="hljs-keyword">int</span> rootx = <span class="hljs-built_in">find</span>(x);<br>        <span class="hljs-keyword">int</span> rooty = <span class="hljs-built_in">find</span>(y);<br>        <span class="hljs-keyword">if</span>(rootx == rooty)<br>           	<span class="hljs-keyword">return</span>;<br>        parent[rootx] = rooty;<br>    &#125; <br>&#125;;<br></code></pre></td></tr></table></figure>
+<div class="note note-info">
+            <p>注: 路径压缩的和无路径压缩的别写混了,写混了可能出现TLE,比如路径压缩那个分支条件给弄成了while,就不对了</p>
+          </div>
+<p>典型例题:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/number-of-provinces/description/">547.省份数量</a></li>
+<li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/redundant-connection/description/">684.冗余连接</a></li>
+</ul>
 <h2 id="排序系列"><a class="markdownIt-Anchor" href="#排序系列"></a> 排序系列</h2>
 <h3 id="堆排序"><a class="markdownIt-Anchor" href="#堆排序"></a> 堆排序</h3>
 <p>一种<strong>选择算法</strong>,<strong>不稳定</strong>(相同值的元素的相对位置可能发生改变),<strong><code>O(nlogn)</code></strong></p>
