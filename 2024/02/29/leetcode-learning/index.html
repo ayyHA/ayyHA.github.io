@@ -54,7 +54,7 @@
 <meta property="og:image" content="https://pic.leetcode-cn.com/1649833763-BljEbP-image.png">
 <meta property="og:image" content="https://aliyun-lc-upload.oss-cn-hangzhou.aliyuncs.com/aliyun-lc-upload/uploads/2018/07/25/question_11.jpg">
 <meta property="article:published_time" content="2024-02-29T06:01:02.000Z">
-<meta property="article:modified_time" content="2024-08-14T17:14:40.649Z">
+<meta property="article:modified_time" content="2024-08-22T08:40:56.631Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="algorithm learning">
 <meta name="twitter:card" content="summary_large_image">
@@ -231,7 +231,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      69k 字
+      72k 字
     </span>
   
 
@@ -240,7 +240,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      217 分钟
+      224 分钟
     </span>
   
 
@@ -273,7 +273,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：4 天前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -506,6 +506,15 @@
 <p>前缀和数组即<code>prefix[i]</code>表示的是原数组nums在<code>[0,i-1]</code>这个区间的元素的累和</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">//	假设题目给的数组是:vector&lt;int&gt;&amp; nums</span><br><span class="hljs-keyword">int</span> len = nums.<span class="hljs-built_in">size</span>();<br><span class="hljs-keyword">int</span>* prefix = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[len+<span class="hljs-number">1</span>]; <span class="hljs-comment">// 要多一个位置</span><br>prefix[<span class="hljs-number">0</span>] = <span class="hljs-number">0</span>;	<span class="hljs-comment">// 初值</span><br><span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i&lt;=len; i++)<br>    prefix[i] = prefix[i<span class="hljs-number">-1</span>] + nums[i<span class="hljs-number">-1</span>];<br><span class="hljs-comment">/*</span><br><span class="hljs-comment">... 对前缀和数据的操作,如想获得[i,j]区间的累和,则可以通过prefix[j+1] - prefix[i]获得</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">delete</span> []prefix;<br></code></pre></td></tr></table></figure>
 <h3 id="差分数组"><a class="markdownIt-Anchor" href="#差分数组"></a> 差分数组</h3>
+<p>当我们需要对一个数组的区间批量的进行数据增改操作时,可以考虑使用差分数组~</p>
+<p>数组<code>a  = [1,2,3,4,5]</code>转换为差分数组则为<code>diff=[1,1,1,1,1]</code>,其中diff[0]=a[0];别的则是通过<code>a[i]-a[i-1]</code>项获得的,具体构造见下方:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">int</span> n = a.<span class="hljs-built_in">size</span>();<br><span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">diff</span><span class="hljs-params">(n)</span></span>;<br>diff[<span class="hljs-number">0</span>] = a[<span class="hljs-number">0</span>];<br><span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">1</span>;i&lt;n;i++)<br>    diff[i] = a[i]-a[i<span class="hljs-number">-1</span>];<br></code></pre></td></tr></table></figure>
+<p>那差分数组diff怎么变回a呢只需要第<code>i</code>项加上第<code>i-1</code>项,见下方(这里用数组b代替):</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">b</span><span class="hljs-params">(n)</span></span>;<br>b[<span class="hljs-number">0</span>] = diff[<span class="hljs-number">0</span>];<br><span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i =<span class="hljs-number">1</span>;i&lt;n;i++)&#123;<br>    b[i] = diff[i] + b[i<span class="hljs-number">-1</span>];<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>那差分数组是如何发挥作用的,当面对批量对区间元素进行增改,比如我们需要对数组a的[1,3]这个区间每个元素加3(这里的区间从0开始),[0,2]每个元素减5:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++">vector&lt;tuple&lt;<span class="hljs-keyword">int</span>,<span class="hljs-keyword">int</span>,<span class="hljs-keyword">int</span>&gt;&gt; vec = &#123;&#123;<span class="hljs-number">1</span>,<span class="hljs-number">3</span>,<span class="hljs-number">3</span>&#125;,&#123;<span class="hljs-number">0</span>,<span class="hljs-number">2</span>,<span class="hljs-number">-5</span>&#125;&#125;;<br><span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> [i,j,val]:vec)&#123;<br>    diff[i]+=val;<br>    <span class="hljs-keyword">if</span>(j+<span class="hljs-number">1</span>&lt;n)&#123;<br>    	diff[j+<span class="hljs-number">1</span>]-=val;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>经过修改有:<code>diff=&#123;-4,4,1,6,-2&#125;</code>,根据题意我们直接翻译出a被修改为<code>a=&#123;-4,0,1,7,5&#125;</code>,将diff还原出b有:<code>b=&#123;-4,0,1,7,5&#125;</code></p>
+<p>以上,便是差分数组的概念,我们可以通过原数组经过处理得到差分数组,同时差分数组可以变换回原数组,并且对区间的操作[i,j,val],是对<code>diff[i]+=val;</code>,<code>diff[j+1]-=val;</code>,因为[i,j]的元素在变回去的时候会加到<code>diff[i]</code>上多出来的<code>val</code>,我们只需要加到<code>j</code>即可,因此在<code>j+1</code>的时候要把累加的这个val给它收回去,则保证了只有<code>[i,j]</code>区间的数增加了<code>val</code></p>
 <h3 id="反转链表系列"><a class="markdownIt-Anchor" href="#反转链表系列"></a> 反转链表系列</h3>
 <p>&quot;反转链表,反转链表Ⅱ,K个一组链表进行翻转&quot;这三道题目本质上是针对反转链表的层层深入,如果采用朴素的头插法进行实现,其实罗里吧嗦要写比较多的代码.因此有了这个模板系列:</p>
 <p>针对反转链表,主要需要建立三个指针,<code>pre</code>,<code>cur</code>,<code>nxt</code>,用以进行反转,最终返回<code>pre</code>指针即可,而判断循环终止的条件是<code>cur!=nullptr</code></p>
@@ -616,6 +625,22 @@
 <li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/k-th-smallest-prime-fraction/">786.第k个最小的质数分数</a></li>
 </ul>
 <h3 id="dijkstra-单源最短距离"><a class="markdownIt-Anchor" href="#dijkstra-单源最短距离"></a> dijkstra-单源最短距离</h3>
+<p>dijkstra算法是用与寻求单个源点到所有顶点的最短路径,或者说是最短耗时(因题而异,但是都是求最短的~)</p>
+<p>这里提供一种利用优先队列来使用dj算法的模板,其中,dj算法如果只用求最短路径,就只需要</p>
+<ul>
+<li>**<code>adjacency</code>**邻接矩阵</li>
+<li><strong><code>dist</code><strong>用以表示</strong>源点到所有顶点的最短距离</strong>的数组</li>
+<li>**<code>pq</code>**优先队列,一般求最短最少一类的,用的是<code>greater&lt;&gt;</code>这个比较类型,即小顶堆,一般的参数类型选用<code>pair&lt;int,int&gt;</code>,<strong>first是最短距离,second表示的是某一个结点</strong></li>
+</ul>
+<p>当需要打印出源点到某一点的最短距离所经过的点时,可以借助</p>
+<ul>
+<li>**<code>prev</code>**数组,用于统计每个节点的前序节点</li>
+</ul>
+<p>以下是很粗糙的模板(<mark>后续看需不需要改一下</mark>):</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// start表示起始点; n表示顶点个数; paths表示边的关系,内含&lt;u,v&gt;=w;</span><br><span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">dist</span><span class="hljs-params">(n,INT_MAX)</span></span>;<br>vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; <span class="hljs-built_in">adjacency</span>(n);<br><span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;paths.<span class="hljs-built_in">size</span>();i++)&#123;<br>    <span class="hljs-keyword">auto</span> vec = paths[i];<br>    <span class="hljs-keyword">int</span> u = vec[<span class="hljs-number">0</span>], v = vec[<span class="hljs-number">1</span>], w = vec[<span class="hljs-number">2</span>];<br>    adjacency[u].<span class="hljs-built_in">push_back</span>(&#123;v,w&#125;);<br>&#125;<br>dist[start]=<span class="hljs-number">0</span>;<br>priority_queue&lt;pair&lt;<span class="hljs-keyword">int</span>,<span class="hljs-keyword">int</span>&gt;,vector&lt;pair&lt;<span class="hljs-keyword">int</span>,<span class="hljs-keyword">int</span>&gt;&gt;,greater&lt;&gt;&gt; pq;<br>pq.<span class="hljs-built_in">push</span>(&#123;<span class="hljs-number">0</span>,start&#125;); <span class="hljs-comment">// 表示从start到start最短距离是0</span><br><span class="hljs-keyword">while</span>(!pq.<span class="hljs-built_in">empty</span>())&#123;<br>    <span class="hljs-keyword">auto</span> [cost,u] = pq.<span class="hljs-built_in">top</span>();<br>    pq.<span class="hljs-built_in">pop</span>();<br>    <span class="hljs-keyword">if</span>(cost&gt;dist[u])<br>        <span class="hljs-keyword">continue</span>;<br>   	<span class="hljs-keyword">while</span>(<span class="hljs-keyword">auto</span>&amp; [v,w]:adjacency[u])&#123;<br>        <span class="hljs-keyword">int</span> newCost = cost + w;<br>        <span class="hljs-keyword">if</span>(newCost&lt;dist[v])&#123;<br>            dist[v] = newCost;<br>            pq.<span class="hljs-built_in">push</span>(&#123;newCost,v&#125;);<br>        &#125;<br>    &#125;<br>&#125;<br><span class="hljs-comment">// 至此就得到了一个从start到所有顶点的最短路径dist数组~</span><br></code></pre></td></tr></table></figure>
+<div class="note note-info">
+            <p>网络上可能还充斥着另外一种写法,就是把优先队列替换成一个<code>visited</code>数组用以显示尚未处理过的节点,其实visited结合dist就是<strong>寻求尚未处理过且当前最短距离的点</strong></p><p>而优先队列本质上就隐含这一种关系:出队的是最短距离的点,如果是处理过的点,则会看是不是最小的,因为有可能先入队的并不是最短的,后续更新时一个更短的入了队,则同时它也会更早的出队,更新邻接的点的最短距离,则处理过的点存在不一定是最短距离的情况,就是    <code>auto [cost,node] = pq.top();pq.pop(); if(cost&gt;dist[node]) continue;</code>所以由于这一条件语句的设定,实际上pq寻求的也是没处理过的最短距离的点,因此visited和pq这俩二选一就好,但是用pq更方便~</p>
+          </div>
 <h3 id="floyd-多源最短距离"><a class="markdownIt-Anchor" href="#floyd-多源最短距离"></a> floyd-多源最短距离</h3>
 <p>构建一个矩阵<code>vector&lt;vector&lt;int&gt;&gt; adjacency(n,vector&lt;int&gt;(n,INF))</code>(大概长这样,一开始假设都不可达,就是INF远嘛),通过已有的距离更新这个阵(就是直接相邻的点,邻接点嘛),然后利用松弛的思想,就是<code>a-&gt;c</code>顶点a到顶点c的距离,可能是这样最近,也可能是<code>a-&gt;b-&gt;c</code>,先途径顶点b再到达顶点c会更快,通过一个min即可比较出来,如何进行n个点的松弛呢</p>
 <p>对一个二维阵操作,需要两重for,再进行n个点的松弛,显然需要套多一层循环,即三重循环可以完成</p>
