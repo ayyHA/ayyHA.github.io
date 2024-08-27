@@ -54,7 +54,7 @@
 <meta property="og:image" content="https://pic.leetcode-cn.com/1649833763-BljEbP-image.png">
 <meta property="og:image" content="https://aliyun-lc-upload.oss-cn-hangzhou.aliyuncs.com/aliyun-lc-upload/uploads/2018/07/25/question_11.jpg">
 <meta property="article:published_time" content="2024-02-29T06:01:02.000Z">
-<meta property="article:modified_time" content="2024-08-26T02:38:07.361Z">
+<meta property="article:modified_time" content="2024-08-27T07:38:19.712Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="algorithm learning">
 <meta name="twitter:card" content="summary_large_image">
@@ -240,7 +240,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      228 分钟
+      229 分钟
     </span>
   
 
@@ -505,6 +505,11 @@
 <p>使用场景:原数组不变动,但需要对子数组进行频繁的累和操作,则可以构建<strong>前缀和数组</strong></p>
 <p>前缀和数组即<code>prefix[i]</code>表示的是原数组nums在<code>[0,i-1]</code>这个区间的元素的累和</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">//	假设题目给的数组是:vector&lt;int&gt;&amp; nums</span><br><span class="hljs-keyword">int</span> len = nums.<span class="hljs-built_in">size</span>();<br><span class="hljs-keyword">int</span>* prefix = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[len+<span class="hljs-number">1</span>]; <span class="hljs-comment">// 要多一个位置</span><br>prefix[<span class="hljs-number">0</span>] = <span class="hljs-number">0</span>;	<span class="hljs-comment">// 初值</span><br><span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i&lt;=len; i++)<br>    prefix[i] = prefix[i<span class="hljs-number">-1</span>] + nums[i<span class="hljs-number">-1</span>];<br><span class="hljs-comment">/*</span><br><span class="hljs-comment">... 对前缀和数据的操作,如想获得[i,j]区间的累和,则可以通过prefix[j+1] - prefix[i]获得</span><br><span class="hljs-comment">*/</span><br><span class="hljs-keyword">delete</span> []prefix;<br></code></pre></td></tr></table></figure>
+<p>典型例题:</p>
+<ul>
+<li>560 和为k的子数组</li>
+<li>724 寻找数组的中心下标</li>
+</ul>
 <h3 id="差分数组"><a class="markdownIt-Anchor" href="#差分数组"></a> 差分数组</h3>
 <p>当我们需要对一个数组的区间批量的进行数据增改操作时,可以考虑使用差分数组~</p>
 <p>数组<code>a  = [1,2,3,4,5]</code>转换为差分数组则为<code>diff=[1,1,1,1,1]</code>,其中diff[0]=a[0];别的则是通过<code>a[i]-a[i-1]</code>项获得的,具体构造见下方:</p>
@@ -515,6 +520,11 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++">vector&lt;tuple&lt;<span class="hljs-keyword">int</span>,<span class="hljs-keyword">int</span>,<span class="hljs-keyword">int</span>&gt;&gt; vec = &#123;&#123;<span class="hljs-number">1</span>,<span class="hljs-number">3</span>,<span class="hljs-number">3</span>&#125;,&#123;<span class="hljs-number">0</span>,<span class="hljs-number">2</span>,<span class="hljs-number">-5</span>&#125;&#125;;<br><span class="hljs-keyword">for</span>(<span class="hljs-keyword">auto</span> [i,j,val]:vec)&#123;<br>    diff[i]+=val;<br>    <span class="hljs-keyword">if</span>(j+<span class="hljs-number">1</span>&lt;n)&#123;<br>    	diff[j+<span class="hljs-number">1</span>]-=val;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>经过修改有:<code>diff=&#123;-4,4,1,6,-2&#125;</code>,根据题意我们直接翻译出a被修改为<code>a=&#123;-4,0,1,7,5&#125;</code>,将diff还原出b有:<code>b=&#123;-4,0,1,7,5&#125;</code></p>
 <p>以上,便是差分数组的概念,我们可以通过原数组经过处理得到差分数组,同时差分数组可以变换回原数组,并且对区间的操作[i,j,val],是对<code>diff[i]+=val;</code>,<code>diff[j+1]-=val;</code>,因为[i,j]的元素在变回去的时候会加到<code>diff[i]</code>上多出来的<code>val</code>,我们只需要加到<code>j</code>即可,因此在<code>j+1</code>的时候要把累加的这个val给它收回去,则保证了只有<code>[i,j]</code>区间的数增加了<code>val</code></p>
+<p>典型例题:</p>
+<ul>
+<li>1109 航班预定统计</li>
+<li>1094 拼车</li>
+</ul>
 <h3 id="反转链表系列"><a class="markdownIt-Anchor" href="#反转链表系列"></a> 反转链表系列</h3>
 <p>&quot;反转链表,反转链表Ⅱ,K个一组链表进行翻转&quot;这三道题目本质上是针对反转链表的层层深入,如果采用朴素的头插法进行实现,其实罗里吧嗦要写比较多的代码.因此有了这个模板系列:</p>
 <p>针对反转链表,主要需要建立三个指针,<code>pre</code>,<code>cur</code>,<code>nxt</code>,用以进行反转,最终返回<code>pre</code>指针即可,而判断循环终止的条件是<code>cur!=nullptr</code></p>
@@ -522,6 +532,10 @@
 <p>针对反转链表Ⅱ,是针对区间<code>[left,right]</code>进行的反转,因此我们还需要一个前序节点<code>p0</code>来在left对应的节点前面,以在最后反转结束时,将区间反转的结果与链表中未进行反转的节点进行拼接.但是left如果是1,即是头节点,那么就相对麻烦,因此可以<code>new</code>1个dummy节点,这样一来整体代码就统一了</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// 2. 反转链表Ⅱ</span><br>ListNode* dummy = <span class="hljs-keyword">new</span> <span class="hljs-built_in">ListNode</span>(<span class="hljs-number">0</span>,head);<br>ListNode* p0 = dummy;<br>ListNode* pre = <span class="hljs-literal">nullptr</span>,*cur,*nxt;<br><span class="hljs-keyword">int</span> sz = right - sz + <span class="hljs-number">1</span>;<br><span class="hljs-keyword">while</span>(left&gt;<span class="hljs-number">1</span>)&#123;<br>    p0 = p0-&gt;next;<br>    left--;<br>&#125;<br>cur = p0-&gt;next;<br><span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;sz;i++)&#123;<br>    nxt = cur-&gt;next;<br>    cur-&gt;next = pre;<br>    pre = cur;<br>    cur = nxt;<br>&#125;<br>p0-&gt;next-&gt;next = cur;<br>p0-&gt;next = pre;<br><span class="hljs-keyword">return</span> dummy-&gt;next;<br></code></pre></td></tr></table></figure>
 <p>针对K个一组链表进行反转,实际上就是在上面的反转链表Ⅱ的基础上,①每次需要满足剩余节点大于K才可以进行反转;②并且p0应该指向的是下一个cur的前序节点(原先就是p0-&gt;next指向的那个点),你得后面给p0指回去.把这两点满足了这题就出来了</p>
+<p>典型套题:</p>
+<ul>
+<li></li>
+</ul>
 <h3 id="滑动窗口"><a class="markdownIt-Anchor" href="#滑动窗口"></a> 滑动窗口</h3>
 <p>滑动窗口常见于字符串匹配一类的题目,通常暴力求解会遇到TLE的问题,因此需要借助滑动窗口这一算法思想来实现</p>
 <p><strong>滑动窗口本质上是左右指针,通过右端的指针不断扩张,直至满足一定条件,再经由左端的指针不断收缩,收缩到一定条件,则继续右端指针扩张,循环往复,直至右端指针越了字串的界</strong></p>
@@ -552,6 +566,18 @@
 <p>参考资料:</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/find-all-anagrams-in-a-string/solutions/9749/hua-dong-chuang-kou-tong-yong-si-xiang-jie-jue-zi-">leetcode评论区大佬对于滑动窗口的高见</a></li>
+</ul>
+<p>典型例题:</p>
+<ul>
+<li>3 无重复字符的最长字串</li>
+<li>438 找到字符串中的所有字母异位词</li>
+<li>76 最小覆盖字串</li>
+<li>567 字符串的排列</li>
+<li>239 滑动窗口最大值(搭配单调队列食用)</li>
+<li>209 长度最小的数组</li>
+<li>219 存在重复元素Ⅱ</li>
+<li>30 串联所有单词的子串(滑动窗口以一种技巧被应用,优化算法)</li>
+<li>1004 最大连续1的个数Ⅲ</li>
 </ul>
 <h3 id="dp背包系列"><a class="markdownIt-Anchor" href="#dp背包系列"></a> DP背包系列</h3>
 <p>在说起背包系列的问题前,先说下动规题的四大步骤:</p>
@@ -623,6 +649,7 @@
 <li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/ugly-number-ii/">264. 丑数Ⅱ</a></li>
 <li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/find-k-pairs-with-smallest-sums">373. 查找和最小的k对数字</a></li>
 <li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/k-th-smallest-prime-fraction/">786.第k个最小的质数分数</a></li>
+<li>23 合并K个升序链表</li>
 </ul>
 <h3 id="dijkstra-单源最短距离"><a class="markdownIt-Anchor" href="#dijkstra-单源最短距离"></a> dijkstra-单源最短距离</h3>
 <p>dijkstra算法是用与寻求单个源点到所有顶点的最短路径,或者说是最短耗时(因题而异,但是都是求最短的~)</p>
@@ -641,11 +668,21 @@
 <div class="note note-info">
             <p>网络上可能还充斥着另外一种写法,就是把优先队列替换成一个<code>visited</code>数组用以显示尚未处理过的节点,其实visited结合dist就是<strong>寻求尚未处理过且当前最短距离的点</strong></p><p>而优先队列本质上就隐含这一种关系:出队的是最短距离的点,如果是处理过的点,则会看是不是最小的,因为有可能先入队的并不是最短的,后续更新时一个更短的入了队,则同时它也会更早的出队,更新邻接的点的最短距离,则处理过的点存在不一定是最短距离的情况,就是    <code>auto [cost,node] = pq.top();pq.pop(); if(cost&gt;dist[node]) continue;</code>所以由于这一条件语句的设定,实际上pq寻求的也是没处理过的最短距离的点,因此visited和pq这俩二选一就好,但是用pq更方便~</p>
           </div>
+<p>典型例题:</p>
+<ul>
+<li>743 网络延迟时间</li>
+<li>1514 概率最大的路径</li>
+<li>LCP35 电动车游城市</li>
+</ul>
 <h3 id="floyd-多源最短距离"><a class="markdownIt-Anchor" href="#floyd-多源最短距离"></a> floyd-多源最短距离</h3>
 <p>构建一个矩阵<code>vector&lt;vector&lt;int&gt;&gt; adjacency(n,vector&lt;int&gt;(n,INF))</code>(大概长这样,一开始假设都不可达,就是INF远嘛),通过已有的距离更新这个阵(就是直接相邻的点,邻接点嘛),然后利用松弛的思想,就是<code>a-&gt;c</code>顶点a到顶点c的距离,可能是这样最近,也可能是<code>a-&gt;b-&gt;c</code>,先途径顶点b再到达顶点c会更快,通过一个min即可比较出来,如何进行n个点的松弛呢</p>
 <p>对一个二维阵操作,需要两重for,再进行n个点的松弛,显然需要套多一层循环,即三重循环可以完成</p>
 <p>模板如下:</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> k=<span class="hljs-number">0</span>;k&lt;n;k++)&#123;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;n;i++)&#123;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j=<span class="hljs-number">0</span>;j&lt;n;j++)&#123;<br>            adjacency[i][j] = <span class="hljs-built_in">min</span>(adjacency[i][j],adjacency[i][k] + adjacency[k][j]);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>典型例题</p>
+<ul>
+<li>399 除法求值</li>
+</ul>
 <h3 id="并查集"><a class="markdownIt-Anchor" href="#并查集"></a> 并查集</h3>
 <p>并查集它的名字指示了它的功能:支持合并(union)以及查找(find)功能的集合</p>
 <p>集合用树来表示,许多集合即许多树构成了森林.当然如果真的整个树形结构蛮麻烦的,因此都是转成数组来处理</p>
@@ -689,7 +726,6 @@
 <ul>
 <li>在需要的时候,可以通过前后补0来避免一些corner case的编写,如84题</li>
 </ul>
-<h2 id="排序系列"><a class="markdownIt-Anchor" href="#排序系列"></a> 排序系列</h2>
 <p>典型例题:</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/next-greater-element-i/description/">496 下一个更大元素Ⅰ</a></li>
@@ -698,7 +734,7 @@
 <li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/largest-rectangle-in-histogram/description/">84 柱状图中最大的矩形</a></li>
 <li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/maximal-rectangle/description/">85 最大矩形</a></li>
 </ul>
-<h2 id=""><a class="markdownIt-Anchor" href="#"></a> </h2>
+<h2 id="排序系列"><a class="markdownIt-Anchor" href="#排序系列"></a> 排序系列</h2>
 <h3 id="堆排序"><a class="markdownIt-Anchor" href="#堆排序"></a> 堆排序</h3>
 <p>一种<strong>选择算法</strong>,<strong>不稳定</strong>(相同值的元素的相对位置可能发生改变),<strong><code>O(nlogn)</code></strong></p>
 <p><strong>堆排序步骤:</strong></p>
