@@ -54,7 +54,7 @@
 <meta property="og:image" content="https://pic.leetcode-cn.com/1649833763-BljEbP-image.png">
 <meta property="og:image" content="https://aliyun-lc-upload.oss-cn-hangzhou.aliyuncs.com/aliyun-lc-upload/uploads/2018/07/25/question_11.jpg">
 <meta property="article:published_time" content="2024-02-29T06:01:02.000Z">
-<meta property="article:modified_time" content="2024-09-01T08:33:58.096Z">
+<meta property="article:modified_time" content="2024-09-03T06:51:48.568Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="algorithm learning">
 <meta name="twitter:card" content="summary_large_image">
@@ -231,7 +231,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      78k 字
+      81k 字
     </span>
   
 
@@ -240,7 +240,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      244 分钟
+      252 分钟
     </span>
   
 
@@ -273,7 +273,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：5 分钟前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -810,6 +810,32 @@
 <p><strong>典型例题</strong></p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3865">P3865</a></li>
+</ul>
+<h3 id="线段树"><a class="markdownIt-Anchor" href="#线段树"></a> 线段树</h3>
+<p><strong>线段树(Segment Tree)是一种数据结构,它可以以<code>O(logn)</code>的时间复杂度,进行<u>区间修改</u>和<u>区间查询</u></strong>,是一般CSP考试中末尾两题或是leetcode周赛的题目中常见的数据结构</p>
+<p>它的本质是树,但是构建一棵树来管理也太复杂了,因此简化成<strong>利用数组来管理一棵完全二叉树</strong>,在根节点的索引为1的时候,左子树的根节点为其2倍,右子树的根节点为其2倍再加1;(有的人喜欢写成<code>p&lt;&lt;1</code>和<code>p&lt;&lt;1|1</code>,其中<code>p</code>是父节点的索引)</p>
+<p><strong>这一棵树<code>vector&lt;T&gt; tree</code>中的每一个元素代表的是一个范围内的数据的某一种信息,比如值的累和,最大最小值,众数等;</strong><mark>具体根据题意而定</mark></p>
+<p>考虑到区间修改的时候,如果频繁的递归进行修改,很耗费时间的,因此有个<strong>懒惰标记</strong>,来延迟修改,这个过程被精简为一个函数:<strong><code>push_down()</code>意思是下放懒惰标记</strong>,同时<strong>在区间修改的末尾,需要向上更新(父节点)区间信息,因此对称地有:<code>push_up()</code>函数</strong></p>
+<p>一棵线段树的构建过程分为:</p>
+<ul>
+<li>初始化+建树;</li>
+<li>区间查询;</li>
+<li>区间修改;</li>
+<li><code>push_up()</code>和<code>push_down()</code>;</li>
+</ul>
+<p>模板如下(提供的是区间和的,具体求区间的啥信息,根据题意灵活处理~):</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SegmentTree</span>&#123;</span><br><span class="hljs-keyword">private</span>:<br>   	<span class="hljs-keyword">int</span> n,n4;	<span class="hljs-comment">// n是给定的数组的元素大小,开空间要开到4倍,如果不想浪费空间可以动态开点,具体看参考文件的内容</span><br>    vector&lt;<span class="hljs-keyword">int</span>&gt; tree,lazy;	<span class="hljs-comment">// tree是线段树,里面的值代表的是一个范围的所求信息,这里是区间和;lazy是懒惰标记</span><br>    vector&lt;<span class="hljs-keyword">int</span>&gt;* arr;		<span class="hljs-comment">// 用于初始化;</span><br>    <span class="hljs-keyword">int</span> root,end;			<span class="hljs-comment">// root表示起始检索的下标,这里选择1,这样左右子树都2*i,2*i+1,如果选择0,则各自还要加个1</span><br>    <br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">SegmentTree</span>(vector&lt;<span class="hljs-keyword">int</span>&gt; a)&#123;<br>        n = a.<span class="hljs-built_in">size</span>();<br>        n4 = n&lt;&lt;<span class="hljs-number">2</span>;<br>        tree = vector&lt;<span class="hljs-keyword">int</span>&gt;(n4,<span class="hljs-number">0</span>);<br>        lazy = vector&lt;<span class="hljs-keyword">int</span>&gt;(n4,<span class="hljs-number">0</span>);<br>        arr = &amp;a;<br>        root =<span class="hljs-number">1</span>;<br>        end = n<span class="hljs-number">-1</span>;<br>        <span class="hljs-built_in">build</span>(<span class="hljs-number">0</span>,end,root);<br>        arr = <span class="hljs-literal">nullptr</span>;<br>    &#125;<br>    <br>    <span class="hljs-comment">// 建树</span><br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">build</span><span class="hljs-params">(<span class="hljs-keyword">int</span> s,<span class="hljs-keyword">int</span> t,<span class="hljs-keyword">int</span> p)</span></span>&#123;<br>        <span class="hljs-keyword">if</span>(s==t)&#123;	<span class="hljs-comment">// 叶子节点,装的是数组中的确切值</span><br>            tree[p] = (*arr)[s];<br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        <span class="hljs-keyword">int</span> mid = s + (t-s)/<span class="hljs-number">2</span>;  <span class="hljs-comment">// 为啥不直接相加除呢,遇到越界的数据就会老实这么写了</span><br>        <span class="hljs-built_in">build</span>(s,mid,p*<span class="hljs-number">2</span>);	    <span class="hljs-comment">// [s,mid]区间</span><br>        <span class="hljs-built_in">build</span>(mid+<span class="hljs-number">1</span>,t,p*<span class="hljs-number">2</span>+<span class="hljs-number">1</span>);	<span class="hljs-comment">// [mid+1,t]区间</span><br>        <span class="hljs-built_in">push_up</span>(p);<br>    &#125;<br>    <span class="hljs-comment">// 向上更新</span><br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">push_up</span><span class="hljs-params">(<span class="hljs-keyword">int</span> p)</span></span>&#123;<br>        tree[p] = tree[p*<span class="hljs-number">2</span>] + tree[p*<span class="hljs-number">2</span>+<span class="hljs-number">1</span>];<br>    &#125;<br>    <br>    <span class="hljs-comment">// 下放标记</span><br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">push_down</span><span class="hljs-params">(<span class="hljs-keyword">int</span> s,<span class="hljs-keyword">int</span> t,<span class="hljs-keyword">int</span> p)</span></span>&#123;<br>        <span class="hljs-keyword">int</span> mid = s + (t-s)/<span class="hljs-number">2</span>;<br>        <span class="hljs-keyword">if</span>(!lazy[p] &amp;&amp; s!=t)&#123;	<span class="hljs-comment">// s!=t是因为叶子节点没得下放,它也被人update过了</span><br>            tree[p*<span class="hljs-number">2</span>] += (mid-s+<span class="hljs-number">1</span>)*lazy[p];<br>            tree[p*<span class="hljs-number">2</span>+<span class="hljs-number">1</span>] += (t-mid)*lazy[p];<br>            lazy[<span class="hljs-number">2</span>*p] += lazy[p];<br>            lazy[<span class="hljs-number">2</span>*p+<span class="hljs-number">1</span>] += lazy[p]; <br>            lazy[p] = <span class="hljs-number">0</span>;<br>        &#125;<br>    &#125;<br>    <br>    <span class="hljs-comment">// 区间查询 所查询的区间是[l,r] 当前p节点所对应的区间是[s,t]</span><br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">range_query</span><span class="hljs-params">(<span class="hljs-keyword">int</span> l,<span class="hljs-keyword">int</span> r,<span class="hljs-keyword">int</span> s,<span class="hljs-keyword">int</span> t,<span class="hljs-keyword">int</span> p)</span></span>&#123;<br>       <span class="hljs-keyword">if</span>(l&lt;=s &amp;&amp; r&gt;=t)&#123;	<span class="hljs-comment">// [s,t]是[l,r]的一部分,直接返回tree[p]</span><br>           <span class="hljs-keyword">return</span> tree[p];<br>       &#125; <br>       <span class="hljs-comment">// 下放懒惰标记</span><br>       <span class="hljs-built_in">push_down</span>(s,t,p);<br>       <span class="hljs-keyword">int</span> mid = s + (t-s)/<span class="hljs-number">2</span>;<br>       <span class="hljs-keyword">int</span> sum = <span class="hljs-number">0</span>;<br>       <span class="hljs-keyword">if</span>(l&lt;=mid)&#123;<br>           sum+=<span class="hljs-built_in">range_query</span>(l,r,s,mid,p*<span class="hljs-number">2</span>);<br>       &#125;<br>       <span class="hljs-keyword">if</span>(r&gt;mid)&#123;<br>       	   sum+=<span class="hljs-built_in">range_query</span>(l,r,mid+<span class="hljs-number">1</span>,t,p*<span class="hljs-number">2</span>+<span class="hljs-number">1</span>);    <br>       &#125;<br>	   <span class="hljs-keyword">return</span> sum;<br>    &#125;<br>    <br>    <span class="hljs-comment">// 区间修改,这里是区间和的累加</span><br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">range_add</span><span class="hljs-params">(<span class="hljs-keyword">int</span> l,<span class="hljs-keyword">int</span> r,<span class="hljs-keyword">int</span> val,<span class="hljs-keyword">int</span> s,<span class="hljs-keyword">int</span> t,<span class="hljs-keyword">int</span> p)</span></span>&#123;<br>        <span class="hljs-keyword">if</span>(l&lt;=s &amp;&amp; r&gt;=t)&#123;<br>            tree[p] += (t-s+<span class="hljs-number">1</span>)*val;	<span class="hljs-comment">// 区间更新,求和嘛,那就是这个[s,t]区间的数都加个val</span><br>            lazy[p] += val;		    <span class="hljs-comment">// 懒惰标记,表明它的修改还没有落实到左右子树,乃至更下方的节点</span><br>            <span class="hljs-keyword">return</span>;<br>        &#125;<br>        <span class="hljs-comment">// 下放懒惰标记</span><br>        <span class="hljs-built_in">push_down</span>(s,t,p);<br>        <span class="hljs-keyword">int</span> mid = s + (t-s)/<span class="hljs-number">2</span>;<br>        <span class="hljs-keyword">if</span>(l&lt;=mid)&#123;<br>            <span class="hljs-built_in">range_add</span>(l,r,val,s,mid,p*<span class="hljs-number">2</span>);<br>        &#125;<br>        <span class="hljs-keyword">if</span>(r&gt;mid)&#123;<br>            <span class="hljs-built_in">range_add</span>(l,r,val,mid+<span class="hljs-number">1</span>,t,p*<span class="hljs-number">2</span>+<span class="hljs-number">1</span>);<br>        &#125;<br>        <span class="hljs-comment">// 向上更新</span><br>        <span class="hljs-built_in">push_up</span>(p);<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<div class="note note-info">
+            <p>注: 此类题目灵活性高,根据题意确定区间查询的值的类型,然后还可能需要附加别的算法知识进行题意处理,例题中首个题目是洛谷的模板题,但第二个题目是leetcode的题目,里面就结合了线段树和摩尔投票的算法思想来解决问题</p><p>同时,上面的模板也相对粗糙,比如你真正丢给外面的接口,应该是只有(l,r)或者(l,r,value)的接口</p>
+          </div>
+<p><strong>参考文件:</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://oi-wiki.org/ds/seg/">OI-WIKI-线段树</a></li>
+</ul>
+<p><strong>典型例题:</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3372">P3372</a></li>
+<li><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/online-majority-element-in-subarray/">1157. 子数组中占绝大多数的元素</a></li>
 </ul>
 <h2 id="排序系列"><a class="markdownIt-Anchor" href="#排序系列"></a> 排序系列</h2>
 <h3 id="堆排序"><a class="markdownIt-Anchor" href="#堆排序"></a> 堆排序</h3>
