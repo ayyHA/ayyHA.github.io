@@ -29,8 +29,9 @@
 <meta property="og:image" content="https://s2.loli.net/2024/05/16/v8coAk6V4GFzudN.png">
 <meta property="og:image" content="https://s2.loli.net/2024/05/16/Dpk2J5VFNM6AHwv.png">
 <meta property="og:image" content="https://s2.loli.net/2024/05/16/sfurLUeI3XVTElW.png">
+<meta property="og:image" content="https://s2.loli.net/2024/09/05/ATKo4dBScW8bpsw.png">
 <meta property="article:published_time" content="2024-04-03T09:48:26.000Z">
-<meta property="article:modified_time" content="2024-08-03T03:09:50.532Z">
+<meta property="article:modified_time" content="2024-09-05T09:34:48.211Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="OperatingSystem">
 <meta property="article:tag" content="ComputerNetwork">
@@ -209,7 +210,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.9k 字
+      3.1k 字
     </span>
   
 
@@ -218,7 +219,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      6 分钟
+      10 分钟
     </span>
   
 
@@ -251,7 +252,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：1 个月前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -346,6 +347,38 @@
 </ol>
 <p>参考文件:</p>
 <p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/2065162">死锁的四个必要条件和解决办法_半暖的博客_活锁和死锁的概念</a></p>
+<h2 id="计算机中的浮点数"><a class="markdownIt-Anchor" href="#计算机中的浮点数"></a> 计算机中的浮点数</h2>
+<p>浮点数在计算机中通过S(Signed),E(Exponent),M(Mantissa),即符号位,指数/阶码,尾数三者来表示.表示出来的浮点数类型有以下三种:</p>
+<ul>
+<li><strong>规格化浮点数</strong></li>
+<li><strong>非规格化浮点数(非常接近0的数以及0)</strong></li>
+<li><strong>特殊的数(±infinity以及NAN)</strong></li>
+</ul>
+<p>这三类数如何区分的呢?</p>
+<p><strong><mark>规格化浮点数的指数部分不能够取到全0或全1,只能取其中的部分,全0则跳到了非规格化浮点数,全1则跳到了特殊的数</mark></strong></p>
+<p><strong>规格数</strong></p>
+<p>此外,以FP32为例,E8M23,则意味着它的指数位是<code>[0000 0000,1111 1111]</code>这么一个范围,显然你如果这样取,取到的指数为都是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>+</mo></mrow><annotation encoding="application/x-tex">+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord">+</span></span></span></span>的,即范围是[0,255],为了让指数位平均分配在<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>+</mo></mrow><annotation encoding="application/x-tex">+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord">+</span></span></span></span>和<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo></mrow><annotation encoding="application/x-tex">-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord">−</span></span></span></span>之间,提出了一个exponent bias,它的计算公式是:<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>e</mi><mi>x</mi><mi>p</mi><mi>o</mi><mi>n</mi><mi>e</mi><mi>n</mi><mi>t</mi><mi mathvariant="normal">_</mi><mi>b</mi><mi>i</mi><mi>a</mi><mi>s</mi><mo>=</mo><msup><mn>2</mn><mrow><mi>E</mi><mo>−</mo><mn>1</mn></mrow></msup><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">exponent\_bias= 2^{E-1}-1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.00444em;vertical-align:-0.31em;"></span><span class="mord mathnormal">e</span><span class="mord mathnormal">x</span><span class="mord mathnormal">p</span><span class="mord mathnormal">o</span><span class="mord mathnormal">n</span><span class="mord mathnormal">e</span><span class="mord mathnormal">n</span><span class="mord mathnormal">t</span><span class="mord" style="margin-right:0.02778em;">_</span><span class="mord mathnormal">b</span><span class="mord mathnormal">i</span><span class="mord mathnormal">a</span><span class="mord mathnormal">s</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.924661em;vertical-align:-0.08333em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413309999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.05764em;">E</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>,这里就是127,因此指数的取值范围落在了[-127,128].<mark>实际上,应该是[-126,128],为了实现<u>逐渐溢出</u>的特性,非规格数的指数数值的计算方式与别的不同</mark></p>
+<p>对于规格化浮点数来说,它的取值很平庸,由符号位决定正负,由指数位决定范围,由尾数位决定精度,表示了浮点数中的绝大部分数,但是它无法表示很小的数以及0,也无法表示infinity,它的取数是在±[1,2) ** [-126,127]  <mark>这里写得很简略,都是区间,从左到右依次包括了S,M,E</mark></p>
+<p><strong>非规格数</strong></p>
+<p>非规格数的特点是阶码全取0</p>
+<p>其中规格化浮点数和非规格化浮点数的区别在于两个:</p>
+<ul>
+<li>隐藏的前置1 or 0</li>
+<li>阶码所表示的值是阶码对应的十进制位减去exponent bias,或是1 - exponent bias(阶码全是0)</li>
+</ul>
+<p>其中关于第二点,之所以不采取和规格化数一样的计算方式,是因为为了让规格化数的最小值和非规格化数的最大值,可以紧密的衔接在一起,通过这种溢出的思想,由非规格化数丝滑连接到规格化数</p>
+<p>再通过一种抽象的方式表示非规格化数的范围:±[0,1) ** (-126),这里的0,1表示的是不同尾数的取值导致的,显然尾数取全0就是正负零,取全1,就是此刻的最大值,但由于非规格数前置为0因此到不了1,只是一个很大的很接近1的数,然后再乘于对应的指数(对于非规格数而言,指数就是<code>1-exponent_bias</code>)</p>
+<p><strong>特殊的数</strong></p>
+<p>特殊的数的特点是exponent全取1,当尾数全零,则根据符号位来区分正无穷还是负无穷;否则则为NAN</p>
+<p>可以通过以下表格查看三者分布:</p>
+<img src="https://s2.loli.net/2024/09/05/ATKo4dBScW8bpsw.png" srcset="/img/loading.gif" lazyload alt="FP32-E8M23" style="zoom:67%;" />
+<div class="note note-warning">
+            <p>特别注意: N卡的一些数据类型不遵循IEEE754标准嗷,比如FP8的一个E4M3的类型,它为了取值更大,规格数可以取到448(1.110<sub>(2)</sub> * 2<sup>8</sup>),舍弃了精度,与754的规格数阶码不能全1相反,它阶码全1了,尾数的最后一位空了出来</p>
+          </div>
+<p><strong>参考文件</strong>:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/343049681">IEEE754规范: 四, 非规格数, ±infinity, NaN</a></li>
+</ul>
 
             </div>
             <hr>
