@@ -28,7 +28,7 @@
 <meta property="og:image" content="https://s2.loli.net/2024/10/06/r5DM9w3AUz4LijT.png">
 <meta property="og:image" content="https://s2.loli.net/2024/10/04/9mqkS5IwCl34OjV.png">
 <meta property="article:published_time" content="2024-09-26T07:17:59.000Z">
-<meta property="article:modified_time" content="2024-10-05T17:30:57.258Z">
+<meta property="article:modified_time" content="2024-10-07T15:53:59.571Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="CUDA">
 <meta property="article:tag" content="flashAttention">
@@ -216,7 +216,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      12 分钟
+      13 分钟
     </span>
   
 
@@ -249,7 +249,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：11 分钟前
+                  本文最后更新于：10 小时前
                 
               </p>
             
@@ -302,6 +302,7 @@
 <p><img src="https://s2.loli.net/2024/10/06/r5DM9w3AUz4LijT.png" srcset="/img/loading.gif" lazyload alt="attention-1pass" /></p>
 <h3 id="tiled-attention"><a class="markdownIt-Anchor" href="#tiled-attention"></a> Tiled Attention</h3>
 <img src="https://s2.loli.net/2024/10/04/9mqkS5IwCl34OjV.png" srcset="/img/loading.gif" lazyload alt="flashattnv1-algo" style="zoom:67%;" />  
+<p>这里的分块,是将QKVO进行分块,它们的shape都是<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>R</mi><mrow><mi>N</mi><mo>×</mo><mi>d</mi></mrow></msup></mrow><annotation encoding="application/x-tex">R^{N \times d}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8491079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8491079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span><span class="mbin mtight">×</span><span class="mord mathnormal mtight">d</span></span></span></span></span></span></span></span></span></span></span></span>,想要在1个block内的smem放下</p>
 <h2 id="flashattentionv2"><a class="markdownIt-Anchor" href="#flashattentionv2"></a> FlashAttentionV2</h2>
 <p>相较于V1的更新:</p>
 <ul>

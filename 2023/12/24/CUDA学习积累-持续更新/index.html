@@ -26,6 +26,10 @@
 <meta property="og:image" content="https://s2.loli.net/2024/07/03/iWIVfJknL79A1aD.png">
 <meta property="og:image" content="https://s2.loli.net/2024/07/03/DzW7bO2gwC91IJj.png">
 <meta property="og:image" content="https://s2.loli.net/2024/07/03/p6JANBGKTlrvYMO.png">
+<meta property="og:image" content="https://s2.loli.net/2024/10/07/YpuJt4hvRzo52QF.png">
+<meta property="og:image" content="https://s2.loli.net/2024/10/07/IRvkAw9PMnqQNiY.png">
+<meta property="og:image" content="https://s2.loli.net/2024/10/07/NuD9gGoz7LqUScP.png">
+<meta property="og:image" content="https://s2.loli.net/2024/10/07/17X4RlwZy8qajtP.png">
 <meta property="og:image" content="https://s2.loli.net/2024/10/02/rkpb3it1BzDLVgh.png">
 <meta property="og:image" content="https://s2.loli.net/2024/07/07/DPN327Hiqd5QMp6.png">
 <meta property="og:image" content="https://s2.loli.net/2024/07/27/dxEze15Nh7Ywtro.png">
@@ -34,7 +38,7 @@
 <meta property="og:image" content="https://s2.loli.net/2024/07/28/vtNbw7MP9BxlT1y.png">
 <meta property="og:image" content="https://s2.loli.net/2024/08/02/Gk6bmo1ihnepct9.png">
 <meta property="article:published_time" content="2023-12-24T06:18:12.000Z">
-<meta property="article:modified_time" content="2024-10-02T07:55:50.411Z">
+<meta property="article:modified_time" content="2024-10-07T15:16:26.035Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="CUDA">
 <meta property="article:tag" content="C++">
@@ -214,7 +218,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      14k 字
+      16k 字
     </span>
   
 
@@ -223,7 +227,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      44 分钟
+      50 分钟
     </span>
   
 
@@ -256,7 +260,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：3 天前
+                  本文最后更新于：10 小时前
                 
               </p>
             
@@ -305,6 +309,32 @@
 <p>通过向量加这一例子,了解cuda编程的大致形式</p>
 <p>从下面开始,关于CUDA的讲解分为三个部分:<strong>硬件架构</strong>,<strong>库与函数</strong>,<strong>算子系列</strong>来进行展开,三个部分顺序不一定一一对应,可以从硬件部分开始看,也可以从算子系列开始看,遇到奇奇怪怪的函数或库在去库与函数里找解释会更好</p>
 <h2 id="nvcc编译流程"><a class="markdownIt-Anchor" href="#nvcc编译流程"></a> NVCC编译流程</h2>
+<img src="https://s2.loli.net/2024/10/07/YpuJt4hvRzo52QF.png" srcset="/img/loading.gif" lazyload alt="cuda-compliation-from-cu-to-executable" style="zoom:80%;" />
+<p>CUDA编译流程就像上图所示:<code>.cu</code>文件进行两次预处理,左边的是纯C++的,右边的是CUDA的(又或者说是host端代码和devic端代码)</p>
+<p>device端代码预处理后会被cicc编译得到ptx代码,然后被ptxas这个汇编器得到cubin,这个过程会重复多次,看你<code>--generate-code arch=compute_80,code=sm_80</code>就看你前面这个virtual architecture有哪些个(虚拟架构是向后兼容的,对应的sm_xy)的情况下优化效果更好</p>
+<p>然后把这些个<code>.cubin</code>弄成一个<code>.fatbin</code>合并了多个版本的<code>.cubin</code>,然后用类似内联汇编的形式经由<code>fatbinary</code>指令弄成<code>fatbin.c</code>文件.被host端代码所include的一个stub文件包含,则此刻所有代码都是<code>.c</code>,经由gcc编译即可,编译得到<code>.o</code></p>
+<p><mark>多个<code>.cu</code>文件都过一遍上面的流程得到<code>.o</code>,经由<code>nvlink</code>(设备端的链接器)对device端代码进行链接,形成一个.o文件,然后再与原先生成的<code>.o</code>文件进行主机端的链接,最终形成可执行文件</mark></p>
+<p>上面是一坨,host端和device端一起编译,叫做<code>whole program compilation</code>,也可以分开编译,如下,叫做<code>separate compilation</code>:</p>
+<p><img src="https://s2.loli.net/2024/10/07/IRvkAw9PMnqQNiY.png" srcset="/img/loading.gif" lazyload alt="nvcc-options-for-separate-compilation" /></p>
+<p>分开编译特指的是设备端的代码,设备端的代码可以复用,不用都写一块,一起编译了,可以写多个<code>.cu</code>,跨文件去访问设备端的函数和变量.那么其中用到的这些个<strong>符号</strong>,就需要通过<code>extern</code>(外部函数或别的文件可见的变量)和<code>static</code>(用于不同文件的同名变量)关键字来修饰其可见性了,这时最好用引用而非具体的变量名</p>
+<div class="note note-warning">
+            <p><code>whole program compilation</code>的nvlink不是用于设备端的链接器吗?确实看到了:</p><blockquote><p>CUDA programs are compiled in the whole program compilation mode by default, i.e., the device code cannot reference an entity from a separate file. In the whole program compilation mode, device link steps have no effect. For more information on the separate compilation and the whole program compilation, see <a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/cuda-compiler-driver-nvcc/index.html#using-separate-compilation-in-cuda">Using Separate Compilation in CUDA</a>.</p></blockquote><p>那这是真的没用吗?(＠_＠;)还是说后面改了</p>
+          </div>
+<img src="https://s2.loli.net/2024/10/07/NuD9gGoz7LqUScP.png" srcset="/img/loading.gif" lazyload alt="virtual-architecture" style="zoom:80%;" />
+<p>2stage的编译过程,编译出来的是可以直接在CUDA Runtime上执行的二进制代码</p>
+<blockquote>
+<p>From this it follows that the virtual architecture should always be chosen as <em>low</em> as possible, thereby maximizing the actual GPUs to run on. The <em>real</em> architecture should be chosen as <em>high</em> as possible (assuming that this always generates better code), but this is only possible with knowledge of the actual GPUs on which the application is expected to run on.</p>
+</blockquote>
+<img src="https://s2.loli.net/2024/10/07/17X4RlwZy8qajtP.png" srcset="/img/loading.gif" lazyload alt="just in time compliation" style="zoom:80%;" />
+<p>1stage的编译过程,得到了对应的ptx代码,运行的时候驱动取得了确定的GPU型号,再进行编译运行,这又称之为JIT Compilation(Just In Time,即时编译),通过<code>--generate-code arch=compute_80,code=compute_80</code>.对于某一些功能以及性能的追求,可以用这个,因为知道了具体的gpu型号可以生成最匹配的二进制代码</p>
+<blockquote>
+<p>By specifying a virtual code architecture instead of a <em>real</em> GPU, <code>nvcc</code> postpones the assembly of PTX code until application runtime, at which time the target GPU is exactly known.</p>
+</blockquote>
+<p><strong>参考文件:</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/535334673">nvcc编译原理</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/cuda-compiler-driver-nvcc/">CUDA-compiler-driver-NVCC</a></li>
+</ul>
 <h2 id="硬件架构"><a class="markdownIt-Anchor" href="#硬件架构"></a> 硬件架构</h2>
 <h3 id="pascal前架构"><a class="markdownIt-Anchor" href="#pascal前架构"></a> Pascal前架构</h3>
 <h3 id="volta"><a class="markdownIt-Anchor" href="#volta"></a> Volta</h3>
