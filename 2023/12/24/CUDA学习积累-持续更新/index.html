@@ -31,6 +31,7 @@
 <meta property="og:image" content="https://s2.loli.net/2024/10/07/NuD9gGoz7LqUScP.png">
 <meta property="og:image" content="https://s2.loli.net/2024/10/07/17X4RlwZy8qajtP.png">
 <meta property="og:image" content="https://s2.loli.net/2024/10/02/rkpb3it1BzDLVgh.png">
+<meta property="og:image" content="https://s2.loli.net/2024/10/10/iTFCJNfu8sXKHZv.jpg">
 <meta property="og:image" content="https://s2.loli.net/2024/07/07/DPN327Hiqd5QMp6.png">
 <meta property="og:image" content="https://s2.loli.net/2024/07/27/dxEze15Nh7Ywtro.png">
 <meta property="og:image" content="https://s2.loli.net/2024/07/28/cqbdYjmQKMPW5yg.png">
@@ -38,7 +39,7 @@
 <meta property="og:image" content="https://s2.loli.net/2024/07/28/vtNbw7MP9BxlT1y.png">
 <meta property="og:image" content="https://s2.loli.net/2024/08/02/Gk6bmo1ihnepct9.png">
 <meta property="article:published_time" content="2023-12-24T06:18:12.000Z">
-<meta property="article:modified_time" content="2024-10-07T15:16:26.035Z">
+<meta property="article:modified_time" content="2024-10-10T06:06:46.071Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="CUDA">
 <meta property="article:tag" content="C++">
@@ -227,7 +228,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      50 分钟
+      51 分钟
     </span>
   
 
@@ -260,7 +261,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：10 小时前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -358,28 +359,31 @@ CC有大版本和小版本，大版本一般有代号，比如3.x叫做Kepler，
 <p>基于预编译的扩展,望文生义👀,它是需要&quot;<strong>编译</strong>&quot;的,<strong><code>setup.py</code>是一个基于<code>setuptools</code>的编译脚本,需要编写它,以指明实际需要编译的扩展</strong>(<u>模块名也是在这个脚本中被指定的</u>).在这个脚本,可以指明**<code>CppExtension</code><strong>和</strong><code>CUDAExtension</code>**这两种不同的扩展,以适配不同的机子,还可以指明扩展的名字,扫描头文件的路径,库的路径,等等.<strong>通过这个脚本,我们会形成最终的nvcc/g++命令,对扩展文件进行编译</strong></p>
 <p>最终执行指令以进行编译:<strong><code>python setup.py build_ext --inplace</code></strong></p>
 <p>一个<code>setup.py</code>的模板👀</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># setup.py</span><br><span class="hljs-keyword">from</span> setuptools <span class="hljs-keyword">import</span> setup<br><span class="hljs-keyword">from</span> torch.utils.cpp_extension <span class="hljs-keyword">import</span> BuildExtension,CUDAExtension<br><br>setup(<br>	name = <span class="hljs-string">&#x27;&#x27;</span>,				<span class="hljs-comment"># 包名</span><br>    ext_modules = [<br>        name = <span class="hljs-string">&#x27;&#x27;</span>, 			  <span class="hljs-comment"># 扩展模块名</span><br>        sources = [<span class="hljs-string">&#x27;&#x27;</span>],		   <span class="hljs-comment"># 源文件 可以用glob.glob()找到match的文件</span><br>        include_dirs = [],     <span class="hljs-comment"># 头文件搜索路径</span><br>        extra_complile_args = &#123;<span class="hljs-string">&#x27;cxx&#x27;</span>:[<span class="hljs-string">&#x27;&#x27;</span>],	<span class="hljs-comment"># 其他编译选项</span><br>                              <span class="hljs-string">&#x27;nvcc&#x27;</span>:[<span class="hljs-string">&#x27;&#x27;</span>],&#125;<br>    ],<br>    cmdclass = &#123;<span class="hljs-string">&#x27;build_ext&#x27;</span>:BuildExtension&#125;<br>)<br></code></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># setup.py</span><br><span class="hljs-keyword">from</span> setuptools <span class="hljs-keyword">import</span> setup<br><span class="hljs-keyword">from</span> torch.utils.cpp_extension <span class="hljs-keyword">import</span> BuildExtension,CUDAExtension<br><br>setup(<br>	name = <span class="hljs-string">&#x27;&#x27;</span>,				<span class="hljs-comment"># 包名</span><br>    ext_modules = [<br>        CUDAExtension(<br>            name = <span class="hljs-string">&#x27;&#x27;</span>, 			  <span class="hljs-comment"># 扩展模块名</span><br>            sources = [<span class="hljs-string">&#x27;&#x27;</span>],		   <span class="hljs-comment"># 源文件 可以用glob.glob()找到match的文件</span><br>            include_dirs = [],     <span class="hljs-comment"># 头文件搜索路径</span><br>            extra_complile_args = &#123;<span class="hljs-string">&#x27;cxx&#x27;</span>:[<span class="hljs-string">&#x27;&#x27;</span>],	<span class="hljs-comment"># 其他编译选项</span><br>                                  <span class="hljs-string">&#x27;nvcc&#x27;</span>:[<span class="hljs-string">&#x27;&#x27;</span>],&#125;)<br>    ],<br>    cmdclass = &#123;<span class="hljs-string">&#x27;build_ext&#x27;</span>:BuildExtension&#125;<br>)<br></code></pre></td></tr></table></figure>
 <div class="note note-info">
             <p>注: <code>python setup.py</code>后面的<code>build_ext --inplace</code>是干啥的呢?可以把<code>build_ext</code>理解成是构建这么一个扩展模块;而<code>--inplace</code>则是编译后的扩展模块放在当前的目录中?</p><p><img src="https://s2.loli.net/2024/10/02/rkpb3it1BzDLVgh.png" srcset="/img/loading.gif" lazyload alt="setuptools-cython2ext_module" /></p>
           </div>
 </li>
 <li>
-<p>扩展文件被编译了,即形成了二进制文件,这个二进制文件在python中是怎么调用到它的呢?通过<strong>pybind11</strong>这个库来实现的,它是一个用来在c<ins>代码中创建python的连接的库.宏定义**<code>PYBIND11_MODULE</code>**为c</ins>代码接入python解释器提供了入口</p>
+<p>扩展文件被编译了,即形成了二进制文件,这个二进制文件在python中是怎么调用到它的呢?通过<strong>pybind11</strong>这个库来实现的,它是一个<strong>用来在c++代码中创建python的连接的库</strong>.宏定义**<code>PYBIND11_MODULE</code>**为c++代码接入python解释器提供了入口</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-built_in">PYBIND11_MODULE</span>(TORCH_EXTENTION_NAME,m)&#123;	<span class="hljs-comment">// TORCH_EXTENSION_NAME是模块名称 // m是模块实例</span><br> 	m.<span class="hljs-built_in">def</span>(<span class="hljs-string">&quot;&quot;</span>,,,py::<span class="hljs-built_in">arg</span>(),);   <br>&#125;<br></code></pre></td></tr></table></figure>
 <ul>
 <li><code>TORCH_EXTENTION_NAME</code>是在<code>setup.py</code>脚本中的扩展模块名(即python中的module名),对应的是编译命令中的<code>-DTORCH_EXTENTION_NAME=...</code>这个宏</li>
-<li><code>m</code>是扩展模块的实例,<strong><code>&#123;&#125;</code>中的每个<code>m.def</code>都定义了一个扩展模块的成员函数</strong>,一般形式为:<strong><code>m.def(&quot;函数名&quot;,具体函数的函数指针,&quot;文档&quot;,参数列表)</code></strong></li>
+<li><code>m</code>是扩展模块的实例,<strong><code>&#123;&#125;</code>中的每个<code>m.def</code>都定义了一个扩展模块的成员函数</strong>,一般形式为:<strong><code>m.def(&quot;python调用函数名&quot;,cpp具体函数的函数指针,&quot;帮助文档的说明&quot;,参数列表用以关键字传参)</code></strong></li>
 </ul>
 </li>
 </ol>
 </li>
 <li>
-<p><strong>实时编译</strong></p>
-<p><mark>未写</mark></p>
+<p><strong>即时编译</strong></p>
+<p>通过<code>torch.utils.cpp_extension</code>下的<code>load</code>函数即可实现即时编译，以下是一个模板(详细信息看这个篇章的最后一个参考文件)：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> torch.utils.cpp_extension <span class="hljs-keyword">import</span> load<br>module_name = load(name=<span class="hljs-string">&quot;module_name&quot;</span>,sources=[<span class="hljs-string">&#x27;xxx.cpp&#x27;</span>,<span class="hljs-string">&#x27;xxx.cu&#x27;</span>],)<br></code></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>在PyTorch中增加CPP/CUDA扩展的操作说完了,但是我们知道PyTorch中有个很常用到的数据类型叫<code>Tensor</code>,那我们在CPP/CUDA扩展中怎么模拟或者说有没有得直接使用这个数据结构呢?</p>
-<p><strong>我们可以通过<code>#include &lt;torch/extension.h&gt;</code>就可以在扩展中调用所有PyTorch支持的功能</strong>.有三大命名空间:<code>c10</code>(Caffe Tensor Library),<code>at</code>(A Tensor Library),<code>torch</code>.翻看别人项目或是算子的源码,多用的是torch这个namespace</p>
+<p><strong>我们可以通过<code>#include &lt;torch/extension.h&gt;</code>就可以在扩展中调用所有PyTorch支持的功能</strong>.有三大命名空间:<strong><code>c10</code>(Caffe Tensor Library)</strong>,<strong><code>at</code>(A Tensor Library),<code>torch</code></strong>.翻看别人项目或是算子的源码,多用的是torch这个namespace</p>
+<p>在利用pybind11将c++代码绑定到python时，需要加上这个头文件，原因见下方：</p>
+<img src="https://s2.loli.net/2024/10/10/iTFCJNfu8sXKHZv.jpg" srcset="/img/loading.gif" lazyload alt="torch_extension" style="zoom:70%;" />
 <p><strong>参考文件:</strong></p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/348555597">PyTorch 源码解读之 cpp_extension</a></li>
@@ -389,6 +393,8 @@ CC有大版本和小版本，大版本一般有代号，比如3.x叫做Kepler，
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/460233022">Python打包分发工具setuptools</a></li>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/xiqi4145/article/details/114216162">build_ext --inplace 是什么意思</a></li>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/603275573">vscode配置&lt;torch/extension.h&gt;的include path</a></li>
+<li><a target="_blank" rel="noopener" href="https://pytorch.org/tutorials/advanced/cpp_extension.html#writing-a-c-extension">writing-a-c-extension</a></li>
+<li><a target="_blank" rel="noopener" href="https://pytorch.org/docs/stable/_modules/torch/utils/cpp_extension.html#load">cpp_extension_doc</a></li>
 </ul>
 <h2 id="库与函数"><a class="markdownIt-Anchor" href="#库与函数"></a> 库与函数</h2>
 <h3 id="cublas_v2"><a class="markdownIt-Anchor" href="#cublas_v2"></a> cublas_v2</h3>

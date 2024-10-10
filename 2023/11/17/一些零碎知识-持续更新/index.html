@@ -27,7 +27,7 @@
 <meta property="og:image" content="https://s2.loli.net/2024/04/30/gVWkNmHxF156Csv.png">
 <meta property="og:image" content="https://s2.loli.net/2024/08/15/mIl78OekFQasEx1.png">
 <meta property="article:published_time" content="2023-11-17T02:56:43.000Z">
-<meta property="article:modified_time" content="2024-08-15T08:49:54.009Z">
+<meta property="article:modified_time" content="2024-10-08T02:48:05.536Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary_large_image">
@@ -204,7 +204,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      6.4k 字
+      6.6k 字
     </span>
   
 
@@ -246,7 +246,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2 个月前
+                  本文最后更新于：2 天前
                 
               </p>
             
@@ -498,8 +498,19 @@ DPU：是对网卡和存储等数据的高效处理<br />
 </ul>
 <h2 id="name-mangling的解释工具"><a class="markdownIt-Anchor" href="#name-mangling的解释工具"></a> name mangling的解释工具</h2>
 <p>反汇编出的汇编代码,它会有一坨怪怪的东西,比如<code>_Z3addPiPb</code>之类的,这个东西又大概知道它应该是个函数名,这玩意可以通过<code>c++filt</code>或是<code>cu++filt</code>来给它还原,比如:</p>
-<p><img src="https://s2.loli.net/2024/08/15/mIl78OekFQasEx1.png" srcset="/img/loading.gif" lazyload alt="read-name-mangling-tool" style="zoom:67%;" /><section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/63207620/answer/1707221853">https://www.zhihu.com/question/63207620/answer/1707221853</a><br />
-<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section></p>
+<img src="https://s2.loli.net/2024/08/15/mIl78OekFQasEx1.png" srcset="/img/loading.gif" lazyload alt="read-name-mangling-tool" style="zoom:67%;" />
+<h2 id="神奇的宏定义"><a class="markdownIt-Anchor" href="#神奇的宏定义"></a> 神奇的宏定义</h2>
+<p>在看别人代码的时候,不难会发现,有些人的宏定义会出现<code>#</code>,主要用两个用途:</p>
+<ul>
+<li><code>#</code>单个井号的使用,使得值变成字串,如<code>#define val2str(val) (#val) </code></li>
+<li><code>##</code>两个井号的使用,使得两个值进行拼接,如<code>#define nameJoin(x,y) x##y</code></li>
+</ul>
+<p>可以通过<code>gcc -E ...</code>使得文件经过预处理,看看宏替换后的效果~</p>
+<p>参考文件:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.jb51.net/program/2847248sa.htm">浅析C++宏定义里#和##的使用</a><section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/63207620/answer/1707221853">https://www.zhihu.com/question/63207620/answer/1707221853</a><br />
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section></li>
+</ul>
 
             </div>
             <hr>
