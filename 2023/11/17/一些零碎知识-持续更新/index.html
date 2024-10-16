@@ -27,7 +27,7 @@
 <meta property="og:image" content="https://s2.loli.net/2024/04/30/gVWkNmHxF156Csv.png">
 <meta property="og:image" content="https://s2.loli.net/2024/08/15/mIl78OekFQasEx1.png">
 <meta property="article:published_time" content="2023-11-17T02:56:43.000Z">
-<meta property="article:modified_time" content="2024-10-08T02:48:05.536Z">
+<meta property="article:modified_time" content="2024-10-15T17:38:01.547Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary_large_image">
@@ -204,7 +204,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      6.6k 字
+      6.9k 字
     </span>
   
 
@@ -213,7 +213,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      20 分钟
+      22 分钟
     </span>
   
 
@@ -246,7 +246,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2 天前
+                  本文最后更新于：15 小时前
                 
               </p>
             
@@ -508,10 +508,20 @@ DPU：是对网卡和存储等数据的高效处理<br />
 <p>可以通过<code>gcc -E ...</code>使得文件经过预处理,看看宏替换后的效果~</p>
 <p>参考文件:</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://www.jb51.net/program/2847248sa.htm">浅析C++宏定义里#和##的使用</a><section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/63207620/answer/1707221853">https://www.zhihu.com/question/63207620/answer/1707221853</a><br />
-<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section></li>
+<li><a target="_blank" rel="noopener" href="https://www.jb51.net/program/2847248sa.htm">浅析C++宏定义里#和##的使用</a></li>
 </ul>
-
+<h2 id="c-tmp"><a class="markdownIt-Anchor" href="#c-tmp"></a> C++ TMP</h2>
+<p>TMP即templace metaprogramming<strong>模板元编程</strong>，这里小小的记录一下，更多的细节需要在实践中不断认知</p>
+<p>元编程(metaprogramming)是编写元程序(metaprogram)的一种编程技巧</p>
+<p>元程序的输入是其他程序乃至自己(metaprogram is a program about a program)</p>
+<p>元编程有两种类型：</p>
+<ul>
+<li>一种是对domain language翻译成host language，<strong>逻辑代码与元程序是分离的</strong></li>
+<li>一种是用同一种语言将逻辑代码和元程序写在一起，元程序通过编译得到逻辑代码，并与别的逻辑代码混合，自己manipulate自己，<strong>逻辑代码与元程序是混合的</strong>，<strong><u>元程序看起来自己在编写自己</u></strong></li>
+</ul>
+<p><strong>C<ins>TMP是后者，元程序的代码和c</ins>逻辑代码写一起，元程序的逻辑在编译期执行，c++逻辑代码在运行期执行</strong></p>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/63207620/answer/1707221853">https://www.zhihu.com/question/63207620/answer/1707221853</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
             </div>
             <hr>
             <div>
