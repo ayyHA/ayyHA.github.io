@@ -27,7 +27,7 @@
 <meta property="og:image" content="https://s2.loli.net/2024/04/30/gVWkNmHxF156Csv.png">
 <meta property="og:image" content="https://s2.loli.net/2024/08/15/mIl78OekFQasEx1.png">
 <meta property="article:published_time" content="2023-11-17T02:56:43.000Z">
-<meta property="article:modified_time" content="2024-10-18T02:49:03.669Z">
+<meta property="article:modified_time" content="2024-10-19T12:23:16.451Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary_large_image">
@@ -204,7 +204,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      7.2k 字
+      11k 字
     </span>
   
 
@@ -213,7 +213,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      22 分钟
+      34 分钟
     </span>
   
 
@@ -246,7 +246,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：12 分钟前
+                  本文最后更新于：5 小时前
                 
               </p>
             
@@ -514,41 +514,104 @@ DPU：是对网卡和存储等数据的高效处理<br />
 <p>TMP即templace metaprogramming<strong>模板元编程</strong>，这里小小的记录一下，更多的细节需要在实践中不断认知</p>
 <p>元编程(metaprogramming)是编写元程序(metaprogram)的一种编程技巧</p>
 <p>元程序的输入是其他程序乃至自己(metaprogram is a program about a program)</p>
-<p>元编程有两种类型：</p>
+<h3 id="元编程两种类型"><a class="markdownIt-Anchor" href="#元编程两种类型"></a> 元编程两种类型：</h3>
 <ul>
 <li>一种是对domain language翻译成host language，<strong>逻辑代码与元程序是分离的</strong></li>
 <li>一种是用同一种语言将逻辑代码和元程序写在一起，元程序通过编译得到逻辑代码，并与别的逻辑代码混合，自己manipulate自己，<strong>逻辑代码与元程序是混合的</strong>，<strong><u>元程序看起来自己在编写自己</u></strong></li>
 </ul>
 <p><strong>C<ins>TMP是后者，元程序的代码和c</ins>逻辑代码写一起，元程序的逻辑在编译期执行，c++逻辑代码在运行期执行</strong></p>
-<p>可声明的模板类型有：</p>
-<ul>
-<li><strong>类模板</strong></li>
-<li><strong>函数模板</strong></li>
-<li><strong>变量模板</strong></li>
-<li>别名模板(alias template)</li>
-<li>concept</li>
-</ul>
-<p>前三种可以有定义，后两种不需定义(不产生运行时的实体)</p>
-<p><strong>模板是对代码的描述</strong></p>
-<p>模板之形参(形参-parameter,实参-argument)：</p>
+<h3 id="可声明的模板类型"><a class="markdownIt-Anchor" href="#可声明的模板类型"></a> 可声明的模板类型</h3>
 <ul>
 <li>
-<p>Non-type Template Parameters</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++">  <br></code></pre></td></tr></table></figure>
+<p><strong>类模板</strong>(class template)</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">clsTemplate</span>;</span><br></code></pre></td></tr></table></figure>
 </li>
 <li>
-<p>Type Template Parameters</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++">  <br></code></pre></td></tr></table></figure>
+<p><strong>函数模板</strong>(function template)</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;</span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">funcTemplate</span><span class="hljs-params">(T)</span></span><br></code></pre></td></tr></table></figure>
 </li>
 <li>
-<p>Template Template Parameters</p>
-<p>只接受类模板和类的别名模板作为实参，且实参模板参数列表要和形参模板的参数列表match</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs C++">  <br></code></pre></td></tr></table></figure>
+<p><strong>变量模板</strong>(variable template)</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;<br>T varTemplate;<br></code></pre></td></tr></table></figure>
+</li>
+<li>
+<p>别名模板(alias template)</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-keyword">using</span> aliasTemplate = T;<br></code></pre></td></tr></table></figure>
+</li>
+<li>
+<p>concept</p>
 </li>
 </ul>
+<p>前三种可以有<strong>定义</strong>，后两种不需定义(不产生运行时的实体)</p>
+<p>模板的产生是为了泛型编程(generic programming)，因此<strong>类型是被参数化</strong>(即类型可做参数)了的。模板由关键字<code>template</code>表明,然后<code>&lt;&gt;</code>内放置的是模板的参数</p>
+<p><strong>类模板，函数模板是模板而非类或函数，它们是对类和函数的描述，<u>模板是对代码的描述</u></strong></p>
+<h3 id="模板之形参形参-parameter实参-argument"><a class="markdownIt-Anchor" href="#模板之形参形参-parameter实参-argument"></a> 模板之形参(形参-parameter,实参-argument)：</h3>
+<ul>
+<li>
+<p><strong>Non-type Template Parameters</strong>,接受一个<strong>确定类型</strong>(与模型形参的那个确定类型匹配)<strong>的常量作为实参,之所以需要常量,是因为模板是在编译期展开的,这个时候只有常量,没有变量</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">int</span> n&gt;</span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">funcPrint</span><span class="hljs-params">()</span></span>&#123;<br>    cout &lt;&lt; n &lt;&lt; endl;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> b = <span class="hljs-number">3</span>;<br>    funcPrint&lt;b&gt;(); <span class="hljs-comment">// output 3</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>Type Template Parameters</strong>,用**<code>typename</code><strong>这个关键字来</strong>声明<strong>这个形参的</strong>类型**(datatype)是T</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;</span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">whichType</span><span class="hljs-params">()</span></span>&#123;<br>    T val;<br>    cout &lt;&lt; <span class="hljs-built_in"><span class="hljs-keyword">typeid</span></span>(val).<span class="hljs-built_in">name</span>() &lt;&lt; endl;	<span class="hljs-comment">// 头文件#include&lt;typeinfo&gt;</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    whichType&lt;<span class="hljs-keyword">int</span>&gt;();	<span class="hljs-comment">// output i</span><br>    whichType&lt;<span class="hljs-keyword">float</span>&gt;(); <span class="hljs-comment">// output f</span><br>    whichType&lt;<span class="hljs-keyword">uint32_t</span>&gt;(); <span class="hljs-comment">// output j</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>Template Template Parameters</strong>,<strong>只接受类模板和类的别名模板作为实参，且实参模板参数列表要和形参模板的参数列表match</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;<br>  <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">clsTemp</span>&#123;</span><br>  <span class="hljs-keyword">public</span>:<br>      T val;<br>      <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">display</span><span class="hljs-params">()</span></span>&#123;<br>          cout &lt;&lt; <span class="hljs-string">&quot;From clsTemp,datatype:&quot;</span> &lt;&lt; <span class="hljs-built_in"><span class="hljs-keyword">typeid</span></span>(val).<span class="hljs-built_in">name</span>() &lt;&lt; endl;<br>      &#125;<br>  &#125;;<br>  <br>  <span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt; <span class="hljs-keyword">typename</span> tmplClass&gt;	<span class="hljs-comment">//  template&lt;typename T&gt;指明了所接受的类模板的形参列表.本类接受的类模板形参经由typename声明为tmplClass这么一个类型</span><br>  <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">clsTempTempPara</span>&#123;</span><br>  <span class="hljs-keyword">public</span>:<br>      tmplClass&lt;<span class="hljs-keyword">int</span>&gt; tmp;<br>      <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">print</span><span class="hljs-params">()</span></span>&#123;<br>          cout &lt;&lt; <span class="hljs-string">&quot;From clsTempTempPara&quot;</span> &lt;&lt; endl;<br>          tmp.<span class="hljs-built_in">display</span>();<br>      &#125;<br>  &#125;;<br>  <br>  <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>      clsTempTempPara&lt;clsTemp&gt; classTempTempPara;	<span class="hljs-comment">// 类模板作为实参,clsTemp这个类模板的参数列表只有一位,且是type template parameter</span><br>      classTempTempPara.<span class="hljs-built_in">print</span>();<br>      <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>  &#125;<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="模板形参之可变长形参列表"><a class="markdownIt-Anchor" href="#模板形参之可变长形参列表"></a> 模板形参之可变长形参列表</h4>
+<p>模板的形参也可以是可变长形参列表的,这个列表呢称作<strong>template parameter pack</strong>,这个可变长的pack要给它放最后(定长前面,变长后面),它可以接受:</p>
+<ul>
+<li>
+<p><strong>nontype的constant</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">int</span>...args&gt;<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">packtmpl1</span>&#123;</span>&#125;; <br>packtmpl1&lt;<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>&gt; pinst;<br></code></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>类型</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span>...args&gt;<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">packtmpl2</span>&#123;</span>&#125;;<br>packtmpl2&lt;<span class="hljs-keyword">int</span>,<span class="hljs-keyword">float</span>,string&gt; pinst2;<br></code></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>类模板</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c++"><br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;<span class="hljs-keyword">typename</span>...args&gt;<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">packtmpl3</span>&#123;</span>&#125;;<br>packtmpl3&lt;clsTemp&gt; pinst3;<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="模板实例化"><a class="markdownIt-Anchor" href="#模板实例化"></a> 模板实例化</h3>
+<p><strong>模板的实例化也分显式和隐式(按需)</strong>,实际上我们<strong>一般常用的都是隐式</strong>,比如<code>vector&lt;int&gt; vec;</code>,从这里可以看出,<strong>所谓的模板实例化的显式隐式不是以你是否隐式传参来区分的</strong></p>
+<ul>
+<li>
+<p>隐式/按需实例化,需要具体的对象再实例化</p>
+</li>
+<li>
+<p>显式实例化,先不创建对象,但是先实例化模板</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt; <span class="hljs-keyword">void</span> <span class="hljs-title">func</span><span class="hljs-params">(T t)</span></span>&#123;cout &lt;&lt; t &lt;&lt; endl;&#125;<br><span class="hljs-comment">// 显式实例化</span><br><span class="hljs-function"><span class="hljs-keyword">template</span> <span class="hljs-keyword">void</span> <span class="hljs-title">func</span><span class="hljs-params">(<span class="hljs-keyword">int</span>)</span></span>;<br></code></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="包含模型"><a class="markdownIt-Anchor" href="#包含模型"></a> 包含模型</h3>
+<p><strong>模板编程的包含模型(inclusion model):将模板定义放在头文件,源文件包含这个头文件</strong></p>
+<p>模板实例化所产生的symbol是<strong>weak symbol</strong>,不然会有重定义的问题,说是不同的翻译单元,传入的实参相同,则会实例化多次,产生的类/函数/变量都是相同的;同一个翻译单元则会复用而不是实例化多次,只会实例化一次</p>
+<h3 id="模板特化"><a class="markdownIt-Anchor" href="#模板特化"></a> 模板特化</h3>
+<p><strong>模板特化(Template Specialization)指的是对模板的形参进行部分替换或全部替换,并重新定义这种替换了的模板</strong></p>
+<ul>
+<li>
+<p><strong>全特化(full specialization),指对原模版的形参全部替换</strong> <mark>函数模板只有全特化</mark></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T,<span class="hljs-keyword">typename</span> U&gt;</span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">funcTmpl</span><span class="hljs-params">(T t,U u)</span></span>&#123;<br>    cout &lt;&lt; <span class="hljs-string">&quot;primary template&quot;</span> &lt;&lt; t &lt;&lt; <span class="hljs-string">&quot; &quot;</span> &lt;&lt; u &lt;&lt;endl;    <br>&#125;<br><span class="hljs-keyword">template</span>&lt;&gt;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">funcTmpl</span><span class="hljs-params">(<span class="hljs-keyword">int</span> t,<span class="hljs-keyword">float</span> u)</span></span>&#123;<br>    cout &lt;&lt; <span class="hljs-string">&quot;full specialization&quot;</span> &lt;&lt; t &lt;&lt; <span class="hljs-string">&quot; &quot;</span> &lt;&lt; u &lt;&lt; endl;<br>&#125;;<br><span class="hljs-keyword">int</span> t = <span class="hljs-number">1</span>;<br><span class="hljs-keyword">float</span> u = <span class="hljs-number">2.0</span>;<br><span class="hljs-built_in">funcTmpl</span>(t,u);		<span class="hljs-comment">// output: full specialization1 2</span><br><span class="hljs-built_in">funcTmpl</span>(t,<span class="hljs-string">&quot;123&quot;</span>);   <span class="hljs-comment">// output: primary template1 123</span><br></code></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>偏特化(partial specialization),指对原模版的形参部分替换</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T,<span class="hljs-keyword">typename</span> U&gt;<br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">clsTmpl</span>&#123;</span><br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">display</span><span class="hljs-params">()</span></span>&#123;cout &lt;&lt; <span class="hljs-string">&quot;primary template &quot;</span> &lt;&lt; endl;&#125;<br>&#125;;<br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> U&gt;<br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">clsTmpl</span>&lt;</span><span class="hljs-keyword">int</span>,U&gt;&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">display</span><span class="hljs-params">()</span></span>&#123;cout &lt;&lt; <span class="hljs-string">&quot;partial specialization &quot;</span> &lt;&lt; endl;&#125;<br>&#125;;<br><span class="hljs-keyword">template</span>&lt;&gt;<br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">clsTmpl</span>&lt;</span><span class="hljs-keyword">int</span>,<span class="hljs-keyword">float</span>&gt;&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">display</span><span class="hljs-params">()</span></span>&#123;cout &lt;&lt; <span class="hljs-string">&quot;full specialization &quot;</span> &lt;&lt; endl;&#125;<br>&#125;;<br>clsTmpl&lt;string,<span class="hljs-keyword">int</span>&gt;ctm1; ctm1.<span class="hljs-built_in">display</span>(); <span class="hljs-comment">// primary template </span><br>clsTmpl&lt;<span class="hljs-keyword">int</span>,<span class="hljs-keyword">int</span>&gt;ctm2; ctm2.<span class="hljs-built_in">display</span>(); <span class="hljs-comment">// partial specialization</span><br>clsTmpl&lt;<span class="hljs-keyword">int</span>,<span class="hljs-keyword">float</span>&gt;ctm3; ctm3.<span class="hljs-built_in">display</span>(); <span class="hljs-comment">// full specialization</span><br></code></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>主模板(primary template),无特化的原始模板</strong></p>
+</li>
+</ul>
+<p>从上面的输出结果可以看出,<strong>在实例化模板的时候,编译器会挑最匹配的实现来进行替换,如果找不到才用primary template进行替换</strong></p>
+<p><strong>注意区分模板特化和显示实例化</strong>,如:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">template</span>&lt;&gt; <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">func</span><span class="hljs-params">(<span class="hljs-keyword">int</span>,<span class="hljs-keyword">float</span>)</span></span>; <span class="hljs-comment">// 模板特化</span><br><span class="hljs-function"><span class="hljs-keyword">template</span> <span class="hljs-keyword">void</span> <span class="hljs-title">func</span><span class="hljs-params">(<span class="hljs-keyword">int</span>,<span class="hljs-keyword">float</span>)</span></span>;	<span class="hljs-comment">// 显式实例化</span><br></code></pre></td></tr></table></figure>
 <p>参考文件：</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/378360055">C++模板元编程（二）：模板基础</a><section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/63207620/answer/1707221853">https://www.zhihu.com/question/63207620/answer/1707221853</a><br />
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/378360055">C++模板元编程（二）：模板基础</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/384826036">C++模板元编程（三）：从简单案例中学习</a><section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/63207620/answer/1707221853">https://www.zhihu.com/question/63207620/answer/1707221853</a><br />
 <a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section></li>
 </ul>
 
@@ -826,20 +889,5 @@ DPU：是对网卡和存储等数据的高效处理<br />
 <script  src="/js/boot.js" ></script>
 
   <script type="text/javascript" src="/js/funnyTitle.js"></script>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"display":{"position":"left","width":150,"height":300,"hOffset":30,"vOffset":-50,"superSample":2},"mobile":{"show":false},"react":{"opacityDefault":0.7,"opacityOnHover":0.2}});</script></body>
 </html>
