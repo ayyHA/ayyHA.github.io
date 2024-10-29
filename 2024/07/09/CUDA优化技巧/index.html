@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://s2.loli.net/2024/08/15/E8DzujRVlGAQNXU.png">
 <meta property="og:image" content="https://s2.loli.net/2024/08/15/dwjsovzxFD7lWQ9.png">
 <meta property="article:published_time" content="2024-07-09T06:37:05.000Z">
-<meta property="article:modified_time" content="2024-10-07T08:02:11.958Z">
+<meta property="article:modified_time" content="2024-10-29T06:20:24.700Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="CUDA">
 <meta property="article:tag" content="OpDev">
@@ -210,7 +210,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      7.4k 字
+      7.3k 字
     </span>
   
 
@@ -252,7 +252,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：19 天前
+                  本文最后更新于：9 小时前
                 
               </p>
             
@@ -345,9 +345,8 @@
 <p>因为是异步拷贝,异步是nonblock的,所以你要拿个东西阻塞它,如果需要在某些代码执行前获取到结果的话:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs assembly">cp.async.wait_all;<br></code></pre></td></tr></table></figure>
 <p>也可以:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs assembly">cp.async.commit_group;<br>cp.async.wait_group 0;	// 这个0实际上是一个整型常量的operand N,别的意思没看懂,只看懂了0的,当N=0,执行线程等待所有先前的cp.async-group完成<br></code></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs assembly">cp.async.commit_group;	// 标记同步点<br>cp.async.wait_group 0;	// 同步到特定的同步点.这个0实际上是一个整型常量的operand N,表示至多允许N个未完成的异步事务,此处为0,即所有异步事务都得完成<br></code></pre></td></tr></table></figure>
 <p><strong>上下这俩wait的语句块是等价的</strong></p>
-<p><mark>这里没搞懂官网的按组提交异步拷贝指令(说是执行了<code>cp.async.commit_group</code>就标记了这一个异步拷贝组的结束(就是划分组的意思)),但是这个等待又好像不是一一对应的等待,好像是一个范围?没看懂举的例子,后面遇到再回来look</mark></p>
 <h3 id="小实验"><a class="markdownIt-Anchor" href="#小实验"></a> 小实验</h3>
 <p>这里的小实验的目的是用异步拷贝,把A的值给它异步拷贝到共享内存去,然后再从共享内存放到B中去,其中:</p>
 <ul>

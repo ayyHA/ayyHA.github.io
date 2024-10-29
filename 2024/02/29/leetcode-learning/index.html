@@ -29,7 +29,7 @@
 <meta property="og:image" content="https://s2.loli.net/2024/10/05/TFOilYVa1yLGPrz.png">
 <meta property="og:image" content="https://s2.loli.net/2024/10/05/K69fzbjt7yrANoG.png">
 <meta property="article:published_time" content="2024-02-29T06:01:02.000Z">
-<meta property="article:modified_time" content="2024-10-26T11:03:16.290Z">
+<meta property="article:modified_time" content="2024-10-26T13:42:54.205Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="algorithm learning">
 <meta name="twitter:card" content="summary_large_image">
@@ -248,7 +248,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：1 分钟前
+                  本文最后更新于：3 天前
                 
               </p>
             
@@ -467,7 +467,7 @@
 <p>在一些需要涉及到整体区间移动的位运算时,而数据的范围远大于32,64的情况下,可以选用bitset即位图这种数据结构来进行优化</p>
 <p>位图位图,本质上就是许多的bit,可以很方便的进行位运算,也可以在海量数据情况下很快进行检索,也相对不那么占空间(因为一般用作1个位来表示1个数)</p>
 <ul>
-<li><code>bitset&lt;N&gt; f; //N表示位数,用以初始化</code></li>
+<li><code>bitset&lt;N&gt; f; //N表示位数,用以初始化,[0,N-1]位</code></li>
 <li><code>set(i) // 第i位设置为1.不指定具体的位则为全置1</code></li>
 <li><code>reset(i) // 第i位设置位0,不指定具体的位则为清0</code></li>
 <li><code>size() // 获取位图的总位数</code></li>
