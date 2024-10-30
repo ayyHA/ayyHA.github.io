@@ -27,7 +27,7 @@
 <meta property="og:image" content="https://s2.loli.net/2024/04/30/gVWkNmHxF156Csv.png">
 <meta property="og:image" content="https://s2.loli.net/2024/08/15/mIl78OekFQasEx1.png">
 <meta property="article:published_time" content="2023-11-17T02:56:43.000Z">
-<meta property="article:modified_time" content="2024-10-19T12:23:16.451Z">
+<meta property="article:modified_time" content="2024-10-30T03:34:42.755Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary_large_image">
@@ -246,7 +246,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：11 天前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -552,7 +552,7 @@ DPU：是对网卡和存储等数据的高效处理<br />
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">int</span> n&gt;</span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">funcPrint</span><span class="hljs-params">()</span></span>&#123;<br>    cout &lt;&lt; n &lt;&lt; endl;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> b = <span class="hljs-number">3</span>;<br>    funcPrint&lt;b&gt;(); <span class="hljs-comment">// output 3</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 </li>
 <li>
-<p><strong>Type Template Parameters</strong>,用**<code>typename</code><strong>这个关键字来</strong>声明<strong>这个形参的</strong>类型**(datatype)是T</p>
+<p><strong>Type Template Parameters</strong>,用**<code>typename</code><strong>这个关键字来</strong>声明**T是一个类型名称</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;</span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">whichType</span><span class="hljs-params">()</span></span>&#123;<br>    T val;<br>    cout &lt;&lt; <span class="hljs-built_in"><span class="hljs-keyword">typeid</span></span>(val).<span class="hljs-built_in">name</span>() &lt;&lt; endl;	<span class="hljs-comment">// 头文件#include&lt;typeinfo&gt;</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    whichType&lt;<span class="hljs-keyword">int</span>&gt;();	<span class="hljs-comment">// output i</span><br>    whichType&lt;<span class="hljs-keyword">float</span>&gt;(); <span class="hljs-comment">// output f</span><br>    whichType&lt;<span class="hljs-keyword">uint32_t</span>&gt;(); <span class="hljs-comment">// output j</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 </li>
 <li>
@@ -889,20 +889,5 @@ DPU：是对网卡和存储等数据的高效处理<br />
 <script  src="/js/boot.js" ></script>
 
   <script type="text/javascript" src="/js/funnyTitle.js"></script>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"display":{"position":"left","width":150,"height":300,"hOffset":30,"vOffset":-50,"superSample":2},"mobile":{"show":false},"react":{"opacityDefault":0.7,"opacityOnHover":0.2}});</script></body>
 </html>
