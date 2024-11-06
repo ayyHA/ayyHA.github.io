@@ -27,7 +27,7 @@
 <meta property="og:image" content="https://s2.loli.net/2024/04/30/gVWkNmHxF156Csv.png">
 <meta property="og:image" content="https://s2.loli.net/2024/08/15/mIl78OekFQasEx1.png">
 <meta property="article:published_time" content="2023-11-17T02:56:43.000Z">
-<meta property="article:modified_time" content="2024-10-30T03:34:42.755Z">
+<meta property="article:modified_time" content="2024-11-06T08:27:25.684Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary_large_image">
@@ -204,7 +204,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      11k 字
+      12k 字
     </span>
   
 
@@ -213,7 +213,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      34 分钟
+      37 分钟
     </span>
   
 
@@ -246,7 +246,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：几秒前
+                  本文最后更新于：3 分钟前
                 
               </p>
             
@@ -491,6 +491,29 @@ DPU：是对网卡和存储等数据的高效处理<br />
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42570601/article/details/124695589">链接装载与库：第三章——ELF文件结构</a></li>
 </ul>
 <h2 id="decltype和auto"><a class="markdownIt-Anchor" href="#decltype和auto"></a> decltype和auto</h2>
+<p>两者都用于<strong>自动类型推导</strong>,都是在<strong>编译期完成</strong>的</p>
+<p><strong>auto定义变量必须提供初值表达式</strong>,形如:<code>auto v = expr</code>;</p>
+<p><strong>decltype则和表达式结合在一起</strong>,如:<code>decltype(expr) v;</code>同时<strong>它可以保留变量的引用属性和cv修饰词(const,volatile)信息</strong></p>
+<p>对于decltype使用时,可以根据expr有无带括号分类:</p>
+<ul>
+<li>
+<p><strong>expr无括号</strong>:</p>
+<ul>
+<li>若expr是<strong>单变量</strong>标识符,类的数据成员,函数名称,数组名称,则<strong>推导出来的类型和expr的类型是一致的</strong>;</li>
+<li>若expr是一条<strong>表达式</strong>,则<strong>视表达式运算后的结果而定</strong>:
+<ul>
+<li><strong>右值,推导类型和运算结果类型一致;</strong></li>
+<li><strong>左值,推导结果是个引用</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>expr带括号:</strong></p>
+<p><code>(expr)</code>表示的是执行表达式,并<strong>根据返回结果推导类型</strong></p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">int</span> x1 = <span class="hljs-number">0</span>;<br><span class="hljs-keyword">double</span> x2 = <span class="hljs-number">2.0</span>;<br><span class="hljs-comment">// 下面的if都是true</span><br><span class="hljs-keyword">if</span>(is_same&lt;<span class="hljs-keyword">int</span>,<span class="hljs-keyword">decltype</span>(x1)&gt;::value)<br>	cout &lt;&lt; <span class="hljs-string">&quot;decltype(x1) datatype is int;&quot;</span>&lt;&lt;endl;<br><span class="hljs-keyword">if</span>(is_same&lt;<span class="hljs-keyword">int</span>&amp;,<span class="hljs-keyword">decltype</span>((x1))&gt;::value)	<span class="hljs-comment">// (x1)返回x1,是个左值</span><br>    cout &lt;&lt; <span class="hljs-string">&quot;decltype((x1)) datatype is int&amp;;&quot;</span>&lt;&lt;endl;<br><span class="hljs-keyword">if</span>(is_same&lt;<span class="hljs-keyword">double</span>,<span class="hljs-keyword">decltype</span>(x1+x2)&gt;::value)<br>    cout &lt;&lt; <span class="hljs-string">&quot;decltype(x1+x2) datatype is double;&quot;</span>&lt;&lt;endl;<br><span class="hljs-keyword">if</span>(is_same&lt;<span class="hljs-keyword">double</span>,<span class="hljs-keyword">decltype</span>((x1+x2))&gt;::value)<br>    cout &lt;&lt; <span class="hljs-string">&quot;decltype((x1+x2)) datatype is double;&quot;</span>&lt;&lt;endl;<br></code></pre></td></tr></table></figure>
 <p>参考文件:</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/17503803561e">深入解析decltype和decltype(auto)</a></li>
@@ -611,10 +634,16 @@ DPU：是对网卡和存储等数据的高效处理<br />
 <p>参考文件：</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/378360055">C++模板元编程（二）：模板基础</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/384826036">C++模板元编程（三）：从简单案例中学习</a><section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/63207620/answer/1707221853">https://www.zhihu.com/question/63207620/answer/1707221853</a><br />
-<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/384826036">C++模板元编程（三）：从简单案例中学习</a></li>
 </ul>
-
+<h2 id="c特征萃取"><a class="markdownIt-Anchor" href="#c特征萃取"></a> C++特征萃取</h2>
+<p>参考文件:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_68194402/article/details/142148126">C++ 萃取技术——固定萃取技术</a></li>
+</ul>
+<h2 id="常量折叠"><a class="markdownIt-Anchor" href="#常量折叠"></a> 常量折叠</h2>
+<section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/63207620/answer/1707221853">https://www.zhihu.com/question/63207620/answer/1707221853</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
             </div>
             <hr>
             <div>
@@ -889,5 +918,20 @@ DPU：是对网卡和存储等数据的高效处理<br />
 <script  src="/js/boot.js" ></script>
 
   <script type="text/javascript" src="/js/funnyTitle.js"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"display":{"position":"left","width":150,"height":300,"hOffset":30,"vOffset":-50,"superSample":2},"mobile":{"show":false},"react":{"opacityDefault":0.7,"opacityOnHover":0.2}});</script></body>
 </html>
