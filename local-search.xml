@@ -33,19 +33,6 @@
   
   
   <entry>
-    <title>convolution-winograd</title>
-    <link href="/2024/10/02/convolution-winograd/"/>
-    <url>/2024/10/02/convolution-winograd/</url>
-    
-    <content type="html"><![CDATA[]]></content>
-    
-    
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>flashAttention-with-cuda</title>
     <link href="/2024/09/26/flashAttention-with-cuda/"/>
     <url>/2024/09/26/flashAttention-with-cuda/</url>
