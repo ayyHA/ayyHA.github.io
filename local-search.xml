@@ -43,9 +43,9 @@
     
     <tags>
       
-      <tag>CUDA</tag>
-      
       <tag>flashAttention</tag>
+      
+      <tag>CUDA</tag>
       
       <tag>transformer</tag>
       
@@ -150,9 +150,9 @@
     
     <tags>
       
-      <tag>assembly</tag>
-      
       <tag>armv8</tag>
+      
+      <tag>assembly</tag>
       
       <tag>ARM architecture</tag>
       
@@ -173,9 +173,9 @@
     
     <tags>
       
-      <tag>RISC-V</tag>
-      
       <tag>assembly</tag>
+      
+      <tag>RISC-V</tag>
       
     </tags>
     
@@ -282,9 +282,9 @@
     
     <tags>
       
-      <tag>inference</tag>
-      
       <tag>large model</tag>
+      
+      <tag>inference</tag>
       
     </tags>
     
