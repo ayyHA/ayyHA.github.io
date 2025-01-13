@@ -29,7 +29,7 @@
 <meta property="og:image" content="https://s2.loli.net/2024/12/17/iwedH3ScrB2LU8Q.png">
 <meta property="og:image" content="https://s2.loli.net/2024/12/17/d2jGafA4K9hHqRS.jpg">
 <meta property="article:published_time" content="2023-11-17T02:56:43.000Z">
-<meta property="article:modified_time" content="2024-12-17T07:26:41.771Z">
+<meta property="article:modified_time" content="2025-01-10T02:13:19.727Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary_large_image">
@@ -206,7 +206,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      12k 字
+      15k 字
     </span>
   
 
@@ -215,7 +215,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      39 分钟
+      48 分钟
     </span>
   
 
@@ -248,7 +248,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：14 天前
+                  本文最后更新于：3 天前
                 
               </p>
             
@@ -649,8 +649,44 @@ DPU：是对网卡和存储等数据的高效处理<br />
 <p><code>g++ -S</code>编译看到汇编文件中b的值就是<code>$120</code></p>
 <p><img src="https://s2.loli.net/2024/12/17/iwedH3ScrB2LU8Q.png" srcset="/img/loading.gif" lazyload alt="test constant fold" /></p>
 <p>而常量折叠这个次也出现在了AI编译器中,指的是计算图优化中对一些输入均为常量值的op提前计算,以消除冗余的计算,下面是知乎ZOMI酱的图(编译器相关的代码我不懂,但是理解理解概念总是需要的)</p>
-<p><img src="https://s2.loli.net/2024/12/17/d2jGafA4K9hHqRS.jpg" srcset="/img/loading.gif" lazyload style="zoom:50%;" /><section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/63207620/answer/1707221853">https://www.zhihu.com/question/63207620/answer/1707221853</a><br />
-<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section></p>
+<img src="https://s2.loli.net/2024/12/17/d2jGafA4K9hHqRS.jpg" srcset="/img/loading.gif" lazyload style="zoom:50%;" />
+<h2 id="__attribute__"><a class="markdownIt-Anchor" href="#__attribute__"></a> __attribute__()</h2>
+<p><strong>为函数,变量,类型提供优化和检查的编译属性</strong>,详见参考文件中的内容,可以去到gnu的网站看一些详情和例子,见得比较多的是声明一些类型的最小对齐大小,如:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">S</span>&#123;</span> <span class="hljs-keyword">short</span> var[<span class="hljs-number">3</span>];&#125; __attribute__((<span class="hljs-built_in">aligned</span>(<span class="hljs-number">8</span>)));<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    S sss;<br>    <span class="hljs-keyword">size_t</span> size = <span class="hljs-built_in"><span class="hljs-keyword">sizeof</span></span>(sss);<br>    cout &lt;&lt; size &lt;&lt; endl;<br>&#125;<br><span class="hljs-comment">/* output</span><br><span class="hljs-comment">// 增加了__attribute__((aligned(8)))</span><br><span class="hljs-comment">8 </span><br><span class="hljs-comment">// 注掉它</span><br><span class="hljs-comment">6</span><br><span class="hljs-comment">*/</span><br></code></pre></td></tr></table></figure>
+<p>也可以用来标识一个函数过期了,如</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c++">__attribute__((<span class="hljs-built_in">deprecated</span>(<span class="hljs-string">&quot;old function call&quot;</span>))) <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">f</span><span class="hljs-params">()</span> </span>&#123;<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;fff&quot;</span>);&#125;<br><span class="hljs-comment">/* compile output</span><br><span class="hljs-comment">xxx.cpp:13:8: warning: &#x27;void f()&#x27; is deprecated: old function call [-Wdeprecated-declarations]</span><br><span class="hljs-comment">     f();</span><br><span class="hljs-comment">*/</span><br></code></pre></td></tr></table></figure>
+<p>参考文件:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_29350001/article/details/129390465">__attribute__详解</a></li>
+</ul>
+<h2 id="虚表指针"><a class="markdownIt-Anchor" href="#虚表指针"></a> 虚表指针</h2>
+<p><strong>在函数前有个<code>virtual</code>关键字的就是虚函数,有虚函数的类的实例们就有一个大家统一用的虚函数表,有个虚表指针会指向这个虚表,用以实现多态,通过运行时指向具体子类指针/引用的基类指针/引用来调用对应虚表的函数实现,从而实现多态.</strong></p>
+<div class="note note-info">
+            <p><strong><code>virtual void func() = 0;</code>纯虚函数,拥有它的类是抽象类,无法实例化</strong>,但是可以声明之用以指向实现了纯虚函数的派生类</p>
+          </div>
+<p><strong>虚表指针是在类内成员变量的最前面</strong>:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestSizeA</span>&#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-keyword">int</span> x;<br>&#125;;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestSizeB</span>&#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-keyword">int</span> x;<br>    <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-keyword">void</span> <span class="hljs-title">func</span><span class="hljs-params">()</span></span><br><span class="hljs-function">    </span>&#123;<br>        cout &lt;&lt; <span class="hljs-string">&quot;TestSizeB func&quot;</span> &lt;&lt; endl;<br>    &#125;<br>&#125;;<br><br><span class="hljs-comment">// main:</span><br>TestSizeA a;<br>TestSizeB b;<br>cout &lt;&lt; <span class="hljs-built_in"><span class="hljs-keyword">sizeof</span></span>(a) &lt;&lt; endl;<br>cout &lt;&lt; <span class="hljs-built_in"><span class="hljs-keyword">sizeof</span></span>(b) &lt;&lt; endl;<br>cout &lt;&lt; &amp;a.x &lt;&lt; endl;<br>cout &lt;&lt; <span class="hljs-keyword">reinterpret_cast</span>&lt;<span class="hljs-keyword">void</span> *&gt;(&amp;a) &lt;&lt; endl;<br>cout &lt;&lt; &amp;b.x &lt;&lt; endl;<br>cout &lt;&lt; <span class="hljs-keyword">reinterpret_cast</span>&lt;<span class="hljs-keyword">void</span> *&gt;(&amp;b) &lt;&lt; endl;<br><span class="hljs-comment">// 输出</span><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">4</span><br><span class="hljs-comment">16				// 还给它对齐了</span><br><span class="hljs-comment">0x7ffc98f10e2c	 // TestSizeA的x是首地址</span><br><span class="hljs-comment">0x7ffc98f10e2c	 </span><br><span class="hljs-comment">0x7ffc98f10e68	 // TestSizeB的x和首地址隔了8个字节</span><br><span class="hljs-comment">0x7ffc98f10e60	 // 虚表指针</span><br><span class="hljs-comment">*/</span><br></code></pre></td></tr></table></figure>
+<p>根据上面的测试,既然可以得到虚表指针,也即可以通过虚表指针调用对应的内容:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">using</span> voidFunc = <span class="hljs-built_in"><span class="hljs-keyword">void</span></span>(*)();<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Father</span>&#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">Father</span>()&#123; cout &lt;&lt; <span class="hljs-string">&quot;constructor Father&quot;</span> &lt;&lt; endl; &#125;<br>    <span class="hljs-keyword">virtual</span> ~<span class="hljs-built_in">Father</span>()&#123; cout &lt;&lt; <span class="hljs-string">&quot;deconstructor Father&quot;</span> &lt;&lt; endl; &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-keyword">void</span> <span class="hljs-title">print</span><span class="hljs-params">()</span></span>&#123; cout &lt;&lt; <span class="hljs-string">&quot;Father::printf&quot;</span> &lt;&lt; endl; &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-keyword">void</span> <span class="hljs-title">print2</span><span class="hljs-params">()</span></span>&#123; cout &lt;&lt; <span class="hljs-string">&quot;Father::print2&quot;</span> &lt;&lt; endl; &#125;<br>&#125;;<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Son2</span> :</span> <span class="hljs-keyword">public</span> Father&#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">Son2</span>()&#123; cout &lt;&lt; <span class="hljs-string">&quot;constructor Son2&quot;</span> &lt;&lt; endl; &#125;<br>    ~<span class="hljs-built_in">Son2</span>()&#123; cout &lt;&lt; <span class="hljs-string">&quot;deconstructor Son2&quot;</span> &lt;&lt; endl; &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">print</span><span class="hljs-params">()</span></span>&#123; cout &lt;&lt; <span class="hljs-string">&quot;Son2::print&quot;</span> &lt;&lt; endl; &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">print2</span><span class="hljs-params">()</span></span>&#123; cout &lt;&lt; <span class="hljs-string">&quot;Son2:print2&quot;</span> &lt;&lt; endl; &#125;<br>&#125;;<br><span class="hljs-comment">// main:</span><br>Father *fptr = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Son2</span>();<br><span class="hljs-keyword">uintptr_t</span> *func = <span class="hljs-keyword">reinterpret_cast</span>&lt;<span class="hljs-keyword">uintptr_t</span> *&gt;(fptr);<br><span class="hljs-keyword">uintptr_t</span> *funcc = <span class="hljs-keyword">reinterpret_cast</span>&lt;<span class="hljs-keyword">uintptr_t</span> *&gt;(*func);<br>voidFunc func1 = <span class="hljs-keyword">reinterpret_cast</span>&lt;voidFunc&gt;(funcc[<span class="hljs-number">3</span>]);<br><span class="hljs-built_in">func1</span>();<br><span class="hljs-keyword">delete</span> fptr;<br><span class="hljs-comment">// 输出:</span><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">constructor Father</span><br><span class="hljs-comment">constructor Son2</span><br><span class="hljs-comment">Son2:print2</span><br><span class="hljs-comment">deconstructor Son2</span><br><span class="hljs-comment">deconstructor Father</span><br><span class="hljs-comment">*/</span><br></code></pre></td></tr></table></figure>
+<p>上述是使用虚表指针进行内容调用的一个例子,需要注意<strong>虚表指针是二级指针</strong>,同时运用多态的时候,<strong>析构函数也要是虚函数(基类的析构函数要是虚函数)</strong>,不然你delete的时候就调用的是基类指针的析构函数,会造成内存泄漏,而给析构函数加个virtual,那delete的时候通过虚表找到对应的析构函数,即可把子类给析构了再析构父类</p>
+<p>虚表指针是在内存分配-&gt;初始化列表-&gt;构造函数内部的内存分配和初始化列表之间完成初始化的</p>
+<p>参考文件:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/682680244">深入理解C++虚函数表</a></li>
+</ul>
+<h2 id="四种cast使用场景"><a class="markdownIt-Anchor" href="#四种cast使用场景"></a> 四种cast使用场景</h2>
+<p>四种cast:<code>static_cast&lt;newType&gt;(expr)</code>,<code>dynamic_cast&lt;newType&gt;(expr)</code>,<code>const_cast&lt;newType&gt;(expr)</code>,<code>reinterpret_cast&lt;newType&gt;(expr)</code></p>
+<ul>
+<li>涉及到底层指针的转换采用<code>reinterpret_cast</code></li>
+<li>涉及到cv属性变化的采用<code>const_cast</code></li>
+<li>在单元测试中涉及到downcast的对象指针或对象引用则用(RTTI(runtime type identification)影响性能)</li>
+<li>平常则用<code>static_cast</code></li>
+</ul>
+<p>参考文件:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/578828427">现代C++中的四种CAST</a><section class="footnotes"><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/63207620/answer/1707221853">https://www.zhihu.com/question/63207620/answer/1707221853</a><br />
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section></li>
+</ul>
 
             </div>
             <hr>
@@ -926,20 +962,5 @@ DPU：是对网卡和存储等数据的高效处理<br />
 <script  src="/js/boot.js" ></script>
 
   <script type="text/javascript" src="/js/funnyTitle.js"></script>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"scale":1,"hHeadPos":0.5,"vHeadPos":0.618,"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"display":{"position":"left","width":150,"height":300,"hOffset":30,"vOffset":-50,"superSample":2},"mobile":{"show":false},"react":{"opacityDefault":0.7,"opacityOnHover":0.2}});</script></body>
 </html>
