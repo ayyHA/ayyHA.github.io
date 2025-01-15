@@ -29,7 +29,7 @@
 <meta property="og:image" content="https://s2.loli.net/2024/12/17/iwedH3ScrB2LU8Q.png">
 <meta property="og:image" content="https://s2.loli.net/2024/12/17/d2jGafA4K9hHqRS.jpg">
 <meta property="article:published_time" content="2023-11-17T02:56:43.000Z">
-<meta property="article:modified_time" content="2025-01-14T07:54:07.623Z">
+<meta property="article:modified_time" content="2025-01-15T11:55:24.671Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary_large_image">
@@ -206,7 +206,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      16k 字
+      18k 字
     </span>
   
 
@@ -215,7 +215,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      51 分钟
+      56 分钟
     </span>
   
 
@@ -248,7 +248,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：1 分钟前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -648,14 +648,44 @@ DPU：是对网卡和存储等数据的高效处理<br />
 <div class="note note-info">
             <p>根据参考文件说是只返回<code>type</code>(这里的返回其实跟函数返回值不一样,可以通过如<code>xxx&lt;T&gt;::type</code>的方式获取到这个类型)作为唯一的返回值,而已经通过<code>value</code>表示的常量则通过类模板封装,metafuncion返回这个类模板实例,但感觉把继承用上,其实就直接<code>xxx::value</code>和<code>xxx::type</code>去获取这俩了,不用通过<code>xxx::type::value</code>去获取这个value</p>
           </div>
-<p>根据参考文件(三)中编写程序时遇到了<strong>待决名</strong>,即语法分析阶段无法获知它是啥,例如<code>remove_reference&lt;T&gt;::type</code>依赖于T,这是语义分析才会实例化之,才可以对type进行名字查找,但在语法分析要判定语句是否合法,要通过typename显式指定它是一个类型或者通过template显式指定这是一个成员模板</p>
-<p>在对类模板实例化时,如何匹配特化的模板?会通过<strong>确认实参-&gt;代入特化-&gt;反向推导对应特化的形参</strong>来确实是否匹配,如果失败则会依次fallback至主模板</p>
+<p>根据参考文件(三)中编写程序时遇到了<strong>待决名</strong>,即语法分析阶段无法获知它是啥,例如<code>remove_reference&lt;T&gt;::type</code>依赖于T,这是语义分析才会实例化之,才可以对type进行名字查找,但在语法分析要判定语句是否合法,<strong>要通过typename显式指定它是一个类型或者通过template显式指定这是一个成员模板</strong></p>
+<p><strong>在对类模板实例化时,如何匹配特化的模板?<strong>会通过</strong>确认实参-&gt;代入特化-&gt;反向推导对应特化的形参</strong>来确认是否匹配,如果失败则会依次fallback至主模板</p>
 <p>关于参考文件三的实现:<a target="_blank" rel="noopener" href="https://github.com/ayyHA/cpp_grammar_test/blob/main/template_meta_programming/tmpv2.cpp">cpp_grammar_tmp</a></p>
 <p>其中关于TMP处理数组,个人理解如<code>int[4][5][6]</code>进行匹配会倒过来匹配:<code>int[6][5][4]</code>,先从<code>[4]</code>开始匹配,此时<code>T</code>是<code>int[6][5]</code></p>
+<h2 id="模板实参推导"><a class="markdownIt-Anchor" href="#模板实参推导"></a> 模板实参推导</h2>
+<p>模板实参推导分为<strong>函数模板实参推导</strong>和<strong>类模板实参推导</strong>(c++17引入,通过构造函数进行模板实参推导),<strong>模板实参无需全部显式传入,可通过函数调用的实参或是构造函数的实参来进行推导,模板实参都能被推导且推导结果无冲突(即不存在T=int又T=float这种情况),则推导成功</strong></p>
+<h2 id="sfinae"><a class="markdownIt-Anchor" href="#sfinae"></a> SFINAE</h2>
+<p>SFINAE(Substitution Failure Is Not An Error)即替换失败不是一个错误,说句人话就是替换失败不会报错,不会产生error,这里的替换则是实例化的意思</p>
+<p>SFINAE这个东西的作用很大,比如可以让我们基于逻辑控制重载集,但需要先说说模板实例化流程,因为SFINAE作用于其中</p>
+<ul>
+<li>
+<p>对函数模板的实例化流程:</p>
+<p>名字查找(找重载)-&gt;函数模板实参推导(推导失败的不会报错而是在重载集中删去)-&gt;重载决议(偏序规则排序和SFINAE于重载集删去非良构的)-&gt;有特化选特化,没特化选主模板-&gt;替换生成代码</p>
+</li>
+<li>
+<p>对类模板的实例化流程:</p>
+<p>名字查找(找类模板,多了就re-identification了)-&gt;主模板实参推导(出错直接error)-&gt;根据主模板和特化选择最匹配的(估计这里冒出来了特化集,这里匹配特化就是metafunction那里的内容),通过将类模板的特化转为函数模板,使用函数模板的偏序规则排序,以及SFINAE对非良构的特化移出特化集-&gt;有特选最特,最特挑不出报错,无特选主模板-&gt;替换生成代码</p>
+</li>
+</ul>
+<div class="note note-info">
+            <ul><li><p>对于类模板而言,特化并不会带来新的名字;</p></li><li><p>对于函数模板而言,重载则是一个新的名字,特化(对函数就是全特化)也不会带来新的名字</p></li></ul><p>这里的新的名字就是重定义指的那个名字</p>
+          </div>
+<p>上面我们提及了一个偏序规则,同时也提及了类模板的特化转成函数模板的形式采用函数模板的偏序规则进行排序,这个排序的目的是选出最匹配的特化/重载</p>
+<p>那么类模板特化如何转换成函数模板呢?</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T,<span class="hljs-keyword">typename</span> U&gt; <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">S</span>&#123;</span>&#125;;<br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt; <span class="hljs-class"><span class="hljs-keyword">struct</span>&lt;</span>T,<span class="hljs-keyword">int</span>&gt; S&#123;&#125;;	   <span class="hljs-comment">// #a</span><br><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt; <span class="hljs-class"><span class="hljs-keyword">struct</span>&lt;</span>T,<span class="hljs-keyword">float</span>&gt; S&#123;&#125;;  <span class="hljs-comment">// #b</span><br><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">fa</span><span class="hljs-params">(S&lt;T,<span class="hljs-keyword">int</span>&gt;)</span></span>;		<span class="hljs-comment">// fa</span><br><br><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">fb</span><span class="hljs-params">(S&lt;T,<span class="hljs-keyword">float</span>&gt;)</span></span>;	<span class="hljs-comment">// fb</span><br></code></pre></td></tr></table></figure>
+<p>根据上述示例代码可以看出,<strong>转换的关键就是将模板特化的形参转换为函数的形参</strong></p>
+<p>而后便使用偏序规则对特化进行优先级比较</p>
+<p><strong>偏序规则</strong>可以这么描述:<code>fa&lt;U&gt;(A)</code>,其中U表示模板实参,A是实参列表中的类型,它是用U来表示的,即<code>A=op(U)</code>,将A代入<code>fb</code>的函数形参列表P,据此推导出T,即用U表示T</p>
+<p>当<code>fa&lt;U&gt;(A) =&gt; fb&lt;T&gt;(P) &amp;&amp; fb&lt;U&gt;(A) ≠&gt;fa&lt;T&gt;(P)</code>时,说明<code>fa</code>比<code>fb</code>偏序更高.而不存在上述关系的二者无法推出谁比谁高,即认为相等</p>
+<p>最后来说一下这一部分的重点SFINAE:</p>
+<p><strong>替换失败(Subtitution Failure)是指:在进行替换时,模板的立即上下文(immediate context,指声明处)中的类型或表达式非良构(ill-formed,指语法错误),这&quot;不是一个错误&quot;(INAE),只会在重载集/特化集中移除它,不会报错!</strong></p>
+<p>关于参考文件五的实现:<a target="_blank" rel="noopener" href="https://github.com/ayyHA/cpp_grammar_test/blob/main/template_meta_programming/tmpv3.cpp">cpp_grammar_tmp</a></p>
 <p>参考文件：</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/378360055">C++模板元编程（二）：模板基础</a></li>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/384826036">C++模板元编程（三）：从简单案例中学习</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/390783543">C++模板元编程（四）：深入模板</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/395165250">C++模板元编程（五）：从进阶的案例中学习</a> <mark>只写了一部分代码用于测试,还没写全</mark></li>
 </ul>
 <h2 id="c特征萃取"><a class="markdownIt-Anchor" href="#c特征萃取"></a> C++特征萃取</h2>
 <p>参考文件:</p>
