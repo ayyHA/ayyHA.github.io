@@ -29,7 +29,7 @@
 <meta property="og:image" content="https://s2.loli.net/2024/12/17/iwedH3ScrB2LU8Q.png">
 <meta property="og:image" content="https://s2.loli.net/2024/12/17/d2jGafA4K9hHqRS.jpg">
 <meta property="article:published_time" content="2023-11-17T02:56:43.000Z">
-<meta property="article:modified_time" content="2025-01-15T11:55:24.671Z">
+<meta property="article:modified_time" content="2025-01-15T11:57:28.917Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary_large_image">
@@ -652,9 +652,9 @@ DPU：是对网卡和存储等数据的高效处理<br />
 <p><strong>在对类模板实例化时,如何匹配特化的模板?<strong>会通过</strong>确认实参-&gt;代入特化-&gt;反向推导对应特化的形参</strong>来确认是否匹配,如果失败则会依次fallback至主模板</p>
 <p>关于参考文件三的实现:<a target="_blank" rel="noopener" href="https://github.com/ayyHA/cpp_grammar_test/blob/main/template_meta_programming/tmpv2.cpp">cpp_grammar_tmp</a></p>
 <p>其中关于TMP处理数组,个人理解如<code>int[4][5][6]</code>进行匹配会倒过来匹配:<code>int[6][5][4]</code>,先从<code>[4]</code>开始匹配,此时<code>T</code>是<code>int[6][5]</code></p>
-<h2 id="模板实参推导"><a class="markdownIt-Anchor" href="#模板实参推导"></a> 模板实参推导</h2>
+<h3 id="模板实参推导"><a class="markdownIt-Anchor" href="#模板实参推导"></a> 模板实参推导</h3>
 <p>模板实参推导分为<strong>函数模板实参推导</strong>和<strong>类模板实参推导</strong>(c++17引入,通过构造函数进行模板实参推导),<strong>模板实参无需全部显式传入,可通过函数调用的实参或是构造函数的实参来进行推导,模板实参都能被推导且推导结果无冲突(即不存在T=int又T=float这种情况),则推导成功</strong></p>
-<h2 id="sfinae"><a class="markdownIt-Anchor" href="#sfinae"></a> SFINAE</h2>
+<h3 id="sfinae"><a class="markdownIt-Anchor" href="#sfinae"></a> SFINAE</h3>
 <p>SFINAE(Substitution Failure Is Not An Error)即替换失败不是一个错误,说句人话就是替换失败不会报错,不会产生error,这里的替换则是实例化的意思</p>
 <p>SFINAE这个东西的作用很大,比如可以让我们基于逻辑控制重载集,但需要先说说模板实例化流程,因为SFINAE作用于其中</p>
 <ul>
