@@ -196,9 +196,9 @@
     
     <tags>
       
-      <tag>hpc</tag>
-      
       <tag>cutlass</tag>
+      
+      <tag>hpc</tag>
       
       <tag>tvm</tag>
       
@@ -284,9 +284,9 @@
     
     <tags>
       
-      <tag>large model</tag>
-      
       <tag>inference</tag>
+      
+      <tag>large model</tag>
       
     </tags>
     
