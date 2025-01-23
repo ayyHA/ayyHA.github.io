@@ -29,7 +29,7 @@
 <meta property="og:image" content="https://s2.loli.net/2024/12/17/iwedH3ScrB2LU8Q.png">
 <meta property="og:image" content="https://s2.loli.net/2024/12/17/d2jGafA4K9hHqRS.jpg">
 <meta property="article:published_time" content="2023-11-17T02:56:43.000Z">
-<meta property="article:modified_time" content="2025-01-15T11:57:28.917Z">
+<meta property="article:modified_time" content="2025-01-23T08:50:04.941Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary_large_image">
@@ -206,7 +206,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      18k 字
+      20k 字
     </span>
   
 
@@ -215,7 +215,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      56 分钟
+      64 分钟
     </span>
   
 
@@ -248,7 +248,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：几秒前
+                  本文最后更新于：1 分钟前
                 
               </p>
             
@@ -624,7 +624,7 @@ DPU：是对网卡和存储等数据的高效处理<br />
 <p><strong>模板编程的包含模型(inclusion model):将模板定义放在头文件,源文件包含这个头文件</strong></p>
 <p>模板实例化所产生的symbol是<strong>weak symbol</strong>,不然会有重定义的问题,说是不同的翻译单元,传入的实参相同,则会实例化多次,产生的类/函数/变量都是相同的;同一个翻译单元则会复用而不是实例化多次,只会实例化一次</p>
 <h3 id="模板特化"><a class="markdownIt-Anchor" href="#模板特化"></a> 模板特化</h3>
-<p><strong>模板特化(Template Specialization)指的是对模板的形参进行部分替换或全部替换,并重新定义这种替换了的模板</strong></p>
+<p><strong>模板特化(Template Specialization)指的是对模板的形参进行部分替换或全部替换(替换是指具体化,即无泛型特征),并重新定义这种替换了的模板</strong></p>
 <ul>
 <li>
 <p><strong>全特化(full specialization),指对原模版的形参全部替换</strong> <mark>函数模板只有全特化</mark></p>
@@ -655,20 +655,20 @@ DPU：是对网卡和存储等数据的高效处理<br />
 <h3 id="模板实参推导"><a class="markdownIt-Anchor" href="#模板实参推导"></a> 模板实参推导</h3>
 <p>模板实参推导分为<strong>函数模板实参推导</strong>和<strong>类模板实参推导</strong>(c++17引入,通过构造函数进行模板实参推导),<strong>模板实参无需全部显式传入,可通过函数调用的实参或是构造函数的实参来进行推导,模板实参都能被推导且推导结果无冲突(即不存在T=int又T=float这种情况),则推导成功</strong></p>
 <h3 id="sfinae"><a class="markdownIt-Anchor" href="#sfinae"></a> SFINAE</h3>
-<p>SFINAE(Substitution Failure Is Not An Error)即替换失败不是一个错误,说句人话就是替换失败不会报错,不会产生error,这里的替换则是实例化的意思</p>
-<p>SFINAE这个东西的作用很大,比如可以让我们基于逻辑控制重载集,但需要先说说模板实例化流程,因为SFINAE作用于其中</p>
+<p><strong>SFINAE(Substitution Failure Is Not An Error)即替换失败不是一个错误</strong>,说句人话就是<strong>实例化失败不会报错,不会产生error</strong></p>
+<p>SFINAE这个东西的作用很大,比如可以让我们<u>基于逻辑控制重载集</u>/可以在c<ins>11/c</ins>14模拟c++17的if constexpr等,但需要先说说<strong>模板实例化流程</strong>,因为SFINAE作用于其中</p>
 <ul>
 <li>
-<p>对函数模板的实例化流程:</p>
-<p>名字查找(找重载)-&gt;函数模板实参推导(推导失败的不会报错而是在重载集中删去)-&gt;重载决议(偏序规则排序和SFINAE于重载集删去非良构的)-&gt;有特化选特化,没特化选主模板-&gt;替换生成代码</p>
+<p><strong>函数模板的实例化流程</strong></p>
+<p><strong>名字查找</strong>(找重载)-&gt;<strong>函数模板实参推导</strong>(推导失败的不会报错而是在重载集中删去)-&gt;<strong>重载决议</strong>(偏序规则排序和SFINAE于重载集删去非良构的)-&gt;<strong>有特化选特化,没特化选主模板</strong>-&gt;<strong>替换生成代码</strong></p>
 </li>
 <li>
-<p>对类模板的实例化流程:</p>
-<p>名字查找(找类模板,多了就re-identification了)-&gt;主模板实参推导(出错直接error)-&gt;根据主模板和特化选择最匹配的(估计这里冒出来了特化集,这里匹配特化就是metafunction那里的内容),通过将类模板的特化转为函数模板,使用函数模板的偏序规则排序,以及SFINAE对非良构的特化移出特化集-&gt;有特选最特,最特挑不出报错,无特选主模板-&gt;替换生成代码</p>
+<p><strong>类模板的实例化流程</strong></p>
+<p><strong>名字查找</strong>(找类模板,多了就re-identification了)-&gt;<strong>根据主模板的构造函数进行实参推导</strong>(出错直接error)-&gt;<strong>根据主模板和特化选择最匹配的</strong>(估计这里冒出来了特化集,这里匹配特化就是metafunction那里的内容),通过将类模板的特化转为函数模板,使用函数模板的偏序规则排序,以及SFINAE对非良构的特化移出特化集-&gt;<strong>有特选最特,最特挑不出报错,无特选主模板</strong>-&gt;<strong>替换生成代码</strong></p>
 </li>
 </ul>
 <div class="note note-info">
-            <ul><li><p>对于类模板而言,特化并不会带来新的名字;</p></li><li><p>对于函数模板而言,重载则是一个新的名字,特化(对函数就是全特化)也不会带来新的名字</p></li></ul><p>这里的新的名字就是重定义指的那个名字</p>
+            <ul><li><p><strong>对于类模板而言,特化并不会带来新的名字;</strong></p></li><li><p><strong>对于函数模板而言,重载则是一个新的名字,特化(对函数就是全特化)也不会带来新的名字</strong></p></li></ul><p>这里的新的名字就是重定义指的那个名字</p><p>同时需要注意,<strong>实例化中并不一定都要通过推导得到模板实参,这个模板实参可以是默认值,可以是显式传入,也可以是推导得来的</strong></p>
           </div>
 <p>上面我们提及了一个偏序规则,同时也提及了类模板的特化转成函数模板的形式采用函数模板的偏序规则进行排序,这个排序的目的是选出最匹配的特化/重载</p>
 <p>那么类模板特化如何转换成函数模板呢?</p>
@@ -676,18 +676,66 @@ DPU：是对网卡和存储等数据的高效处理<br />
 <p>根据上述示例代码可以看出,<strong>转换的关键就是将模板特化的形参转换为函数的形参</strong></p>
 <p>而后便使用偏序规则对特化进行优先级比较</p>
 <p><strong>偏序规则</strong>可以这么描述:<code>fa&lt;U&gt;(A)</code>,其中U表示模板实参,A是实参列表中的类型,它是用U来表示的,即<code>A=op(U)</code>,将A代入<code>fb</code>的函数形参列表P,据此推导出T,即用U表示T</p>
-<p>当<code>fa&lt;U&gt;(A) =&gt; fb&lt;T&gt;(P) &amp;&amp; fb&lt;U&gt;(A) ≠&gt;fa&lt;T&gt;(P)</code>时,说明<code>fa</code>比<code>fb</code>偏序更高.而不存在上述关系的二者无法推出谁比谁高,即认为相等</p>
+<p>当<code>fa&lt;U&gt;(A) =&gt; fb&lt;T&gt;(P) &amp;&amp; fb&lt;U&gt;(A) ≠&gt;fa&lt;T&gt;(P)</code>时,说明<code>fa</code>比<code>fb</code>偏序更高.而<strong>不存在上述关系的二者无法推出谁比谁高,即认为相等</strong></p>
 <p>最后来说一下这一部分的重点SFINAE:</p>
 <p><strong>替换失败(Subtitution Failure)是指:在进行替换时,模板的立即上下文(immediate context,指声明处)中的类型或表达式非良构(ill-formed,指语法错误),这&quot;不是一个错误&quot;(INAE),只会在重载集/特化集中移除它,不会报错!</strong></p>
 <p>关于参考文件五的实现:<a target="_blank" rel="noopener" href="https://github.com/ayyHA/cpp_grammar_test/blob/main/template_meta_programming/tmpv3.cpp">cpp_grammar_tmp</a></p>
+<p>以下对一些SFINAE实现的模板进行描述:</p>
+<ul>
+<li><code>enable_if&lt;bool,T&gt;</code>类模板,根据bool的true/false触发SFINAE(非良构),实现基于逻辑控制重载集,可用其&quot;类型&quot;(<code>enable_if_t&lt;bool,T&gt;</code>)用于如<strong>函数的返回值</strong>,这样如果<code>enable_if&lt;false,T&gt;</code>就会非良构从重载集删去,因不会继承<code>type_identity&lt;T&gt;</code>;而传入的为<code>true</code>,则会以<code>T</code>作为返回值</li>
+<li><code>void_t&lt;Args...&gt;</code>别名模板,可以基于此实现如python的hasattr功能,实现为<code>has_member_type</code>这个类模板,通过<code>template&lt;class T,class U=void&gt; has_member_type : false_type&#123;&#125;;</code>来实现一个主模板,特化模板的形参的<code>void</code>通过<code>void_t</code>传入,会根据SFINAE进行判断</li>
+<li><code>declval&lt;T&gt;()</code>函数模板,可以实现编译期的fake variable,作用于不求值运算符内,这个函数模板的实现是<strong>只声明不定义</strong>,<code>template&lt;T&gt; add_rvalue_reference_t&lt;T&gt; declval();</code>通过<code>decltype(declval&lt;T&gt;())</code>获取伪变量的类型</li>
+<li><code>add_lvalue_reference&lt;T&gt;</code>类模板通过一些函数模板实现继承的选择,所谓继承的选择是通过SFINAE实现的,因为如<code>void</code>是没有引用或右值引用类型的,所以要通过SFINAE匹配到对应的函数模板,如果是<code>void</code>返回<code>void</code>,是<code>int</code>返回<code>int&amp;</code>,这个返回的是<code>type_identity&lt;T&gt;</code>或者<code>type_identity&lt;T&amp;&gt;</code>一类的,而对于int而言这两种返回值都可以被匹配到,都在重载集里,这时候就要用偏序规则挑,那就要从函数的形参列表做文章,如<code>func(...)</code>或者<code>func(int)</code>后者显然偏序更高,当传入是int类型的单个参数.所以<strong>偏序规则和SFINAE两者要一起结合着用</strong></li>
+<li><code>is_copy_assignable&lt;T,U=void&gt;</code>类模板,本质上跟利用<code>void_t</code>实现的<code>has_member_type</code>类模板一样的实现方式</li>
+<li><code>tuple</code></li>
+</ul>
+<div class="note note-info">
+            <p><strong>不求值(Unevaluated)运算符有<code>sizeof</code>,<code>decltype</code>,<code>typeid</code></strong>(这玩意不是RTTI的东西吗,怎么跑编译期来了),<strong><code>noexcept</code>,这些运算符的操作数在编译期后就消失了,不求值,<u>只访问操作数的编译期属性</u>.对应的有<u>不求值表达式,不求值上下文</u></strong></p>
+          </div>
+<h3 id="concept和requires"><a class="markdownIt-Anchor" href="#concept和requires"></a> concept和requires</h3>
+<p><mark>注意此部分没有写测试代码</mark></p>
+<p>我们前面对传入的模板实参的筛选,目的是挑选对应的函数或类,以使用特定的具体实现,是通过模板实例化中的特化集和重载集,利用偏序规则和SFINAE去做筛选,有一种反着写代码的感觉,且<strong>报错非常冗长</strong>.而<u>c++20引入的concept</u>则解决了这个问题,且<strong>语法简单清晰</strong>.</p>
+<p><strong>concept是对于模板实参的一系列constraints的集合</strong>,<strong>对它的检查先于模板实例化</strong>(所以报错少).它的声明如下:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-keyword">concept</span> conceptName = constraint1 &amp;&amp; constraint2 || constraint3; <span class="hljs-comment">// constraint_expression </span><br></code></pre></td></tr></table></figure>
+<p><strong>通过约束表达式来声明具体的concept</strong>,其中<strong>约束表达式支持短路求值</strong>,跟之前模板实例化中的逻辑运算表达式不同.具体使用如下:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-keyword">concept</span> Numeric = std::is_integral_v&lt;T&gt; || std::is_floating_point_v&lt;T&gt;;<br><br><span class="hljs-keyword">template</span> &lt;Numeric T&gt;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">func</span><span class="hljs-params">(T)</span></span>;<br></code></pre></td></tr></table></figure>
+<p><code>requires</code>关键字引入<u>requires从句</u>,放置于函数模板的声明中:</p>
+<ul>
+<li>可以接在函数模板形参列表<code>&gt;</code>的后面;</li>
+<li>也可以放在函数形参列表和函数体之间<code>funcName() here &#123;&#125;</code></li>
+</ul>
+<p><strong><u>requires从句</u>必须是一个常量表达式</strong>,可以是:</p>
+<ul>
+<li>
+<p>concept表达式</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt; <span class="hljs-keyword">requires</span> Numeric&lt;T&gt;</span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">func</span><span class="hljs-params">(T)</span></span>&#123;&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li>
+<p>true/false</p>
+</li>
+<li>
+<p>约束表达式</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;</span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">func</span><span class="hljs-params">(T)</span> <span class="hljs-keyword">requires</span> std::is_integral_v&lt;T&gt; || std::is_floating_point_v&lt;T&gt; </span>&#123;&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li>
+<p>requires表达式</p>
+<p>这个表达式声明如下:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-built_in"><span class="hljs-keyword">requires</span></span>(parameter)&#123;...&#125;<br></code></pre></td></tr></table></figure>
+<p><strong>它本质是一个bool类型的纯右值,也是描述约束,良构为true,否则为false</strong>.可以用于声明concept,也可以用于requires从句</p>
+</li>
+</ul>
+<p><strong>约束出现的顺序决定了编译器检查的顺序,逻辑相同,但约束的位置不同,不会被认为是重定义</strong></p>
+<p><strong>泛型编程并非完全泛型,而是约束下的泛型编程,这里的约束即是concept和requires的体现</strong></p>
 <p>参考文件：</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/378360055">C++模板元编程（二）：模板基础</a></li>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/384826036">C++模板元编程（三）：从简单案例中学习</a></li>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/390783543">C++模板元编程（四）：深入模板</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/395165250">C++模板元编程（五）：从进阶的案例中学习</a> <mark>只写了一部分代码用于测试,还没写全</mark></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/395165250">C++模板元编程（五）：从进阶的案例中学习</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/413297399">C++模板元编程（六）：约束和概念</a></li>
 </ul>
 <h2 id="c特征萃取"><a class="markdownIt-Anchor" href="#c特征萃取"></a> C++特征萃取</h2>
+<p>详见<code>type_traits</code>库,也可以看模板元编程中的部分手动实现</p>
 <p>参考文件:</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_68194402/article/details/142148126">C++ 萃取技术——固定萃取技术</a></li>
@@ -735,6 +783,10 @@ DPU：是对网卡和存储等数据的高效处理<br />
 <ul>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/578828427">现代C++中的四种CAST</a></li>
 </ul>
+<h2 id="default-delete"><a class="markdownIt-Anchor" href="#default-delete"></a> =default / =delete</h2>
+<p>c++11 <code>=default</code>可以在类中让编译器生成默认构造函数,拷贝构造函数,移动构造函数,以及对应的赋值运算符,反之可以通过<code>=delete</code>禁用</p>
+<h2 id="函数调用约定"><a class="markdownIt-Anchor" href="#函数调用约定"></a> 函数调用约定</h2>
+<p><code>__stdcall</code>和<code>__cdecl</code>是两个函数调用约定的关键字,都是从右到左入栈,前者是被调函数清理栈,后者是调用函数清理栈</p>
 
             </div>
             <hr>
