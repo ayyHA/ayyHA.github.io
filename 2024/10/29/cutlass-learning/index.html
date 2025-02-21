@@ -26,8 +26,9 @@
 <meta property="og:image" content="https://s2.loli.net/2024/10/25/xdauKw1LvZ6kcqh.jpg">
 <meta property="og:image" content="https://s2.loli.net/2024/10/25/nXwp7y9rAZP5siW.png">
 <meta property="og:image" content="https://s2.loli.net/2024/10/25/D4P8tjZU5CF6Xr7.png">
+<meta property="og:image" content="https://s2.loli.net/2025/02/20/ImyaYb1GkrRc5UE.png">
 <meta property="article:published_time" content="2024-10-29T15:12:18.000Z">
-<meta property="article:modified_time" content="2025-01-16T13:52:15.866Z">
+<meta property="article:modified_time" content="2025-02-20T17:02:21.555Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Layout">
 <meta property="article:tag" content="Tensor">
@@ -210,7 +211,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      5.6k 字
+      6k 字
     </span>
   
 
@@ -219,7 +220,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      17 分钟
+      19 分钟
     </span>
   
 
@@ -252,7 +253,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：7 天前
+                  本文最后更新于：11 小时前
                 
               </p>
             
@@ -471,12 +472,19 @@
 <p><mark>感觉COPY比MMA难理解很多</mark></p>
 <h3 id="swizzle"><a class="markdownIt-Anchor" href="#swizzle"></a> Swizzle</h3>
 <p>在矩阵乘中,数据搬运的过程为gmem -&gt; smem -&gt; reg,这其中逻辑上来讲某一个C块,对应的A块和B块在gmem和在reg上是一样的(reg的矩阵块由warp中的reg整体表示),但是由于smem bank conflict的存在,<strong>数据存储在smem上就需要沿着bank的方向错开</strong>,即按照二维坐标来说是icol方向错开,那怎么错开,错开之后的offset咋取,还有怎么从一维变到二维以形成(irow,icol)?这些都可以交由Swizzle来解决</p>
-<p><strong>Swizzle与Layout一样,都是函数,Swizzle是嵌套Layout来使用,Layout提供的是offset/index,而Swizzle提供的是smem bank conflict的offset,这里对bank conflict的解决是通过<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mi>c</mi><mi>o</mi><mi>l</mi><mo>=</mo><mi>i</mi><mi>r</mi><mi>o</mi><mi>w</mi><mo>⊕</mo><mi>i</mi><mi>c</mi><mi>o</mi><mi>l</mi></mrow><annotation encoding="application/x-tex">icol = irow \oplus icol</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">i</span><span class="mord mathnormal">c</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.74285em;vertical-align:-0.08333em;"></span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⊕</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">i</span><span class="mord mathnormal">c</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span></span></span></span>实现的</strong></p>
-<p><strong>Swizzle通过B,M,S三个参数构造出一个二维空间,一维坐标的元素可以按此空间的定义转换成二维坐标,B,S表示新空间的行列,M表示新空间的基本元素,由一维坐标下的连续元素组成,这三个参数都是以2为基底的</strong></p>
+<p><strong>Swizzle与Layout一样,都是函数,Swizzle是嵌套Layout来使用,Layout提供的是offset/index,而Swizzle提供的是解决了smem bank conflict的offset,这里对bank conflict的解决是通过<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mi>c</mi><mi>o</mi><mi>l</mi><mo>=</mo><mi>i</mi><mi>r</mi><mi>o</mi><mi>w</mi><mo>⊕</mo><mi>i</mi><mi>c</mi><mi>o</mi><mi>l</mi></mrow><annotation encoding="application/x-tex">icol = irow \oplus icol</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">i</span><span class="mord mathnormal">c</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.74285em;vertical-align:-0.08333em;"></span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⊕</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">i</span><span class="mord mathnormal">c</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span></span></span></span>实现的</strong></p>
+<p><strong>Swizzle通过B,M,S三个参数构造出一个二维空间,一维坐标的元素可以按此空间的定义转换成二维坐标,B,S表示新空间的行列,M表示新空间的基本元素,由一维坐标下的连续元素组成,这三个参数都是以2为基底的</strong>,可以通过ldmatrix指令,smem bank来理解B,M,S三个参数(结合下图):</p>
+<ul>
+<li>首先<strong>设置M是为了构造新元素</strong>,这个新元素从ldmatrix的角度来理解,以<code>m8n8.x1.b16</code>来看,T0到T7各占一行的数据,一行的8个16位数据连续,T0到T7之间代表的该行首个元素地址不要求连续,一行8个元素,看作一个新元素,故M设置为3;</li>
+<li>紧接着新元素的大小是16Byte,smem的bank是4Byte一个,有32个,那此时的新bank大小是16Byte一个,有8个新bank,每个新bank可以放下一个新元素,支持并行访问8个新元素,即此刻新bank数目为8,<strong>构造的S从新bank数目来</strong>,故S设置为3;</li>
+<li>进行ldmatrix,讨论此刻发生的n-way bank conflict,此时可以<strong>设置B值用以表示irow,指代重映射的基本单位</strong>,注意 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>≤</mo><mi>S</mi></mrow><annotation encoding="application/x-tex">B \le S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.13597em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span></span></span></span></li>
+</ul>
+<p><img src="https://s2.loli.net/2025/02/20/ImyaYb1GkrRc5UE.png" srcset="/img/loading.gif" lazyload alt="CuTe-Swizzle-BMS" /></p>
 <p>此外除了解决smem bank conflict的Swizzle外,还有个<strong>用于线程块的Swizzle,可以用来增大L2Cache hit</strong>,个人感觉类似于执行配置参数中对grid的X,Y,Z进行位置变换,使之在调度block到SM上时对考虑L2 Cache的命中率</p>
 <h3 id="参考文件-2"><a class="markdownIt-Anchor" href="#参考文件-2"></a> 参考文件</h3>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://www.zhihu.com/column/c_1696937812497235968">知乎博主-reed-专栏</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/people/anonymous-76-65-9/posts">知乎博主-anonymous-cutlass中的三篇文章</a></li>
 </ul>
 
             </div>
