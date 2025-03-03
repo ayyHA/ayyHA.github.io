@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://s2.loli.net/2024/08/15/E8DzujRVlGAQNXU.png">
 <meta property="og:image" content="https://s2.loli.net/2024/08/15/dwjsovzxFD7lWQ9.png">
 <meta property="article:published_time" content="2024-07-09T06:37:05.000Z">
-<meta property="article:modified_time" content="2024-10-29T06:20:24.700Z">
+<meta property="article:modified_time" content="2025-03-02T18:26:29.807Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="CUDA">
 <meta property="article:tag" content="OpDev">
@@ -210,7 +210,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      7.3k 字
+      7.5k 字
     </span>
   
 
@@ -252,7 +252,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：4 个月前
+                  本文最后更新于：12 小时前
                 
               </p>
             
@@ -340,7 +340,7 @@
 <li><code>cp-size</code>: byte为单位的整型常量,表示的是拷贝的数据的大小,可选值为4,8,16</li>
 </ul>
 <div class="note note-warning">
-            <p>没用到的先没细看,用到再look别的可选operand是啥意思</p>
+            <p>注: <code>cg</code>表示只开了L2Cache;<code>ca</code>表示还开了L1cache.这里的可选项<code>.level::prefetch_size</code>看起来是预取到L2Cache,有不同粒度的选择;另一个可选项没搞懂,看起来跟缓存策略有关(看官网解释开缓存策略那个<code>.L2::cache_hint</code>必须用上);<mark>而<code>src-size</code>应该是为了解决不满足<code>cp-size</code>情况下时使用,比如3字节,<code>cp-size</code>为4,则第4个字节填充0</mark></p>
           </div>
 <p>因为是异步拷贝,异步是nonblock的,所以你要拿个东西阻塞它,如果需要在某些代码执行前获取到结果的话:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs assembly">cp.async.wait_all;<br></code></pre></td></tr></table></figure>

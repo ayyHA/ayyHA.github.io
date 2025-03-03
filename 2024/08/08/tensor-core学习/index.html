@@ -31,9 +31,14 @@
 <meta property="og:image" content="https://s2.loli.net/2024/10/16/dNglRmY49wIWa2B.png">
 <meta property="og:image" content="https://s2.loli.net/2024/08/10/BsMyUx9jIu3RLbA.png">
 <meta property="og:image" content="https://s2.loli.net/2024/08/10/qZrAJ8dP3x15XTM.png">
-<meta property="og:image" content="https://s2.loli.net/2024/10/17/ZmHq15jQlGsxToR.png">
+<meta property="og:image" content="https://s2.loli.net/2025/03/03/WhCGxjweprqiAVu.png">
+<meta property="og:image" content="https://s2.loli.net/2025/03/03/uAHYGTlPSnWFbEI.png">
+<meta property="og:image" content="https://s2.loli.net/2025/03/03/kL1A2vYhglSmBKs.png">
+<meta property="og:image" content="https://s2.loli.net/2025/03/03/2KJjOskc5MW91Si.png">
+<meta property="og:image" content="https://s2.loli.net/2025/03/03/Gmrt7OLS6YhU3je.png">
+<meta property="og:image" content="https://s2.loli.net/2025/03/03/1rntpVwkTKfSozM.png">
 <meta property="article:published_time" content="2024-08-08T07:33:46.000Z">
-<meta property="article:modified_time" content="2024-10-17T03:14:49.471Z">
+<meta property="article:modified_time" content="2025-03-03T06:11:50.706Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="GPU">
 <meta property="article:tag" content="CUDA C&#x2F;C++">
@@ -212,7 +217,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      9.6k 字
+      10k 字
     </span>
   
 
@@ -221,7 +226,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      30 分钟
+      32 分钟
     </span>
   
 
@@ -254,7 +259,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：4 个月前
+                  本文最后更新于：1 分钟前
                 
               </p>
             
@@ -337,21 +342,31 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cstdio&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cstdint&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cuda_runtime.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;cuda_fp16.h&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> SHAPE 8*8*4</span><br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> checkCudaError(func) &#123;                                                      \</span><br><span class="hljs-meta">    cudaError_t e = (func);                                                         \</span><br><span class="hljs-meta">    <span class="hljs-meta-keyword">if</span>(e!=cudaSuccess)&#123;                                                             \</span><br><span class="hljs-meta">        printf(<span class="hljs-meta-string">&quot;CUDA ERROR %s %d : %s\n&quot;</span>,__FILE__,__LINE__,cudaGetErrorString(e));  \</span><br><span class="hljs-meta">    &#125;                                                                               \</span><br><span class="hljs-meta">&#125;</span><br><br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> FLOAT4(pointer) (reinterpret_cast<span class="hljs-meta-string">&lt;float4*&gt;</span>(&amp;(pointer))[0])</span><br><br><span class="hljs-function">__global__ <span class="hljs-keyword">void</span> <span class="hljs-title">test_ldmatrix</span><span class="hljs-params">(half* dIn,half* dOut)</span></span>&#123;<br>    __shared__ half smemTmp[SHAPE];<br>    <span class="hljs-keyword">int</span> idx = threadIdx.x * <span class="hljs-number">8</span>;    <br>    <span class="hljs-comment">// 把数据从gmem -&gt; smem,一个线程取一行数据，即128bit共8个fp16,也即是4个fp32,可以用float4一次取完</span><br>    <span class="hljs-built_in">FLOAT4</span>(smemTmp[idx]) = <span class="hljs-built_in">FLOAT4</span>(dIn[idx]);<br>    <span class="hljs-comment">// printf(&quot;[%d]:[%f]\n&quot;,threadIdx.x,__half2float(smemTmp[idx]));    // smem数据是按要求摆放的 </span><br>    <br>    <span class="hljs-keyword">uint32_t</span> reg[<span class="hljs-number">4</span>];<br>    <span class="hljs-comment">// 使用ldmatrix, smem -&gt; reg</span><br>    <span class="hljs-function">__asm__ <span class="hljs-title">volatile</span><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function">        <span class="hljs-string">&quot;ldmatrix.sync.aligned.m8n8.x4.b16 &#123;%0,%1,%2,%3&#125;,[%4];    \n&quot;</span></span></span><br><span class="hljs-params"><span class="hljs-function">        : <span class="hljs-string">&quot;=r&quot;</span>(reg[<span class="hljs-number">0</span>]),</span></span><br><span class="hljs-params"><span class="hljs-function">          <span class="hljs-string">&quot;=r&quot;</span>(reg[<span class="hljs-number">1</span>]),</span></span><br><span class="hljs-params"><span class="hljs-function">          <span class="hljs-string">&quot;=r&quot;</span>(reg[<span class="hljs-number">2</span>]),</span></span><br><span class="hljs-params"><span class="hljs-function">          <span class="hljs-string">&quot;=r&quot;</span>(reg[<span class="hljs-number">3</span>])</span></span><br><span class="hljs-params"><span class="hljs-function">        : <span class="hljs-string">&quot;l&quot;</span>(&amp;smemTmp[idx])</span></span><br><span class="hljs-params"><span class="hljs-function">    )</span></span>;<br><br>    <span class="hljs-comment">// 把每个线程寄存器得到的东西给它移动到我们的dOut中 reg -&gt; gmem</span><br>    *(<span class="hljs-keyword">reinterpret_cast</span>&lt;<span class="hljs-keyword">float</span>*&gt;(&amp;dOut[idx]))    = *(<span class="hljs-keyword">reinterpret_cast</span>&lt;<span class="hljs-keyword">float</span>*&gt;(&amp;reg[<span class="hljs-number">0</span>]));<br>    *(<span class="hljs-keyword">reinterpret_cast</span>&lt;<span class="hljs-keyword">float</span>*&gt;(&amp;dOut[idx+<span class="hljs-number">2</span>]))  = *(<span class="hljs-keyword">reinterpret_cast</span>&lt;<span class="hljs-keyword">float</span>*&gt;(&amp;reg[<span class="hljs-number">1</span>]));<br>    *(<span class="hljs-keyword">reinterpret_cast</span>&lt;<span class="hljs-keyword">float</span>*&gt;(&amp;dOut[idx+<span class="hljs-number">4</span>]))  = *(<span class="hljs-keyword">reinterpret_cast</span>&lt;<span class="hljs-keyword">float</span>*&gt;(&amp;reg[<span class="hljs-number">2</span>]));<br>    *(<span class="hljs-keyword">reinterpret_cast</span>&lt;<span class="hljs-keyword">float</span>*&gt;(&amp;dOut[idx+<span class="hljs-number">6</span>]))  = *(<span class="hljs-keyword">reinterpret_cast</span>&lt;<span class="hljs-keyword">float</span>*&gt;(&amp;reg[<span class="hljs-number">3</span>]));<br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-comment">// 数组是 fp16,4个8*8的阵,用以查看ldmatrix中.num为.x4的数据排布</span><br>    half hLoad[SHAPE];<br>    half hStore[SHAPE];<br>    <span class="hljs-comment">// 初始化data,为[0,255]的整型</span><br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;SHAPE;i++)&#123;<br>        hLoad[i]=i;<br>    &#125;<br><br>    <span class="hljs-keyword">size_t</span> sizeData = <span class="hljs-built_in"><span class="hljs-keyword">sizeof</span></span>(half) * (SHAPE);<br>    half* dLoad,*dStore;<br><br>    <span class="hljs-built_in">checkCudaError</span>(<span class="hljs-built_in">cudaMalloc</span>(&amp;dLoad,sizeData));<br>    <span class="hljs-built_in">checkCudaError</span>(<span class="hljs-built_in">cudaMalloc</span>(&amp;dStore,sizeData));<br><br>    <span class="hljs-built_in">checkCudaError</span>(<span class="hljs-built_in">cudaMemcpy</span>(dLoad,hLoad,sizeData,cudaMemcpyHostToDevice));<br>    test_ldmatrix&lt;&lt;&lt;<span class="hljs-number">1</span>,<span class="hljs-number">32</span>&gt;&gt;&gt;(dLoad,dStore);<br>    <span class="hljs-built_in">checkCudaError</span>(<span class="hljs-built_in">cudaMemcpy</span>(hStore,dStore,sizeData,cudaMemcpyDeviceToHost));<br><br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">32</span>;i++)&#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;T%02d &quot;</span>,i);<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">8</span>;j+=<span class="hljs-number">2</span>)&#123;<br>            <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;r%d %12f %12f &quot;</span>,j/<span class="hljs-number">2</span>,__half2float(hStore[i*<span class="hljs-number">8</span>+j]),__half2float(hStore[i*<span class="hljs-number">8</span>+j+<span class="hljs-number">1</span>]));<br>        &#125;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;\n&quot;</span>);<br>    &#125;    <br><br>    <span class="hljs-built_in">checkCudaError</span>(<span class="hljs-built_in">cudaFree</span>(dLoad));<br>    <span class="hljs-built_in">checkCudaError</span>(<span class="hljs-built_in">cudaFree</span>(dStore));<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 <img src="https://s2.loli.net/2024/08/10/BsMyUx9jIu3RLbA.png" srcset="/img/loading.gif" lazyload alt="ldmatrix_no_trans" style="zoom:80%;" />
 <img src="https://s2.loli.net/2024/08/10/qZrAJ8dP3x15XTM.png" srcset="/img/loading.gif" lazyload alt="ldmatrix_with_trans" style="zoom:80%;" />
-<p>以上实验是对ldmatrix指令的整体认知,主要体现在整个warp协作式加载数据,使得整个矩阵由整个warp的每一个线程的部分寄存器来进行表示</p>
+<p>以上实验是对ldmatrix指令的整体认知,主要体现在整个warp协作式加载数据,使得整个矩阵由整个warp的每一个线程的部分寄存器来进行表示.其中加了<code>.trans</code>的个人建议理解先转置,后按照无<code>.trans</code>的情况处理,则可以与<code>mma</code>指令所需的matrixB的数据排布对应上</p>
 <h3 id="mma指令"><a class="markdownIt-Anchor" href="#mma指令"></a> mma指令</h3>
-<p>看完上面的ldmatrix指令,你会好奇,为啥要搞得这么复杂呢?</p>
-<p>实际上ldmatrix是为了和mma指令搭配使用的，看下mma指令在M16N8K16情况下的1个warp涉及到的C tile和A tile以及B tile的线程分布情况，你就知道为啥这么复杂了(下图是<code>HMMA.16816</code>的情况,借的别人的图,原图没找到):</p>
-<img src="https://s2.loli.net/2024/10/17/ZmHq15jQlGsxToR.png" srcset="/img/loading.gif" lazyload style="zoom:67%;" />
-<p>很明显，它跟上面那个ldmatrix指令读取时的数据分布到线程的情况是一样的，因此可以很好的搭配起来使用</p>
-<p><mark>具体为什么要这么复杂的数据分布，我觉得是设计的时候考虑到了如shared mem bank conflict一类的问题而致的？</mark></p>
+<p>看完上面的<code>ldmatrix</code>指令,你会好奇,为啥要搞得这么复杂呢?</p>
+<p>实际上<code>ldmatrix</code>是为了和<code>mma</code>指令搭配使用的，看下<code>mma</code>指令在M16N8K16情况下的1个warp涉及到的C tile和A tile以及B tile的数据在线程上的排布情况，你就知道为啥这么复杂了:</p>
+<img src="https://s2.loli.net/2025/03/03/WhCGxjweprqiAVu.png" srcset="/img/loading.gif" lazyload alt="hmma_16816_layoutA" style="zoom:50%;" />
+<img src="https://s2.loli.net/2025/03/03/uAHYGTlPSnWFbEI.png" srcset="/img/loading.gif" lazyload alt="hmma_16816_layoutB" style="zoom:50%;" />
+<img src="https://s2.loli.net/2025/03/03/kL1A2vYhglSmBKs.png" srcset="/img/loading.gif" lazyload alt="hmma_16816_layourCorD" style="zoom:50%;" />
+<p>很明显，<code>mma</code>跟<code>ldmatrix</code>指令读取后数据分布到线程的情况是一样的，因此可以很好的搭配起来使用.那么如何结合起来使用呢?</p>
+<p>需要注意到,ptx中<code>mma</code>的表示如下(这里贴的是半精度的):</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c++">mma.sync.aligned.m8n8k4.alayout.blayout.dtype.f16.f16.ctype  d, a, b, c;<br>mma.sync.aligned.m16n8k8.row.col.dtype.f16.f16.ctype  d, a, b, c;<br>mma.sync.aligned.m16n8k16.row.col.dtype.f16.f16.ctype d, a, b, c;<br><br>.alayout = &#123;.row, .col&#125;;<br>.blayout = &#123;.row, .col&#125;;<br>.ctype   = &#123;.f16, .f32&#125;;<br>.dtype   = &#123;.f16, .f32&#125;;<br></code></pre></td></tr></table></figure>
+<p>现在一般都是<code>matrix_a</code>是row-major,<code>matrix_b</code>是col-major,这也可以从上面的A,B,C阵的layout看出来.以16816为例我们知道对于<code>matrix_a</code>而言它需要先加载一个16x16大小的矩阵到寄存器上,这里以<code>.x4</code>的<code>ldmatrix</code>执行操作即可,其中T0-T15取列为0时的行首地址,T16-T31取列为8时的行首地址;对于<code>matrix_b</code>而言它在warp中的线程上的数据排布稍显奇怪,T0-T3中的寄存器RB0们的元素呈现col-major,回看上面<code>ldmatrix</code>的实验可知,就是将<code>matrix_b</code> s2r的时候加了个<code>.trans</code>限定符即可,其中T0-T15取列为0时的行首地址(<code>.x2</code>就行)</p>
+<p>以下是一个<code>mma</code>的例子,代码看<a target="_blank" rel="noopener" href="https://github.com/ayyHA/OperatorDev/blob/main/cuda/cuda_test/test_mma.cu">test_mma</a>:</p>
+<p><img src="https://s2.loli.net/2025/03/03/2KJjOskc5MW91Si.png" srcset="/img/loading.gif" lazyload alt="hmma_matrix_a" /></p>
+<p><img src="https://s2.loli.net/2025/03/03/Gmrt7OLS6YhU3je.png" srcset="/img/loading.gif" lazyload alt="hmma_matrix_b" /></p>
+<p><img src="https://s2.loli.net/2025/03/03/1rntpVwkTKfSozM.png" srcset="/img/loading.gif" lazyload alt="hmma_accumulator" /></p>
+<p>上面这个例子中的MNK取了16816,恰好使用一条mma指令即可完成,源码细节在链接中查看</p>
 <p><strong>参考文件：</strong></p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/parallel-thread-execution">Nvidia-PTX</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/parallel-thread-execution/#warp-level-matrix-instructions-ldmatrix">Nvidia-ldmatrix</a></li>
 <li><a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/inline-ptx-assembly">Nvidia-InlinePTXAssembly</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/600927104">知乎提问-ldmatrix优势在哪</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/parallel-thread-execution/#multiply-and-accumulate-instruction-mma">Nvidia-mma</a></li>
 </ul>
 <h2 id="ldmatrix之bank-conflict"><a class="markdownIt-Anchor" href="#ldmatrix之bank-conflict"></a> ldmatrix之bank conflict</h2>
-<p>回答上面的问题，那我们这样取数据</p>
+<p>回答上面的问题，那我们这样取数据会有bank conflict嘛?</p>
 
             </div>
             <hr>
