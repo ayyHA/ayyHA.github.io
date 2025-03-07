@@ -26,9 +26,9 @@
 <meta property="og:image" content="https://s2.loli.net/2024/10/25/xdauKw1LvZ6kcqh.jpg">
 <meta property="og:image" content="https://s2.loli.net/2024/10/25/nXwp7y9rAZP5siW.png">
 <meta property="og:image" content="https://s2.loli.net/2024/10/25/D4P8tjZU5CF6Xr7.png">
-<meta property="og:image" content="https://s2.loli.net/2025/02/20/ImyaYb1GkrRc5UE.png">
+<meta property="og:image" content="https://s2.loli.net/2025/03/07/8v5gBejcUw3zk9Y.png">
 <meta property="article:published_time" content="2024-10-29T15:12:18.000Z">
-<meta property="article:modified_time" content="2025-02-24T09:56:39.439Z">
+<meta property="article:modified_time" content="2025-03-07T07:48:18.070Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Layout">
 <meta property="article:tag" content="Tensor">
@@ -211,7 +211,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      6.9k 字
+      7k 字
     </span>
   
 
@@ -253,7 +253,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：7 天前
+                  本文最后更新于：1 分钟前
                 
               </p>
             
@@ -513,9 +513,9 @@
 <ul>
 <li>首先<strong>设置M是为了构造新元素</strong>,这个新元素从ldmatrix的角度来理解,以<code>m8n8.x1.b16</code>来看,T0到T7各占一行的数据,一行的8个16位数据连续,T0到T7之间代表的该行首个元素地址不要求连续,一行8个元素,看作一个新元素,故M设置为3;</li>
 <li>紧接着新元素的大小是16Byte,smem的bank是4Byte一个,有32个,那此时的新bank大小是16Byte一个,有8个新bank,每个新bank可以放下一个新元素,支持并行访问8个新元素,即此刻新bank数目为8,<strong>构造的S从新bank数目来</strong>,故S设置为3;</li>
-<li>进行ldmatrix,讨论此刻发生的n-way bank conflict,此时可以<strong>设置B值用以表示irow,指代重映射的基本单位</strong>,注意 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>≤</mo><mi>S</mi></mrow><annotation encoding="application/x-tex">B \le S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.13597em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span></span></span></span></li>
+<li>进行ldmatrix,讨论此刻发生的n-way bank conflict,此时可以<strong>设置B值用以表示irow,指代重映射的基本单位</strong>,注意 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>≤</mo><mi>S</mi></mrow><annotation encoding="application/x-tex">B \le S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.13597em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span></span></span></span>,这个B的取值实际上可以结合M,S将一行填满bank来看,观察此刻的bank conflict情况,从而取值</li>
 </ul>
-<p><img src="https://s2.loli.net/2025/02/20/ImyaYb1GkrRc5UE.png" srcset="/img/loading.gif" lazyload alt="CuTe-Swizzle-BMS" /></p>
+<p><img src="https://s2.loli.net/2025/03/07/8v5gBejcUw3zk9Y.png" srcset="/img/loading.gif" lazyload alt="CuTe-Swizzle-BMS" /></p>
 <p>此外除了解决smem bank conflict的Swizzle外,还有个<strong>用于线程块的Swizzle,可以用来增大L2Cache hit</strong>,个人感觉类似于执行配置参数中对grid的X,Y,Z进行位置变换,使之在调度block到SM上时对考虑L2 Cache的命中率</p>
 <h3 id="参考文件-2"><a class="markdownIt-Anchor" href="#参考文件-2"></a> 参考文件</h3>
 <ul>
