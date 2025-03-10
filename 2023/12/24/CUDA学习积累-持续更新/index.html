@@ -39,7 +39,7 @@
 <meta property="og:image" content="https://s2.loli.net/2024/07/28/vtNbw7MP9BxlT1y.png">
 <meta property="og:image" content="https://s2.loli.net/2024/08/02/Gk6bmo1ihnepct9.png">
 <meta property="article:published_time" content="2023-12-24T06:18:12.000Z">
-<meta property="article:modified_time" content="2025-01-08T12:08:26.955Z">
+<meta property="article:modified_time" content="2025-03-10T07:29:54.612Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="CUDA">
 <meta property="article:tag" content="C++">
@@ -219,7 +219,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      18k 字
+      19k 字
     </span>
   
 
@@ -228,7 +228,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      56 分钟
+      60 分钟
     </span>
   
 
@@ -261,7 +261,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2 个月前
+                  本文最后更新于：4 分钟前
                 
               </p>
             
@@ -298,6 +298,9 @@
 <p>因此block应该设置为32的倍数,如果不是32的倍数,余下的部分会单独划为1个warp,该warp除了需要的线程,剩余的线程都是inactive</p>
 <p>下面是关于逻辑内存与对应的物理内存的关系,需要牢记哪些内存是片上内存,哪些是板载内存</p>
 <p><img src="https://s2.loli.net/2024/07/03/p6JANBGKTlrvYMO.png" srcset="/img/loading.gif" lazyload alt="gpu-memory-distribution" /></p>
+<div class="note note-info">
+            <p>L1,L2 cacheline应该都是128B,由4个sector(1个sector是32B)组成,其中L1 DCache miss取到L2的cache是以sector为单位取的,cacheline的粒度和在总线上传输的粒度不一致的,参考自<a target="_blank" rel="noopener" href="https://forums.developer.nvidia.com/t/pascal-l1-cache/49571">Pascal L1 cache</a></p>
+          </div>
 <h3 id="gpu一些指标"><a class="markdownIt-Anchor" href="#gpu一些指标"></a> GPU一些指标</h3>
 <ul>
 <li>
@@ -612,7 +615,49 @@ CC有大版本和小版本，大版本一般有代号，比如3.x叫做Kepler，
 <img src="https://s2.loli.net/2024/08/02/Gk6bmo1ihnepct9.png" srcset="/img/loading.gif" lazyload alt="CSR" style="zoom:80%;" />
 <p>那么这些稀疏阵,要在哪里获取呢 -&gt; <a target="_blank" rel="noopener" href="http://sparse.tamu.edu/">稀疏阵大全</a></p>
 <h2 id="nsight-system基础使用"><a class="markdownIt-Anchor" href="#nsight-system基础使用"></a> nsight system基础使用</h2>
-<h2 id="nsight-compute基础使用"><a class="markdownIt-Anchor" href="#nsight-compute基础使用"></a> nsight compute基础使用</h2>
+<h2 id="nsight-compute基础介绍"><a class="markdownIt-Anchor" href="#nsight-compute基础介绍"></a> nsight compute基础介绍</h2>
+<p>这里对ncu这个工具的一些指标组成做个笼统的介绍,以便于可以看懂metric的组成,在看别人的<code>.sh</code>或是<code>Makefile</code>里的一些指标可以看懂,具体细节还是查ncu文档</p>
+<hr />
+<p>之于counter而言,有两种峰值速率</p>
+<ul>
+<li><strong>burst rate</strong></li>
+<li><strong>sustained rate</strong></li>
+</ul>
+<p>这些峰值速率可以用来算throughput的百分比</p>
+<p>在ncu中,所有<strong>性能计数器都叫指标</strong>,但可进一步分组,组内的有特定的属性</p>
+<blockquote>
+<p>While in NVIDIA Nsight Compute, all performance counters are named <em>metrics</em>, they can be split further into groups with specific properties.</p>
+</blockquote>
+<h3 id="metrics-entities"><a class="markdownIt-Anchor" href="#metrics-entities"></a> metrics entities</h3>
+<ul>
+<li>
+<p><strong>counters</strong></p>
+<p>可以是来自GPU的原始计数器，也可以是计算得出的计数器值。每个计数器下有四个子指标(sub-metrics)，也称为汇总指标(roll-ups metric): <code>.sum,.avg,.min,.max</code><br />
+汇总指标也有内置的sub metrics,分为<code>active</code>(单元活动周期)和<code>elapsed</code>(单元运行周期)的peak_sustained(峰值持续速率),number of operations(操作数量),峰值持续速率的百分比</p>
+</li>
+<li>
+<p><strong>ratios</strong></p>
+<p>包含三个子指标：<code>.pct</code>(百分比表示的值); <code>.ratio</code>(比率表示的值); <code>.max_rate</code>(比率的最高值)</p>
+</li>
+<li>
+<p><strong>throughputs</strong></p>
+<p>表示GPU的某一部分接近峰值速率的程度。有子指标如下,针对active和elapsed的peak_sustained的pct</p>
+</li>
+</ul>
+<h3 id="metrics-naming-conventions"><a class="markdownIt-Anchor" href="#metrics-naming-conventions"></a> metrics naming conventions</h3>
+<p>unit-level的counter组成如下:<code>unit__(subunit?)_(pipestage?)_quantity_(qualifiers?)</code></p>
+<p>interface的counter组成如下:<code>unit__(subunit?)_(pipestage?)_(interface)_quantity_(qualifiers?)</code></p>
+<ul>
+<li>unit-level的counter指的是gpu逻辑或物理的unit;</li>
+<li>interface的counter是具备<code>sender2receiver</code>形式的,有俩unit,一个sender一个receiver;</li>
+</ul>
+<p>它们的metric就是由counter名称结合汇总指标:<code>(counter_name).(rollup_metric)</code>或者再<code>.</code>到汇总指标的子指标<code>(counter_name).(rollup_metric).(submetric)</code></p>
+<p>其中上面带问号项的有可能有,有可能没有</p>
+<p>具体项的细节建议看metrics decoder部分的表格,单看定义不大好看懂</p>
+<h3 id="metrics-decoder"><a class="markdownIt-Anchor" href="#metrics-decoder"></a> metrics decoder</h3>
+<p>这一章里面对上述命名规则的几个部分,如<code>unit</code>,<code>subunit</code>,<code>pipeline</code>,<code>quantity</code>详细罗列并介绍了,可以去官网上看</p>
+<h3 id="metrics-reference"><a class="markdownIt-Anchor" href="#metrics-reference"></a> metrics reference</h3>
+<p>这里的metric不遵循上面的命名规则,有需要单独看</p>
 <h2 id="nvrtc-未看"><a class="markdownIt-Anchor" href="#nvrtc-未看"></a> NVRTC <mark>未看</mark></h2>
 <p>nvdia runtime compilation</p>
 <blockquote>
@@ -631,6 +676,8 @@ CC有大版本和小版本，大版本一般有代号，比如3.x叫做Kepler，
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/410278370">旷世天元-CUDA 矩阵乘法终极优化指南</a></li>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/372973726">旷世天元-MegEngine TensorCore 卷积算子实现原理</a></li>
 <li><a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#c-language-extensions">NVIDIA CUDA C编程手册</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html">NVIDIA Nsight Compute</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/column/c_1139113249399345152">CloudCore大佬全系列,强推</a></li>
 </ul>
 
             </div>
