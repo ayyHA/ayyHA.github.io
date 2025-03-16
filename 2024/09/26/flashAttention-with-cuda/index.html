@@ -28,8 +28,10 @@
 <meta property="og:image" content="https://s2.loli.net/2024/10/06/r5DM9w3AUz4LijT.png">
 <meta property="og:image" content="https://s2.loli.net/2024/10/04/9mqkS5IwCl34OjV.png">
 <meta property="og:image" content="https://s2.loli.net/2024/10/09/od5H2GfjmOTq6eB.png">
+<meta property="og:image" content="https://s2.loli.net/2025/03/16/vy9JTq5nVaLeO4G.png">
+<meta property="og:image" content="https://s2.loli.net/2025/03/16/L2WFoPn4EIXJaeO.png">
 <meta property="article:published_time" content="2024-09-26T07:17:59.000Z">
-<meta property="article:modified_time" content="2024-10-18T02:54:27.596Z">
+<meta property="article:modified_time" content="2025-03-16T15:44:50.820Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="CUDA">
 <meta property="article:tag" content="flashAttention">
@@ -208,7 +210,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      4.4k 字
+      6.5k 字
     </span>
   
 
@@ -217,7 +219,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      14 分钟
+      20 分钟
     </span>
   
 
@@ -250,7 +252,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：5 个月前
+                  本文最后更新于：几秒前
                 
               </p>
             
@@ -309,12 +311,49 @@
 <p>这样划分以尽可能多地利用共享内存</p>
 <p>在代码实现中,由于传入的Q阵的tensor是有四个维度的数据:<code>Tensor(b,nh,N,d)</code>分别是batch_size,num_heads,sequence_length,head_dimension,<img src="https://s2.loli.net/2024/10/09/od5H2GfjmOTq6eB.png" srcset="/img/loading.gif" lazyload alt="flashattnv1-split" style="zoom:33%;" /></p>
 <h2 id="flashattentionv2"><a class="markdownIt-Anchor" href="#flashattentionv2"></a> FlashAttentionV2</h2>
+<p><img src="https://s2.loli.net/2025/03/16/vy9JTq5nVaLeO4G.png" srcset="/img/loading.gif" lazyload alt="flashattnv2-algo" /></p>
 <p>相较于V1的更新:</p>
 <ul>
-<li>公式修改,以利用Tensor Core;</li>
-<li>循环顺序调转,变成先切Q后切K,V</li>
-<li></li>
+<li>
+<p>公式修改,利用Tensor Core;</p>
+<p>好处: 把<code>l</code>即<code>softmax</code>的分母,由12行再进行加上,这样省去了内部频繁的对<code>l</code>的更新</p>
+</li>
+<li>
+<p>循环顺序调转,变成先切Q后切K,V</p>
+<p>好处: 原先的innerloop是切Q,即遍历<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mi>r</mi></msub></mrow><annotation encoding="application/x-tex">T_r</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>,那么每次都要load + store当前计算所需的Q,l,m,O;换了之后省去这部分频繁读写全局内存的开销,同时可以对sequence length做parallelism,这里主要体现在开grid的时候<code>dim3 grid(Tr,b*nh)</code>,由<code>blockIdx.y</code>定位到负责MHA的哪一个head,<code>blockIdx.x</code>给你定位到这个block负责某一个head的Q的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>B</mi><mi>r</mi></msub></mrow><annotation encoding="application/x-tex">B_r</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.05017em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></p>
+</li>
+<li>
+<p>得以于上面调换顺序,使得slicedK, slicedV变成了slicedQ</p>
+</li>
 </ul>
+<p>好处: 这里可以从warp的内外积讨论,slicedQ只是切Q,每个Q负责到它所对应的O,他们的K,V都是一样的;而如果是slicedK,slicedV,那么一个Q它算出来每块<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mi>K</mi><mo>^</mo></mover></mrow><annotation encoding="application/x-tex">\hat{K}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9467699999999999em;vertical-align:0em;"></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9467699999999999em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span></span></span><span style="top:-3.25233em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.19444em;"><span class="mord">^</span></span></span></span></span></span></span></span></span></span>要进行<code>block_reduce_max</code>,以取到当前这个块最大的<code>m</code>,这需要一次reduce;而后它们这些个<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><msub><mi>K</mi><mn>0</mn></msub><mo>^</mo></mover><mo separator="true">,</mo><mover accent="true"><msub><mi>K</mi><mn>1</mn></msub><mo>^</mo></mover><mo separator="true">,</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi></mrow><annotation encoding="application/x-tex">\hat{K_0},\hat{K_1},...</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1412099999999998em;vertical-align:-0.19444em;"></span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9467699999999999em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.25233em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord">^</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9467699999999999em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.25233em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord">^</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">.</span><span class="mord">.</span><span class="mord">.</span></span></span></span>要对对应的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><msub><mi>V</mi><mn>0</mn></msub><mo>^</mo></mover><mo separator="true">,</mo><mover accent="true"><msub><mi>V</mi><mn>1</mn></msub><mo>^</mo></mover><mo separator="true">,</mo><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi><mi mathvariant="normal">.</mi></mrow><annotation encoding="application/x-tex">\hat{V_0},\hat{V_1},...</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1412099999999998em;vertical-align:-0.19444em;"></span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9467699999999999em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.22222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.25233em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord">^</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9467699999999999em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.22222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.25233em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;"><span class="mord">^</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">.</span><span class="mord">.</span><span class="mord">.</span></span></span></span>做乘积,此时是外积,做完后它们的<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover accent="true"><mi>O</mi><mo>^</mo></mover></mrow><annotation encoding="application/x-tex">\hat{O}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9467699999999999em;vertical-align:0em;"></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9467699999999999em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">O</span></span></span><span style="top:-3.25233em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.16666em;"><span class="mord">^</span></span></span></span></span></span></span></span></span></span>们要做一次<code>block_reduce_sum</code>,可见开销很大,而slicedQ则完全不用这两次reduce</p>
+<h3 id="关于16816的扩展"><a class="markdownIt-Anchor" href="#关于16816的扩展"></a> 关于16816的扩展</h3>
+<p>具体实现其实也是按照公式怼,然后再优化,但是在实现的时候会发现以一个block去处理Q(<code>Br x d</code>) @ K<sup>T</sup> (<code>d x Bc</code>)那你这个block应该分做几个warp,以4个为例,则显然你用<code>ldmatrix</code>去读当然是<code>.x4</code>最优,发射一条指令,收获个<code>16x16</code>大小的Q块,那么此时倒推出了<code>Br</code>是64,同时warp size的k跟tile size(就是block大小)的k(共有的维度的意思,mnk那个k)不一致,那就是slicedK了(这个k是head dimension),相当于外积,此时单独看一个<code>16x16</code>的Q块,利用<code>16816</code>的<code>MMA</code>,它对应到的K块是<code>8x16</code>(此时ldsm不用加<code>.trans</code>限定符),此时如果只与一个K块做矩阵乘,则得到的<code>Br x Bc</code>是64(<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>16</mn><mo>×</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">16 \times 4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mord">6</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">4</span></span></span></span>) x 8,实质上可以通过多开寄存器,多次计算实现更大的Bc</p>
+<p><strong>Br的维度是根据多开warp来进行扩展;Bc的维度是通过多开寄存器来扩展</strong></p>
+<p><strong>因此Br,Bc的维度取决于在它们方向上的线程重复次数和寄存器重复次数</strong>,由此得到<code>TiledMMA</code>中的<code>AtomLayoutMNK</code>和<code>ValueLayoutMNK</code>的概念由来</p>
+<div class="note note-info">
+            <p>网上有看到一些大佬制作类triton的DSL,其以16x16为得到的目标阵一个大小,本质上就是上面提到的repeat threads和repeat register</p>
+          </div>
+<h3 id="multi-stage"><a class="markdownIt-Anchor" href="#multi-stage"></a> multi-stage</h3>
+<p>所谓multi-stage其实是结合了threadblock间并行和threadblock内并行.这里的multi所体现的是存储在smem buffer中的threadblock负责的目标块个数</p>
+<p>得益于<code>LDGSTS</code>异步指令的出现,剥离了gmem到smem的约束,使得multi-stage成为可能.同时需要注意,multi-stage牺牲了部分的occupancy,以取得<strong>可能优于</strong>这部分occupancy带来的warp切换遮掩访存的优化</p>
+<p>下图所体现的是一个4(k)-stage,下面简述过程(以下的tile合指同一线程块负责的A,B两个阵的目标块):</p>
+<ol>
+<li>利用<code>cp.async</code>异步拷贝<code>k-1</code>个tile到smem,指定对应的smem位置(单个threadblock它的smem开销大了);</li>
+<li>对应虚线前——利用<code>cp.async.wait_group [N];</code>去同步到指定同步点,这里的N即是k-2(允许至多k-2个没完成);</li>
+<li>对应实线前——利用<code>LDSM</code>完成第一个tile从smem拷贝到reg</li>
+</ol>
+<p>以上是prelogue,接下来到了mainloop,mainloop这个循环对应的是splitK,即threadblock层级的K的划分:</p>
+<ol>
+<li>先执行第k个异步拷贝指令,提交同步点即可,无需等待;</li>
+<li>拷贝下一轮tile到reg(涉及到开多组reg,这里是2,本质上就是软流水)</li>
+<li>执行mma指令</li>
+<li>重复2,3步,这里本质上是slicedK,tile内的for loop,是warp这一层级的</li>
+<li>遇到虚线后是此次slicedK中的最后一次计算,先把下一次的异步拷贝g2s进行wait</li>
+<li>对应实线前——完成下一个tile的首个s2r,同时完成此个tile的内部的最后一次计算</li>
+</ol>
+<p>重复上述步骤直至mainloop完成, 那么完成了,最终的数据都在reg,此时如果有访存密集型操作跟着的,可以合并,即算子融合,此为epilogue,那么无论你融合不融合,你数据从reg挪到gmem,要不要经过smem,视数据量而定.当然还可以开多一波寄存器,把hmma分布的数据给它搞得连续,从reg-&gt;gmem以SIMD的形式给它挪回去,当然这种做法很消耗宝贵的reg资源</p>
+<p><img src="https://s2.loli.net/2025/03/16/L2WFoPn4EIXJaeO.png" srcset="/img/loading.gif" lazyload alt="multi-stage" /></p>
 <h2 id="flashattentionv3"><a class="markdownIt-Anchor" href="#flashattentionv3"></a> FlashAttentionV3</h2>
 <p><mark>只有阅读,没有hopper</mark></p>
 <h2 id="参考文件"><a class="markdownIt-Anchor" href="#参考文件"></a> 参考文件:</h2>
