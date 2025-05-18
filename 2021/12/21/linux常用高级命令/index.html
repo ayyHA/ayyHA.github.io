@@ -532,31 +532,31 @@
   作用：匹配<strong>指定范围内</strong>的任意单个字符<br />
   演示如下：</li>
 </ul>
-<p><img src="https://s2.loli.net/2021/12/23/dMiYpb48Q9DtzCX.jpg" srcset="/img/loading.gif" lazyload alt="re   .jpg" /></p>
+<p><img src="https://s2.loli.net/2021/12/23/dMiYpb48Q9DtzCX.jpg" srcset="/img/loading.gif" lazyload alt="re [  ].jpg" /></p>
 <ul>
 <li>[^  ]<br />
   作用：匹配<strong>指定范围外</strong>的任意单个字符<br />
   演示如下：</li>
 </ul>
-<p><img src="https://s2.loli.net/2021/12/23/fKPtF1Y7C4VH6AJ.jpg" srcset="/img/loading.gif" lazyload alt="re ^ .jpg" /></p>
+<p><img src="https://s2.loli.net/2021/12/23/fKPtF1Y7C4VH6AJ.jpg" srcset="/img/loading.gif" lazyload alt="re [^ ].jpg" /></p>
 <ul>
 <li>[0-9] / [[:digit:]]<br />
   作用：[0-9]和[[:digit:]]功能一样，匹配[0,9]间任意的单个数字<br />
   演示如下：</li>
 </ul>
-<p><img src="https://s2.loli.net/2021/12/23/q24p6arlHcwPbVZ.jpg" srcset="/img/loading.gif" lazyload alt="re 0-9.jpg" /></p>
+<p><img src="https://s2.loli.net/2021/12/23/q24p6arlHcwPbVZ.jpg" srcset="/img/loading.gif" lazyload alt="re [0-9].jpg" /></p>
 <ul>
 <li>[a-zA-z] / [[:alpha:]]<br />
   作用：[a-zA-z]和[[:alpha:]]功能一样，匹配单个任意的大小写字母<br />
   演示如下：</li>
 </ul>
-<p><img src="https://s2.loli.net/2021/12/23/8R3hXU5GMNJqVel.jpg" srcset="/img/loading.gif" lazyload alt="re a-z.jpg" /></p>
+<p><img src="https://s2.loli.net/2021/12/23/8R3hXU5GMNJqVel.jpg" srcset="/img/loading.gif" lazyload alt="re [a-z].jpg" /></p>
 <ul>
 <li>[^0-9] / [^[:digit:]]<br />
   作用：[^0-9]和[^[:digit:]]功能一样，匹配单个非数字字符<br />
   演示如下：</li>
 </ul>
-<p><img src="https://s2.loli.net/2021/12/23/oi6j8pNmBXruqVz.png" srcset="/img/loading.gif" lazyload alt="re  ^0-9.png" /></p>
+<p><img src="https://s2.loli.net/2021/12/23/oi6j8pNmBXruqVz.png" srcset="/img/loading.gif" lazyload alt="re  [^0-9].png" /></p>
 <h4 id="次数匹配相关"><a class="markdownIt-Anchor" href="#次数匹配相关"></a> 次数匹配相关</h4>
 <ul>
 <li>?<br />
@@ -579,7 +579,7 @@
   作用：<strong>匹配其前面的字符至少0次</strong><br />
   演示如下：</li>
 </ul>
-<p><img src="https://s2.loli.net/2021/12/23/wVLJ8mpWM1v7RFP.jpg" srcset="/img/loading.gif" lazyload alt="re .jpg" /></p>
+<p><img src="https://s2.loli.net/2021/12/23/wVLJ8mpWM1v7RFP.jpg" srcset="/img/loading.gif" lazyload alt="re *.jpg" /></p>
 <ul>
 <li>{n}<br />
   作用：<strong>匹配其前面的字符n次</strong><br />
@@ -624,21 +624,21 @@
   作用：其后跟着的内容需位于<strong>词首</strong><br />
   演示如下：</li>
 </ul>
-<p><img src="https://s2.loli.net/2021/12/24/GJUe9Cb4Qz5EOvj.png" srcset="/img/loading.gif" lazyload alt="re .png" /></p>
+<p><img src="https://s2.loli.net/2021/12/24/GJUe9Cb4Qz5EOvj.png" srcset="/img/loading.gif" lazyload alt="re &lt;.png" /></p>
 <ul>
 <li>\&gt; / \b<br />
   作用：其前跟着的内容需位于<strong>词尾</strong><br />
   演示如下：</li>
 </ul>
-<p><img src="https://s2.loli.net/2021/12/24/QgniJvzjoVLt6Ou.png" srcset="/img/loading.gif" lazyload alt="re .png" /></p>
+<p><img src="https://s2.loli.net/2021/12/24/QgniJvzjoVLt6Ou.png" srcset="/img/loading.gif" lazyload alt="re &gt;.png" /></p>
 <p>  若是将<code>\&lt;</code>和<code>\&gt;</code>同时作用于一单词上，表明它既是词首又是词尾，那其实它就是个独立的单词，示例如下；</p>
-<p><img src="https://s2.loli.net/2021/12/24/QTtz8hOxbeNp6Pj.png" srcset="/img/loading.gif" lazyload alt="re   .png" /></p>
+<p><img src="https://s2.loli.net/2021/12/24/QTtz8hOxbeNp6Pj.png" srcset="/img/loading.gif" lazyload alt="re &lt; &gt; .png" /></p>
 <ul>
 <li>\B<br />
   作用：匹配非词首或非词尾的内容（具体看它放在单词前还是后）<br />
   演示如下：</li>
 </ul>
-<p><img src="https://s2.loli.net/2021/12/24/uPWpweh5NlyCQ7D.png" srcset="/img/loading.gif" lazyload alt="re .png" /></p>
+<p><img src="https://s2.loli.net/2021/12/24/uPWpweh5NlyCQ7D.png" srcset="/img/loading.gif" lazyload alt="re \B.png" /></p>
 <h4 id="分组和后向引用"><a class="markdownIt-Anchor" href="#分组和后向引用"></a> 分组和后向引用</h4>
 <p>  修改了演示文件以便于展示效果，新的演示文件如下：</p>
 <p><img src="https://s2.loli.net/2021/12/24/o35kyPu19tXMnxf.png" srcset="/img/loading.gif" lazyload alt="re test file3.png" /></p>
@@ -653,14 +653,14 @@
   作用：后向引用分组，<strong>匹配分组x相同的内容</strong><br />
   演示如下：</li>
 </ul>
-<p><img src="https://s2.loli.net/2021/12/24/g7usQXN2tjC1c4W.png" srcset="/img/loading.gif" lazyload alt="re .png" /></p>
+<p><img src="https://s2.loli.net/2021/12/24/g7usQXN2tjC1c4W.png" srcset="/img/loading.gif" lazyload alt="re \x.png" /></p>
 <h4 id="其它"><a class="markdownIt-Anchor" href="#其它"></a> 其它</h4>
 <ul>
 <li>\<br />
   作用：转义符<br />
   演示如下：</li>
 </ul>
-<p><img src="https://s2.loli.net/2021/12/24/4viCzfdm3DpGEwQ.png" srcset="/img/loading.gif" lazyload alt="re png" /></p>
+<p><img src="https://s2.loli.net/2021/12/24/4viCzfdm3DpGEwQ.png" srcset="/img/loading.gif" lazyload alt="re .png" /></p>
 <div class="note note-info">
             <p>  注:对需要转义的字符进行转义时，加上<code>\</code>即可，但若是对<code>\</code>本身进行转义，则需要使用<code>''</code>单引号而非双引号。</p>
           </div>
@@ -675,7 +675,7 @@
   作用：类似<strong>通配符</strong>，可<strong>匹配任意字符的任意内容</strong><br />
   演示如下：</li>
 </ul>
-<p><img src="https://s2.loli.net/2021/12/24/w4pKLBOCUhEs2zk.png" srcset="/img/loading.gif" lazyload alt="re ..png" /></p>
+<p><img src="https://s2.loli.net/2021/12/24/w4pKLBOCUhEs2zk.png" srcset="/img/loading.gif" lazyload alt="re .*.png" /></p>
 <ul>
 <li>^$<br />
   作用：<strong>表示空行</strong><br />

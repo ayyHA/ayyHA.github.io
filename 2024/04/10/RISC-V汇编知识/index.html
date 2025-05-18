@@ -282,7 +282,7 @@
 <h2 id="寄存器"><a class="markdownIt-Anchor" href="#寄存器"></a> 寄存器</h2>
 <p>采用32位寄存器（RV32I）,有<strong>32个</strong>,常用别名(一般用别名,有特殊含义)见下表:</p>
 <p><img src="https://s2.loli.net/2024/04/11/lMyUdCmc15LovRQ.png" srcset="/img/loading.gif" lazyload alt="RISC-V register info" /></p>
-<p>一般在进行数据传输的时候,若是把一个字节的数搬到寄存器中去的话,需要做<strong>符号位扩展</strong>,<strong>即需要将8位的数扩展为32位,且不改变数值本身的大小</strong>.在计算机中是以补码存储,比如<code>(-2)=(10000010)b</code>的补码形式为<code>(11111110)b</code>将其扩展为32为则是用符号位补足剩余的位数<code>(11111111 11111111 11111111 11111110)b </code>,则成功扩展,对补码取补码即得原码,可见依旧是-2</p>
+<p>一般在进行数据传输的时候,若是把一个字节的数搬到寄存器中去的话,需要做<strong>符号位扩展</strong>,<strong>即需要将8位的数扩展为32位,且不改变数值本身的大小</strong>.在计算机中是以补码存储,比如<code>(-2)=(10000010)b</code>的补码形式为<code>(11111110)b</code>将其扩展为32为则是用符号位补足剩余的位数<code>(11111111 11111111 11111111 11111110)b</code>,则成功扩展,对补码取补码即得原码,可见依旧是-2</p>
 <h2 id="操作码"><a class="markdownIt-Anchor" href="#操作码"></a> 操作码</h2>
 <p>先给出RV32I的指令集指令表,方便后续查看(其实指令条数不多)</p>
 <p><img src="https://s2.loli.net/2024/04/13/FvdrPtTm5gUQBY3.png" srcset="/img/loading.gif" lazyload alt="RV32I instruction table" /></p>
@@ -318,7 +318,7 @@
 <p>现在CISC和RISC指令集其实都很纷繁复杂，一种比较明显的区别是CISC中的访存操作存在隐式的，而RISC中则是显式的进行访存操作（通过访存取值如load，将值从寄存器写回内存的store）</p>
 <ul>
 <li><code>lw rd imm(rs)</code>rs里的值作为基址，imm作为偏移,从(rs+imm)表示的内存地址开始，依次取1个<u>w</u>ord的数据放到rd中去</li>
-<li><code>sw rd imm(rs) </code>跟上面一样，不过是把rd里的32位的值，放置到以(rs+imm)表示的内存地址所指向的空间，一个地址指向的空间可以存放的是一个字节的数据，这里要放4个字节的数据，即(rs+imm)~(rs+imm+3)的空间内放的都是rd的值（具体放的顺序看大小端）</li>
+<li><code>sw rd imm(rs)</code>跟上面一样，不过是把rd里的32位的值，放置到以(rs+imm)表示的内存地址所指向的空间，一个地址指向的空间可以存放的是一个字节的数据，这里要放4个字节的数据，即(rs+imm)~(rs+imm+3)的空间内放的都是rd的值（具体放的顺序看大小端）</li>
 <li><code>lb rd imm(rs)</code> 跟lw差不多，不过这里取的是一个字节，要做符号位扩展，放到rd中去（如果是lbu这种，就是无符号扩展，前面填0补够位数就好了）</li>
 <li><code>sb rd imm(rs)</code>跟sw差不多，不过因为是一个字节，直接塞到(rs+imm)指向的空间里面去就好</li>
 </ul>
@@ -356,7 +356,7 @@
 <li>定义字节/半字/字数组
 <ul>
 <li><code>byte_list: .byte 1,2,3</code></li>
-<li><code>word_list:.word 0x12345678,0x111 </code></li>
+<li><code>word_list:.word 0x12345678,0x111</code></li>
 </ul>
 </li>
 <li>做地址对齐
@@ -367,7 +367,7 @@
 </li>
 </ul>
 <div class="note note-info">
-            <p><strong>标签和符号实际上都是代表内存地址</strong>(如<code>str1:</code>代表这里的(数据)地址和<code>loop:</code>代表这里的(指令)地址,本质上是一样的,只不过内存被分了段),然后易于记忆和使用,但是标签应该更多的是指用于流程控制(比如<code>bne x0,x0,loop</code>),而符号则是如变量这些(比如<code> li t0,tmp</code>,其中tmp在数据段被定义<code>.set tmp,100</code>)</p><p>二者之后都会被弄到<strong>符号表</strong>去</p>
+            <p><strong>标签和符号实际上都是代表内存地址</strong>(如<code>str1:</code>代表这里的(数据)地址和<code>loop:</code>代表这里的(指令)地址,本质上是一样的,只不过内存被分了段),然后易于记忆和使用,但是标签应该更多的是指用于流程控制(比如<code>bne x0,x0,loop</code>),而符号则是如变量这些(比如<code>li t0,tmp</code>,其中tmp在数据段被定义<code>.set tmp,100</code>)</p><p>二者之后都会被弄到<strong>符号表</strong>去</p>
           </div>
 <h3 id="宏"><a class="markdownIt-Anchor" href="#宏"></a> 宏</h3>
 <p><strong>宏实际上是由伪操作组成的</strong></p>
@@ -398,7 +398,7 @@
 </li>
 <li>
 <p>U-type代表的是upper immediate，有LUI(load upper immediate)和AUIPC(add upper immediate PC)这两条指令，前者表示<code>lui rd imm # rd = imm &lt;&lt; 12</code>,后者为<code>auipc rd imm # rd = pc + imm &lt;&lt; 12</code>.为什么需要这一个类型的指令呢?上面讲<code>la</code>伪指令讲了.因此如果想要将一个高于12位的立即数放入到寄存器中可以通过移位的指令达成,也可以通过LUI达成,如想要将<code>0x00009000</code>这个值放入寄存器中,通过<code>lui t0 0x00009</code>即可.如果想获得如<code>0x12345abc</code>,则</p>
-<p><code>lui  t0 0x12345</code> <code>addi t0 t0 0xabc</code>即可.</p>
+<p><code>lui t0 0x12345</code> <code>addi t0 t0 0xabc</code>即可.</p>
 </li>
 <li>
 <p>UJ-type代表的是无条件跳转指令</p>
@@ -695,8 +695,43 @@
   
 
   
-    <!-- KaTeX -->
-    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0/dist/katex.min.css" />
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        loader: {
+          load: ['ui/lazy']
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" ></script>
+
   
 
 

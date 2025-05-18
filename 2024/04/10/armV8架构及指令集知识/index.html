@@ -276,7 +276,7 @@
 <ol start="2">
 <li><strong>matrix multiplication</strong></li>
 </ol>
-<p>以<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo>=</mo><mi>A</mi><mo>∗</mo><mi>B</mi></mrow><annotation encoding="application/x-tex">C=A*B</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span></span></span></span>来考虑,其中是列主序的存储方式,C的维度是<code>n*m</code>,则普通的C矩阵乘如下:</p>
+<p>以<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>C</mi><mo>=</mo><mi>A</mi><mo>∗</mo><mi>B</mi></mrow><annotation encoding="application/x-tex">C=A*B</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault">A</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span></span></span></span>来考虑,其中是列主序的存储方式,C的维度是<code>n*m</code>,则普通的C矩阵乘如下:</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">matrix_multiply_c</span><span class="hljs-params">(<span class="hljs-keyword">float32_t</span>* A,<span class="hljs-keyword">float32_t</span>* B,<span class="hljs-keyword">float32_t</span>* C,<span class="hljs-keyword">uint32_t</span> n,<span class="hljs-keyword">uint32_t</span> m,<span class="hljs-keyword">uint32_t</span> k)</span></span>&#123;<br>    <span class="hljs-keyword">int</span> i,j,p;<br>    <span class="hljs-keyword">for</span>(i=<span class="hljs-number">0</span>;i&lt;n;i++)&#123;<br>        <span class="hljs-keyword">for</span>(j=<span class="hljs-number">0</span>;j&lt;m;j++)&#123;<br>            C[i+j*n] = <span class="hljs-number">0</span>;<br>            <span class="hljs-comment">// Inner Product</span><br>            <span class="hljs-keyword">for</span>(p=<span class="hljs-number">0</span>;p&lt;k;p++)&#123;<br>                C[i+j*n] += A[i + p*n] * B[p + j*k]; <br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>显然,这样的矩阵乘是最朴素的,那怎么优化呢?</p>
 <p>不妨先从一个固定大小,然后维度比较小的矩阵来思考,我们的向量寄存器的宽度是128,那就是对于float32_t可以放4个,因此考虑一个<strong>4x4的小矩阵的乘法</strong>先,那么优化的过程如下图示:</p>
@@ -301,7 +301,7 @@
             <p>其实x86中比如avx2的数据类型也差不多,虽然看起来是__m256d,__m256i这样高深莫测的样子,但是内部的结构体也差不多</p>
           </div>
 <p>在ARM neon intrinsic入门的教程里,函数规范定义如下:</p>
-<p><strong><code>return_type v[p][q][r]opname[u][n][q][x][_high][_lane | _laneq][_n][_result]_type(args) </code></strong></p>
+<p><strong><code>return_type v[p][q][r]opname[u][n][q][x][_high][_lane | _laneq][_n][_result]_type(args)</code></strong></p>
 <p>非常复杂,从左往右开始说</p>
 <ul>
 <li>
@@ -331,7 +331,7 @@
 <li>``</li>
 </ul>
 <div class="note note-info">
-            <p>我在网上看到还有w(wide,宽指令),l(long,长指令)</p><ul><li>l: long,长指令,输入操作数的向量是64位的,结果向量是128位的,类型相同,但是宽度加倍,例子:</li></ul><p>``</p><ul><li>w: wide,宽指令,输入操作数1个是64位的,1个是128位的,结果向量是128位的,类型相同,宽度上64位的是128位的一半,例子:</li></ul><p><code>uint64x2_t vaddw_u32 (uint64x2_t a, uint32x2_t b) </code></p>
+            <p>我在网上看到还有w(wide,宽指令),l(long,长指令)</p><ul><li>l: long,长指令,输入操作数的向量是64位的,结果向量是128位的,类型相同,但是宽度加倍,例子:</li></ul><p>``</p><ul><li>w: wide,宽指令,输入操作数1个是64位的,1个是128位的,结果向量是128位的,类型相同,宽度上64位的是128位的一半,例子:</li></ul><p><code>uint64x2_t vaddw_u32 (uint64x2_t a, uint32x2_t b)</code></p>
           </div>
 </li>
 <li>
@@ -680,8 +680,43 @@
   
 
   
-    <!-- KaTeX -->
-    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0/dist/katex.min.css" />
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        loader: {
+          load: ['ui/lazy']
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" ></script>
+
   
 
 

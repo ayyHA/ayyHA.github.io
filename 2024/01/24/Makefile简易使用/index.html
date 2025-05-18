@@ -256,7 +256,7 @@
 <p>在开始说makefile的一些基本语法前,先说一下在linux下编译多个cpp的过程</p>
 <p>我们通常编译一个<code>.cpp</code>文件都是经过<strong>预处理</strong>---生成<code>.i</code>文件---&gt;<strong>编译</strong>---生成<code>.s</code>文件---&gt;<strong>汇编</strong>---生成<code>.o</code>文件---&gt;<strong>链接</strong>---&gt;生成可执行文件<code>.exe</code>,然后在执行的过程中,会被<strong>加载器</strong>将程序放置到内存上,并通过<strong>动态链接器</strong>链接<code>.dll</code>或<code>.so</code>动态库,以实现程序运行</p>
 <div class="note note-info">
-            <p><strong>静态链接器</strong>(如<code>ld</code>)负责链接的是<code>.a</code>或<code>.lib</code>这些静态库,这些静态库是通过<code>ar</code>这个工具将多个<code>.o</code>文件构成的.静态链接是构建可执行文件时的最后一步.主要功能是<strong>符号解析</strong>(通过符号表找到.o文件的只声明无定义的函数的定义位置)和<strong>重定位</strong>(定位到虚拟地址(有OS的机子)/物理地址(裸机))</p><p><strong>动态链接器</strong>(如<code>ld-linux.so.2</code>)负责链接的是<code>.so</code>或<code>.dll</code>这些动态库或者叫共享库,要使用到这个工具的时候,我们的程序已经被加载器加载到内存上了,当我们遇到如<code>printf</code>这些动态库定义的函数时,会去检查内存中有没有加载对应的动态库(<a target="_blank" rel="noopener" href="http://xn--libc-zi0i964s23c.so">这里是libc.so</a>),没有的话就加载到内存上,有得话就不用加载,取得该动态库在内存中的起始地址,然后我们编译过<code>printf</code>这个函数时,它的调用方式形如<code>call 0xaaaa </code>这样,这里的地址是相对于动态库的地址,因此由获得的动态库起始地址加这个偏移地址就可以得到<code>printf</code>在内存中的真正地址了.这一类库的生成是我们在利用<code>g++</code>编译时通过<code>-shared</code>选项实现的.</p><p>静态链接后的<code>exe</code>文件会包含别的<code>.o</code>文件(静态库)的代码,比较占地方,而动态链接的则没有算到<code>exe</code>文件里面去,毕竟它(动态库)只是在<code>exe</code>运行时动态加载到内存中去的,但是这个动态库要是没有,那就跑不起来,而静态链接的则没事,因为代码已经拷贝到<code>exe</code>里了</p>
+            <p><strong>静态链接器</strong>(如<code>ld</code>)负责链接的是<code>.a</code>或<code>.lib</code>这些静态库,这些静态库是通过<code>ar</code>这个工具将多个<code>.o</code>文件构成的.静态链接是构建可执行文件时的最后一步.主要功能是<strong>符号解析</strong>(通过符号表找到.o文件的只声明无定义的函数的定义位置)和<strong>重定位</strong>(定位到虚拟地址(有OS的机子)/物理地址(裸机))</p><p><strong>动态链接器</strong>(如<code>ld-linux.so.2</code>)负责链接的是<code>.so</code>或<code>.dll</code>这些动态库或者叫共享库,要使用到这个工具的时候,我们的程序已经被加载器加载到内存上了,当我们遇到如<code>printf</code>这些动态库定义的函数时,会去检查内存中有没有加载对应的动态库(<a target="_blank" rel="noopener" href="http://xn--libc-zi0i964s23c.so">这里是libc.so</a>),没有的话就加载到内存上,有得话就不用加载,取得该动态库在内存中的起始地址,然后我们编译过<code>printf</code>这个函数时,它的调用方式形如<code>call 0xaaaa</code>这样,这里的地址是相对于动态库的地址,因此由获得的动态库起始地址加这个偏移地址就可以得到<code>printf</code>在内存中的真正地址了.这一类库的生成是我们在利用<code>g++</code>编译时通过<code>-shared</code>选项实现的.</p><p>静态链接后的<code>exe</code>文件会包含别的<code>.o</code>文件(静态库)的代码,比较占地方,而动态链接的则没有算到<code>exe</code>文件里面去,毕竟它(动态库)只是在<code>exe</code>运行时动态加载到内存中去的,但是这个动态库要是没有,那就跑不起来,而静态链接的则没事,因为代码已经拷贝到<code>exe</code>里了</p>
           </div>
 <p>每个<code>.cpp</code>文件都可以单独用如下方式<code>g++ -c xx.c -o xx.o</code>生成<code>.o</code>形式的目标文件,该文件里的内容是机器码,但是这个文件不能被执行,因为存在两个问题:</p>
 <ol>
@@ -283,7 +283,7 @@ A <em>recipe</em> is an action that <code>make</code> carries out. A recipe may 
 <h4 id="变量定义"><a class="markdownIt-Anchor" href="#变量定义"></a> 变量定义</h4>
 <ul>
 <li>
-<p><strong>简单赋值</strong><code>:= </code> 与python中的<code>a=4</code>一样</p>
+<p><strong>简单赋值</strong><code>:=</code> 与python中的<code>a=4</code>一样</p>
 <p><code>SOURCE_DIR := .</code></p>
 </li>
 <li>

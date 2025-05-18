@@ -425,8 +425,8 @@
 <h3 id="layout"><a class="markdownIt-Anchor" href="#layout"></a> Layout</h3>
 <p>在cute体系下,<strong>逻辑空间被称作domain</strong>,代表存储的<strong>物理空间被称作codomain</strong></p>
 <p>对于逻辑空间上元素对应的位置用coordinate表示,而它每个位置的元素之间的间隔用stride的表示,通过内积可以得到对应的一维物理空间的地址,即:</p>
-<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>i</mi><mi>n</mi><mi>d</mi><mi>e</mi><mi>x</mi><mo>=</mo><mo>∑</mo><mrow><mi>c</mi><mi>o</mi><mi>o</mi><mi>r</mi><mi>d</mi><mi>i</mi><mi>n</mi><mi>a</mi><mi>t</mi><mi>e</mi><mo>∗</mo><mi>s</mi><mi>t</mi><mi>r</mi><mi>i</mi><mi>d</mi><mi>e</mi></mrow></mrow><annotation encoding="application/x-tex">index = \sum{coordinate * stride}
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">i</span><span class="mord mathnormal">n</span><span class="mord mathnormal">d</span><span class="mord mathnormal">e</span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.6000100000000002em;vertical-align:-0.55001em;"></span><span class="mop op-symbol large-op" style="position:relative;top:-0.000004999999999977245em;">∑</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">c</span><span class="mord mathnormal">o</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">d</span><span class="mord mathnormal">i</span><span class="mord mathnormal">n</span><span class="mord mathnormal">a</span><span class="mord mathnormal">t</span><span class="mord mathnormal">e</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathnormal">s</span><span class="mord mathnormal">t</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">i</span><span class="mord mathnormal">d</span><span class="mord mathnormal">e</span></span></span></span></span></span></p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>i</mi><mi>n</mi><mi>d</mi><mi>e</mi><mi>x</mi><mo>=</mo><mo>∑</mo><mrow><mi>c</mi><mi>o</mi><mi>o</mi><mi>r</mi><mi>d</mi><mi>i</mi><mi>n</mi><mi>a</mi><mi>t</mi><mi>e</mi><mo>∗</mo><mi>s</mi><mi>t</mi><mi>r</mi><mi>i</mi><mi>d</mi><mi>e</mi></mrow></mrow><annotation encoding="application/x-tex">index = \sum{coordinate * stride}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">i</span><span class="mord mathdefault">n</span><span class="mord mathdefault">d</span><span class="mord mathdefault">e</span><span class="mord mathdefault">x</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.6000100000000002em;vertical-align:-0.55001em;"></span><span class="mop op-symbol large-op" style="position:relative;top:-0.000004999999999977245em;">∑</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">c</span><span class="mord mathdefault">o</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">d</span><span class="mord mathdefault">i</span><span class="mord mathdefault">n</span><span class="mord mathdefault">a</span><span class="mord mathdefault">t</span><span class="mord mathdefault">e</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord mathdefault">s</span><span class="mord mathdefault">t</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">i</span><span class="mord mathdefault">d</span><span class="mord mathdefault">e</span></span></span></span></span></span></p>
 <p><strong>Layout是个函数，由shape和stride表达</strong>，是支持<strong>层次化(hierarchy)的Tensor</strong>，即<strong>一个shape可以嵌套表达,同时stride又与shape里的每个参数一一对应</strong>：</p>
 <p><code>shape((内tensor行,外tensor行1,外tensor行2,...),(内tensor列，外tensor列1,外tensor列2,...),...)</code></p>
 <p>这其中的一些属性如:</p>
@@ -508,12 +508,12 @@
 <p><mark>感觉COPY比MMA难理解很多</mark></p>
 <h3 id="swizzle"><a class="markdownIt-Anchor" href="#swizzle"></a> Swizzle</h3>
 <p>在矩阵乘中,数据搬运的过程为gmem -&gt; smem -&gt; reg,这其中逻辑上来讲某一个C块,对应的A块和B块在gmem和在reg上是一样的(reg的矩阵块由warp中的reg整体表示),但是由于smem bank conflict的存在,<strong>数据存储在smem上就需要沿着bank的方向错开</strong>,即按照二维坐标来说是icol方向错开,那怎么错开,错开之后的offset咋取,还有怎么从一维变到二维以形成(irow,icol)?这些都可以交由Swizzle来解决</p>
-<p><strong>Swizzle与Layout一样,都是函数,Swizzle是嵌套Layout来使用,Layout提供的是offset/index,而Swizzle提供的是解决了smem bank conflict的offset,这里对bank conflict的解决是通过<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mi>c</mi><mi>o</mi><mi>l</mi><mo>=</mo><mi>i</mi><mi>r</mi><mi>o</mi><mi>w</mi><mo>⊕</mo><mi>i</mi><mi>c</mi><mi>o</mi><mi>l</mi></mrow><annotation encoding="application/x-tex">icol = irow \oplus icol</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">i</span><span class="mord mathnormal">c</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.74285em;vertical-align:-0.08333em;"></span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⊕</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">i</span><span class="mord mathnormal">c</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span></span></span></span>实现的</strong></p>
+<p><strong>Swizzle与Layout一样,都是函数,Swizzle是嵌套Layout来使用,Layout提供的是offset/index,而Swizzle提供的是解决了smem bank conflict的offset,这里对bank conflict的解决是通过<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>i</mi><mi>c</mi><mi>o</mi><mi>l</mi><mo>=</mo><mi>i</mi><mi>r</mi><mi>o</mi><mi>w</mi><mo>⊕</mo><mi>i</mi><mi>c</mi><mi>o</mi><mi>l</mi></mrow><annotation encoding="application/x-tex">icol = irow \oplus icol</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">i</span><span class="mord mathdefault">c</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.74285em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">i</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⊕</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">i</span><span class="mord mathdefault">c</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span></span></span></span>实现的</strong></p>
 <p><strong>Swizzle通过B,M,S三个参数构造出一个二维空间,一维坐标的元素可以按此空间的定义转换成二维坐标,B,S表示新空间的行列,M表示新空间的基本元素,由一维坐标下的连续元素组成,这三个参数都是以2为基底的</strong>,可以通过ldmatrix指令,smem bank来理解B,M,S三个参数(结合下图):</p>
 <ul>
 <li>首先<strong>设置M是为了构造新元素</strong>,这个新元素从ldmatrix的角度来理解,以<code>m8n8.x1.b16</code>来看,T0到T7各占一行的数据,一行的8个16位数据连续,T0到T7之间代表的该行首个元素地址不要求连续,一行8个元素,看作一个新元素,故M设置为3;</li>
 <li>紧接着新元素的大小是16Byte,smem的bank是4Byte一个,有32个,那此时的新bank大小是16Byte一个,有8个新bank,每个新bank可以放下一个新元素,支持并行访问8个新元素,即此刻新bank数目为8,<strong>构造的S从新bank数目来</strong>,故S设置为3;</li>
-<li>进行ldmatrix,讨论此刻发生的n-way bank conflict,此时可以<strong>设置B值用以表示irow,指代重映射的基本单位</strong>,注意 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>≤</mo><mi>S</mi></mrow><annotation encoding="application/x-tex">B \le S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.13597em;"></span><span class="mord mathnormal" style="margin-right:0.05017em;">B</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span></span></span></span>,这个B的取值实际上可以结合M,S将一行填满bank来看,观察此刻的bank conflict情况,从而取值</li>
+<li>进行ldmatrix,讨论此刻发生的n-way bank conflict,此时可以<strong>设置B值用以表示irow,指代重映射的基本单位</strong>,注意 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>B</mi><mo>≤</mo><mi>S</mi></mrow><annotation encoding="application/x-tex">B \le S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8193em;vertical-align:-0.13597em;"></span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span></span></span></span>,这个B的取值实际上可以结合M,S将一行填满bank来看,观察此刻的bank conflict情况,从而取值</li>
 </ul>
 <p><img src="https://s2.loli.net/2025/03/07/8v5gBejcUw3zk9Y.png" srcset="/img/loading.gif" lazyload alt="CuTe-Swizzle-BMS" /></p>
 <p>此外除了解决smem bank conflict的Swizzle外,还有个<strong>用于线程块的Swizzle,可以用来增大L2Cache hit</strong>,个人感觉类似于执行配置参数中对grid的X,Y,Z进行位置变换,使之在调度block到SM上时对考虑L2 Cache的命中率</p>
@@ -769,8 +769,43 @@
   
 
   
-    <!-- KaTeX -->
-    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0/dist/katex.min.css" />
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        loader: {
+          load: ['ui/lazy']
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" ></script>
+
   
 
 

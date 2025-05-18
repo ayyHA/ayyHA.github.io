@@ -302,10 +302,10 @@
 <h3 id="github设置及远程推送"><a class="markdownIt-Anchor" href="#github设置及远程推送"></a> Github设置及远程推送</h3>
 <p>  要知道，我们GitHub和Git的数据传输是通过SSH加密的，需要进行如下的设置：</p>
 <ol>
-<li>在terminal中通过<code>ssh-keygen -t rsa -C &quot;email&quot; </code>来生成，它利用RSA加密算法生成一个公钥和密钥，放在你当前用户的HOME目录下（windows在C:/User/UserName/.ssh下，Linux在~/.ssh下）;</li>
+<li>在terminal中通过<code>ssh-keygen -t rsa -C &quot;email&quot;</code>来生成，它利用RSA加密算法生成一个公钥和密钥，放在你当前用户的HOME目录下（windows在C:/User/UserName/.ssh下，Linux在~/.ssh下）;</li>
 <li>将在.ssh目录下的id_rsa放置到你的Github的Settings下的SSH and GPG keys中（通过点击New SSH key放置其中）；其中id_rsa是公钥，带pub后缀的是密钥;<br />
 至此，你的电脑利用Git去远程访问你的Github下的信息已经可以进行权限认证了（就是可以分辨出有没资格去拿信息）。</li>
-<li>我们需要在Github上建一个仓库，并将本地仓库和远程仓库通过<code>git remote add origin git@github.com:github_name/repo_name.git </code>关联起来(注意github_name需替换成你的GitHub账号,repo_name需替换成你的仓库名);<br />
+<li>我们需要在Github上建一个仓库，并将本地仓库和远程仓库通过<code>git remote add origin git@github.com:github_name/repo_name.git</code>关联起来(注意github_name需替换成你的GitHub账号,repo_name需替换成你的仓库名);<br />
   以上，你便将你的本地仓库和远程仓库建立了连接。我们可以将<strong>本地文件push到repo</strong>了。<code>git push -u origin master</code>首次push需要加-u，以使得你的本地分支master和远程仓库分支master相关联。之后就<code>git push origin master</code>就行。<br />
   我们也可以<strong>拉取到该repo的文件</strong><code>git pull origin master</code>。</li>
 </ol>

@@ -261,7 +261,7 @@
 <hr />
 <p>为什么会想着写一篇关于硬件(SSD)的博文呢,在之前的一篇<strong>ZeRO-Infinity</strong>的论文中,讲到了利用<strong>NVMe</strong>来用作GPU,CPU内存的扩充,而对NVMe这个东西从未耳闻,因此看了一些资料来查缺补漏,便有了本文关于SSD这一硬件的简单讲解.其中主要涉及到的内容是<strong>PCIe</strong>的协议栈以及<strong>NVMe</strong>协议的讲解</p>
 <h2 id="内存技术"><a class="markdownIt-Anchor" href="#内存技术"></a> 内存技术</h2>
-<p>这里简要写一下,DDR,GDDR,HBM一类的技术.在谈及这些技术前我们要知道带宽怎么计算:<code> 带宽 = 频率 * 位宽</code>,这是之前一向的计算方法,计算出来的是bit,然后频率可能是MHz一类的,自行转换到GB/s,但实际上是:<code>带宽 =  频率 * 倍增系数 * 单通道位宽 * 通道数</code>,而这个倍增系数跟内存技术相关.</p>
+<p>这里简要写一下,DDR,GDDR,HBM一类的技术.在谈及这些技术前我们要知道带宽怎么计算:<code>带宽 = 频率 * 位宽</code>,这是之前一向的计算方法,计算出来的是bit,然后频率可能是MHz一类的,自行转换到GB/s,但实际上是:<code>带宽 = 频率 * 倍增系数 * 单通道位宽 * 通道数</code>,而这个倍增系数跟内存技术相关.</p>
 <p>一般来说,买内存条说的是<strong>标称频率</strong>而非物理频率,可能说是DDR4 3200,这个3200是标称频率,对于DDR4它的预读数是16bit(相当于倍增系数是16),而它实际上的物理频率是200MHz,由此增大了带宽.同时,通道数的增加也可以增加带宽,相当于位宽变大了</p>
 <p>DDR(Double Data Rate SDRAM),相较于传统的SDRAM,它在脉冲信号上升沿和下降沿均对数据采样,因此一个时钟信号可以传2个数据,是SDRAM的2倍,故得名DDR;</p>
 <p>DDR2-DDR4都是通过增加预读(也有叫预取)来相较前者增加倍增系数,DDR相当于预读2bit,DDR2则是4bit,DDR3则是预读8bit,DDR4则是预读16bit;</p>
@@ -584,8 +584,43 @@
   
 
   
-    <!-- KaTeX -->
-    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0/dist/katex.min.css" />
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        loader: {
+          load: ['ui/lazy']
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" ></script>
+
   
 
 
